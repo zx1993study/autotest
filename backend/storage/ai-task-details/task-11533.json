@@ -1,0 +1,1841 @@
+{
+  "task_type": "web_function_element_generation",
+  "scan_scope": "single",
+  "existing_element_strategy": "update",
+  "page_count": 1,
+  "success_pages": 1,
+  "failed_pages": [],
+  "saved_elements": 14,
+  "created_elements": 1,
+  "updated_elements": 13,
+  "skipped_elements": 0,
+  "pages": [
+    {
+      "page_id": 11513,
+      "page_name": "新增仓库",
+      "target_url": "https://test.waiqin.yios.cn/warehouse/warehouse",
+      "script_text": "from playwright.sync_api import Page\n\ndef test_ai_recorded(page: Page):\n    page.goto('https://test.waiqin.yios.cn/warehouse/warehouse')\n    page.get_by_role('button', name='新增').click()\n    page.get_by_placeholder('请输入仓库名称').fill('自动化测试仓库')\n    page.get_by_placeholder('请输入仓库地址').fill('自动化测试地址')\n    page.get_by_placeholder('请选择仓库业务员').select_option('默认可选业务员')\n    page.get_by_role('button', name='超级管理员').select_option('默认可选管理员')\n    page.get_by_placeholder('请输入仓库名称').fill('测试数据')\n    page.get_by_role('radio', name='总仓库').check()\n    page.get_by_role('radio', name='input').check()\n    page.get_by_role('radio', name='正常').check()\n    page.get_by_role('radio', name='停用').check()\n    page.get_by_placeholder('请选择仓库业务员').select_option('测试数据')\n    page.get_by_placeholder('请选择仓库管理员').select_option('测试数据')\n    page.get_by_placeholder('请输入备注').fill('测试数据')\n    page.get_by_role('button', name='取 消').click()\n",
+      "ai_plan": {
+        "recording_plan": [
+          {
+            "step_id": 1,
+            "instruction": "后台无头打开目标页面 https://test.waiqin.yios.cn/warehouse/warehouse，并在进入页面前加载该页面绑定的 Web 鉴权 cookie；不要输出或保存任何 cookie/token 明文",
+            "expected": "进入仓库管理列表页，页面标题为外勤小星管理系统，可识别当前功能入口“新增”"
+          },
+          {
+            "step_id": 2,
+            "instruction": "仅针对当前页面功能“新增仓库”执行操作，忽略菜单导航、面包屑、分页器、个人菜单、字段展示、数据导出、库存、修改、删除、查询条件等无关元素",
+            "expected": "录制范围限定为新增仓库入口及新增弹窗/抽屉/新页面中的表单元素"
+          },
+          {
+            "step_id": 3,
+            "instruction": "点击列表页“新增”按钮，等待新增仓库弹窗、抽屉或新页面出现",
+            "expected": "新增仓库表单容器可见，后续元素 container 应按实际形态标记为 modal、drawer 或 page"
+          },
+          {
+            "step_id": 4,
+            "instruction": "在新增容器中采集并填写必填项和典型字段：仓库名称、仓库类型、地址、业务员、管理员、状态等；readonly input、placeholder 为“请选择”的输入框、Element UI el-select、Ant Design select 均按下拉框保存",
+            "expected": "采集当前新增仓库功能直接相关的输入框、下拉框、按钮，避免将下拉选项单独保存为步骤"
+          },
+          {
+            "step_id": 5,
+            "instruction": "采集保存/确定按钮，但不要在采集前直接点击最终保存；由平台在控件采集完成后按安全策略执行一次安全提交或仅记录提交按钮",
+            "expected": "新增仓库元素步骤完整，最后一个有效步骤设置 take_screenshot=true"
+          },
+          {
+            "step_id": 6,
+            "instruction": "将自动生成的 Playwright 脚本交给平台解析器，按解析规则去重、归类并保存",
+            "expected": "只保存新增仓库功能相关元素步骤，并同步生成页面功能步骤 JSON"
+          }
+        ],
+        "operation_steps": [
+          {
+            "step_id": 1,
+            "element_name": "新增按钮",
+            "action": "click",
+            "value": "",
+            "locator": "",
+            "locator_type": "",
+            "control_index": 15,
+            "purpose": "打开新增仓库弹窗、抽屉或新页面"
+          },
+          {
+            "step_id": 2,
+            "element_name": "仓库名称",
+            "action": "fill",
+            "value": "自动化测试仓库",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "填写新增仓库的核心必填字段；实际字段名称以打开新增容器后页面可见标签为准"
+          },
+          {
+            "step_id": 3,
+            "element_name": "仓库类型",
+            "action": "select",
+            "value": "默认可用类型",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "选择仓库类型；若为 el-select/Ant Design select，只保存下拉框元素，选项文本写入 default_value"
+          },
+          {
+            "step_id": 4,
+            "element_name": "仓库地址",
+            "action": "fill",
+            "value": "自动化测试地址",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "填写仓库地址或详细地址字段"
+          },
+          {
+            "step_id": 5,
+            "element_name": "业务员",
+            "action": "select",
+            "value": "默认可选业务员",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "选择业务员；若是可搜索下拉或人员选择框，按下拉框保存，不按普通输入框保存"
+          },
+          {
+            "step_id": 6,
+            "element_name": "管理员",
+            "action": "select",
+            "value": "默认可选管理员",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "选择管理员；若是多选人员选择框，element_type 使用 multi_select，action 使用 multi_select"
+          },
+          {
+            "step_id": 7,
+            "element_name": "状态",
+            "action": "select",
+            "value": "启用",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "选择仓库状态；只保存状态下拉框，不单独保存展开后的选项"
+          },
+          {
+            "step_id": 8,
+            "element_name": "保存或确定按钮",
+            "action": "click",
+            "value": "",
+            "locator": "",
+            "locator_type": "",
+            "control_index": null,
+            "purpose": "采集最终提交按钮；不要在控件采集前直接点击，由平台采集完成后按安全策略执行安全提交"
+          }
+        ],
+        "element_steps": [
+          {
+            "step_id": 1,
+            "element_name": "新增按钮",
+            "element_type": "button",
+            "action": "click",
+            "locator_type": "role",
+            "locator": "button, name=\"新增\"",
+            "default_value": "",
+            "container": "page",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 2,
+            "element_name": "仓库名称",
+            "element_type": "input",
+            "action": "fill",
+            "locator_type": "label_or_placeholder",
+            "locator": "仓库名称",
+            "default_value": "自动化测试仓库",
+            "container": "modal",
+            "required": true,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 3,
+            "element_name": "仓库类型",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "仓库类型",
+            "default_value": "默认可用类型",
+            "container": "modal",
+            "required": true,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 4,
+            "element_name": "仓库地址",
+            "element_type": "input",
+            "action": "fill",
+            "locator_type": "label_or_placeholder",
+            "locator": "地址",
+            "default_value": "自动化测试地址",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 5,
+            "element_name": "业务员",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "业务员",
+            "default_value": "默认可选业务员",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 6,
+            "element_name": "管理员",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "管理员",
+            "default_value": "默认可选管理员",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 7,
+            "element_name": "状态",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "状态",
+            "default_value": "启用",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 8,
+            "element_name": "保存或确定按钮",
+            "element_type": "button",
+            "action": "click",
+            "locator_type": "role",
+            "locator": "button, name=/保存|确定/",
+            "default_value": "",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": true,
+            "skip": false
+          }
+        ],
+        "warnings": [
+          "browser_capture.controls 仅包含列表页元素，未包含点击“新增”后的弹窗/抽屉表单控件；除 control_index=15 的新增按钮外，新增表单字段需在后台点击新增后动态采集确认",
+          "新增容器形态未知，element_steps 中 container 暂按 modal 建议；若实际为抽屉或新页面，平台解析时应改为 drawer 或 page",
+          "新增仓库字段名称和必填性以真实页面打开后的表单标签、校验提示和 DOM 状态为准；当前建议依据页面功能描述生成",
+          "最终保存/确定按钮应在采集所有可见新增字段后再由平台安全执行或仅记录，避免采集前直接提交不完整表单"
+        ]
+      },
+      "ai_context": {
+        "project": {
+          "id": 10,
+          "name": "外勤小星",
+          "base_url": "https://test.waiqin.yios.cn/"
+        },
+        "page": {
+          "id": 11513,
+          "name": "新增仓库",
+          "description": "通过列表页新增按钮创建仓库信息，维护仓库名称、类型、地址、业务员、管理员、状态等信息。",
+          "route": "/warehouse/warehouse",
+          "url": "https://test.waiqin.yios.cn/warehouse/warehouse",
+          "feature_type": "add",
+          "module": "业务管理-仓库管理"
+        },
+        "target_url": "https://test.waiqin.yios.cn/warehouse/warehouse",
+        "scan_scope": "single",
+        "scan_instruction": "后台会使用 Playwright 自动进入页面并按功能类型模拟真实操作：查询会填写条件并点击查询；新增/编辑会打开弹窗并采集输入框、下拉框、按钮等元素；删除会打开确认弹窗并优先取消；导入/导出会识别入口和弹窗。操作完成后自动解析脚本并保存元素步骤，不需要人工录制。",
+        "saved_user_prompt": "请先使用 Playwright 登录后的真实页面采集信息，结合页面截图、路由、页面文字、按钮入口和页面调用的 API，分析所有页面功能并保存到 Web 页面功能。同一路由下如果存在查询、新增、编辑、删除、详情、导入、导出等按钮或弹窗功能，请拆成多条页面功能记录，route/url 可以相同，但 name 和 feature_type 必须不同。",
+        "browser_capture": {
+          "title": "外勤小星管理系统",
+          "control_count": 53,
+          "controls": [
+            {
+              "index": 1,
+              "name": "外勤小星管理系统",
+              "tag": "a",
+              "role": "",
+              "type": "",
+              "placeholder": "",
+              "locator": "link, name=外勤小星管理系统",
+              "css": "div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a",
+              "opener_css": "div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 2,
+              "name": "首页",
+              "tag": "a",
+              "role": "",
+              "type": "",
+              "placeholder": "",
+              "locator": "link, name=首页",
+              "css": "div:nth-of-type(1) > div > ul > div:nth-of-type(1) > a",
+              "opener_css": "div:nth-of-type(1) > div > ul > div:nth-of-type(1) > a",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 3,
+              "name": "仓库信息",
+              "tag": "a",
+              "role": "",
+              "type": "",
+              "placeholder": "",
+              "locator": "link, name=仓库信息",
+              "css": "div:nth-of-type(8) > li > ul > div:nth-of-type(1) > a",
+              "opener_css": "div:nth-of-type(8) > li > ul > div:nth-of-type(1) > a",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 4,
+              "name": "采购入库",
+              "tag": "a",
+              "role": "",
+              "type": "",
+              "placeholder": "",
+              "locator": "link, name=采购入库",
+              "css": "div:nth-of-type(8) > li > ul > div:nth-of-type(2) > a",
+              "opener_css": "div:nth-of-type(8) > li > ul > div:nth-of-type(2) > a",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 5,
+              "name": "首页",
+              "tag": "span",
+              "role": "link",
+              "type": "link",
+              "placeholder": "",
+              "locator": "link, name=首页",
+              "css": "div:nth-of-type(1) > div:nth-of-type(2) > span > span:nth-of-type(1) > span:nth-of-type(1)",
+              "opener_css": "div:nth-of-type(1) > div:nth-of-type(2) > span > span:nth-of-type(1) > span:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 6,
+              "name": "首页",
+              "tag": "a",
+              "role": "",
+              "type": "",
+              "placeholder": "",
+              "locator": "link, name=首页",
+              "css": "div:nth-of-type(2) > span > span:nth-of-type(1) > span:nth-of-type(1) > a",
+              "opener_css": "div:nth-of-type(2) > span > span:nth-of-type(1) > span:nth-of-type(1) > a",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 7,
+              "name": "仓库管理",
+              "tag": "span",
+              "role": "link",
+              "type": "link",
+              "placeholder": "",
+              "locator": "link, name=仓库管理",
+              "css": "div:nth-of-type(1) > div:nth-of-type(2) > span > span:nth-of-type(2) > span:nth-of-type(1)",
+              "opener_css": "div:nth-of-type(1) > div:nth-of-type(2) > span > span:nth-of-type(2) > span:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 8,
+              "name": "div",
+              "tag": "div",
+              "role": "button",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=div",
+              "css": "div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div",
+              "opener_css": "div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 9,
+              "name": "超级管理员",
+              "tag": "div",
+              "role": "button",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=超级管理员",
+              "css": "div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(4) > div",
+              "opener_css": "div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(4) > div",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 10,
+              "name": "请选择字段",
+              "tag": "div",
+              "role": "",
+              "type": "text",
+              "placeholder": "请选择字段",
+              "locator": "请选择字段",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1)",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1)",
+              "default_action": "select_option",
+              "in_dialog": false,
+              "is_select": true
+            },
+            {
+              "index": 11,
+              "name": "请选择字段",
+              "tag": "input",
+              "role": "",
+              "type": "text",
+              "placeholder": "请选择字段",
+              "locator": "请选择字段",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > input",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > input",
+              "default_action": "select_option",
+              "in_dialog": false,
+              "is_select": true
+            },
+            {
+              "index": 12,
+              "name": "请输入仓库编码",
+              "tag": "input",
+              "role": "",
+              "type": "text",
+              "placeholder": "请输入仓库编码",
+              "locator": "请输入仓库编码",
+              "css": "div > div:nth-of-type(1) > div > div:nth-of-type(2) > input",
+              "opener_css": "div > div:nth-of-type(1) > div > div:nth-of-type(2) > input",
+              "default_action": "fill",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 13,
+              "name": "button",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=button",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div > button",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(1) > div > button",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 14,
+              "name": "添加条件",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=添加条件",
+              "css": "div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > button",
+              "opener_css": "div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > button",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 15,
+              "name": "新增",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=新增",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(1)",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 16,
+              "name": "重置",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=重置",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(2)",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 17,
+              "name": "查询",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=查询",
+              "css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(3)",
+              "opener_css": "div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 18,
+              "name": "字段展示",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=字段展示",
+              "css": "section > div > div:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(1)",
+              "opener_css": "section > div > div:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 19,
+              "name": "数据导出",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=数据导出",
+              "css": "section > div > div:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(2)",
+              "opener_css": "section > div > div:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 20,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 21,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 22,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(1) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 23,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 24,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 25,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(2) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 26,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 27,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 28,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(3) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 29,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 30,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 31,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(4) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 32,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 33,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 34,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(5) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 35,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 36,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 37,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(6) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 38,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 39,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 40,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(7) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 41,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 42,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 43,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(8) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 44,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 45,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 46,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(9) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 47,
+              "name": "库存",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=库存",
+              "css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "opener_css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(1)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 48,
+              "name": "修改",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=修改",
+              "css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "opener_css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 49,
+              "name": "删除",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=删除",
+              "css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "opener_css": "tbody > tr:nth-of-type(10) > td:nth-of-type(9) > div > button:nth-of-type(3)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 50,
+              "name": "请选择",
+              "tag": "div",
+              "role": "",
+              "type": "text",
+              "placeholder": "请选择",
+              "locator": "请选择",
+              "css": "div > div:nth-of-type(3) > div > span:nth-of-type(2) > div",
+              "opener_css": "div > div:nth-of-type(3) > div > span:nth-of-type(2) > div",
+              "default_action": "select_option",
+              "in_dialog": false,
+              "is_select": true
+            },
+            {
+              "index": 51,
+              "name": "请选择",
+              "tag": "input",
+              "role": "",
+              "type": "text",
+              "placeholder": "请选择",
+              "locator": "请选择",
+              "css": "div > span:nth-of-type(2) > div > div:nth-of-type(1) > input",
+              "opener_css": "div > span:nth-of-type(2) > div > div:nth-of-type(1) > input",
+              "default_action": "select_option",
+              "in_dialog": false,
+              "is_select": true
+            },
+            {
+              "index": 52,
+              "name": "button",
+              "tag": "button",
+              "role": "",
+              "type": "button",
+              "placeholder": "",
+              "locator": "button, name=button",
+              "css": "section > div > div:nth-of-type(3) > div > button:nth-of-type(2)",
+              "opener_css": "section > div > div:nth-of-type(3) > div > button:nth-of-type(2)",
+              "default_action": "click",
+              "in_dialog": false,
+              "is_select": false
+            },
+            {
+              "index": 53,
+              "name": "input",
+              "tag": "input",
+              "role": "",
+              "type": "number",
+              "placeholder": "",
+              "locator": "div:nth-of-type(3) > div > span:nth-of-type(3) > div > input",
+              "css": "div:nth-of-type(3) > div > span:nth-of-type(3) > div > input",
+              "opener_css": "div:nth-of-type(3) > div > span:nth-of-type(3) > div > input",
+              "default_action": "fill",
+              "in_dialog": false,
+              "is_select": false
+            }
+          ],
+          "warnings": []
+        },
+        "safety_rules": [
+          "For add/edit/query/import, collect and operate all related controls first, then click save/query/confirm.",
+          "For delete, do not submit destructive deletion; open confirm dialog and cancel/close after collecting controls.",
+          "Open target modal/drawer/page first, then collect only controls related to the current function.",
+          "Ignore navigation, pagination, profile menus, and unrelated layout controls."
+        ]
+      },
+      "model_result": {
+        "recording_plan": [
+          {
+            "step_id": 1,
+            "instruction": "后台无头打开目标页面 https://test.waiqin.yios.cn/warehouse/warehouse，并在进入页面前加载该页面绑定的 Web 鉴权 cookie；不要输出或保存任何 cookie/token 明文",
+            "expected": "进入仓库管理列表页，页面标题为外勤小星管理系统，可识别当前功能入口“新增”"
+          },
+          {
+            "step_id": 2,
+            "instruction": "仅针对当前页面功能“新增仓库”执行操作，忽略菜单导航、面包屑、分页器、个人菜单、字段展示、数据导出、库存、修改、删除、查询条件等无关元素",
+            "expected": "录制范围限定为新增仓库入口及新增弹窗/抽屉/新页面中的表单元素"
+          },
+          {
+            "step_id": 3,
+            "instruction": "点击列表页“新增”按钮，等待新增仓库弹窗、抽屉或新页面出现",
+            "expected": "新增仓库表单容器可见，后续元素 container 应按实际形态标记为 modal、drawer 或 page"
+          },
+          {
+            "step_id": 4,
+            "instruction": "在新增容器中采集并填写必填项和典型字段：仓库名称、仓库类型、地址、业务员、管理员、状态等；readonly input、placeholder 为“请选择”的输入框、Element UI el-select、Ant Design select 均按下拉框保存",
+            "expected": "采集当前新增仓库功能直接相关的输入框、下拉框、按钮，避免将下拉选项单独保存为步骤"
+          },
+          {
+            "step_id": 5,
+            "instruction": "采集保存/确定按钮，但不要在采集前直接点击最终保存；由平台在控件采集完成后按安全策略执行一次安全提交或仅记录提交按钮",
+            "expected": "新增仓库元素步骤完整，最后一个有效步骤设置 take_screenshot=true"
+          },
+          {
+            "step_id": 6,
+            "instruction": "将自动生成的 Playwright 脚本交给平台解析器，按解析规则去重、归类并保存",
+            "expected": "只保存新增仓库功能相关元素步骤，并同步生成页面功能步骤 JSON"
+          }
+        ],
+        "operation_steps": [
+          {
+            "step_id": 1,
+            "control_index": 15,
+            "element_name": "新增按钮",
+            "action": "click",
+            "value": "",
+            "purpose": "打开新增仓库弹窗、抽屉或新页面"
+          },
+          {
+            "step_id": 2,
+            "control_index": null,
+            "element_name": "仓库名称",
+            "action": "fill",
+            "value": "自动化测试仓库",
+            "purpose": "填写新增仓库的核心必填字段；实际字段名称以打开新增容器后页面可见标签为准"
+          },
+          {
+            "step_id": 3,
+            "control_index": null,
+            "element_name": "仓库类型",
+            "action": "select_option",
+            "value": "默认可用类型",
+            "purpose": "选择仓库类型；若为 el-select/Ant Design select，只保存下拉框元素，选项文本写入 default_value"
+          },
+          {
+            "step_id": 4,
+            "control_index": null,
+            "element_name": "仓库地址",
+            "action": "fill",
+            "value": "自动化测试地址",
+            "purpose": "填写仓库地址或详细地址字段"
+          },
+          {
+            "step_id": 5,
+            "control_index": null,
+            "element_name": "业务员",
+            "action": "select_option",
+            "value": "默认可选业务员",
+            "purpose": "选择业务员；若是可搜索下拉或人员选择框，按下拉框保存，不按普通输入框保存"
+          },
+          {
+            "step_id": 6,
+            "control_index": null,
+            "element_name": "管理员",
+            "action": "select_option",
+            "value": "默认可选管理员",
+            "purpose": "选择管理员；若是多选人员选择框，element_type 使用 multi_select，action 使用 multi_select"
+          },
+          {
+            "step_id": 7,
+            "control_index": null,
+            "element_name": "状态",
+            "action": "select_option",
+            "value": "启用",
+            "purpose": "选择仓库状态；只保存状态下拉框，不单独保存展开后的选项"
+          },
+          {
+            "step_id": 8,
+            "control_index": null,
+            "element_name": "保存或确定按钮",
+            "action": "click",
+            "value": "",
+            "purpose": "采集最终提交按钮；不要在控件采集前直接点击，由平台采集完成后按安全策略执行安全提交"
+          }
+        ],
+        "element_steps": [
+          {
+            "step_id": 1,
+            "element_name": "新增按钮",
+            "element_type": "button",
+            "action": "click",
+            "locator_type": "role",
+            "locator": "button, name=\"新增\"",
+            "default_value": "",
+            "container": "page",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 2,
+            "element_name": "仓库名称",
+            "element_type": "input",
+            "action": "fill",
+            "locator_type": "label_or_placeholder",
+            "locator": "仓库名称",
+            "default_value": "自动化测试仓库",
+            "container": "modal",
+            "required": true,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 3,
+            "element_name": "仓库类型",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "仓库类型",
+            "default_value": "默认可用类型",
+            "container": "modal",
+            "required": true,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 4,
+            "element_name": "仓库地址",
+            "element_type": "input",
+            "action": "fill",
+            "locator_type": "label_or_placeholder",
+            "locator": "地址",
+            "default_value": "自动化测试地址",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 5,
+            "element_name": "业务员",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "业务员",
+            "default_value": "默认可选业务员",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 6,
+            "element_name": "管理员",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "管理员",
+            "default_value": "默认可选管理员",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 7,
+            "element_name": "状态",
+            "element_type": "select",
+            "action": "select_option",
+            "locator_type": "label_or_placeholder",
+            "locator": "状态",
+            "default_value": "启用",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": false,
+            "skip": false
+          },
+          {
+            "step_id": 8,
+            "element_name": "保存或确定按钮",
+            "element_type": "button",
+            "action": "click",
+            "locator_type": "role",
+            "locator": "button, name=/保存|确定/",
+            "default_value": "",
+            "container": "modal",
+            "required": false,
+            "take_screenshot": true,
+            "skip": false
+          }
+        ],
+        "save_rules": [
+          "解析脚本后保存到 Web 元素库，并同步生成页面功能步骤 JSON",
+          "仅保存当前功能“新增仓库”直接相关的元素步骤：新增入口、新增容器内的表单字段、保存/确定按钮",
+          "忽略菜单导航、面包屑、个人中心、查询条件、重置、查询、字段展示、数据导出、库存、修改、删除、分页器和无关布局控件",
+          "同一个元素既有 click 又有 fill/input 时，只保存输入操作",
+          "get_by_role 定位方式保存为 role；定位内容只保存括号中的核心信息，例如 button, name=\"新增\"",
+          "下拉框先点击展开再点击选项时，只保存下拉框元素，选项文本保存到 default_value，不单独保存选项步骤",
+          "多选下拉需要再次点击才关闭时，element_type 使用 multi_select，action 使用 multi_select",
+          "readonly input、placeholder 为“请选择...”或“请选择”的输入框、Element UI el-select、Ant Design select 必须按下拉框保存，禁止保存为 fill 输入框",
+          "日期弹窗按输入框保存，日期值保存到 default_value",
+          "弹窗或抽屉中的元素需要标记 container=modal 或 drawer，并保留实际采集步骤顺序",
+          "最后一个有效步骤 take_screenshot=true，其余步骤 take_screenshot=false；skip 默认 false",
+          "不要保存真实密码、token、cookie 或任何敏感鉴权信息"
+        ],
+        "warnings": [
+          "browser_capture.controls 仅包含列表页元素，未包含点击“新增”后的弹窗/抽屉表单控件；除 control_index=15 的新增按钮外，新增表单字段需在后台点击新增后动态采集确认",
+          "新增容器形态未知，element_steps 中 container 暂按 modal 建议；若实际为抽屉或新页面，平台解析时应改为 drawer 或 page",
+          "新增仓库字段名称和必填性以真实页面打开后的表单标签、校验提示和 DOM 状态为准；当前建议依据页面功能描述生成",
+          "最终保存/确定按钮应在采集所有可见新增字段后再由平台安全执行或仅记录，避免采集前直接提交不完整表单"
+        ]
+      },
+      "operations": [
+        {
+          "name": "新增",
+          "action": "click",
+          "locator": "button, name=新增",
+          "reason": "打开新增仓库弹窗、抽屉或新页面",
+          "in_dialog": false
+        },
+        {
+          "name": "请输入仓库名称",
+          "action": "fill",
+          "value": "自动化测试仓库",
+          "locator": "请输入仓库名称",
+          "error": "Locator.fill: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator(\"div > div > div > div > input\").first\n    - locator resolved to <input type=\"text\" autocomplete=\"off\" readonly=\"readonly\" placeholder=\"请选择字段\" class=\"el-input__inner\"/>\n    - fill(\"自动化测试仓库\")\n  - attempting fill action\n    2 × waiting for element to be visible, enabled and editable\n      - element is not editable\n    - retrying fill action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and editable\n      - element is not editable\n    - retrying fill action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and editable\n       - element is not editable\n     - retrying fill action\n       - waiting 500ms\n    - waiting for element to be visible, enabled and editable\n",
+          "executed": false
+        },
+        {
+          "name": "请输入仓库名称",
+          "action": "fill",
+          "value": "自动化测试仓库",
+          "locator": "请输入仓库名称",
+          "reason": "填写新增仓库的核心必填字段；实际字段名称以打开新增容器后页面可见标签为准",
+          "in_dialog": true
+        },
+        {
+          "name": "请输入仓库地址",
+          "action": "fill",
+          "value": "自动化测试地址",
+          "locator": "请输入仓库地址",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "请输入仓库地址",
+          "action": "fill",
+          "value": "自动化测试地址",
+          "locator": "请输入仓库地址",
+          "reason": "填写仓库地址或详细地址字段",
+          "in_dialog": true
+        },
+        {
+          "name": "请选择仓库业务员",
+          "action": "select_option",
+          "value": "默认可选业务员",
+          "locator": "请选择仓库业务员",
+          "error": "无法打开下拉框；控件：请选择仓库业务员",
+          "executed": false
+        },
+        {
+          "name": "请选择仓库业务员",
+          "action": "select_option",
+          "value": "默认可选业务员",
+          "locator": "请选择仓库业务员",
+          "reason": "选择业务员；若是可搜索下拉或人员选择框，按下拉框保存，不按普通输入框保存",
+          "in_dialog": true
+        },
+        {
+          "name": "超级管理员",
+          "action": "select_option",
+          "value": "默认可选管理员",
+          "locator": "button, name=超级管理员",
+          "error": "无法打开下拉框；控件：超级管理员",
+          "executed": false
+        },
+        {
+          "name": "超级管理员",
+          "action": "select_option",
+          "value": "默认可选管理员",
+          "locator": "button, name=超级管理员",
+          "reason": "选择管理员；若是多选人员选择框，element_type 使用 multi_select，action 使用 multi_select",
+          "in_dialog": false
+        },
+        {
+          "name": "新增",
+          "action": "click",
+          "locator": "button, name=新增",
+          "reason": "采集最终提交按钮；不要在控件采集前直接点击，由平台采集完成后按安全策略执行安全提交",
+          "error": "Locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator(\"div:nth-of-type(1) > div > div:nth-of-type(2) > div > button:nth-of-type(1)\").first\n    - locator resolved to <button type=\"button\" data-v-65170990=\"\" class=\"el-button el-button--primary el-button--small\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-v-65170990=\"\" class=\"el-dialog__wrapper\">…</div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-v-65170990=\"\" class=\"el-dialog__wrapper\">…</div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div data-v-65170990=\"\" class=\"el-dialog__wrapper\">…</div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+        },
+        {
+          "name": "请输入仓库名称",
+          "action": "fill",
+          "value": "测试数据",
+          "locator": "请输入仓库名称",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "请输入仓库名称",
+          "action": "fill",
+          "value": "测试数据",
+          "locator": "请输入仓库名称",
+          "error": "Locator.fill: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator(\"div > div > div > div > input\").first\n    - locator resolved to <input type=\"text\" autocomplete=\"off\" readonly=\"readonly\" placeholder=\"请选择字段\" class=\"el-input__inner\"/>\n    - fill(\"测试数据\")\n  - attempting fill action\n    2 × waiting for element to be visible, enabled and editable\n      - element is not editable\n    - retrying fill action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and editable\n      - element is not editable\n    - retrying fill action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and editable\n       - element is not editable\n     - retrying fill action\n       - waiting 500ms\n",
+          "executed": false
+        },
+        {
+          "name": "总仓库",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=总仓库",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "总仓库",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=总仓库",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "input",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=input",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "input",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=input",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "正常",
+          "action": "check",
+          "value": "0",
+          "locator": "radio, name=正常",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "正常",
+          "action": "check",
+          "value": "0",
+          "locator": "radio, name=正常",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "停用",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=停用",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "停用",
+          "action": "check",
+          "value": "1",
+          "locator": "radio, name=停用",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "请输入仓库地址",
+          "action": "fill",
+          "value": "自动化测试地址",
+          "locator": "请输入仓库地址",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "请输入仓库地址",
+          "action": "fill",
+          "value": "自动化测试地址",
+          "locator": "请输入仓库地址",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "请选择仓库业务员",
+          "action": "select_option",
+          "value": "测试数据",
+          "locator": "请选择仓库业务员",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "请选择仓库业务员",
+          "action": "select_option",
+          "value": "测试数据",
+          "locator": "请选择仓库业务员",
+          "error": "无法打开下拉框；控件：请选择仓库业务员",
+          "executed": false
+        },
+        {
+          "name": "请选择仓库管理员",
+          "action": "select_option",
+          "value": "测试数据",
+          "locator": "请选择仓库管理员",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "请选择仓库管理员",
+          "action": "select_option",
+          "value": "测试数据",
+          "locator": "请选择仓库管理员",
+          "error": "无法打开下拉框；控件：请选择仓库管理员",
+          "executed": false
+        },
+        {
+          "name": "请输入备注",
+          "action": "fill",
+          "value": "测试数据",
+          "locator": "请输入备注",
+          "in_dialog": true,
+          "generated_only": true
+        },
+        {
+          "name": "请输入备注",
+          "action": "fill",
+          "value": "测试数据",
+          "locator": "请输入备注",
+          "in_dialog": true,
+          "executed": true
+        },
+        {
+          "name": "取 消",
+          "action": "click",
+          "value": "测试数据",
+          "locator": "button, name=取 消",
+          "in_dialog": true,
+          "generated_only": true
+        }
+      ],
+      "executed_ai_steps": [
+        {
+          "step_id": 1,
+          "element_name": "新增按钮",
+          "action": "click",
+          "value": "",
+          "matched": true,
+          "executed": true,
+          "locator": "button, name=新增"
+        },
+        {
+          "step_id": 2,
+          "element_name": "仓库名称",
+          "action": "fill",
+          "value": "自动化测试仓库",
+          "matched": true,
+          "executed": false,
+          "locator": "请输入仓库名称"
+        },
+        {
+          "step_id": 3,
+          "element_name": "仓库类型",
+          "action": "select",
+          "value": "默认可用类型",
+          "matched": false
+        },
+        {
+          "step_id": 4,
+          "element_name": "仓库地址",
+          "action": "fill",
+          "value": "自动化测试地址",
+          "matched": true,
+          "executed": true,
+          "locator": "请输入仓库地址"
+        },
+        {
+          "step_id": 5,
+          "element_name": "业务员",
+          "action": "select",
+          "value": "默认可选业务员",
+          "matched": true,
+          "executed": false,
+          "locator": "请选择仓库业务员"
+        },
+        {
+          "step_id": 6,
+          "element_name": "管理员",
+          "action": "select",
+          "value": "默认可选管理员",
+          "matched": true,
+          "executed": false,
+          "locator": "button, name=超级管理员"
+        },
+        {
+          "step_id": 7,
+          "element_name": "状态",
+          "action": "select",
+          "value": "启用",
+          "matched": false
+        },
+        {
+          "step_id": 8,
+          "element_name": "保存或确定按钮",
+          "action": "click",
+          "value": "",
+          "matched": true,
+          "executed": false,
+          "locator": "button, name=新增"
+        }
+      ],
+      "warnings": [
+        "AI step skipped, element not found: 仓库类型",
+        "AI step skipped, element not found: 状态",
+        "未找到保存/确定按钮，已完成元素采集但未提交。",
+        "browser_capture.controls 仅包含列表页元素，未包含点击“新增”后的弹窗/抽屉表单控件；除 control_index=15 的新增按钮外，新增表单字段需在后台点击新增后动态采集确认",
+        "新增容器形态未知，element_steps 中 container 暂按 modal 建议；若实际为抽屉或新页面，平台解析时应改为 drawer 或 page",
+        "新增仓库字段名称和必填性以真实页面打开后的表单标签、校验提示和 DOM 状态为准；当前建议依据页面功能描述生成",
+        "最终保存/确定按钮应在采集所有可见新增字段后再由平台安全执行或仅记录，避免采集前直接提交不完整表单"
+      ],
+      "codegen_session": null,
+      "automation_session": {
+        "mode": "ai_auto",
+        "headless": true,
+        "feature_type": "add",
+        "timeout_sec": 180
+      },
+      "feature_screenshot": {
+        "screenshot_file": "ai_element_add_1783920006863.png",
+        "screenshot_url": "/api/v1/screenshots/ai_element_add_1783920006863.png"
+      },
+      "screenshot_url": "/api/v1/screenshots/ai_element_add_1783920006863.png",
+      "screenshot_file": "ai_element_add_1783920006863.png",
+      "screenshot_error": null,
+      "element_count": 14,
+      "created_count": 1,
+      "updated_count": 13,
+      "skipped_count": 0,
+      "deduplicated_count": 0,
+      "deleted_stale_count": 0,
+      "existing_element_strategy": "update",
+      "elements": [
+        {
+          "id": 11709,
+          "name": "请选择仓库管理员",
+          "data": {
+            "role": null,
+            "type": "select",
+            "action": "select",
+            "source": "playwright_ai_auto",
+            "example": "测试数据",
+            "feature": "新增仓库",
+            "locator": "请选择仓库管理员",
+            "page_id": 11513,
+            "role_name": null,
+            "element_type": "select",
+            "locator_args": null,
+            "locator_type": "placeholder",
+            "default_value": "测试数据",
+            "locator_method": null,
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11702,
+          "name": "'button', name='取 消'",
+          "data": {
+            "role": "button",
+            "type": "button",
+            "action": "click",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'button', name='取 消'",
+            "page_id": 11513,
+            "role_name": "取 消",
+            "element_type": "button",
+            "locator_args": "'button', name='取 消'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11701,
+          "name": "请输入备注",
+          "data": {
+            "role": null,
+            "type": "input",
+            "action": "fill",
+            "source": "playwright_ai_auto",
+            "example": "测试数据",
+            "feature": "新增仓库",
+            "locator": "请输入备注",
+            "page_id": 11513,
+            "role_name": null,
+            "element_type": "input",
+            "locator_args": null,
+            "locator_type": "placeholder",
+            "default_value": "测试数据",
+            "locator_method": null,
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11699,
+          "name": "请输入仓库地址",
+          "data": {
+            "role": null,
+            "type": "input",
+            "action": "fill",
+            "source": "playwright_ai_auto",
+            "example": "自动化测试地址",
+            "feature": "新增仓库",
+            "locator": "请输入仓库地址",
+            "page_id": 11513,
+            "role_name": null,
+            "element_type": "input",
+            "locator_args": null,
+            "locator_type": "placeholder",
+            "default_value": "自动化测试地址",
+            "locator_method": null,
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11698,
+          "name": "'radio', name='停用'",
+          "data": {
+            "role": "radio",
+            "type": "radio",
+            "action": "check",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'radio', name='停用'",
+            "page_id": 11513,
+            "role_name": "停用",
+            "element_type": "radio",
+            "locator_args": "'radio', name='停用'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11697,
+          "name": "'radio', name='正常'",
+          "data": {
+            "role": "radio",
+            "type": "radio",
+            "action": "check",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'radio', name='正常'",
+            "page_id": 11513,
+            "role_name": "正常",
+            "element_type": "radio",
+            "locator_args": "'radio', name='正常'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11696,
+          "name": "'radio', name='input'",
+          "data": {
+            "role": "radio",
+            "type": "radio",
+            "action": "check",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'radio', name='input'",
+            "page_id": 11513,
+            "role_name": "input",
+            "element_type": "radio",
+            "locator_args": "'radio', name='input'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11695,
+          "name": "'radio', name='总仓库'",
+          "data": {
+            "role": "radio",
+            "type": "radio",
+            "action": "check",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'radio', name='总仓库'",
+            "page_id": 11513,
+            "role_name": "总仓库",
+            "element_type": "radio",
+            "locator_args": "'radio', name='总仓库'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11694,
+          "name": "'button', name='超级管理员'",
+          "data": {
+            "role": "button",
+            "type": "select",
+            "action": "select",
+            "source": "playwright_ai_auto",
+            "example": "默认可选管理员",
+            "feature": "新增仓库",
+            "locator": "'button', name='超级管理员'",
+            "page_id": 11513,
+            "role_name": "超级管理员",
+            "element_type": "select",
+            "locator_args": "'button', name='超级管理员'",
+            "locator_type": "role",
+            "default_value": "默认可选管理员",
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11693,
+          "name": "请选择仓库业务员",
+          "data": {
+            "role": null,
+            "type": "select",
+            "action": "select",
+            "source": "playwright_ai_auto",
+            "example": "测试数据",
+            "feature": "新增仓库",
+            "locator": "请选择仓库业务员",
+            "page_id": 11513,
+            "role_name": null,
+            "element_type": "select",
+            "locator_args": null,
+            "locator_type": "placeholder",
+            "default_value": "测试数据",
+            "locator_method": null,
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11692,
+          "name": "请输入仓库名称",
+          "data": {
+            "role": null,
+            "type": "input",
+            "action": "fill",
+            "source": "playwright_ai_auto",
+            "example": "测试数据",
+            "feature": "新增仓库",
+            "locator": "请输入仓库名称",
+            "page_id": 11513,
+            "role_name": null,
+            "element_type": "input",
+            "locator_args": null,
+            "locator_type": "placeholder",
+            "default_value": "测试数据",
+            "locator_method": null,
+            "playwright_locator": null
+          }
+        },
+        {
+          "id": 11691,
+          "name": "'button', name='新增'",
+          "data": {
+            "role": "button",
+            "type": "button",
+            "action": "click",
+            "source": "playwright_ai_auto",
+            "example": null,
+            "feature": "新增仓库",
+            "locator": "'button', name='新增'",
+            "page_id": 11513,
+            "role_name": "新增",
+            "element_type": "button",
+            "locator_args": "'button', name='新增'",
+            "locator_type": "role",
+            "default_value": null,
+            "locator_method": "role",
+            "playwright_locator": null
+          }
+        }
+      ]
+    }
+  ],
+  "instruction": "后台会使用 Playwright 自动进入页面并按功能类型模拟真实操作：查询会填写条件并点击查询；新增/编辑会打开弹窗并采集输入框、下拉框、按钮等元素；删除会打开确认弹窗并优先取消；导入/导出会识别入口和弹窗。操作完成后自动解析脚本并保存元素步骤，不需要人工录制。",
+  "warnings": [
+    "后台会自动打开目标页面，加载该页面配置的 Web 鉴权 Cookie，并由 AI 识别当前页面功能入口与控件。",
+    "AI 会生成安全操作计划，Playwright 会自动点击入口、填写安全示例值、扫描弹窗或抽屉内元素并保存。",
+    "删除类功能只允许打开确认区域并取消/关闭，不会继续提交真实删除；AI 不可用时会切换为规则化自动扫描。"
+  ]
+}
