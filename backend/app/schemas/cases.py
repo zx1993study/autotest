@@ -1,6 +1,8 @@
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.core.types import JsonObject
+from app.core.types import JsonObject, JsonValue
 from app.enums.business import (
     CaseDraftStatusEnum,
     CaseTypeEnum,
@@ -15,10 +17,23 @@ class CaseListQuery(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     project_id: int | None = Field(default=None, ge=1)
+    source_id: int | None = Field(default=None, ge=1)
     keyword: str | None = Field(default=None, max_length=128)
     status: CaseDraftStatusEnum | ResourceStatusEnum | None = None
     page: int = Field(default=1, ge=1)
     page_size: int = Field(default=20, ge=1, le=200, alias="pageSize")
+    include_latest_execution: bool = False
+
+
+class CaseExecutionSummary(BaseModel):
+    """Small read-only summary of a formal case's latest execution."""
+
+    record_id: int
+    status: Literal["success", "failed", "exception", "queued", "running", "cancelled", "skipped"]
+    response_code: JsonValue = None
+    http_status: int | None = None
+    executed_at: str | None = None
+    error: str | None = None
 
 
 class CaseDraftCreate(BaseModel):
@@ -76,6 +91,19 @@ class ExecuteRequest(BaseModel):
 
     env_id: int | None = Field(default=None, ge=1)
     auth_id: int | None = Field(default=None, ge=1)
-    mode: ExecutionModeEnum = ExecutionModeEnum.LOCAL_HEADLESS
+    mode: ExecutionModeEnum = ExecutionModeEnum.SERVER_HEADLESS
     node_id: str | None = Field(default=None, max_length=128)
     case_ids: list[int] = Field(default_factory=list, max_length=500)
+
+
+class ApiCaseExecutionConfig(BaseModel):
+    """Bounded API execution settings, retaining runtime request overrides."""
+
+    model_config = ConfigDict(extra="allow")
+
+    concurrency: int = Field(default=5, ge=1, le=10)
+    timeout: int = Field(default=15, ge=1, le=300)
+
+
+class ApiExecuteRequest(ExecuteRequest):
+    config: ApiCaseExecutionConfig = Field(default_factory=ApiCaseExecutionConfig)

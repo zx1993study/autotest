@@ -1,0 +1,95 @@
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feature-block {
+  background: #fff;
+  border: 1px solid #dce4ef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.feature-block > header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.feature-block h3,
+.feature-block span {
+  margin: 0;
+}
+
+.feature-block header span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.case-table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 900px;
+  width: 100%;
+}
+
+th,
+td {
+  border-top: 1px solid #e7edf5;
+  padding: 11px 14px;
+  text-align: left;
+}
+
+th {
+  background: #f7f9fc;
+}
+
+.error-cell {
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.status-pill {
+  border-radius: 999px;
+  display: inline-flex;
+  padding: 2px 8px;
+}
+
+.status-pill.success { background: #dcfce7; color: #15803d; }
+.status-pill.failed { background: #fee2e2; color: #b91c1c; }
+.status-pill.partial { background: #fef3c7; color: #a16207; }
+.status-pill.running { background: #dbeafe; color: #1d4ed8; }
+.status-pill.skipped,
+.status-pill.idle { background: #eef2f7; color: #64748b; }
+
+.list-pager,
+.list-pager > div {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.list-pager {
+  color: #60708b;
+  justify-content: space-between;
+  padding-top: 12px;
+}
+
+.empty-state {
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  padding: 28px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .list-pager {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

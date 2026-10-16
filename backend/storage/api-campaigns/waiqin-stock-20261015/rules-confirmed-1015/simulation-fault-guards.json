@@ -1,0 +1,97 @@
+{
+  "simulated_only": true,
+  "executed_business_mutations": false,
+  "results": [
+    {
+      "mode": "missing_lock",
+      "key": "sales_ship",
+      "status": "failed",
+      "failed_node": "sales_before_approval_stock",
+      "error": null,
+      "failed_assertions": [
+        {
+          "type": "json_query_result",
+          "passed": false,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "operator": "eq",
+                "expected": 2001
+              },
+              {
+                "paths": [
+                  "/warehouseId"
+                ],
+                "operator": "eq",
+                "expected": 230
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "operator": "eq",
+                "expected": 10
+              },
+              {
+                "paths": [
+                  "/lockedQuantity"
+                ],
+                "operator": "eq",
+                "expected": 3
+              },
+              {
+                "paths": [
+                  "/availableQuantity"
+                ],
+                "operator": "eq",
+                "expected": 7
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "mode": "unknown_state",
+      "key": "direct_pass",
+      "status": "failed",
+      "failed_node": "return_receipt_detail",
+      "error": null,
+      "failed_assertions": [
+        {
+          "type": "json_pointer",
+          "passed": false,
+          "actual": "9",
+          "expected": "2"
+        }
+      ]
+    },
+    {
+      "mode": "bad_pack",
+      "key": "unpack",
+      "status": "failed",
+      "failed_node": "product_owned",
+      "error": null,
+      "failed_assertions": [
+        {
+          "type": "json_pointer",
+          "passed": false,
+          "actual": "unknown",
+          "expected": "1*24"
+        }
+      ]
+    }
+  ]
+}

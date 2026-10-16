@@ -29,8 +29,6 @@ AI_TASK_RUNTIME_FIELDS = (
     "discovery",
     "discovery_config",
     "error",
-    "codegen_session_id",
-    "codegen_browser_running",
 )
 AI_TASK_RESULT_SUMMARY_FIELDS = (
     "task_id",
@@ -51,6 +49,12 @@ AI_TASK_RESULT_SUMMARY_FIELDS = (
     "success_pages",
     "failed_pages",
     "scan_scope",
+    "model_id",
+    "model_name",
+    "model_http_calls",
+    "vision_batches",
+    "execution_mode",
+    "feature_errors",
     "batch_errors",
     "warnings",
     "error",
@@ -160,56 +164,4 @@ DEFAULT_WEB_PAGE_USER_TEMPLATE = """请根据以下脱敏后的项目上下文�
 
 补充需求：
 {{user_prompt}}""" % WEB_PAGE_FEATURE_TYPE_TEXT
-
-
-DEFAULT_WEB_FUNCTION_ELEMENT_USER_TEMPLATE = """You are helping an autotest platform operate one existing Web page function.
-The platform loads the target URL in a headless browser, applies safe Web auth cookies, and collects visible controls.
-Return valid JSON only. Do not return Markdown. Do not output passwords, tokens, cookies, or secrets.
-
-Goal:
-1. Read the page function context.
-2. Decide the smallest safe operation path needed to enter or exercise this function.
-3. For add/edit/query/import, prefer operation_steps that open the target modal/drawer/page, fill typical editable fields, select typical dropdown values, and then click save/query/confirm after all related controls are collected.
-4. For delete, open the confirm dialog only and avoid real deletion; prefer cancel/close.
-5. Treat readonly inputs, "请选择" placeholders, Element UI el-select, and Ant Design select controls as select elements; never return fill for them.
-6. Ignore unrelated navigation, pagination, profile menus, and global layout controls.
-
-Return schema:
-{
-  "recording_plan": [
-    {"step_id": 1, "instruction": "Open add button", "expected": "Add modal is visible"}
-  ],
-  "operation_steps": [
-    {
-      "step_id": 1,
-      "element_name": "Add",
-      "action": "click",
-      "value": "",
-      "locator": "button, name=Add",
-      "purpose": "Open add modal"
-    }
-  ],
-  "element_steps": [
-    {
-      "step_id": 1,
-      "element_name": "Name",
-      "element_type": "input|button|select|multi_select|checkbox|radio|link|text",
-      "action": "fill|click|select|multi_select|check|uncheck|assert|wait",
-      "locator_type": "role|css|xpath|text|placeholder|testid",
-      "locator": "stable locator",
-      "default_value": "safe sample value",
-      "container": "page|modal|drawer",
-      "required": false,
-      "take_screenshot": false,
-      "skip": false
-    }
-  ],
-  "warnings": []
-}
-
-Context:
-{{context_json}}
-
-Extra instruction:
-{{user_prompt}}"""
 

@@ -1,0 +1,150 @@
+{
+  "flow": {
+    "id": 15807,
+    "name": "[业务回归] 采购入库管理",
+    "project_id": 10,
+    "description": "无编辑接口；不提交审批、不确认入库。新增可能提示审批启动失败，保留真实断言结果。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "purchase",
+        "campaign_key": "waiqin-crud-20261015",
+        "record_marker": "采购入库管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "采购入库管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12199,
+          "case_id": 348,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/data/orderId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12198,
+          "case_id": 349,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12202,
+          "case_id": 350,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "create",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/order_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "delete",
+          "name": "删除本流程创建的数据",
+          "api_id": 12201,
+          "case_id": 351,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "create",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/order_ids",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_delete",
+          "name": "查询确认数据已删除",
+          "api_id": 12202,
+          "case_id": 352,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "create",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/order_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:44:44",
+    "updated_at": "2026-10-15T10:44:44",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15808,
+      "name": "新增查询删除闭环",
+      "project_id": 10,
+      "description": "无编辑接口；不提交审批、不确认入库。新增可能提示审批启动失败，保留真实断言结果。",
+      "status": "active",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15807,
+        "expected_end": "verify_delete",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:44:45",
+      "updated_at": "2026-10-15T10:44:45",
+      "deleted": false
+    }
+  ]
+}

@@ -11,3 +11,6 @@ class SystemStatusService:
 
         try_init_db()
         return database_status()
+    def readiness(self):
+        return {"service": "Autotest Platform", "ready": bool(database_status()["ready"])}
+

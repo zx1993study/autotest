@@ -7,10 +7,10 @@ from fastapi import HTTPException, status
 
 from app.constants.ai_generation import AI_TASK_RESULT_SUMMARY_FIELDS, AI_TASK_RUNTIME_FIELDS
 from app.repositories.interfaces import ResourceRepository
-from app.schemas.ai import WebFunctionElementGenerationRequest, WebPageAiGenerationRequest
+from app.schemas.ai import WebPageAiGenerationRequest, WebVisionDiscoveryRequest
 from app.services.ai_task_detail_file_service import AiTaskDetailFileService
 from app.services.resource_service import ResourceService
-from app.utils.ai_generation_utils import int_list, int_or_default, optional_int, sanitize_ai_value
+from app.utils.ai_generation_utils import int_or_default, optional_int, sanitize_ai_value
 
 
 class AiGenerationTaskRuntime:
@@ -44,17 +44,27 @@ class AiGenerationTaskRuntime:
             }
         )
 
-    def update_task_status(self, task_id: int, status_text: str, data_patch: dict[str, Any]) -> None:
+    def update_task_status(self, task_id: int, status_text: str, data_patch: dict[str, Any], *, only_if_active: bool = False) -> None:
         current = self.repository.get("ai_generation_tasks", task_id) or {}
+        if only_if_active and current.get("status") not in {"pending", "queued", "running"}:
+            return
         data = dict(current.get("data") or {})
         data.update({"status": status_text, **sanitize_ai_value(data_patch)})
-        self.task_service.update(task_id, {"status": status_text, "data": data})
+        if only_if_active:
+            self.repository.update_if_status("ai_generation_tasks", task_id, current["status"], {"status": status_text, "data": data})
+        else:
+            self.task_service.update(task_id, {"status": status_text, "data": data})
 
-    def reset_for_run(self, task_id: int) -> None:
+    def reset_for_run(self, task_id: int, *, only_if_active: bool = False) -> None:
         current = self.repository.get("ai_generation_tasks", task_id) or {}
+        if only_if_active and current.get("status") not in {"pending", "queued", "running"}:
+            return
         data = self.task_data_without_runtime(current)
         data.update({"status": "running", "started_at": int(time.time())})
-        self.task_service.update(task_id, {"status": "running", "data": data})
+        if only_if_active:
+            self.repository.update_if_status("ai_generation_tasks", task_id, current["status"], {"status": "running", "data": data})
+        else:
+            self.task_service.update(task_id, {"status": "running", "data": data})
 
     def reset_for_queue(self, task_id: int) -> None:
         current = self.repository.get("ai_generation_tasks", task_id) or {}
@@ -62,8 +72,10 @@ class AiGenerationTaskRuntime:
         data.update({"status": "queued", "queued_at": int(time.time())})
         self.task_service.update(task_id, {"status": "queued", "data": data})
 
-    def finish_task(self, task_id: int, status_text: str, result: dict[str, Any]) -> None:
+    def finish_task(self, task_id: int, status_text: str, result: dict[str, Any], *, only_if_active: bool = False) -> None:
         current = self.repository.get("ai_generation_tasks", task_id) or {}
+        if only_if_active and current.get("status") not in {"pending", "queued", "running"}:
+            return
         data = dict(current.get("data") or {})
         finished_at = int(time.time())
         started_at = self.safe_timestamp(data.get("started_at"))
@@ -83,7 +95,10 @@ class AiGenerationTaskRuntime:
         )
         if duration_minutes is not None and duration_minutes >= 0:
             data["duration_minutes"] = duration_minutes
-        self.task_service.update(task_id, {"status": status_text, "data": data})
+        if only_if_active:
+            self.repository.update_if_status("ai_generation_tasks", task_id, current["status"], {"status": status_text, "data": data})
+        else:
+            self.task_service.update(task_id, {"status": status_text, "data": data})
 
     def task_type(self, task: dict[str, Any]) -> str:
         data = task.get("data") if isinstance(task.get("data"), dict) else {}
@@ -113,35 +128,36 @@ class AiGenerationTaskRuntime:
             discovery_headless=bool(raw_payload.get("discovery_headless", True)),
         )
 
-    def web_function_element_payload_from_task(self, task: dict[str, Any]) -> WebFunctionElementGenerationRequest:
-        data = task.get("data") if isinstance(task.get("data"), dict) else {}
-        raw_payload = data.get("payload") if isinstance(data.get("payload"), dict) else data
-        project_id = task.get("project_id") or raw_payload.get("project_id")
-        if not project_id:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="任务缺少项目")
-        return WebFunctionElementGenerationRequest(
-            project_id=int(project_id),
-            model_id=optional_int(raw_payload.get("model_id")),
-            prompt_template_id=optional_int(raw_payload.get("prompt_template_id")),
-            login_case_id=optional_int(raw_payload.get("login_case_id")),
-            user_prompt=raw_payload.get("user_prompt"),
-            scan_scope=str(raw_payload.get("scan_scope") or "single"),
-            page_id=optional_int(raw_payload.get("page_id")),
-            page_ids=int_list(raw_payload.get("page_ids")),
-            operation_timeout_sec=int_or_default(
-                raw_payload.get("operation_timeout_sec") or raw_payload.get("recording_timeout_sec"),
-                120,
-            ),
-            headless=True,
-            scan_instruction=raw_payload.get("scan_instruction"),
-            existing_element_strategy=str(raw_payload.get("existing_element_strategy") or "update"),
-        )
-
     def task_data_without_runtime(self, task: dict[str, Any]) -> dict[str, Any]:
         data = dict(task.get("data") or {})
         for key in AI_TASK_RUNTIME_FIELDS:
             data.pop(key, None)
         return data
+
+    def vision_payload_from_task(self, task: dict[str, Any]) -> WebVisionDiscoveryRequest:
+        data = task.get("data") if isinstance(task.get("data"), dict) else {}
+        raw_payload = data.get("payload") if isinstance(data.get("payload"), dict) else data
+        project_id = task.get("project_id") or raw_payload.get("project_id")
+        page_id = raw_payload.get("page_id")
+        if not project_id or not page_id:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="任务缺少项目或页面")
+        return WebVisionDiscoveryRequest(
+            project_id=int(project_id),
+            page_id=int(page_id),
+            vision_model_id=optional_int(raw_payload.get("vision_model_id")),
+            prompt_template_id=optional_int(raw_payload.get("prompt_template_id")),
+            auth_id=optional_int(raw_payload.get("auth_id")),
+            user_prompt=raw_payload.get("user_prompt"),
+            max_functions=int_or_default(raw_payload.get("max_functions"), 8),
+            include_destructive=bool(raw_payload.get("include_destructive", False)),
+            dry_run=False,
+            headless=bool(raw_payload.get("headless", True)),
+            existing_element_strategy=str(raw_payload.get("existing_element_strategy") or "update"),
+            node_key=raw_payload.get("node_key"),
+            wait_for_login=bool(raw_payload.get("wait_for_login", False)),
+            login_timeout_sec=int_or_default(raw_payload.get("login_timeout_sec"), 600),
+            reuse_login=bool(raw_payload.get("reuse_login", True)),
+        )
 
     def task_result_summary(self, result: dict[str, Any]) -> dict[str, Any]:
         """Keep list-page result data small while preserving useful counters."""

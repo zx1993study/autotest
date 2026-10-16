@@ -1,0 +1,196 @@
+{
+  "flow": {
+    "id": 15803,
+    "name": "[业务回归] 拜访计划模板管理",
+    "project_id": 10,
+    "description": "仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "visit_template",
+        "campaign_key": "waiqin-crud-20261015",
+        "record_marker": "拜访计划模板管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "拜访计划模板管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12156,
+          "case_id": 336,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12149,
+          "case_id": 337,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/rows/0/templateId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12154,
+          "case_id": 338,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/template_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "edit",
+          "name": "编辑本流程创建的数据",
+          "api_id": 12155,
+          "case_id": 339,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/templateId",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_edit",
+          "name": "再次查询并验证修改生效",
+          "api_id": 12154,
+          "case_id": 340,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/template_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "delete",
+          "name": "删除本流程创建的数据",
+          "api_id": 12157,
+          "case_id": 341,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/template_ids",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_delete",
+          "name": "查询确认数据已删除",
+          "api_id": 12154,
+          "case_id": 342,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/template_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:44:37",
+    "updated_at": "2026-10-15T10:44:37",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15804,
+      "name": "增查改删闭环",
+      "project_id": 10,
+      "description": "",
+      "status": "active",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15803,
+        "expected_end": "verify_delete",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:44:38",
+      "updated_at": "2026-10-15T10:44:38",
+      "deleted": false
+    }
+  ]
+}

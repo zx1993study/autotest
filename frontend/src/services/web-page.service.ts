@@ -1,70 +1,83 @@
 import { request } from '../api/client'
+import type { PageResult } from '../types/api'
+import type { ResourceItem } from '../types/resource'
 import type {
-  WebCodegenSession,
-  WebCodegenStartOptions,
-  WebScriptParseResult
+  WebPageFeature,
+  WebPageGroup,
+  WebPageGroupPayload,
+  WebPageInterface
 } from '../types/web-page'
 
-export function startWebCodegen(
-  pageId: number,
-  targetUrl: string,
-  options: WebCodegenStartOptions = {}
-) {
-  const formData = new FormData()
-  formData.append('page_id', String(pageId))
-  formData.append('target_url', targetUrl)
-  if (options.projectId) {
-    formData.append('project_id', String(options.projectId))
-  }
-  if (options.featureType) {
-    formData.append('feature_type', options.featureType)
-  }
-  if (options.featureName) {
-    formData.append('feature_name', options.featureName)
-  }
-  return request<WebCodegenSession>({
-    method: 'POST',
-    url: '/web-testing/pages/codegen/start',
-    data: formData
-  })
+const PAGE_GROUP_PATH = '/web-testing/page-groups'
+
+export function listWebPageGroups(params: {
+  project_id: number
+  keyword?: string
+  status?: string
+  page: number
+  pageSize: number
+}, signal?: AbortSignal) {
+  return request<PageResult<WebPageGroup>>({ method: 'GET', url: PAGE_GROUP_PATH, params, signal })
 }
 
-export function getWebCodegenStatus(sessionId: string) {
-  return request<WebCodegenSession>({
+export function getWebPageGroup(groupId: number) {
+  return request<WebPageGroup>({ method: 'GET', url: `${PAGE_GROUP_PATH}/${groupId}` })
+}
+
+export function createWebPageGroup(payload: WebPageGroupPayload) {
+  return request<WebPageGroup>({ method: 'POST', url: PAGE_GROUP_PATH, data: payload })
+}
+
+export function updateWebPageGroup(groupId: number, payload: Partial<WebPageGroupPayload>) {
+  return request<WebPageGroup>({ method: 'PUT', url: `${PAGE_GROUP_PATH}/${groupId}`, data: payload })
+}
+
+export function listWebPageFeatures(groupId: number, params: {
+  keyword?: string
+  status?: string
+  feature_type?: string
+  script_status?: string
+  page: number
+  pageSize: number
+}, signal?: AbortSignal) {
+  return request<PageResult<WebPageFeature>>({
     method: 'GET',
-    url: `/web-testing/pages/codegen/${sessionId}`
+    url: `${PAGE_GROUP_PATH}/${groupId}/features`,
+    signal,
+    params
   })
 }
 
-export function stopWebCodegen(sessionId: string) {
-  return request<WebCodegenSession>({
-    method: 'POST',
-    url: `/web-testing/pages/codegen/${sessionId}/stop`
+export function listWebPageInterfaces(groupId: number, params: {
+  feature_id?: number
+  keyword?: string
+  method?: string
+  page: number
+  pageSize: number
+}) {
+  return request<PageResult<WebPageInterface>>({
+    method: 'GET',
+    url: `${PAGE_GROUP_PATH}/${groupId}/interfaces`,
+    params
   })
 }
 
-export function parseWebScript(
-  projectId: number,
-  pageId: number,
-  sourceType: string,
-  scriptText: string,
-  file: File | null,
-  existingElementStrategy = 'update'
+export function createWebPageInterfaceRelations(
+  groupId: number,
+  interfaceIds: number[],
+  featureId?: number,
+  source = 'manual'
 ) {
-  const formData = new FormData()
-  formData.append('project_id', String(projectId))
-  formData.append('page_id', String(pageId))
-  formData.append('source_type', sourceType)
-  formData.append('existing_element_strategy', existingElementStrategy)
-  if (scriptText.trim()) {
-    formData.append('script_text', scriptText)
-  }
-  if (file) {
-    formData.append('file', file)
-  }
-  return request<WebScriptParseResult>({
+  return request<{ created_count: number; skipped_count: number; items: ResourceItem[] }>({
     method: 'POST',
-    url: '/web-testing/pages/parse-script',
-    data: formData
+    url: `${PAGE_GROUP_PATH}/${groupId}/interface-relations`,
+    data: { interface_ids: interfaceIds, feature_id: featureId || null, source }
+  })
+}
+
+export function deleteWebPageInterfaceRelation(groupId: number, relationId: number) {
+  return request<boolean>({
+    method: 'DELETE',
+    url: `${PAGE_GROUP_PATH}/${groupId}/interface-relations/${relationId}`
   })
 }

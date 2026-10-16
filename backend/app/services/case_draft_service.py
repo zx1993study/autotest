@@ -20,10 +20,13 @@ class CaseDraftService:
         page: int,
         page_size: int,
         status: str | None = None,
+        source_id: int | None = None,
     ) -> tuple[list[dict[str, Any]], int]:
         data_filters: dict[str, Any] = {"case_type": self.case_type}
         if status:
             data_filters["status"] = status
+        if source_id is not None:
+            data_filters["source_id"] = source_id
         rows, total = self.repository.list(
             "case_drafts",
             keyword,

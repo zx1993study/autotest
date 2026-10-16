@@ -14,9 +14,11 @@ from app.schemas.common import (
     ResourceUpdate,
 )
 from app.schemas.tasks import OpenApiImportJobPayload
+from app.schemas.testing import ApiModuleListQuery
 from app.scheduler.jobs.openapi_import_jobs import submit_openapi_import_job
 from app.services.api_testing_service import ApiTestingService
-from app.services.openapi_import_task_service import OpenApiImportTaskService
+from app.services.openapi_import_task_service import MAX_OPENAPI_BYTES, OpenApiImportTaskService
+from app.services.openapi_schema_service import OpenApiSchemaService
 from app.services.resource_service import ResourceService
 
 router = APIRouter(prefix="/api-testing/interfaces", tags=["api-interfaces"])
@@ -65,9 +67,11 @@ async def import_openapi_file(
     service: OpenApiImportTaskService = Depends(get_openapi_import_task_service),
 ) -> dict[str, Any]:
     filename = file.filename or ""
-    if not filename.lower().endswith(".json"):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="请上传 OpenAPI JSON 文件")
+    if not filename.lower().endswith((".json", ".yaml", ".yml")):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="请上传 OpenAPI JSON/YAML 文件")
     raw = await file.read()
+    if len(raw) > MAX_OPENAPI_BYTES:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="OpenAPI 内容超过 10 MB 限制")
     try:
         task = service.create_file_task(project_id, filename, overwrite)
         submit_openapi_import_job(int(task["id"]), OpenApiImportJobPayload(raw=raw))
@@ -108,6 +112,45 @@ def list_interface_options(
     return success(service.list_interface_options(project_id))
 
 
+@router.get("/schema-snapshots/latest")
+def get_latest_schema_snapshot(
+    project_id: int,
+    repository: ResourceRepository = Depends(get_resource_repository),
+) -> dict[str, Any]:
+    snapshot = OpenApiSchemaService(repository).latest(project_id)
+    data = snapshot.get("data") if isinstance(snapshot.get("data"), dict) else {}
+    return success({**snapshot, "data": {key: value for key, value in data.items() if key != "schema"}})
+
+
+@router.get("/modules")
+def list_api_modules(
+    query: ApiModuleListQuery = Depends(),
+    service: ApiTestingService = Depends(get_api_testing_service),
+) -> dict[str, object]:
+    items, total = service.list_modules(query.project_id, query.keyword, query.page, query.page_size)
+    return page_result(items, total, query.page, query.page_size)
+
+
+@router.get("/modules/options")
+def list_api_module_options(
+    project_id: int,
+    service: ApiTestingService = Depends(get_api_testing_service),
+) -> dict[str, object]:
+    return success(service.list_module_options(project_id))
+
+
+@router.get("/modules/{module_id:int}")
+def get_api_module(
+    module_id: int,
+    project_id: int,
+    service: ApiTestingService = Depends(get_api_testing_service),
+) -> dict[str, object]:
+    try:
+        return success(service.get_module(project_id, module_id))
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+
+
 @router.get("")
 def list_api_interfaces(
     query: ResourceListQuery = Depends(),
@@ -126,9 +169,12 @@ def list_api_interfaces(
 @router.post("")
 def create_api_interface(
     payload: ResourceCreate,
-    service: ResourceService = Depends(get_api_interface_resource_service),
+    service: ApiTestingService = Depends(get_api_testing_service),
 ) -> dict[str, object]:
-    return success(service.create(payload.model_dump()))
+    try:
+        return success(service.create_interface(payload.model_dump()))
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
 
 @router.post("/batch-delete")
@@ -151,9 +197,12 @@ def get_api_interface(
 def update_api_interface(
     item_id: int,
     payload: ResourceUpdate,
-    service: ResourceService = Depends(get_api_interface_resource_service),
+    service: ApiTestingService = Depends(get_api_testing_service),
 ) -> dict[str, object]:
-    return success(service.update(item_id, payload.model_dump(exclude_unset=True)))
+    try:
+        return success(service.update_interface(item_id, payload.model_dump(exclude_unset=True)))
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
 
 @router.delete("/{item_id:int}")

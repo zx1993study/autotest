@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import threading
 
 from app.db.session import SessionLocal
 from app.repositories.sqlalchemy_resource_repository import SqlAlchemyResourceRepository
@@ -10,6 +11,7 @@ from app.services.ai_generation_service import AiGenerationService
 
 
 logger = logging.getLogger(__name__)
+AI_GENERATION_JOB_LOCK = threading.Lock()
 
 
 def submit_web_page_generation_job(task_id: int, payload: WebPageAiGenerationRequest) -> None:
@@ -33,24 +35,26 @@ def submit_saved_generation_job(task_id: int) -> None:
 def run_web_page_generation_job(task_id: int, payload: WebPageAiGenerationRequest) -> None:
     """Execute a web-page generation job by delegating to the service layer."""
 
-    db = SessionLocal()
-    try:
-        service = AiGenerationService(SqlAlchemyResourceRepository(db))
-        service.run_web_pages_task(task_id, payload)
-    except Exception:  # noqa: BLE001 - service persists failure state; scheduler logs the trigger failure.
-        logger.exception("AI web-page generation job failed: task_id=%s", task_id)
-    finally:
-        db.close()
+    with AI_GENERATION_JOB_LOCK:
+        db = SessionLocal()
+        try:
+            service = AiGenerationService(SqlAlchemyResourceRepository(db))
+            service.run_web_pages_task(task_id, payload)
+        except Exception:  # noqa: BLE001 - service persists failure state; scheduler logs the trigger failure.
+            logger.exception("AI web-page generation job failed: task_id=%s", task_id)
+        finally:
+            db.close()
 
 
 def run_saved_generation_job(task_id: int) -> None:
     """Execute a stored AI generation job by delegating to the service layer."""
 
-    db = SessionLocal()
-    try:
-        service = AiGenerationService(SqlAlchemyResourceRepository(db))
-        service.run_saved_task(task_id)
-    except Exception:  # noqa: BLE001 - service persists failure state; scheduler logs the trigger failure.
-        logger.exception("AI generation job failed: task_id=%s", task_id)
-    finally:
-        db.close()
+    with AI_GENERATION_JOB_LOCK:
+        db = SessionLocal()
+        try:
+            service = AiGenerationService(SqlAlchemyResourceRepository(db))
+            service.run_saved_task(task_id)
+        except Exception:  # noqa: BLE001 - service persists failure state; scheduler logs the trigger failure.
+            logger.exception("AI generation job failed: task_id=%s", task_id)
+        finally:
+            db.close()

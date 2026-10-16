@@ -1,3 +1,5 @@
+import type { CaseExecutionSummary } from './api-case'
+
 export interface ResourceItem {
   id: number
   name: string
@@ -7,6 +9,7 @@ export interface ResourceItem {
   data: Record<string, unknown>
   created_at: string
   updated_at: string
+  latest_execution?: CaseExecutionSummary | null
   [key: string]: unknown
 }
 
@@ -23,6 +26,7 @@ export interface ProjectOption {
   id: number
   name: string
   base_url: string
+  is_default?: boolean
 }
 
 export interface SelectOptionRecord {

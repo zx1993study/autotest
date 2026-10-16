@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const apiTarget = env.VITE_API_PROXY_TARGET || 'http://127.0.0.1:8000'
 
   return {
+    base: env.VITE_APP_BASE || '/',
     plugins: [vue()],
     server: {
       port: 5173,

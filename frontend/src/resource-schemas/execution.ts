@@ -14,38 +14,6 @@ export const executionFlowColumns: ResourceColumn[] = [
   { key: 'updated_at', label: '更新时间', width: '180px' }
 ]
 
-export const executionPlanFields: ResourceField[] = [
-  { key: 'name', label: '计划名称', required: true },
-  projectIdField,
-  { key: 'data.flow_id', label: '流程 ID', type: 'number' },
-  {
-    key: 'data.run_mode',
-    label: '执行方式',
-    type: 'select',
-    defaultValue: 'once',
-    options: [
-      { label: '单次执行', value: 'once' },
-      { label: '定时执行', value: 'scheduled' },
-      { label: 'Cron 周期', value: 'cron' }
-    ]
-  },
-  { key: 'data.cron', label: 'Cron 表达式' },
-  { key: 'data.executor_node', label: '执行节点' },
-  { key: 'data.headless', label: '无头执行', type: 'checkbox', defaultValue: true },
-  { key: 'data.retry_count', label: '失败重试次数', type: 'number', defaultValue: 0 },
-  statusField,
-  descriptionField
-]
-
-export const executionPlanColumns: ResourceColumn[] = [
-  { key: 'name', label: '计划名称' },
-  { key: 'data.flow_id', label: '流程 ID', width: '90px' },
-  { key: 'data.run_mode', label: '执行方式' },
-  { key: 'data.executor_node', label: '执行节点' },
-  { key: 'data.headless', label: '无头' },
-  { key: 'status', label: '状态', width: '90px' }
-]
-
 export const reportRecordFields: ResourceField[] = [
   { key: 'name', label: '记录名称', required: true },
   projectIdField,

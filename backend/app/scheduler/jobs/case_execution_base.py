@@ -5,6 +5,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from app.repositories.interfaces import ResourceRepository
+from web_automation.dynamic_values import prepare_dynamic_execution
 
 
 class CaseExecutionBase:
@@ -17,6 +18,10 @@ class CaseExecutionBase:
     def case_data(self, case: dict[str, Any]) -> dict[str, Any]:
         data = case.get("data")
         return data if isinstance(data, dict) else {}
+
+    def prepare_execution(self, case: dict[str, Any], payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+        resolved_case, resolved_payload, _ = prepare_dynamic_execution(case, payload)
+        return resolved_case, resolved_payload
 
     def case_assertions(self, case: dict[str, Any]) -> list[dict[str, Any]]:
         assertions = case.get("assertions") or self.case_data(case).get("assertions")

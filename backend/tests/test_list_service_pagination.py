@@ -48,6 +48,9 @@ class RecordingResourceRepository:
         del table, item_id
         return None
 
+    def get_many(self, table: str, item_ids: list[int]) -> list[dict[str, Any]]:
+        return []
+
     def create(self, table: str, data: dict[str, Any]) -> dict[str, Any]:
         raise NotImplementedError
 
@@ -88,6 +91,17 @@ class ListServicePaginationTest(unittest.TestCase):
             },
         )
 
+    def test_test_case_list_passes_source_and_status_filters(self) -> None:
+        repository = RecordingResourceRepository()
+        service = TestCaseService("API", repository)
+
+        service.list("login", 7, page=1, page_size=10, source_id=42, status="active")
+
+        self.assertEqual(
+            repository.calls[0]["data_filters"],
+            {"source_id": 42, "status": "active"},
+        )
+
     def test_case_draft_list_uses_requested_page_and_case_type_filter(self) -> None:
         repository = RecordingResourceRepository()
         service = CaseDraftService("WEB", repository)
@@ -126,6 +140,17 @@ class ListServicePaginationTest(unittest.TestCase):
                 "page_size": 20,
                 "data_filters": {"case_type": "API", "status": "draft"},
             },
+        )
+
+    def test_case_draft_list_includes_source_filter_when_supplied(self) -> None:
+        repository = RecordingResourceRepository()
+        service = CaseDraftService("API", repository)
+
+        service.list(3, None, page=1, page_size=20, status="draft", source_id=42)
+
+        self.assertEqual(
+            repository.calls[0]["data_filters"],
+            {"case_type": "API", "status": "draft", "source_id": 42},
         )
 
 

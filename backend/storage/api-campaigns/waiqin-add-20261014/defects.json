@@ -1,0 +1,1218 @@
+{
+  "active_cases": 193,
+  "inactive_cases": 17,
+  "executed_active_cases": 193,
+  "passed": 167,
+  "failed": 26,
+  "normal_passed": 14,
+  "total_http_executions": 240,
+  "failed_code_500": 14,
+  "failed_code_200": 12,
+  "failed_cases": [
+    {
+      "case_id": 86,
+      "record_id": 15569,
+      "source_id": 12110,
+      "name": "[格式错误] endTime (date-time)",
+      "scenario": {
+        "key": "format:body.endTime:date-time",
+        "field": "body.endTime",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'end_time' at row 1\")\n[SQL: INSERT INTO activity (activity_name, activity_type, approval_status, approval_instance_id, visible_dept_ids, visible_user_ids, paid_items, product_scope, product_ids, payment_type, monthly_apply_limit, start_time, end_time, description, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('秋季门店陈列活动_1791974326777_68e60e', 'act_260720115642_03522', '1', None, None, None, None, 'all', '16', 'online', None, '2026-10-16T10:00:00', 'not-a-valid-value', None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 48, 404192), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 48, 404193))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 285,
+      "request_params": {
+        "endTime": "not-a-valid-value",
+        "startTime": "2026-10-16T10:00:00",
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "秋季门店陈列活动_1791974326777_68e60e",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 87,
+      "record_id": 15570,
+      "source_id": 12110,
+      "name": "[类型错误] endTime",
+      "scenario": {
+        "key": "type:body.endTime:invalid",
+        "field": "body.endTime",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 180,
+      "request_params": {
+        "endTime": 12345,
+        "startTime": "2026-10-16T10:00:00",
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "秋季门店陈列活动_1791974326974_53aa29",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 89,
+      "record_id": 15573,
+      "source_id": 12110,
+      "name": "[格式错误] startTime (date-time)",
+      "scenario": {
+        "key": "format:body.startTime:date-time",
+        "field": "body.startTime",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'start_time' at row 1\")\n[SQL: INSERT INTO activity (activity_name, activity_type, approval_status, approval_instance_id, visible_dept_ids, visible_user_ids, paid_items, product_scope, product_ids, payment_type, monthly_apply_limit, start_time, end_time, description, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('秋季门店陈列活动_1791974327156_bde089', 'act_260720115642_03522', '1', None, None, None, None, 'all', '16', 'online', None, 'not-a-valid-value', '2026-10-17T10:00:00', None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 48, 690455), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 48, 690456))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 210,
+      "request_params": {
+        "endTime": "2026-10-17T10:00:00",
+        "startTime": "not-a-valid-value",
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "秋季门店陈列活动_1791974327156_bde089",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 90,
+      "record_id": 15572,
+      "source_id": 12110,
+      "name": "[类型错误] startTime",
+      "scenario": {
+        "key": "type:body.startTime:invalid",
+        "field": "body.startTime",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 190,
+      "request_params": {
+        "endTime": "2026-10-17T10:00:00",
+        "startTime": 12345,
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "秋季门店陈列活动_1791974327168_b2d95c",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 99,
+      "record_id": 15582,
+      "source_id": 12110,
+      "name": "[低于最小长度] activityName",
+      "scenario": {
+        "key": "boundary:body.activityName:min-length-invalid",
+        "field": "body.activityName",
+        "variant": "min-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 192,
+      "request_params": {
+        "endTime": "2026-10-17T10:00:00",
+        "startTime": "2026-10-16T10:00:00",
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 101,
+      "record_id": 15584,
+      "source_id": 12110,
+      "name": "[超过最大长度] activityName",
+      "scenario": {
+        "key": "boundary:body.activityName:max-length-invalid",
+        "field": "body.activityName",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'activity_name' at row 1\")\n[SQL: INSERT INTO activity (activity_name, activity_type, approval_status, approval_instance_id, visible_dept_ids, visible_user_ids, paid_items, product_scope, product_ids, payment_type, monthly_apply_limit, start_time, end_time, description, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'act_260720115642_03522', '1', None, None, None, None, 'all', '16', 'online', None, '2026-10-16T10:00:00', '2026-10-17T10:00:00', None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 50, 922750), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 50, 922751))]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 188,
+      "request_params": {
+        "endTime": "2026-10-17T10:00:00",
+        "startTime": "2026-10-16T10:00:00",
+        "productIds": "16",
+        "paymentType": "online",
+        "activityName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 111,
+      "record_id": 15592,
+      "source_id": 12186,
+      "name": "[缺失必填] warehouseName",
+      "scenario": {
+        "key": "required:body.warehouseName:missing",
+        "field": "body.warehouseName",
+        "variant": "missing",
+        "strategy": "required"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.IntegrityError) (1048, \"Column 'warehouse_name' cannot be null\")\n[SQL: INSERT INTO warehouse (warehouse_code, warehouse_name, warehouse_type, customer_id, customer_name, address, manager_name, manager_phone, admin_user_id, status, remark, create_by, create_time, update_by, update_time, del_flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('ZCSTORE20261014183853073', None, '1', None, None, '武汉市洪山区配送中心', None, None, None, '0', None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 53, 73738), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 53, 73739), '0')]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)",
+      "error": null,
+      "duration_ms": 154,
+      "request_params": {
+        "address": "武汉市洪山区配送中心",
+        "customerId": 891,
+        "warehouseCode": "HSCK_1791974331545_dbf2a4",
+        "warehouseType": "1"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 113,
+      "record_id": 15594,
+      "source_id": 12186,
+      "name": "[低于最小长度] warehouseName",
+      "scenario": {
+        "key": "boundary:body.warehouseName:min-length-invalid",
+        "field": "body.warehouseName",
+        "variant": "min-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 142,
+      "request_params": {
+        "address": "武汉市洪山区配送中心",
+        "customerId": 891,
+        "warehouseCode": "HSCK_1791974331709_021981",
+        "warehouseName": "",
+        "warehouseType": "1"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 115,
+      "record_id": 15597,
+      "source_id": 12186,
+      "name": "[超过最大长度] warehouseName",
+      "scenario": {
+        "key": "boundary:body.warehouseName:max-length-invalid",
+        "field": "body.warehouseName",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'warehouse_name' at row 1\")\n[SQL: INSERT INTO warehouse (warehouse_code, warehouse_name, warehouse_type, customer_id, customer_name, address, manager_name, manager_phone, admin_user_id, status, remark, create_by, create_time, update_by, update_time, del_flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('ZCSTORE20261014183853380', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '1', None, None, '武汉市洪山区配送中心', None, None, None, '0', None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 53, 380083), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 53, 380084), '0')]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 142,
+      "request_params": {
+        "address": "武汉市洪山区配送中心",
+        "customerId": 891,
+        "warehouseCode": "HSCK_1791974331857_d2c56e",
+        "warehouseName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "warehouseType": "1"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 144,
+      "record_id": 15625,
+      "source_id": 12102,
+      "name": "[低于最小长度] productName",
+      "scenario": {
+        "key": "boundary:body.productName:min-length-invalid",
+        "field": "body.productName",
+        "variant": "min-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 147,
+      "request_params": {
+        "unit": "瓶",
+        "productCode": "CLKS_1791974336896_3c2c2f",
+        "productName": "",
+        "productSpec": "500ML / 1*24",
+        "productType": "巴马水",
+        "productBrand": "巴马丽琅矿泉水",
+        "purchasePrice": 2.5,
+        "terminalWholesalePrice": 3.5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 146,
+      "record_id": 15627,
+      "source_id": 12102,
+      "name": "[超过最大长度] productName",
+      "scenario": {
+        "key": "boundary:body.productName:max-length-invalid",
+        "field": "body.productName",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'product_name' at row 1\")\n[SQL: INSERT INTO product (product_name, product_code, product_spec, product_spec_first, product_spec_second, product_type, product_brand, unit, barcode, product_image, purchase_price, terminal_wholesale_price, weight, weight_unit, length, width, height, remark, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'SP202610140014', '500ML / 1*24', None, None, '巴马水', '巴马丽琅矿泉水', '瓶', None, None, Decimal('2.5'), Decimal('3.5'), None, None, None, None, None, None, 'admin', datetime.datetime(2026, 10, 14, 18, 38, 58, 574285), 'admin', datetime.datetime(2026, 10, 14, 18, 38, 58, 574286))]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 157,
+      "request_params": {
+        "unit": "瓶",
+        "productCode": "CLKS_1791974337044_5eafc0",
+        "productName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "productSpec": "500ML / 1*24",
+        "productType": "巴马水",
+        "productBrand": "巴马丽琅矿泉水",
+        "purchasePrice": 2.5,
+        "terminalWholesalePrice": 3.5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 156,
+      "record_id": 15636,
+      "source_id": 12119,
+      "name": "[超过最大长度] activityTypeName",
+      "scenario": {
+        "key": "boundary:body.activityTypeName:max-length-invalid",
+        "field": "body.activityTypeName",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'activity_type_name' at row 1\")\n[SQL: INSERT INTO activity_type_config (activity_type, activity_type_name, need_execute_report, need_payment_report, sort, status, create_by, create_time, update_by, update_time, remark) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('act_261014183900_124f0', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '1', '0', 0, '0', 'admin', datetime.datetime(2026, 10, 14, 18, 39, 0, 735100), 'admin', datetime.datetime(2026, 10, 14, 18, 39, 0, 735100), None)]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 147,
+      "request_params": {
+        "templates": {
+          "apply": [
+            {
+              "sort": 5,
+              "stage": "apply",
+              "fieldCode": "customers",
+              "fieldLabel": "参与客户",
+              "isRequired": "1"
+            },
+            {
+              "sort": 10,
+              "stage": "apply",
+              "fieldCode": "expectedParticipants",
+              "fieldLabel": "预计参与人数",
+              "isRequired": "1"
+            },
+            {
+              "sort": 20,
+              "stage": "apply",
+              "fieldCode": "usedProductIds",
+              "fieldLabel": "活动使用商品/兑付商品",
+              "isRequired": "1"
+            },
+            {
+              "sort": 30,
+              "stage": "apply",
+              "fieldCode": "estimatedMealFee",
+              "fieldLabel": "预计使用餐费",
+              "isRequired": "1"
+            },
+            {
+              "sort": 40,
+              "stage": "apply",
+              "fieldCode": "hasOurStaff",
+              "fieldLabel": "是否有我方人员参加",
+              "isRequired": "0"
+            },
+            {
+              "sort": 50,
+              "stage": "apply",
+              "fieldCode": "executionLocation",
+              "fieldLabel": "活动执行地点",
+              "isRequired": "1"
+            },
+            {
+              "sort": 90,
+              "stage": "apply",
+              "fieldCode": "remark",
+              "fieldLabel": "备注",
+              "isRequired": "0"
+            }
+          ],
+          "execute": [
+            {
+              "sort": 20,
+              "stage": "execute",
+              "fieldCode": "sitePhotos",
+              "fieldLabel": "活动现场/陈列照片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 30,
+              "stage": "execute",
+              "fieldCode": "beforeMealPhotos",
+              "fieldLabel": "餐前图片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 40,
+              "stage": "execute",
+              "fieldCode": "duringMealPhotos",
+              "fieldLabel": "餐中图片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 50,
+              "stage": "execute",
+              "fieldCode": "afterMealPhotos",
+              "fieldLabel": "餐后图片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 60,
+              "stage": "execute",
+              "fieldCode": "invoicePhotos",
+              "fieldLabel": "发票图片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 70,
+              "stage": "execute",
+              "fieldCode": "receiptPhotos",
+              "fieldLabel": "小票图片",
+              "isRequired": "1"
+            },
+            {
+              "sort": 80,
+              "stage": "execute",
+              "fieldCode": "otherPhotos",
+              "fieldLabel": "其他图片",
+              "isRequired": "0"
+            },
+            {
+              "sort": 90,
+              "stage": "execute",
+              "fieldCode": "paymentScreenshot",
+              "fieldLabel": "付款截图",
+              "isRequired": "0"
+            },
+            {
+              "sort": 100,
+              "stage": "execute",
+              "fieldCode": "actualParticipants",
+              "fieldLabel": "实际参与人数",
+              "isRequired": "1"
+            },
+            {
+              "sort": 110,
+              "stage": "execute",
+              "fieldCode": "actualProductIds",
+              "fieldLabel": "实际使用商品",
+              "isRequired": "1"
+            },
+            {
+              "sort": 120,
+              "stage": "execute",
+              "fieldCode": "actualMealFee",
+              "fieldLabel": "实际使用餐费",
+              "isRequired": "1"
+            }
+          ],
+          "payment": []
+        },
+        "activityTypeName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "needExecuteReport": "1",
+        "needPaymentReport": "0"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 167,
+      "record_id": 15646,
+      "source_id": 12126,
+      "name": "[格式错误] endTime (date-time)",
+      "scenario": {
+        "key": "format:body.endTime:date-time",
+        "field": "body.endTime",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'end_time' at row 1\")\n[SQL: INSERT INTO activity_apply (activity_id, activity_name, activity_type, template_snapshot, start_time, end_time, expected_participants, has_our_staff, execution_location, estimated_meal_fee, used_product_ids, remark, customer_count, status, approval_instance_id, create_by, create_by_name, create_time, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: (89, '秋季门店陈列活动_1791973922124_82c229', 'act_260720115642_03522', '{\"needExecuteReport\": \"1\", \"configId\": 12, \"sort\": 1, \"delFlag\": \"0\", \"createTime\": \"2026-07-20 11:56:42\", \"updateTime\": \"2026-07-27 17:16:50\", \"need ... (613 characters truncated) ...  \"receiptPhotos\", \"id\": 951, \"isRequired\": \"1\", \"createTime\": \"2026-07-27 17:16:50\", \"meta\": {\"component\": \"photo\", \"maxCount\": 1}}], \"payment\": []}}', '2026-10-16 10:00:00', 'not-a-valid-value', None, None, None, None, None, None, 1, '1', None, '1', '超级管理员', datetime.datetime(2026, 10, 14, 18, 39, 2, 941900), datetime.datetime(2026, 10, 14, 18, 39, 2, 941900))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 216,
+      "request_params": {
+        "remark": "秋季门店活动申请_1791974341352_c633bf",
+        "endTime": "not-a-valid-value",
+        "customers": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1"
+          }
+        ],
+        "startTime": "2026-10-16 10:00:00",
+        "activityId": 89,
+        "hasOurStaff": "1",
+        "usedProductIds": "[{\"productId\": 16, \"quantity\": 1}]",
+        "estimatedMealFee": 50,
+        "executionLocation": "武汉市洪山区门店活动区",
+        "expectedParticipants": 5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 168,
+      "record_id": 15648,
+      "source_id": 12126,
+      "name": "[类型错误] endTime",
+      "scenario": {
+        "key": "type:body.endTime:invalid",
+        "field": "body.endTime",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "申请成功，共1个客户",
+      "error": null,
+      "duration_ms": 250,
+      "request_params": {
+        "remark": "秋季门店活动申请_1791974341481_99c3fd",
+        "endTime": 12345,
+        "customers": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1"
+          }
+        ],
+        "startTime": "2026-10-16 10:00:00",
+        "activityId": 89,
+        "hasOurStaff": "1",
+        "usedProductIds": "[{\"productId\": 16, \"quantity\": 1}]",
+        "estimatedMealFee": 50,
+        "executionLocation": "武汉市洪山区门店活动区",
+        "expectedParticipants": 5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "申请成功，共1个客户",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 170,
+      "record_id": 15649,
+      "source_id": 12126,
+      "name": "[格式错误] startTime (date-time)",
+      "scenario": {
+        "key": "format:body.startTime:date-time",
+        "field": "body.startTime",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'start_time' at row 1\")\n[SQL: INSERT INTO activity_apply (activity_id, activity_name, activity_type, template_snapshot, start_time, end_time, expected_participants, has_our_staff, execution_location, estimated_meal_fee, used_product_ids, remark, customer_count, status, approval_instance_id, create_by, create_by_name, create_time, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: (89, '秋季门店陈列活动_1791973922124_82c229', 'act_260720115642_03522', '{\"needExecuteReport\": \"1\", \"configId\": 12, \"sort\": 1, \"delFlag\": \"0\", \"createTime\": \"2026-07-20 11:56:42\", \"updateTime\": \"2026-07-27 17:16:50\", \"need ... (613 characters truncated) ... fieldCode\": \"receiptPhotos\", \"isRequired\": \"1\", \"createTime\": \"2026-07-27 17:16:50\", \"meta\": {\"component\": \"photo\", \"maxCount\": 1}}], \"payment\": []}}', 'not-a-valid-value', '2026-10-17 10:00:00', None, None, None, None, None, None, 1, '1', None, '1', '超级管理员', datetime.datetime(2026, 10, 14, 18, 39, 3, 292642), datetime.datetime(2026, 10, 14, 18, 39, 3, 292642))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 206,
+      "request_params": {
+        "remark": "秋季门店活动申请_1791974341707_fbf8d3",
+        "endTime": "2026-10-17 10:00:00",
+        "customers": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1"
+          }
+        ],
+        "startTime": "not-a-valid-value",
+        "activityId": 89,
+        "hasOurStaff": "1",
+        "usedProductIds": "[{\"productId\": 16, \"quantity\": 1}]",
+        "estimatedMealFee": 50,
+        "executionLocation": "武汉市洪山区门店活动区",
+        "expectedParticipants": 5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 171,
+      "record_id": 15651,
+      "source_id": 12126,
+      "name": "[类型错误] startTime",
+      "scenario": {
+        "key": "type:body.startTime:invalid",
+        "field": "body.startTime",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "申请成功，共1个客户",
+      "error": null,
+      "duration_ms": 539,
+      "request_params": {
+        "remark": "秋季门店活动申请_1791974341733_2b8c64",
+        "endTime": "2026-10-17 10:00:00",
+        "customers": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1"
+          }
+        ],
+        "startTime": 12345,
+        "activityId": 89,
+        "hasOurStaff": "1",
+        "usedProductIds": "[{\"productId\": 16, \"quantity\": 1}]",
+        "estimatedMealFee": 50,
+        "executionLocation": "武汉市洪山区门店活动区",
+        "expectedParticipants": 5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "申请成功，共1个客户",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 174,
+      "record_id": 15652,
+      "source_id": 12126,
+      "name": "[少于最少元素] customers",
+      "scenario": {
+        "key": "boundary:body.customers:min-items-invalid",
+        "field": "body.customers",
+        "variant": "min-items-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "申请成功，共0个客户",
+      "error": null,
+      "duration_ms": 246,
+      "request_params": {
+        "remark": "秋季门店活动申请_1791974343136_9dd564",
+        "endTime": "2026-10-17 10:00:00",
+        "customers": [],
+        "startTime": "2026-10-16 10:00:00",
+        "activityId": 89,
+        "hasOurStaff": "1",
+        "usedProductIds": "[{\"productId\": 16, \"quantity\": 1}]",
+        "estimatedMealFee": 50,
+        "executionLocation": "武汉市洪山区门店活动区",
+        "expectedParticipants": 5
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "申请成功，共0个客户",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 185,
+      "record_id": 15663,
+      "source_id": 12137,
+      "name": "[格式错误] requiredFinishTime (date-time)",
+      "scenario": {
+        "key": "format:body.requiredFinishTime:date-time",
+        "field": "body.requiredFinishTime",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'required_finish_time' at row 1\")\n[SQL: INSERT INTO activity_supervision_task (customer_ids, customer_names, responsible_user_id, responsible_user_name, responsible_nick_name, supervisor_user_id, supervisor_user_name, supervisor_nick_name, cc_user_ids, cc_user_names, required_finish_time, task_content, photo_attachments, process_result, process_photos, finish_time, finish_by, finish_by_name, status, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: ('1066', 'AutoFront10081703', 1, 'admin', '超级管理员', 1, 'admin', '超级管理员', None, None, 'not-a-valid-value', '核对门店陈列并记录活动落实情况_1791974343987_36725e', None, None, None, None, None, None, '0', 'admin', datetime.datetime(2026, 10, 14, 18, 39, 5, 521366), 'admin', datetime.datetime(2026, 10, 14, 18, 39, 5, 521366))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 155,
+      "request_params": {
+        "customer": {
+          "customerId": 1066,
+          "customerName": "AutoFront10081703",
+          "customerType": "1"
+        },
+        "taskContent": "核对门店陈列并记录活动落实情况_1791974343987_36725e",
+        "requiredFinishTime": "not-a-valid-value",
+        "responsibleUserIds": [
+          1
+        ]
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 186,
+      "record_id": 15665,
+      "source_id": 12137,
+      "name": "[类型错误] requiredFinishTime",
+      "scenario": {
+        "key": "type:body.requiredFinishTime:invalid",
+        "field": "body.requiredFinishTime",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "督办任务创建成功，共1条",
+      "error": null,
+      "duration_ms": 156,
+      "request_params": {
+        "customer": {
+          "customerId": 1066,
+          "customerName": "AutoFront10081703",
+          "customerType": "1"
+        },
+        "taskContent": "核对门店陈列并记录活动落实情况_1791974345451_99f7ff",
+        "requiredFinishTime": 12345,
+        "responsibleUserIds": [
+          1
+        ]
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "督办任务创建成功，共1条",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 196,
+      "record_id": 15673,
+      "source_id": 12143,
+      "name": "[超过最大长度] remark",
+      "scenario": {
+        "key": "boundary:body.remark:max-length-invalid",
+        "field": "body.remark",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'remark' at row 1\")\n[SQL: INSERT INTO visit_plan (visitor_user_id, visitor_user_name, template_id, report_config_snapshot, customer_type, customer_id, customer_name, terminal_type, visit_date, status, visit_status, is_temporary, check_in_time, check_out_time, approval_instance_id, remark, del_flag, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: (1, '超级管理员', None, '[{\"customerType\": \"1\", \"reportType\": \"check_in\", \"reportName\": \"抵达签到\", \"formType\": \"check_in\", \"isEnabled\": \"1\", \"isRequired\": \"1\", \"isSystem\": \"1\",  ... (1019 characters truncated) ... out\", \"reportName\": \"离开签退\", \"formType\": \"check_out\", \"isEnabled\": \"1\", \"isRequired\": \"1\", \"isSystem\": \"1\", \"sortOrder\": 99, \"remark\": \"系统内置项，不建议关闭\"}]', '1', 1082, '测试_1791531897535', None, '2026-10-16T10:00:00', '1', '0', '1', None, None, None, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ... (203 characters truncated) ... xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '0', '1', datetime.datetime(2026, 10, 14, 18, 39, 7, 539902), '1', datetime.datetime(2026, 10, 14, 18, 39, 7, 539903))]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 186,
+      "request_params": {
+        "remark": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "visitDate": "2026-10-16T10:00:00",
+        "customerId": 1082,
+        "customerName": "测试_1791531897535",
+        "customerType": "1",
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 199,
+      "record_id": 15677,
+      "source_id": 12143,
+      "name": "[格式错误] visitDate (date-time)",
+      "scenario": {
+        "key": "format:body.visitDate:date-time",
+        "field": "body.visitDate",
+        "variant": "date-time",
+        "strategy": "format"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.OperationalError) (1292, \"Incorrect datetime value: 'not-a-valid-value' for column 'visit_date' at row 1\")\n[SQL: INSERT INTO visit_plan (visitor_user_id, visitor_user_name, template_id, report_config_snapshot, customer_type, customer_id, customer_name, terminal_type, visit_date, status, visit_status, is_temporary, check_in_time, check_out_time, approval_instance_id, remark, del_flag, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: (1, '超级管理员', None, '[{\"customerType\": \"1\", \"reportType\": \"check_in\", \"reportName\": \"抵达签到\", \"formType\": \"check_in\", \"isEnabled\": \"1\", \"isRequired\": \"1\", \"isSystem\": \"1\",  ... (1019 characters truncated) ... out\", \"reportName\": \"离开签退\", \"formType\": \"check_out\", \"isEnabled\": \"1\", \"isRequired\": \"1\", \"isSystem\": \"1\", \"sortOrder\": 99, \"remark\": \"系统内置项，不建议关闭\"}]', '1', 1082, '测试_1791531897535', None, 'not-a-valid-value', '1', '0', '1', None, None, None, '门店日常回访安排_1791974347584_e4a7e7', '0', '1', datetime.datetime(2026, 10, 14, 18, 39, 9, 115828), '1', datetime.datetime(2026, 10, 14, 18, 39, 9, 115829))]\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "error": null,
+      "duration_ms": 178,
+      "request_params": {
+        "remark": "门店日常回访安排_1791974347584_e4a7e7",
+        "visitDate": "not-a-valid-value",
+        "customerId": 1082,
+        "customerName": "测试_1791531897535",
+        "customerType": "1",
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 200,
+      "record_id": 15676,
+      "source_id": 12143,
+      "name": "[类型错误] visitDate",
+      "scenario": {
+        "key": "type:body.visitDate:invalid",
+        "field": "body.visitDate",
+        "variant": "invalid",
+        "strategy": "type"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "新增成功",
+      "error": null,
+      "duration_ms": 164,
+      "request_params": {
+        "remark": "门店日常回访安排_1791974347588_04981c",
+        "visitDate": 12345,
+        "customerId": 1082,
+        "customerName": "测试_1791531897535",
+        "customerType": "1",
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员"
+      },
+      "response_data": {
+        "visitPlanId": 7430
+      },
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "新增成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 213,
+      "record_id": 15688,
+      "source_id": 12144,
+      "name": "[少于最少元素] visitPlans",
+      "scenario": {
+        "key": "boundary:body.visitPlans:min-items-invalid",
+        "field": "body.visitPlans",
+        "variant": "min-items-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "拜访计划列表不能为空",
+      "error": null,
+      "duration_ms": 138,
+      "request_params": {
+        "visitPlans": [],
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "拜访计划列表不能为空",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 227,
+      "record_id": 15702,
+      "source_id": 12156,
+      "name": "[低于最小长度] templateName",
+      "scenario": {
+        "key": "boundary:body.templateName:min-length-invalid",
+        "field": "body.templateName",
+        "variant": "min-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 200,
+      "message": "操作成功",
+      "error": null,
+      "duration_ms": 118,
+      "request_params": {
+        "userId": 1,
+        "weeklyData": {
+          "1": [
+            1082
+          ]
+        },
+        "templateName": ""
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 200,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "操作成功",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 229,
+      "record_id": 15704,
+      "source_id": 12156,
+      "name": "[超过最大长度] templateName",
+      "scenario": {
+        "key": "boundary:body.templateName:max-length-invalid",
+        "field": "body.templateName",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'template_name' at row 1\")\n[SQL: INSERT INTO visit_template (template_name, user_id, distributor_id, remark, del_flag, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, now(), %s, now())]\n[parameters: ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 1, None, None, '0', 'admin', 'admin')]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 111,
+      "request_params": {
+        "userId": 1,
+        "weeklyData": {
+          "1": [
+            1082
+          ]
+        },
+        "templateName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    },
+    {
+      "case_id": 236,
+      "record_id": 15711,
+      "source_id": 12167,
+      "name": "[超过最大长度] remark",
+      "scenario": {
+        "key": "boundary:body.remark:max-length-invalid",
+        "field": "body.remark",
+        "variant": "max-length-invalid",
+        "strategy": "boundary"
+      },
+      "status": "failed",
+      "http_status": 200,
+      "code": 500,
+      "message": "(asyncmy.errors.DataError) (1406, \"Data too long for column 'remark' at row 1\")\n[SQL: INSERT INTO visit_report (visit_plan_id, report_type, product_id, product_name, inventory_quantity, images, remark, report_time, address, customer_name, check_in_longitude, check_in_latitude, location_deviation, check_out_images, del_flag, create_by, create_time, update_by, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)]\n[parameters: (None, 'temporary', None, None, None, 'https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ... (203 characters truncated) ... xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '2026-10-14 18:39:14', '武汉市洪山区门店', '测试_1791531897535', None, None, None, None, '0', 'admin', '2026-10-14 18:39:14', '', None)]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)",
+      "error": null,
+      "duration_ms": 149,
+      "request_params": {
+        "images": "https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png",
+        "remark": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "address": "武汉市洪山区门店",
+        "reportType": "temporary",
+        "customerName": "测试_1791531897535"
+      },
+      "response_data": null,
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "actual": {
+            "code": 500,
+            "http_status": 200
+          },
+          "passed": false,
+          "message": "Internal error is not a validation rejection",
+          "expected": "validation"
+        }
+      ]
+    }
+  ]
+}

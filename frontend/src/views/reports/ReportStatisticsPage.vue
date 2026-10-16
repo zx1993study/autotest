@@ -5,9 +5,12 @@
         <h2>测试统计看板</h2>
         <p>汇总正式用例规模、执行质量、异常结果和最近执行情况。</p>
       </div>
-      <button type="button" :disabled="loading" @click="loadStatistics">
-        {{ loading ? '刷新中...' : '刷新' }}
-      </button>
+      <div class="header-actions">
+        <ProjectFilterSelect v-model="selectedProjectId" @ready="handleProjectFilterReady" />
+        <button type="button" :disabled="loading" @click="loadStatistics">
+          {{ loading ? '刷新中...' : '刷新' }}
+        </button>
+      </div>
     </header>
 
     <p v-if="errorMessage" class="error-banner">{{ errorMessage }}</p>
@@ -145,9 +148,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import { request } from '../../api/client'
+import ProjectFilterSelect from '../../components/filters/ProjectFilterSelect.vue'
+import { useLatestRequest } from '../../composables/useLatestRequest'
 
 type Summary = {
   case_total: number
@@ -232,8 +237,9 @@ const statistics = ref<ReportStatistics>({
   trend: [],
   recent_records: []
 })
-const loading = ref(false)
-const errorMessage = ref('')
+const { loading, error: errorMessage, run: loadRequest } = useLatestRequest('统计数据加载失败')
+const selectedProjectId = ref(0)
+const projectFilterReady = ref(false)
 
 const summary = computed(() => statistics.value.summary)
 
@@ -270,20 +276,27 @@ const metrics = computed(() => [
 
 const trendMax = computed(() => Math.max(1, ...statistics.value.trend.map(item => Math.max(item.success, item.abnormal))))
 
-onMounted(async () => {
-  await loadStatistics()
+async function loadStatistics() {
+  await loadRequest(signal => request<ReportStatistics>({
+      method: 'GET',
+      url: '/reports/statistics',
+      signal,
+      params: selectedProjectId.value ? { project_id: selectedProjectId.value } : {}
+    }), result => { statistics.value = result })
+}
+
+watch([selectedProjectId, projectFilterReady], () => {
+  if (projectFilterReady.value) {
+    statistics.value = {
+      summary: { ...emptySummary }, case_groups: [], status_distribution: [],
+      case_type_distribution: [], trend: [], recent_records: []
+    }
+    void loadStatistics()
+  }
 })
 
-async function loadStatistics() {
-  loading.value = true
-  errorMessage.value = ''
-  try {
-    statistics.value = await request<ReportStatistics>({ method: 'GET', url: '/reports/statistics' })
-  } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : '统计数据加载失败'
-  } finally {
-    loading.value = false
-  }
+function handleProjectFilterReady() {
+  projectFilterReady.value = true
 }
 
 function statusTone(status: string) {
@@ -357,6 +370,12 @@ function formatDateTime(value: string) {
   color: #fff;
   cursor: pointer;
   padding: 0 14px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .page-header button:disabled {
@@ -679,6 +698,11 @@ function formatDateTime(value: string) {
 
 @media (max-width: 720px) {
   .page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .header-actions {
     align-items: stretch;
     flex-direction: column;
   }

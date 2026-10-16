@@ -1,0 +1,1955 @@
+{
+  "business": {
+    "instances": [
+      {
+        "business_type": "activity",
+        "instance_id": 1698
+      },
+      {
+        "business_type": "activity_apply",
+        "instance_id": 1683
+      },
+      {
+        "business_type": "direct_customer",
+        "instance_id": 1719
+      },
+      {
+        "business_type": "kol_customer",
+        "instance_id": 1725
+      },
+      {
+        "business_type": "purchase_in_order",
+        "instance_id": 1600
+      },
+      {
+        "business_type": "return_order",
+        "instance_id": 1737
+      },
+      {
+        "business_type": "sales_order",
+        "instance_id": 1735
+      },
+      {
+        "business_type": "sales_order_direct",
+        "instance_id": 1707
+      },
+      {
+        "business_type": "terminal_customer",
+        "instance_id": 1729
+      },
+      {
+        "business_type": "visit_plan",
+        "instance_id": 1308
+      }
+    ],
+    "definitions": [
+      {
+        "business_type": "activity"
+      },
+      {
+        "business_type": "activity_apply"
+      },
+      {
+        "business_type": "direct_customer"
+      },
+      {
+        "business_type": "kol_customer"
+      },
+      {
+        "business_type": "purchase_in_order"
+      },
+      {
+        "business_type": "return_order"
+      },
+      {
+        "business_type": "sales_order"
+      },
+      {
+        "business_type": "sales_order_direct"
+      },
+      {
+        "business_type": "terminal_customer"
+      }
+    ],
+    "samples": {
+      "terminal_customer": 1083,
+      "sales_order": 304,
+      "return_order": 129,
+      "purchase_in_order": 99,
+      "activity": 85,
+      "activity_apply": 77
+    },
+    "customer_status_evidence": [
+      {
+        "customer_type": "2",
+        "status": "1",
+        "process_status": "1",
+        "records": 91
+      },
+      {
+        "customer_type": "1",
+        "status": "1",
+        "process_status": "1",
+        "records": 150
+      },
+      {
+        "customer_type": "1",
+        "status": "1",
+        "process_status": "2",
+        "records": 45
+      },
+      {
+        "customer_type": "3",
+        "status": "1",
+        "process_status": "1",
+        "records": 95
+      },
+      {
+        "customer_type": "1",
+        "status": "0",
+        "process_status": "3",
+        "records": 4
+      },
+      {
+        "customer_type": "2",
+        "status": "1",
+        "process_status": "2",
+        "records": 49
+      },
+      {
+        "customer_type": "3",
+        "status": "1",
+        "process_status": "2",
+        "records": 41
+      },
+      {
+        "customer_type": "1",
+        "status": "2",
+        "process_status": "2",
+        "records": 55
+      },
+      {
+        "customer_type": "1",
+        "status": "3",
+        "process_status": "2",
+        "records": 2
+      },
+      {
+        "customer_type": "2",
+        "status": "2",
+        "process_status": "2",
+        "records": 23
+      },
+      {
+        "customer_type": "3",
+        "status": "2",
+        "process_status": "2",
+        "records": 17
+      },
+      {
+        "customer_type": "1",
+        "status": "0",
+        "process_status": "2",
+        "records": 9
+      },
+      {
+        "customer_type": "1",
+        "status": "0",
+        "process_status": "0",
+        "records": 29
+      },
+      {
+        "customer_type": "2",
+        "status": "0",
+        "process_status": "0",
+        "records": 11
+      },
+      {
+        "customer_type": "3",
+        "status": "0",
+        "process_status": "0",
+        "records": 7
+      },
+      {
+        "customer_type": "3",
+        "status": "0",
+        "process_status": "2",
+        "records": 1
+      }
+    ]
+  },
+  "responses": {
+    "12098": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "customerId": "int",
+          "customerType": "str",
+          "directCustomerType": "null",
+          "directProductType": "null",
+          "directCustomerLevel": "null",
+          "directTags": "null",
+          "kolType": "null",
+          "ageRange": "null",
+          "drinkingScene": "null",
+          "drinkingFrequency": "null",
+          "occupation": "null",
+          "birthday": "null",
+          "gender": "null",
+          "kolTags": "null",
+          "companyName": "null",
+          "kolProductType": "null",
+          "customerName": "str",
+          "phone": "null",
+          "storefrontPhoto": "null",
+          "terminalType": "null",
+          "productType": "null",
+          "customerLevel": "null",
+          "salesArea": "null",
+          "terminalTags": "null",
+          "cooperationStatus": "str",
+          "remark": "null",
+          "visitFrequency": "null",
+          "longitude": "null",
+          "latitude": "null",
+          "province": "null",
+          "city": "null",
+          "district": "null",
+          "detailedAddress": "null",
+          "businessLicensePhoto": "null",
+          "businessLicenseName": "null",
+          "businessRegistrationNumber": "null",
+          "registrationDate": "null",
+          "operatorName": "null",
+          "consigneeName": "null",
+          "consigneePhone": "null",
+          "shippingProvince": "null",
+          "shippingCity": "null",
+          "shippingDistrict": "null",
+          "shippingAddress": "null",
+          "contactName": "null",
+          "contactPhone": "null",
+          "contactRemark": "null",
+          "status": "str",
+          "delFlag": "str",
+          "createBy": "str",
+          "createByName": "str",
+          "createTime": "str",
+          "updateBy": "str",
+          "updateTime": "str",
+          "editCount": "int",
+          "managerIds": [
+            "int"
+          ],
+          "managerNames": [
+            "str"
+          ]
+        },
+        "approvalProcess": {
+          "instanceId": "int",
+          "businessId": "int",
+          "currentNodeId": "int",
+          "applicantId": "int",
+          "applyTime": "str",
+          "createBy": "str",
+          "updateBy": "str",
+          "remark": "str",
+          "processStatus": "str",
+          "flowId": "int",
+          "businessType": "str",
+          "currentNodeOrder": "int",
+          "applicantName": "str",
+          "finishTime": "str",
+          "createTime": "str",
+          "updateTime": "str"
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "12208": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "order": {
+            "orderId": "int",
+            "orderNo": "str",
+            "customerId": "int",
+            "customerName": "str",
+            "customerAddress": "null",
+            "warehouseId": "int",
+            "warehouseName": "str",
+            "salesUserId": "int",
+            "salesUserName": "str",
+            "salesUserPhone": "str",
+            "totalAmount": "str",
+            "totalQuantity": "str",
+            "remark": "str",
+            "orderStatus": "str",
+            "salesType": "str",
+            "inboundStatus": "str",
+            "approvalInstanceId": "int",
+            "createBy": "str",
+            "createTime": "str",
+            "updateBy": "str",
+            "updateTime": "str",
+            "delFlag": "str"
+          },
+          "items": [
+            {
+              "itemId": "int",
+              "orderId": "int",
+              "productId": "int",
+              "productName": "str",
+              "productCode": "str",
+              "productSpec": "str",
+              "productImage": "str",
+              "unit": "str",
+              "itemType": "str",
+              "quantity": "str",
+              "unitPrice": "str",
+              "totalPrice": "str",
+              "inventoryLocked": "str",
+              "availableQuantity": "null",
+              "returnableQuantity": "str"
+            }
+          ]
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "12223": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "order": {
+            "returnId": "int",
+            "returnNo": "str",
+            "returnOrderType": "str",
+            "salesOrderId": "null",
+            "salesOrderNo": "null",
+            "customerId": "int",
+            "customerName": "str",
+            "customerType": "str",
+            "warehouseId": "int",
+            "warehouseName": "str",
+            "targetWarehouseId": "null",
+            "targetWarehouseName": "null",
+            "returnType": "str",
+            "returnReason": "str",
+            "totalAmount": "str",
+            "totalQuantity": "str",
+            "returnStatus": "str",
+            "inboundStatus": "str",
+            "approvalInstanceId": "int",
+            "handlerUserId": "int",
+            "handlerUserName": "null",
+            "remark": "null",
+            "createBy": "str",
+            "createByName": "str",
+            "createTime": "str",
+            "updateBy": "str",
+            "updateTime": "str",
+            "delFlag": "str"
+          },
+          "items": [
+            {
+              "itemId": "int",
+              "returnId": "int",
+              "salesItemId": "null",
+              "salesQuantity": "null",
+              "productId": "int",
+              "productName": "str",
+              "productCode": "str",
+              "productSpec": "str",
+              "productImage": "str",
+              "unit": "str",
+              "itemType": "str",
+              "returnQuantity": "str",
+              "unitPrice": "str",
+              "totalPrice": "str",
+              "qualityStatus": "str",
+              "remark": "null"
+            }
+          ]
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "12202": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "orderId": "int",
+          "totalQuantity": "float",
+          "voucherUrl": "str",
+          "approvalFlowId": "int",
+          "submitTime": "str",
+          "inTime": "null",
+          "createTime": "str",
+          "updateTime": "str",
+          "totalAmount": "float",
+          "orderNo": "str",
+          "warehouseId": "int",
+          "orderStatus": "str",
+          "approvalInstanceId": "int",
+          "approvalTime": "null",
+          "createBy": "str",
+          "updateBy": "str",
+          "delFlag": "str",
+          "warehouseName": "str",
+          "createByName": "str",
+          "items": [
+            {
+              "orderId": "int",
+              "productId": "int",
+              "unitPrice": "float",
+              "quantity": "float",
+              "itemId": "int",
+              "totalPrice": "float",
+              "productName": "str",
+              "productCode": "str",
+              "productImage": "str"
+            }
+          ]
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "12113": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "activityId": "int",
+          "activityName": "str",
+          "activityType": "str",
+          "activityTypeName": "str",
+          "approvalStatus": "str",
+          "approvalInstanceId": "int",
+          "visibleDeptIds": "str",
+          "visibleUserIds": "str",
+          "paidItems": "str",
+          "productScope": "str",
+          "productIds": "null",
+          "paymentType": "str",
+          "monthlyApplyLimit": "str",
+          "startTime": "str",
+          "endTime": "str",
+          "description": "null",
+          "status": "str",
+          "delFlag": "str",
+          "createBy": "str",
+          "createTime": "str",
+          "updateBy": "str",
+          "updateTime": "str",
+          "canApply": "null"
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "12129": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "apply": {
+            "applyId": "int",
+            "activityId": "int",
+            "activityName": "str",
+            "activityType": "str",
+            "activityTypeName": "str",
+            "templateSnapshot": "str",
+            "startTime": "str",
+            "endTime": "str",
+            "expectedParticipants": "null",
+            "hasOurStaff": "str",
+            "executionLocation": "str",
+            "estimatedMealFee": "null",
+            "usedProductIds": "str",
+            "remark": "str",
+            "customerCount": "int",
+            "status": "str",
+            "approvalInstanceId": "int",
+            "createBy": "str",
+            "createByName": "str",
+            "createDeptId": "null",
+            "createDeptName": "null",
+            "createTime": "str",
+            "customerNames": "null",
+            "executionStatus": "null",
+            "paymentStatus": "null"
+          },
+          "customers": [
+            {
+              "customerId": "int",
+              "applyId": "int",
+              "customerType": "str",
+              "id": "int",
+              "customerName": "str",
+              "createTime": "str",
+              "execProgress": "str",
+              "payProgress": "str"
+            }
+          ],
+          "reportTaskId": "null",
+          "paymentTaskId": "null",
+          "reportTask": "null",
+          "paymentTask": "null"
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": null
+    },
+    "process_activity": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "businessId": "int",
+            "instanceId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "str",
+            "createTime": "str",
+            "updateTime": "str",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeName": "str",
+              "nodeInstanceId": "int",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "str",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "str",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "str",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "activityType": "str",
+            "paymentType": "str",
+            "createTime": "str",
+            "approvalStatus": "str",
+            "monthlyApplyLimit": "str",
+            "updateBy": "str",
+            "approvalInstanceId": "int",
+            "startTime": "str",
+            "updateTime": "str",
+            "visibleDeptIds": "str",
+            "endTime": "str",
+            "visibleUserIds": "str",
+            "description": "null",
+            "activityName": "str",
+            "paidItems": "str",
+            "status": "str",
+            "activityId": "int",
+            "productScope": "str",
+            "delFlag": "str",
+            "productIds": "null",
+            "createBy": "str"
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "businessId": 85,
+            "instanceId": 1698,
+            "currentNodeId": 65,
+            "applicantId": 1,
+            "processStatus": "1",
+            "flowId": 34,
+            "businessType": "activity",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 1987,
+              "nodeStatus": "1",
+              "approveResult": "1",
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1698,
+              "nodeId": 65,
+              "approverId": 2
+            }
+          ]
+        }
+      }
+    },
+    "process_activity_apply": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "businessId": "int",
+            "instanceId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "str",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeName": "str",
+              "nodeInstanceId": "int",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "str",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "str",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "str",
+              "approveRemark": "str",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "activityName": "str",
+            "estimatedMealFee": "null",
+            "createByName": "str",
+            "activityType": "str",
+            "usedProductIds": "str",
+            "createTime": "str",
+            "templateSnapshot": "str",
+            "remark": "str",
+            "updateBy": "str",
+            "startTime": "str",
+            "customerCount": "int",
+            "updateTime": "str",
+            "endTime": "str",
+            "status": "str",
+            "expectedParticipants": "null",
+            "approvalInstanceId": "int",
+            "activityId": "int",
+            "hasOurStaff": "str",
+            "delFlag": "str",
+            "applyId": "int",
+            "executionLocation": "str",
+            "createBy": "str",
+            "customerNames": "str"
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "businessId": 77,
+            "instanceId": 1683,
+            "currentNodeId": 62,
+            "applicantId": 218,
+            "processStatus": "0",
+            "flowId": 26,
+            "businessType": "activity_apply",
+            "currentNodeOrder": 2
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 1971,
+              "nodeStatus": "1",
+              "approveResult": "1",
+              "isCurrent": "0",
+              "nodeOrder": 1,
+              "instanceId": 1683,
+              "nodeId": 60,
+              "approverId": 217
+            },
+            {
+              "nodeInstanceId": 1972,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeOrder": 2,
+              "instanceId": 1683,
+              "nodeId": 62,
+              "approverId": 100
+            }
+          ]
+        }
+      }
+    },
+    "process_direct_customer": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "instanceId": "int",
+            "businessId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "null",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": "int",
+              "nodeName": "str",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "null",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "null",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "null",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "customerId": "int",
+            "drinkingFrequency": "null",
+            "customerName": "str",
+            "cooperationStatus": "str",
+            "district": "null",
+            "shippingProvince": "null",
+            "delFlag": "str",
+            "directCustomerType": "str",
+            "occupation": "null",
+            "phone": "str",
+            "detailedAddress": "str",
+            "businessLicensePhoto": "str",
+            "shippingCity": "null",
+            "createBy": "str",
+            "directProductType": "str",
+            "birthday": "null",
+            "storefrontPhoto": "str",
+            "remark": "str",
+            "businessLicenseName": "str",
+            "shippingDistrict": "null",
+            "createByName": "str",
+            "directCustomerLevel": "null",
+            "gender": "null",
+            "terminalType": "null",
+            "visitFrequency": "null",
+            "businessRegistrationNumber": "str",
+            "shippingAddress": "str",
+            "createTime": "str",
+            "directTags": "null",
+            "kolTags": "null",
+            "productType": "null",
+            "longitude": "float",
+            "registrationDate": "str",
+            "contactName": "str",
+            "updateBy": "str",
+            "kolType": "null",
+            "companyName": "null",
+            "customerLevel": "null",
+            "latitude": "float",
+            "operatorName": "str",
+            "contactPhone": "str",
+            "updateTime": "str",
+            "ageRange": "null",
+            "kolProductType": "null",
+            "salesArea": "null",
+            "province": "str",
+            "consigneeName": "str",
+            "contactRemark": "str",
+            "editCount": "int",
+            "customerType": "str",
+            "drinkingScene": "null",
+            "terminalTags": "null",
+            "city": "null",
+            "consigneePhone": "str",
+            "status": "str"
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "instanceId": 1719,
+            "businessId": 1075,
+            "currentNodeId": 11,
+            "applicantId": 1,
+            "processStatus": "0",
+            "flowId": 5,
+            "businessType": "direct_customer",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 2008,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1719,
+              "nodeId": 11,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_kol_customer": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "instanceId": "int",
+            "businessId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "businessType": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "null",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": "int",
+              "nodeName": "str",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "null",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "null",
+              "nodeId": "int",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "approverId": "int",
+              "approveTime": "null",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "customerId": "int",
+            "drinkingFrequency": "str",
+            "customerName": "str",
+            "cooperationStatus": "str",
+            "district": "null",
+            "shippingProvince": "null",
+            "delFlag": "str",
+            "directCustomerType": "null",
+            "occupation": "str",
+            "phone": "str",
+            "detailedAddress": "str",
+            "businessLicensePhoto": "null",
+            "shippingCity": "null",
+            "createBy": "str",
+            "directProductType": "null",
+            "birthday": "str",
+            "storefrontPhoto": "null",
+            "remark": "str",
+            "businessLicenseName": "null",
+            "shippingDistrict": "null",
+            "createByName": "str",
+            "directCustomerLevel": "null",
+            "gender": "null",
+            "terminalType": "null",
+            "visitFrequency": "null",
+            "businessRegistrationNumber": "null",
+            "shippingAddress": "str",
+            "createTime": "str",
+            "directTags": "null",
+            "kolTags": "null",
+            "productType": "null",
+            "longitude": "float",
+            "registrationDate": "null",
+            "contactName": "null",
+            "updateBy": "str",
+            "kolType": "str",
+            "companyName": "str",
+            "customerLevel": "null",
+            "latitude": "float",
+            "operatorName": "null",
+            "contactPhone": "null",
+            "updateTime": "str",
+            "ageRange": "str",
+            "kolProductType": "str",
+            "salesArea": "str",
+            "province": "str",
+            "consigneeName": "str",
+            "contactRemark": "null",
+            "editCount": "int",
+            "customerType": "str",
+            "drinkingScene": "str",
+            "terminalTags": "null",
+            "city": "null",
+            "consigneePhone": "str",
+            "status": "str"
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "instanceId": 1725,
+            "businessId": 1081,
+            "currentNodeId": 50,
+            "applicantId": 1,
+            "businessType": "kol_customer",
+            "processStatus": "0",
+            "flowId": 6,
+            "currentNodeOrder": 3
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 2014,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeId": 50,
+              "nodeOrder": 3,
+              "instanceId": 1725,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_purchase_in_order": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "instanceId": "int",
+            "businessId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "null",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": "int",
+              "nodeName": "str",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "null",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "null",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "null",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "order": {
+              "totalQuantity": "float",
+              "orderId": "int",
+              "voucherUrl": "str",
+              "approvalFlowId": "int",
+              "submitTime": "str",
+              "inTime": "null",
+              "createTime": "str",
+              "updateTime": "str",
+              "totalAmount": "float",
+              "orderNo": "str",
+              "warehouseId": "int",
+              "orderStatus": "str",
+              "approvalInstanceId": "int",
+              "approvalTime": "null",
+              "createBy": "str",
+              "updateBy": "str",
+              "delFlag": "str",
+              "warehouseName": "str",
+              "createByName": "str"
+            },
+            "items": [
+              {
+                "productId": "int",
+                "orderId": "int",
+                "unitPrice": "float",
+                "quantity": "float",
+                "itemId": "int",
+                "totalPrice": "float",
+                "productName": "str",
+                "productCode": "str",
+                "productSpec": "str",
+                "unit": "str"
+              }
+            ]
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "instanceId": 1600,
+            "businessId": 99,
+            "currentNodeId": 26,
+            "applicantId": 100,
+            "processStatus": "0",
+            "flowId": 11,
+            "businessType": "purchase_in_order",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 1873,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1600,
+              "nodeId": 26,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_return_order": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "businessId": "int",
+            "instanceId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "null",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeName": "str",
+              "nodeInstanceId": "int",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "null",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "null",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "null",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "order": {
+              "returnNo": "str",
+              "warehouseId": "int",
+              "returnStatus": "str",
+              "updateTime": "str",
+              "returnOrderType": "str",
+              "warehouseName": "str",
+              "approvalInstanceId": "int",
+              "salesOrderId": "null",
+              "targetWarehouseId": "null",
+              "handlerUserId": "int",
+              "delFlag": "str",
+              "targetWarehouseName": "null",
+              "handlerUserName": "null",
+              "salesOrderNo": "null",
+              "returnType": "str",
+              "remark": "null",
+              "returnId": "int",
+              "customerId": "int",
+              "returnReason": "str",
+              "createBy": "str",
+              "customerName": "str",
+              "totalAmount": "float",
+              "createTime": "str",
+              "customerType": "str",
+              "totalQuantity": "float",
+              "updateBy": "str",
+              "createByName": "str"
+            },
+            "items": [
+              {
+                "productId": "int",
+                "salesItemId": "null",
+                "itemId": "int",
+                "productCode": "str",
+                "unit": "str",
+                "returnQuantity": "float",
+                "totalPrice": "float",
+                "remark": "null",
+                "returnId": "int",
+                "salesQuantity": "null",
+                "productName": "str",
+                "productSpec": "str",
+                "itemType": "str",
+                "unitPrice": "float",
+                "qualityStatus": "str"
+              }
+            ]
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "businessId": 129,
+            "instanceId": 1737,
+            "currentNodeId": 29,
+            "applicantId": 1,
+            "processStatus": "0",
+            "flowId": 13,
+            "businessType": "return_order",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 2026,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1737,
+              "nodeId": 29,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_sales_order": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "instanceId": "int",
+            "businessId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "null",
+            "createTime": "str",
+            "updateTime": "null",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": "int",
+              "nodeName": "str",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "null",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "null",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "null",
+              "approveRemark": "null",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "order": {
+              "salesUserName": "str",
+              "createTime": "str",
+              "orderNo": "str",
+              "totalAmount": "float",
+              "updateBy": "str",
+              "orderId": "int",
+              "totalQuantity": "float",
+              "updateTime": "str",
+              "customerId": "int",
+              "remark": "str",
+              "delFlag": "str",
+              "customerName": "str",
+              "orderStatus": "str",
+              "warehouseId": "int",
+              "salesType": "str",
+              "warehouseName": "str",
+              "approvalInstanceId": "int",
+              "salesUserId": "int",
+              "createBy": "str"
+            },
+            "items": [
+              {
+                "productName": "str",
+                "orderId": "int",
+                "productId": "int",
+                "productSpec": "str",
+                "itemType": "str",
+                "unitPrice": "float",
+                "inventoryLocked": "str",
+                "productCode": "str",
+                "itemId": "int",
+                "unit": "str",
+                "quantity": "float",
+                "totalPrice": "float"
+              }
+            ]
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "instanceId": 1735,
+            "businessId": 304,
+            "currentNodeId": 27,
+            "applicantId": 1,
+            "processStatus": "0",
+            "flowId": 12,
+            "businessType": "sales_order",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 2024,
+              "nodeStatus": "0",
+              "approveResult": null,
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1735,
+              "nodeId": 27,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_sales_order_direct": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "businessId": "int",
+            "instanceId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "str",
+            "createTime": "str",
+            "updateTime": "str",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeName": "str",
+              "nodeInstanceId": "int",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "str",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "str",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "str",
+              "approveRemark": "str",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "order": {
+              "salesUserName": "str",
+              "createTime": "str",
+              "orderNo": "str",
+              "totalAmount": "float",
+              "updateBy": "str",
+              "orderId": "int",
+              "totalQuantity": "float",
+              "updateTime": "str",
+              "customerId": "int",
+              "remark": "str",
+              "delFlag": "str",
+              "customerName": "str",
+              "orderStatus": "str",
+              "warehouseId": "int",
+              "salesType": "str",
+              "warehouseName": "str",
+              "approvalInstanceId": "int",
+              "salesUserId": "int",
+              "createBy": "str"
+            },
+            "items": [
+              {
+                "productId": "int",
+                "orderId": "int",
+                "productName": "str",
+                "productSpec": "str",
+                "itemType": "str",
+                "unitPrice": "float",
+                "inventoryLocked": "str",
+                "productCode": "str",
+                "itemId": "int",
+                "unit": "str",
+                "quantity": "float",
+                "totalPrice": "float"
+              }
+            ]
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "businessId": 300,
+            "instanceId": 1707,
+            "currentNodeId": 0,
+            "applicantId": 1,
+            "processStatus": "1",
+            "flowId": 0,
+            "businessType": "sales_order_direct",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 1996,
+              "nodeStatus": "1",
+              "approveResult": "1",
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1707,
+              "nodeId": 0,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_terminal_customer": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "instance": {
+            "instanceId": "int",
+            "businessId": "int",
+            "currentNodeId": "int",
+            "applicantId": "int",
+            "applyTime": "str",
+            "createBy": "str",
+            "updateBy": "str",
+            "remark": "str",
+            "processStatus": "str",
+            "flowId": "int",
+            "businessType": "str",
+            "currentNodeOrder": "int",
+            "applicantName": "str",
+            "finishTime": "str",
+            "createTime": "str",
+            "updateTime": "str",
+            "flowName": "str",
+            "applicantPhone": "str"
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": "int",
+              "nodeName": "str",
+              "nodeStatus": "str",
+              "approverName": "str",
+              "approveResult": "str",
+              "isCurrent": "str",
+              "deadlineTime": "null",
+              "createTime": "str",
+              "updateTime": "str",
+              "nodeOrder": "int",
+              "instanceId": "int",
+              "nodeId": "int",
+              "approverId": "int",
+              "approveTime": "str",
+              "approveRemark": "str",
+              "arriveTime": "str",
+              "createBy": "str",
+              "updateBy": "str"
+            }
+          ],
+          "businessData": {
+            "customerId": "int",
+            "drinkingFrequency": "null",
+            "customerName": "str",
+            "cooperationStatus": "str",
+            "district": "null",
+            "shippingProvince": "null",
+            "delFlag": "str",
+            "directCustomerType": "null",
+            "occupation": "null",
+            "phone": "null",
+            "detailedAddress": "null",
+            "businessLicensePhoto": "null",
+            "shippingCity": "null",
+            "createBy": "str",
+            "directProductType": "null",
+            "birthday": "null",
+            "storefrontPhoto": "null",
+            "remark": "null",
+            "businessLicenseName": "null",
+            "shippingDistrict": "null",
+            "createByName": "str",
+            "directCustomerLevel": "null",
+            "gender": "null",
+            "terminalType": "null",
+            "visitFrequency": "null",
+            "businessRegistrationNumber": "null",
+            "shippingAddress": "null",
+            "createTime": "str",
+            "directTags": "null",
+            "kolTags": "null",
+            "productType": "null",
+            "longitude": "null",
+            "registrationDate": "null",
+            "contactName": "null",
+            "updateBy": "str",
+            "kolType": "null",
+            "companyName": "null",
+            "customerLevel": "null",
+            "latitude": "null",
+            "operatorName": "null",
+            "contactPhone": "null",
+            "updateTime": "str",
+            "ageRange": "null",
+            "kolProductType": "null",
+            "salesArea": "null",
+            "province": "null",
+            "consigneeName": "null",
+            "contactRemark": "null",
+            "editCount": "int",
+            "customerType": "str",
+            "drinkingScene": "null",
+            "terminalTags": "null",
+            "city": "null",
+            "consigneePhone": "null",
+            "status": "str"
+          }
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "instance": {
+            "instanceId": 1729,
+            "businessId": 1083,
+            "currentNodeId": 4,
+            "applicantId": 1,
+            "processStatus": "1",
+            "flowId": 1,
+            "businessType": "terminal_customer",
+            "currentNodeOrder": 1
+          },
+          "nodeInstances": [
+            {
+              "nodeInstanceId": 2018,
+              "nodeStatus": "1",
+              "approveResult": "1",
+              "isCurrent": "1",
+              "nodeOrder": 1,
+              "instanceId": 1729,
+              "nodeId": 4,
+              "approverId": 1
+            }
+          ]
+        }
+      }
+    },
+    "process_visit_plan": {
+      "http_status": 200,
+      "code": 500,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 500
+      }
+    },
+    "workflow": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "flow": {
+            "flowId": "int",
+            "flowName": "str",
+            "flowCode": "str",
+            "businessType": "str",
+            "activityType": "null",
+            "description": "str",
+            "status": "str",
+            "isDefault": "str",
+            "creatorRoleId": "null",
+            "createBy": "str",
+            "createTime": "str",
+            "updateBy": "str",
+            "updateTime": "str",
+            "remark": "null"
+          },
+          "nodes": [
+            {
+              "nodeId": "int",
+              "flowId": "int",
+              "nodeName": "str",
+              "nodeOrder": "int",
+              "approverType": "str",
+              "approverIds": "str",
+              "createBy": "str",
+              "createTime": "str",
+              "updateBy": "str",
+              "updateTime": "str",
+              "remark": "null"
+            }
+          ]
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "code": 200,
+        "data": {
+          "flow": {
+            "flowId": 1,
+            "businessType": "terminal_customer"
+          },
+          "nodes": [
+            {
+              "nodeId": 4,
+              "flowId": 1,
+              "nodeOrder": 1,
+              "approverType": "1",
+              "approverIds": "1"
+            }
+          ]
+        }
+      }
+    },
+    "field_library": {
+      "http_status": 200,
+      "code": 200,
+      "shape": {
+        "code": "int",
+        "msg": "str",
+        "data": {
+          "apply": [
+            {
+              "fieldCode": "str",
+              "fieldLabel": "str",
+              "component": "str",
+              "requiredDefault": "bool",
+              "sort": "int"
+            }
+          ],
+          "execute": [
+            {
+              "fieldCode": "str",
+              "fieldLabel": "str",
+              "component": "str",
+              "requiredDefault": "bool",
+              "sort": "int"
+            }
+          ],
+          "payment": [
+            {
+              "fieldCode": "str",
+              "fieldLabel": "str",
+              "component": "str",
+              "requiredDefault": "bool",
+              "sort": "int",
+              "maxCount": "int"
+            }
+          ]
+        },
+        "success": "bool",
+        "time": "str"
+      },
+      "process": {
+        "apply": [
+          {
+            "fieldCode": "customers",
+            "fieldLabel": "参与客户",
+            "component": "customerSelect",
+            "requiredDefault": true,
+            "sort": 5
+          },
+          {
+            "fieldCode": "expectedParticipants",
+            "fieldLabel": "预计参与人数",
+            "component": "number",
+            "requiredDefault": true,
+            "sort": 10
+          },
+          {
+            "fieldCode": "usedProductIds",
+            "fieldLabel": "活动使用商品/兑付商品",
+            "component": "productQty",
+            "requiredDefault": true,
+            "sort": 20
+          },
+          {
+            "fieldCode": "estimatedMealFee",
+            "fieldLabel": "预计使用餐费",
+            "component": "money",
+            "requiredDefault": true,
+            "sort": 30
+          },
+          {
+            "fieldCode": "hasOurStaff",
+            "fieldLabel": "是否有我方人员参加",
+            "component": "switch",
+            "requiredDefault": false,
+            "sort": 40
+          },
+          {
+            "fieldCode": "executionLocation",
+            "fieldLabel": "活动执行地点",
+            "component": "location",
+            "requiredDefault": true,
+            "sort": 50
+          },
+          {
+            "fieldCode": "remark",
+            "fieldLabel": "备注",
+            "component": "textarea",
+            "requiredDefault": false,
+            "sort": 90
+          }
+        ],
+        "execute": [
+          {
+            "fieldCode": "reportLocation",
+            "fieldLabel": "上报位置",
+            "component": "location",
+            "requiredDefault": true,
+            "sort": 10
+          },
+          {
+            "fieldCode": "sitePhotos",
+            "fieldLabel": "活动现场/陈列照片",
+            "component": "photos",
+            "requiredDefault": true,
+            "sort": 20,
+            "maxCount": 6,
+            "photoMode": "multi"
+          },
+          {
+            "fieldCode": "beforeMealPhotos",
+            "fieldLabel": "餐前图片",
+            "component": "photo",
+            "requiredDefault": true,
+            "sort": 30,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "duringMealPhotos",
+            "fieldLabel": "餐中图片",
+            "component": "photo",
+            "requiredDefault": true,
+            "sort": 40,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "afterMealPhotos",
+            "fieldLabel": "餐后图片",
+            "component": "photo",
+            "requiredDefault": true,
+            "sort": 50,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "invoicePhotos",
+            "fieldLabel": "发票图片",
+            "component": "photo",
+            "requiredDefault": true,
+            "sort": 60,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "receiptPhotos",
+            "fieldLabel": "小票图片",
+            "component": "photo",
+            "requiredDefault": true,
+            "sort": 70,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "otherPhotos",
+            "fieldLabel": "其他图片",
+            "component": "photo",
+            "requiredDefault": false,
+            "sort": 80,
+            "maxCount": 1
+          },
+          {
+            "fieldCode": "paymentScreenshot",
+            "fieldLabel": "付款截图",
+            "component": "photos",
+            "requiredDefault": false,
+            "sort": 90,
+            "maxCount": 6,
+            "sourceType": "both"
+          },
+          {
+            "fieldCode": "actualParticipants",
+            "fieldLabel": "实际参与人数",
+            "component": "number",
+            "requiredDefault": true,
+            "sort": 100
+          },
+          {
+            "fieldCode": "actualProductIds",
+            "fieldLabel": "实际使用商品",
+            "component": "productQty",
+            "requiredDefault": true,
+            "sort": 110
+          },
+          {
+            "fieldCode": "actualMealFee",
+            "fieldLabel": "实际使用餐费",
+            "component": "money",
+            "requiredDefault": true,
+            "sort": 120
+          },
+          {
+            "fieldCode": "remark",
+            "fieldLabel": "备注",
+            "component": "textarea",
+            "requiredDefault": false,
+            "sort": 200
+          }
+        ],
+        "payment": [
+          {
+            "fieldCode": "paymentPhotos",
+            "fieldLabel": "兑付照片",
+            "component": "photos",
+            "requiredDefault": true,
+            "sort": 10,
+            "maxCount": 6
+          },
+          {
+            "fieldCode": "signaturePhoto",
+            "fieldLabel": "兑付签字",
+            "component": "signature",
+            "requiredDefault": true,
+            "sort": 30
+          },
+          {
+            "fieldCode": "remark",
+            "fieldLabel": "备注",
+            "component": "textarea",
+            "requiredDefault": false,
+            "sort": 90
+          }
+        ]
+      }
+    }
+  },
+  "existing_flows": [
+    {
+      "id": 11775,
+      "name": "审批流程",
+      "status": "active"
+    }
+  ]
+}

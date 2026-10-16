@@ -5,8 +5,10 @@ from app.core.response import page_result, success
 from app.repositories.interfaces import ResourceRepository
 from app.schemas.cases import CaseDraftBatchCreate, CaseDraftCreate, CaseDraftUpdate, CaseListQuery
 from app.schemas.common import BatchDeleteRequest
+from app.schemas.openapi_case_generation import OpenApiCaseGenerationRequest
 from app.schemas.testing import GenerateDraftRequest
 from app.services.case_draft_service import CaseDraftService
+from app.services.openapi_case_generation_service import OpenApiCaseGenerationService
 from app.services.test_generation_service import TestGenerationService
 
 router = APIRouter(prefix="/api-testing/case-drafts", tags=["api-case-drafts"])
@@ -28,6 +30,12 @@ def get_api_case_generation_service(
     return TestGenerationService(repository)
 
 
+def get_openapi_case_generation_service(
+    repository: ResourceRepository = Depends(get_resource_repository),
+) -> OpenApiCaseGenerationService:
+    return OpenApiCaseGenerationService(repository)
+
+
 @router.post("/generate")
 def generate_drafts(
     payload: GenerateDraftRequest,
@@ -38,8 +46,25 @@ def generate_drafts(
             payload.project_id,
             payload.source_ids,
             payload.strategy,
+            payload.strategy_ids,
         )
     )
+
+
+@router.post("/openapi/preview")
+def preview_openapi_case_drafts(
+    payload: OpenApiCaseGenerationRequest,
+    service: OpenApiCaseGenerationService = Depends(get_openapi_case_generation_service),
+) -> dict[str, object]:
+    return success(service.preview(payload))
+
+
+@router.post("/openapi/generate")
+def generate_openapi_case_drafts(
+    payload: OpenApiCaseGenerationRequest,
+    service: OpenApiCaseGenerationService = Depends(get_openapi_case_generation_service),
+) -> dict[str, object]:
+    return success(service.generate(payload))
 
 
 @router.get("")
@@ -47,7 +72,14 @@ def list_api_case_drafts(
     query: CaseListQuery = Depends(),
     service: CaseDraftService = Depends(get_api_case_draft_service),
 ) -> dict[str, object]:
-    items, total = service.list(query.project_id, query.keyword, query.page, query.page_size, query.status)
+    items, total = service.list(
+        query.project_id,
+        query.keyword,
+        query.page,
+        query.page_size,
+        status=query.status,
+        source_id=query.source_id,
+    )
     return page_result(items, total, query.page, query.page_size)
 
 

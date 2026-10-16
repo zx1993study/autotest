@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends
 
 from app.api.dependencies import get_resource_repository
 from app.core.response import page_result, success
@@ -13,19 +13,9 @@ from app.schemas.common import (
 )
 from app.schemas.testing import ScanRequest
 from app.services.ui_testing_service import UiTestingService
-from app.services.web_codegen_service import (
-    WebCodegenService,
-    resolve_codegen_target_url,
-)
 from app.services.web_page_service import WebPageResourceService
 
 router = APIRouter(prefix="/web-testing/pages", tags=["web-pages"])
-codegen_service = WebCodegenService()
-
-# Compatibility export for existing tests and callers during the module move.
-_codegen_target_url = resolve_codegen_target_url
-
-
 def get_web_page_resource_service(
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> WebPageResourceService:
@@ -37,7 +27,7 @@ def get_web_page_resource_service(
 def get_web_page_scan_service(
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> UiTestingService:
-    """Provide web page scan and script parsing behavior."""
+    """Provide Web element discovery persistence behavior."""
 
     return UiTestingService("web_pages", "web_elements", repository)
 
@@ -65,57 +55,6 @@ def scan_page(
             payload.existing_element_strategy,
         )
     )
-
-
-@router.post("/codegen/start")
-def start_codegen(
-    page_id: int = Form(...),
-    target_url: str = Form(...),
-    project_id: int | None = Form(None),
-    feature_type: str | None = Form(None),
-    feature_name: str | None = Form(None),
-    repository: ResourceRepository = Depends(get_resource_repository),
-) -> dict[str, object]:
-    return success(
-        codegen_service.start(
-            repository,
-            page_id=page_id,
-            target_url=target_url,
-            project_id=project_id,
-            feature_type=feature_type,
-            feature_name=feature_name,
-        )
-    )
-
-
-@router.get("/codegen/{session_id}")
-def get_codegen_status(session_id: str) -> dict[str, object]:
-    return success(codegen_service.status(session_id))
-
-
-@router.post("/codegen/{session_id}/stop")
-def stop_codegen(session_id: str) -> dict[str, object]:
-    return success(codegen_service.stop(session_id))
-
-
-@router.post("/parse-script")
-async def parse_script(
-    project_id: int = Form(...),
-    page_id: int = Form(...),
-    source_type: str = Form("codegen"),
-    existing_element_strategy: str = Form("update"),
-    script_text: str | None = Form(None),
-    file: UploadFile | None = File(None),
-    service: UiTestingService = Depends(get_web_page_scan_service),
-) -> dict[str, Any]:
-    script = script_text or ""
-    if file is not None:
-        raw = await file.read()
-        script = raw.decode("utf-8", errors="ignore")
-    if not script.strip():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="请上传脚本文件或粘贴脚本内容")
-
-    return success(service.parse_playwright_script(project_id, page_id, script, source_type, existing_element_strategy))
 
 
 @router.get("")

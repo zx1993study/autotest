@@ -6,7 +6,7 @@ from app.repositories.interfaces import ResourceRepository
 from app.schemas.cases import CaseListQuery, ExecuteRequest, TestCaseCreate
 from app.schemas.common import BatchDeleteRequest
 from app.schemas.testing import ExecuteCasesRequest
-from app.scheduler.jobs.case_execution_jobs import run_case_execution_job
+from app.services.case_execution_dispatcher import CaseExecutionDispatcher
 from app.services.project_auth_service import ProjectAuthService
 from app.services.test_case_service import TestCaseService
 
@@ -34,7 +34,7 @@ def run_cases(
     payload: ExecuteCasesRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("WEB", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("WEB", payload.model_dump()))
 
 
 @router.get("/login-options")
@@ -67,7 +67,7 @@ def execute_web_cases(
     payload: ExecuteRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("WEB", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("WEB", payload.model_dump()))
 
 
 @router.post("/batch-delete")

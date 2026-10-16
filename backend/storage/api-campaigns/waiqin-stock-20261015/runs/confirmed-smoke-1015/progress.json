@@ -1,0 +1,195 @@
+{
+  "started_at": "2026-10-15T10:20:13.306610+00:00",
+  "pid": 33604,
+  "status": "complete",
+  "selected": 8,
+  "executed_business_mutations": true,
+  "results": [
+    {
+      "batch_id": 16416,
+      "flow_id": 16308,
+      "scenario_id": 16309,
+      "name": "场景1-采购新增、提审与审批自动入库库存核对",
+      "status": "success",
+      "duration_ms": 2551,
+      "inputs": {
+        "record_marker": "库存回归_1792059615203_841259",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "purchase_auto"
+      }
+    },
+    {
+      "batch_id": 16417,
+      "flow_id": 16308,
+      "scenario_id": 16313,
+      "name": "场景4-销售审批前锁库、审批后按确认流程核对库存",
+      "status": "failed",
+      "duration_ms": 3357,
+      "inputs": {
+        "record_marker": "库存回归_1792059618636_930261",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "sales_approve"
+      },
+      "failure": {
+        "node": "sales_before_approval_stock",
+        "name": "审批前核对实际库存、锁定量与可用量",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": [
+                {
+                  "paths": [
+                    "/productId"
+                  ],
+                  "expected": 152,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/warehouseId"
+                  ],
+                  "expected": 230,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/quantity"
+                  ],
+                  "expected": 10,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/lockedQuantity"
+                  ],
+                  "expected": 3,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/availableQuantity"
+                  ],
+                  "expected": 7,
+                  "operator": "eq"
+                }
+              ]
+            },
+            "actual": {
+              "count": 1,
+              "mismatched_indices": [
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16418,
+      "flow_id": 16322,
+      "scenario_id": 16323,
+      "name": "正常-直接退货按实际审批与确认流程入库",
+      "status": "success",
+      "duration_ms": 5871,
+      "inputs": {
+        "record_marker": "库存回归_1792059624275_282201",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "direct_pass"
+      }
+    },
+    {
+      "batch_id": 16419,
+      "flow_id": 16322,
+      "scenario_id": 16324,
+      "name": "拒绝-直接退货审批拒绝、不生成入库单、库存不变",
+      "status": "success",
+      "duration_ms": 4408,
+      "inputs": {
+        "record_marker": "库存回归_1792059631220_928505",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "direct_reject"
+      }
+    },
+    {
+      "batch_id": 16420,
+      "flow_id": 16344,
+      "scenario_id": 16345,
+      "name": "正常-拆1件补24瓶，双商品库存核对",
+      "status": "success",
+      "duration_ms": 5098,
+      "inputs": {
+        "record_marker": "库存回归_1792059637431_860036",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "unpack"
+      }
+    },
+    {
+      "batch_id": 16421,
+      "flow_id": 16344,
+      "scenario_id": 16346,
+      "name": "正常-24瓶补1件，双商品库存核对",
+      "status": "success",
+      "duration_ms": 5146,
+      "inputs": {
+        "record_marker": "库存回归_1792059643649_466030",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "repack"
+      }
+    },
+    {
+      "batch_id": 16422,
+      "flow_id": 16344,
+      "scenario_id": 16347,
+      "name": "边界-转出数量恰好等于可用库存",
+      "status": "success",
+      "duration_ms": 5209,
+      "inputs": {
+        "record_marker": "库存回归_1792059649695_195356",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "convert_exact"
+      }
+    },
+    {
+      "batch_id": 16423,
+      "flow_id": 16344,
+      "scenario_id": 16414,
+      "name": "正常-按1乘6装箱规格拆箱并核对双侧库存",
+      "status": "success",
+      "duration_ms": 5339,
+      "inputs": {
+        "record_marker": "库存回归_1792059655688_740834",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "packing_six"
+      }
+    }
+  ],
+  "blocked": [],
+  "finished_at": "2026-10-15T10:21:01.763270+00:00",
+  "passed": 7,
+  "failed": 1
+}

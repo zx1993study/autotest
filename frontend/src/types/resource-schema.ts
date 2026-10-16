@@ -3,6 +3,7 @@ export type ResourceFieldType = 'text' | 'textarea' | 'number' | 'select' | 'mul
 export interface ResourceOption {
   label: string
   value: string | number
+  isDefault?: boolean
 }
 
 export interface RemoteOptionsConfig {

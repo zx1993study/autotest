@@ -41,6 +41,14 @@ def list_project_options(
     return success(service.list_options())
 
 
+@router.post("/{item_id:int}/set-default")
+def set_default_project(
+    item_id: int,
+    service: ProjectService = Depends(get_project_service),
+) -> dict[str, object]:
+    return success(service.set_default(item_id))
+
+
 @router.get("")
 def list_projects(
     query: ResourceListQuery = Depends(),

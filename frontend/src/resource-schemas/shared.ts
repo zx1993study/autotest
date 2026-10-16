@@ -2,6 +2,7 @@
 import {
   caseDraftStatusOptions as caseStatusOptions,
   caseTypeOptions,
+  executionPlanTestTypeOptions,
   resourceStatusOptions as statusOptions
 } from '../constants/enums'
 
@@ -30,26 +31,45 @@ export const pageFeatureTypeOptions: ResourceOption[] = [
   { label: '导出', value: 'export' }
 ]
 
-export const webElementTypeOptions: ResourceOption[] = [
-  { label: '输入框', value: 'input' },
-  { label: '按钮', value: 'button' },
-  { label: '下拉框', value: 'select' },
-  { label: '多选下拉框', value: 'multi_select' },
-  { label: '复选框', value: 'checkbox' },
-  { label: '单选框', value: 'radio' },
-  { label: '表格', value: 'table' },
-  { label: '弹窗', value: 'modal' },
-  { label: '链接', value: 'link' },
-  { label: '文本', value: 'text' }
-]
-
 export const appElementTypeOptions: ResourceOption[] = [
   { label: '输入框', value: 'input' },
   { label: '按钮', value: 'button' },
   { label: '下拉框', value: 'select' },
   { label: '列表', value: 'list' },
   { label: '弹窗', value: 'dialog' },
-  { label: '文本', value: 'text' }
+  { label: '文本', value: 'text' },
+  { label: '开关', value: 'switch' },
+  { label: '系统控件', value: 'system' }
+]
+
+export const appPlatformOptions: ResourceOption[] = [
+  { label: 'Android', value: 'Android' },
+  { label: 'iOS', value: 'iOS' }
+]
+
+export const appDeviceFormFactorOptions: ResourceOption[] = [
+  { label: '手机', value: 'phone' },
+  { label: '平板', value: 'tablet' }
+]
+
+export const appTargetOptions: ResourceOption[] = [
+  { label: 'Android 手机', value: 'android_phone' },
+  { label: 'Android 平板', value: 'android_tablet' },
+  { label: 'iPhone', value: 'ios_phone' },
+  { label: 'iPad', value: 'ios_tablet' }
+]
+
+export const appDeviceConnectionStatusOptions: ResourceOption[] = [
+  { label: '在线', value: 'online' },
+  { label: '离线', value: 'offline' },
+  { label: '占用', value: 'busy' },
+  { label: '未知', value: 'unknown' }
+]
+
+export const appEntryTypeOptions: ResourceOption[] = [
+  { label: '已安装 App', value: 'installed_app' },
+  { label: '当前前台 App', value: 'current_app' },
+  { label: '小程序宿主 App', value: 'miniapp_host' }
 ]
 
 export const projectIdField: ResourceField = {
@@ -76,7 +96,7 @@ export const apiInterfaceSelectField: ResourceField = {
   remoteOptions: {
     path: '/api-testing/interfaces/options',
     valueKey: 'id',
-    labelKeys: ['method', 'path']
+    labelKeys: ['method', 'path', 'name']
   }
 }
 
@@ -88,7 +108,7 @@ export const apiSourceInterfaceField: ResourceField = {
   remoteOptions: {
     path: '/api-testing/interfaces/options',
     valueKey: 'id',
-    labelKeys: ['method', 'path']
+    labelKeys: ['method', 'path', 'name']
   }
 }
 
@@ -143,11 +163,12 @@ export const baseColumns: ResourceColumn[] = [
 export const projectColumns: ResourceColumn[] = [
   { key: 'name', label: '项目名称' },
   { key: 'data.code', label: '项目编码' },
+  { key: 'data.is_default', label: '默认项目', width: '90px' },
   { key: 'data.owner', label: '负责人' },
   { key: 'data.base_url', label: '项目地址' },
   { key: 'data.default_env', label: '默认环境' },
   { key: 'status', label: '状态', width: '90px' }
 ]
 
-export { caseStatusOptions, caseTypeOptions, statusOptions }
+export { caseStatusOptions, caseTypeOptions, executionPlanTestTypeOptions, statusOptions }
 

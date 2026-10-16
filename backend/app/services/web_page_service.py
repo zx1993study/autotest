@@ -2,8 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.core.exceptions import BusinessRuleError
 from app.repositories.interfaces import ResourceRepository
 from app.services.resource_service import ResourceService
+
+
+WEB_FEATURE_TYPES = {"page", "query", "add", "edit", "delete", "detail", "import", "export", "login", "audit", "submit", "other"}
 
 
 class WebPageResourceService(ResourceService):
@@ -11,11 +15,14 @@ class WebPageResourceService(ResourceService):
         super().__init__("web_pages", repository)
 
     def create(self, payload: dict[str, Any]) -> dict[str, Any]:
-        return super().create(self._with_default_web_auth(payload))
+        return super().create(self._normalize_payload(self._with_default_web_auth(payload), require_url=True))
 
     def update(self, item_id: int, payload: dict[str, Any]) -> dict[str, Any]:
         existing = self.repository.get(self.table, item_id)
-        return super().update(item_id, self._with_default_web_auth(payload, existing))
+        if existing is None:
+            return super().update(item_id, payload)
+        normalized = self._with_default_web_auth(payload, existing)
+        return super().update(item_id, self._normalize_payload(normalized, existing=existing, require_url=False))
 
     def list_options(self, project_id: int | None = None) -> list[dict[str, Any]]:
         rows, _ = self.repository.list(self.table, project_id=project_id, page=1, page_size=5000)
@@ -116,3 +123,26 @@ class WebPageResourceService(ResourceService):
     def _record_data(self, row: dict[str, Any]) -> dict[str, Any]:
         data = row.get("data")
         return data if isinstance(data, dict) else {}
+
+    def _normalize_payload(
+        self,
+        payload: dict[str, Any],
+        *,
+        existing: dict[str, Any] | None = None,
+        require_url: bool,
+    ) -> dict[str, Any]:
+        result = dict(payload)
+        if existing is not None and "data" not in result:
+            return result
+        incoming_data = result.get("data")
+        incoming_data = dict(incoming_data) if isinstance(incoming_data, dict) else {}
+        existing_data = self._record_data(existing) if existing else {}
+        data = {**existing_data, **incoming_data}
+        data["feature_type"] = str(data.get("feature_type") or "page").strip().lower()
+        if data["feature_type"] not in WEB_FEATURE_TYPES:
+            raise BusinessRuleError(f"Web 页面功能类型不支持：{data['feature_type']}")
+        has_url = bool(str(data.get("url") or data.get("route") or "").strip())
+        if require_url and not has_url:
+            raise BusinessRuleError("Web 页面缺少页面地址或路由")
+        result["data"] = data
+        return result

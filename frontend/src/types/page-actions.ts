@@ -6,6 +6,10 @@ export interface PageAction {
   payload?: Record<string, unknown>
   selectedKey?: string
   reload?: boolean
+  feedback?: 'modal' | 'toast'
+  successTitle?: string
+  successMessage?: string
+  awaitAgentTasks?: boolean
   pollTask?: {
     path: string
     idKey?: string
@@ -17,6 +21,10 @@ export interface PageAction {
     value: unknown
   }
   disabledWhen?: {
+    key: string
+    value: unknown | unknown[]
+  }
+  activeWhen?: {
     key: string
     value: unknown | unknown[]
   }

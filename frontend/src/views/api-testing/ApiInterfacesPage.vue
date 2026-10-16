@@ -1,19 +1,125 @@
 <template>
+  <section v-if="!activeModuleId" class="module-page">
+    <div class="module-toolbar">
+      <div class="module-filter-group">
+        <select v-model.number="apiFilter.projectId" aria-label="选择 API 项目" @change="handleProjectChange">
+          <option v-for="project in projects" :key="project.id" :value="project.id">
+            {{ project.name }}
+          </option>
+        </select>
+        <input
+          v-model.trim="moduleKeyword"
+          type="search"
+          placeholder="搜索模块名称"
+          aria-label="搜索模块名称"
+          @keyup.enter="searchModules"
+        />
+        <button type="button" :disabled="moduleLoading" @click="searchModules">查询</button>
+        <button type="button" :disabled="moduleLoading || !moduleKeyword" @click="resetModuleSearch">重置</button>
+      </div>
+      <div class="module-command-group">
+        <button type="button" :disabled="!apiFilter.projectId" @click="openModuleDialog('create')"><Plus :size="16" />新增模块</button>
+        <button type="button" @click="createInterfaceFromDirectory">新增 API</button>
+        <button type="button" @click="openImportDialog">导入 OpenAPI</button>
+        <button type="button" @click="openProjectGeneration">OpenAPI 生成用例</button>
+      </div>
+    </div>
+
+    <div class="module-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>模块名称</th>
+            <th class="count-column">API 数量</th>
+            <th>方法分布</th>
+            <th class="status-column">状态</th>
+            <th class="time-column">更新时间</th>
+            <th class="enter-column">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="moduleItem in modules"
+            :key="moduleItem.key"
+            class="module-row"
+            tabindex="0"
+            @click="enterModule(moduleItem)"
+            @keydown.enter.self="enterModule(moduleItem)"
+          >
+            <td>
+              <strong>{{ moduleItem.name }}</strong>
+              <small v-if="moduleItem.key === UNGROUPED_MODULE_KEY">未填写所属模块的接口</small>
+            </td>
+            <td>{{ moduleItem.interface_count }}</td>
+            <td class="method-summary">{{ formatMethodCounts(moduleItem.method_counts) }}</td>
+            <td>
+              <span :class="['module-status', moduleStatusClass(moduleItem)]">{{ moduleStatus(moduleItem) }}</span>
+            </td>
+            <td>{{ formatUpdateTime(moduleItem.updated_at) }}</td>
+            <td>
+              <div class="module-row-actions">
+                <button type="button" class="enter-button" @click.stop="enterModule(moduleItem)">进入</button>
+                <button type="button" class="module-icon-button" :aria-label="`编辑模块 ${moduleItem.name}`" title="编辑模块" :disabled="moduleItem.key === UNGROUPED_MODULE_KEY" @click.stop="openModuleDialog('edit', moduleItem)"><Pencil :size="16" /></button>
+                <button type="button" class="module-icon-button danger" :aria-label="`删除模块 ${moduleItem.name}`" :title="moduleItem.interface_count ? '模块包含 API，不能删除' : '删除模块'" :disabled="moduleItem.key === UNGROUPED_MODULE_KEY || !!moduleItem.interface_count" @click.stop="openModuleDialog('delete', moduleItem)"><Trash2 :size="16" /></button>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="!modules.length">
+            <td colspan="6" class="module-empty">
+              <template v-if="moduleLoading">模块加载中...</template>
+              <template v-else-if="moduleKeyword">没有匹配的模块</template>
+              <template v-else>当前项目暂无 API，请先导入 OpenAPI 或新增 API。</template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <CommonPagination
+      :page="modulePage"
+      :page-size="modulePageSize"
+      :total="moduleTotal"
+      :loading="moduleLoading"
+      :message="moduleError"
+      @change="handleModulePagination"
+    />
+  </section>
+
   <ResourcePage
     ref="resourcePageRef"
-    title="API 管理"
-    description="维护 API 增删改查、OpenAPI 导入、调试入口和接口基础信息。"
+    :class="{ 'directory-create-host': !activeModuleId }"
+    :title="activeModuleId ? `${activeModuleLabel} API` : 'API'"
+    :description="`维护 ${activeModuleLabel} 模块下的 API 接口、字段和测试用例。`"
     api-path="/api-testing/interfaces"
     :actions="actions"
     :row-actions="rowActions"
     :fields="apiInterfaceFields"
     :columns="apiInterfaceColumns"
     :initial-params="apiSearchParams"
+    :default-values="apiDefaultValues"
+    :defer-load="!projectFilterReady || !activeModuleId"
+    :form-blocked="moduleBusy || authLoading"
     @custom-action="handleCustomAction"
+    @saved="handleInterfaceSaved"
   >
+    <template #form-field-data.module_id="{ values }">
+      <span>所属模块<b>*</b></span>
+      <ApiModuleSelect :project-id="Number(values.project_id) || 0" :model-value="values['data.module_id']" @update:model-value="values['data.module_id'] = $event" @busy="moduleBusy = $event" @changed="handleModuleChanged" />
+    </template>
+    <template #form-field-data.auth_id="{ values }">
+      <span>鉴权信息</span>
+      <ApiAuthSelect :project-id="Number(values.project_id) || 0" :model-value="values['data.auth_id']" @update:model-value="values['data.auth_id'] = $event" @busy="authLoading = $event" />
+    </template>
+    <template #toolbar-top>
+      <nav class="module-breadcrumb" aria-label="API 模块层级">
+        <button type="button" aria-label="返回模块列表" @click="leaveModule">←</button>
+        <button type="button" @click="leaveModule">API 管理</button>
+        <span>/</span>
+        <strong>{{ activeModuleLabel }}</strong>
+      </nav>
+    </template>
     <template #search-before-button>
-      <select v-model.number="apiFilter.projectId" class="api-filter-select" aria-label="按项目筛选 API">
-        <option :value="0">全部项目</option>
+      <select v-model.number="apiFilter.projectId" class="api-filter-select" aria-label="选择 API 项目" @change="handleProjectChange">
         <option v-for="project in projects" :key="project.id" :value="project.id">
           {{ project.name }}
         </option>
@@ -31,11 +137,27 @@
         placeholder="筛选接口路径"
         aria-label="按接口路径筛选 API"
       />
+      <select v-model="apiFilter.status" class="api-filter-select status-filter" aria-label="按状态筛选 API">
+        <option value="">全部状态</option>
+        <option value="active">启用</option>
+        <option value="disabled">停用</option>
+        <option value="archived">归档</option>
+      </select>
     </template>
     <template #search-actions>
       <button type="button" @click="resetApiFilters">重置筛选</button>
     </template>
   </ResourcePage>
+
+  <ApiModuleDialog :project-id="apiFilter.projectId" :mode="moduleDialogMode" :module="editingModule" @close="moduleDialogMode = ''" @changed="handleDirectoryModuleChanged" />
+
+  <ApiCaseDraftGenerateDialog
+    :visible="openapiGenerationVisible"
+    :initial-project-id="apiFilter.projectId"
+    :initial-module-id="generationModuleId || undefined"
+    :initial-module-name="generationModuleName || undefined"
+    @close="closeGenerationDialog"
+  />
 
   <div v-if="importVisible" class="modal-backdrop" @click.self="closeImportDialog">
     <section class="modal-panel" role="dialog" aria-modal="true">
@@ -59,14 +181,14 @@
           <label class="field full">
             <span>导入来源<b>*</b></span>
             <select v-model="importForm.sourceType">
-              <option value="file">上传 JSON 文件</option>
+              <option value="file">上传 JSON/YAML 文件</option>
               <option value="url">输入 URL 地址</option>
             </select>
           </label>
 
           <label v-if="importForm.sourceType === 'file'" class="field full">
-            <span>OpenAPI JSON 文件<b>*</b></span>
-            <input type="file" accept=".json,application/json" @change="handleFileChange" />
+            <span>OpenAPI JSON/YAML 文件<b>*</b></span>
+            <input type="file" accept=".json,.yaml,.yml,application/json,application/yaml,text/yaml" @change="handleFileChange" />
           </label>
 
           <label v-if="importForm.sourceType === 'url'" class="field full">
@@ -130,76 +252,61 @@
     </section>
   </div>
 
-  <div v-if="caseVisible" class="modal-backdrop" @click.self="closeCaseDialog">
-    <section class="modal-panel case-modal" role="dialog" aria-modal="true">
-      <header class="modal-header">
-        <h3>生成 API 用例</h3>
-        <button class="modal-close" type="button" aria-label="关闭" @click="closeCaseDialog">×</button>
-      </header>
-
-      <form class="modal-form" @submit.prevent="saveCaseDraft">
-        <div class="result-panel" v-if="selectedInterface">
-          <h4>{{ selectedInterface.name }}</h4>
-          <div class="result-grid">
-            <span>接口 ID</span>
-            <strong>{{ selectedInterface.id }}</strong>
-            <span>请求方法</span>
-            <strong>{{ selectedInterface.data.method || '-' }}</strong>
-            <span>接口路径</span>
-            <strong>{{ selectedInterface.data.path || '-' }}</strong>
-          </div>
-        </div>
-
-        <label class="field full">
-          <span>正常用例 JSON<b>*</b></span>
-          <textarea v-model="caseJsonText" class="json-editor" rows="14" spellcheck="false"></textarea>
-        </label>
-
-        <section class="strategy-panel">
-          <div class="strategy-header">
-            <strong>用例策略</strong>
-            <small>可多选，用于后续批量扩展异常、边界、安全等用例</small>
-          </div>
-          <div class="strategy-list">
-            <label v-for="strategy in strategies" :key="strategy.id" class="strategy-item">
-              <input v-model="selectedStrategyIds" type="checkbox" :value="strategy.id" />
-              <span>
-                <b>{{ strategy.name }}</b>
-                <small>{{ strategy.data.category || strategy.data.knowledge_key || '通用策略' }}</small>
-              </span>
-            </label>
-          </div>
-          <p v-if="!strategies.length" class="muted-text">暂无策略，请先在用例知识库初始化或新增策略。</p>
-        </section>
-
-        <p v-if="caseError" class="form-error">{{ caseError }}</p>
-
-        <footer class="modal-actions">
-          <button type="button" @click="closeCaseDialog">取消</button>
-          <button type="submit" :disabled="caseSaving">{{ caseSaving ? '保存中...' : '保存到用例草稿' }}</button>
-        </footer>
-      </form>
-    </section>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { Pencil, Plus, Trash2 } from 'lucide-vue-next'
+import { useRoute, useRouter } from 'vue-router'
 import {
-  createResource,
   getOpenApiImportTask,
   importOpenApiFile,
   importOpenApiUrl,
   listProjectOptions,
-  listResources,
   OpenApiImportTask,
   OpenApiImportResult,
   ProjectOption,
-  ResourceItem
+  resolveDefaultProjectId
 } from '../../api/http'
 import ResourcePage from '../../components/ResourcePage.vue'
+import ApiCaseDraftGenerateDialog from '../../components/api-case-drafts/ApiCaseDraftGenerateDialog.vue'
+import CommonPagination from '../../components/common/CommonPagination.vue'
+import ApiModuleSelect from '../../components/api-case-drafts/ApiModuleSelect.vue'
+import ApiModuleDialog from '../../components/api-case-drafts/ApiModuleDialog.vue'
+import ApiAuthSelect from '../../components/api-case-drafts/ApiAuthSelect.vue'
 import { apiInterfaceColumns, apiInterfaceFields } from '../../resourceSchemas'
+import { getApiModule, listApiModules } from '../../services/api-interface.service'
+import { pageTabKey, usePageTabsStore } from '../../store/page-tabs'
+import type { ApiModuleChange, ApiModuleSummary } from '../../types/api-interface'
 import type { PageAction } from '../../types/page-actions'
+import { useLatestRequest } from '../../composables/useLatestRequest'
+
+const moduleBusy = ref(false)
+const authLoading = ref(false)
+const moduleDialogMode = ref<'create' | 'edit' | 'delete' | ''>('')
+const editingModule = ref<ApiModuleSummary | null>(null)
+
+function openModuleDialog(mode: 'create' | 'edit' | 'delete', module: ApiModuleSummary | null = null) {
+  editingModule.value = module
+  moduleDialogMode.value = mode
+}
+
+function handleDirectoryModuleChanged(change: ApiModuleChange) {
+  modulePage.value = 1
+  if (!change.deleted) moduleKeyword.value = ''
+  handleModuleChanged(change)
+}
+
+function handleModuleChanged(change: ApiModuleChange) {
+  if (change.id === activeModuleId.value && !change.deleted) activeModuleName.value = change.name
+  if (activeModuleId.value) void resourcePageRef.value?.load()
+  else void loadModules()
+}
+
+function handleInterfaceSaved() {
+  if (activeModuleId.value) void resourcePageRef.value?.load()
+  else void loadModules()
+}
 
 const actions: PageAction[] = [
   {
@@ -207,34 +314,40 @@ const actions: PageAction[] = [
     path: '',
     type: 'custom',
     name: 'openapi-import'
+  },
+  {
+    label: 'OpenAPI 生成用例',
+    path: '',
+    type: 'custom',
+    name: 'openapi-case-generation'
   }
 ]
 
 const rowActions: PageAction[] = [
   {
-    label: '字段',
-    path: '/api/fields',
+    label: '详情',
+    path: '/api/interfaces/{id}',
     type: 'route',
     payload: {
-      interface_id: '$id',
-      project_id: '$project_id'
+      project_id: '$project_id',
+      module_id: '$data.module_id'
     }
-  },
-  {
-    label: '用例',
-    path: '',
-    type: 'custom',
-    name: 'case-generate'
   }
 ]
 
-const resourcePageRef = ref<{ load: () => Promise<void> } | null>(null)
+const route = useRoute()
+const router = useRouter()
+const pageTabsStore = usePageTabsStore()
+const UNGROUPED_MODULE_KEY = '__ungrouped__'
+const MODULE_PAGE_SIZE = 20
+const resourcePageRef = ref<{ load: () => Promise<void>; openCreate: () => Promise<void> } | null>(null)
 const importVisible = ref(false)
 const importing = ref(false)
 const importError = ref('')
 const importTask = ref<OpenApiImportTask | null>(null)
 const importResult = ref<OpenApiImportResult | null>(null)
 const projects = ref<ProjectOption[]>([])
+const projectFilterReady = ref(false)
 const importForm = ref({
   projectId: '',
   sourceType: 'file' as 'file' | 'url',
@@ -242,20 +355,34 @@ const importForm = ref({
   file: null as File | null,
   url: ''
 })
-const caseVisible = ref(false)
-const caseSaving = ref(false)
-const caseError = ref('')
-const selectedInterface = ref<ResourceItem | null>(null)
-const caseJsonText = ref('')
-const strategies = ref<ResourceItem[]>([])
-const selectedStrategyIds = ref<number[]>([])
-const RESOURCE_FETCH_PAGE_SIZE = 200
+const openapiGenerationVisible = ref(false)
+const modules = ref<ApiModuleSummary[]>([])
+const moduleKeyword = ref('')
+const modulePage = ref(1)
+const modulePageSize = ref(MODULE_PAGE_SIZE)
+const moduleTotal = ref(0)
+const { loading: moduleLoading, error: moduleError, run: loadModuleRequest, cancel: cancelModuleLoad } = useLatestRequest('模块加载失败')
+const activeModuleId = ref(0)
+const activeModuleName = ref('')
+const generationModuleId = ref(0)
+const generationModuleName = ref('')
 const httpMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 const apiFilter = ref({
   projectId: 0,
   method: '',
-  path: ''
+  path: '',
+  status: ''
 })
+
+const activeModuleLabel = computed(() => (
+  activeModuleName.value || 'API 模块'
+))
+const apiDefaultValues = computed<Record<string, unknown>>(() => ({
+  project_id: apiFilter.value.projectId || null,
+  data: {
+    module_id: activeModuleId.value || null
+  }
+}))
 
 const apiSearchParams = computed<Record<string, unknown>>(() => {
   const params: Record<string, unknown> = {}
@@ -268,16 +395,61 @@ const apiSearchParams = computed<Record<string, unknown>>(() => {
   if (apiFilter.value.path) {
     params.path = apiFilter.value.path
   }
+  if (activeModuleId.value) {
+    params.module_id = activeModuleId.value
+  }
+  if (apiFilter.value.status) {
+    params.status = apiFilter.value.status
+  }
   return params
 })
 
 onMounted(async () => {
-  projects.value = await listProjectOptions()
+  try {
+    projects.value = await listProjectOptions()
+    const requestedProjectId = numberQueryValue(route.query.project_id)
+    apiFilter.value.projectId = projects.value.some(item => item.id === requestedProjectId)
+      ? requestedProjectId
+      : resolveDefaultProjectId(projects.value)
+  } finally {
+    projectFilterReady.value = true
+  }
+  await replaceInvalidRouteState()
+  const requestedModuleId = numberQueryValue(route.query.module_id)
+  if (requestedModuleId) await loadActiveModule(requestedModuleId)
+  else await loadModules()
 })
 
-async function handleCustomAction(action: PageAction, item?: ResourceItem) {
-  if (action.name === 'case-generate' && item) {
-    await openCaseDialog(item)
+watch(
+  () => [route.query.project_id, route.query.module_id],
+  async () => {
+    const nextProjectId = numberQueryValue(route.query.project_id)
+    const nextModuleId = numberQueryValue(route.query.module_id)
+    pageTabsStore.setTitle(pageTabKey(route), nextModuleId ? 'API 列表' : 'API 管理')
+    if (!projectFilterReady.value) return
+    const validProjectId = projects.value.some(item => item.id === nextProjectId)
+      ? nextProjectId
+      : resolveDefaultProjectId(projects.value)
+    if (validProjectId === apiFilter.value.projectId && nextModuleId === activeModuleId.value) return
+    apiFilter.value.projectId = validProjectId
+    resetInterfaceFilterValues()
+    if (nextModuleId) await loadActiveModule(nextModuleId)
+    else {
+      clearActiveModule()
+      await loadModules()
+    }
+  },
+  { immediate: true }
+)
+
+async function handleCustomAction(action: PageAction) {
+  if (action.name === 'openapi-case-generation') {
+    if (!apiFilter.value.projectId) {
+      apiFilter.value.projectId = resolveDefaultProjectId(projects.value)
+    }
+    generationModuleId.value = activeModuleId.value
+    generationModuleName.value = activeModuleLabel.value
+    openapiGenerationVisible.value = true
     return
   }
   await openImportDialog()
@@ -287,20 +459,183 @@ async function openImportDialog() {
   importError.value = ''
   importTask.value = null
   importResult.value = null
-  importForm.value = { projectId: '', sourceType: 'file', overwrite: true, file: null, url: '' }
   if (!projects.value.length) {
     projects.value = await listProjectOptions()
+  }
+  importForm.value = {
+    projectId: String(apiFilter.value.projectId || resolveDefaultProjectId(projects.value) || ''),
+    sourceType: 'file',
+    overwrite: true,
+    file: null,
+    url: ''
   }
   importVisible.value = true
 }
 
 async function resetApiFilters() {
-  apiFilter.value = {
-    projectId: 0,
-    method: '',
-    path: ''
-  }
+  resetInterfaceFilterValues()
   await resourcePageRef.value?.load()
+}
+
+async function loadModules() {
+  if (!apiFilter.value.projectId) {
+    cancelModuleLoad()
+    modules.value = []
+    moduleTotal.value = 0
+    return
+  }
+  await loadModuleRequest(signal => listApiModules({
+      project_id: apiFilter.value.projectId,
+      keyword: moduleKeyword.value || undefined,
+      page: modulePage.value,
+      pageSize: modulePageSize.value
+    }, signal), result => {
+    modules.value = result.items
+    moduleTotal.value = result.total
+    modulePage.value = result.page
+    modulePageSize.value = result.pageSize
+  })
+}
+
+async function searchModules() {
+  modulePage.value = 1
+  await loadModules()
+}
+
+async function resetModuleSearch() {
+  moduleKeyword.value = ''
+  modulePage.value = 1
+  await loadModules()
+}
+
+async function handleModulePagination(page: number, pageSize: number) {
+  modulePage.value = page
+  modulePageSize.value = pageSize
+  await loadModules()
+}
+
+async function handleProjectChange() {
+  cancelModuleLoad()
+  modules.value = []
+  moduleTotal.value = 0
+  clearActiveModule()
+  moduleKeyword.value = ''
+  modulePage.value = 1
+  resetInterfaceFilterValues()
+  await router.push({
+    path: route.path,
+    query: { project_id: String(apiFilter.value.projectId) }
+  })
+  await loadModules()
+}
+
+async function enterModule(moduleItem: ApiModuleSummary) {
+  activeModuleId.value = moduleItem.id
+  activeModuleName.value = moduleItem.name
+  resetInterfaceFilterValues()
+  await router.push({
+    path: route.path,
+    query: {
+      project_id: String(apiFilter.value.projectId),
+      module_id: String(moduleItem.id)
+    }
+  })
+  pageTabsStore.setTitle(pageTabKey(route), 'API 列表')
+}
+
+async function leaveModule() {
+  clearActiveModule()
+  modulePage.value = 1
+  resetInterfaceFilterValues()
+  await router.push({
+    path: route.path,
+    query: { project_id: String(apiFilter.value.projectId) }
+  })
+  pageTabsStore.setTitle(pageTabKey(route), 'API 管理')
+  await loadModules()
+}
+
+async function createInterfaceFromDirectory() {
+  if (!apiFilter.value.projectId) {
+    moduleError.value = '请选择项目'
+    return
+  }
+  await resourcePageRef.value?.openCreate()
+}
+
+function openProjectGeneration() {
+  generationModuleId.value = 0
+  generationModuleName.value = ''
+  openapiGenerationVisible.value = true
+}
+
+function closeGenerationDialog() {
+  openapiGenerationVisible.value = false
+  generationModuleId.value = 0
+  generationModuleName.value = ''
+}
+
+async function loadActiveModule(moduleId: number) {
+  try {
+    const module = await getApiModule(apiFilter.value.projectId, moduleId)
+    activeModuleId.value = module.id
+    activeModuleName.value = module.name
+    pageTabsStore.setTitle(pageTabKey(route), 'API 列表')
+  } catch (error) {
+    clearActiveModule()
+    moduleError.value = getErrorMessage(error)
+    await router.replace({
+      path: route.path,
+      query: { project_id: String(apiFilter.value.projectId) }
+    })
+    await loadModules()
+  }
+}
+
+function clearActiveModule() {
+  activeModuleId.value = 0
+  activeModuleName.value = ''
+}
+
+function resetInterfaceFilterValues() {
+  apiFilter.value.method = ''
+  apiFilter.value.path = ''
+  apiFilter.value.status = ''
+}
+
+async function replaceInvalidRouteState() {
+  const projectId = apiFilter.value.projectId
+  const currentProjectId = numberQueryValue(route.query.project_id)
+  if (!projectId || currentProjectId === projectId) return
+  const query: Record<string, string> = { project_id: String(projectId) }
+  if (activeModuleId.value) query.module_id = String(activeModuleId.value)
+  await router.replace({ path: route.path, query })
+}
+
+function numberQueryValue(value: unknown) {
+  const text = Array.isArray(value) ? value[0] : value
+  const number = Number(text || 0)
+  return Number.isInteger(number) && number > 0 ? number : 0
+}
+
+function formatMethodCounts(counts: Record<string, number>) {
+  return Object.entries(counts).map(([method, count]) => `${method} ${count}`).join(' / ') || '-'
+}
+
+function moduleStatus(item: ApiModuleSummary) {
+  const states = []
+  if (item.disabled_count) states.push(`停用 ${item.disabled_count}`)
+  if (item.deprecated_count) states.push(`废弃 ${item.deprecated_count}`)
+  return states.join(' / ') || '正常'
+}
+
+function moduleStatusClass(item: ApiModuleSummary) {
+  return item.disabled_count || item.deprecated_count ? 'has-warning' : 'is-normal'
+}
+
+function formatUpdateTime(value: string) {
+  if (!value) return '-'
+  return value.replace('T', ' ').slice(0, 16)
 }
 
 function closeImportDialog() {
@@ -325,7 +660,7 @@ async function submitImport() {
     return
   }
   if (importForm.value.sourceType === 'file' && !importForm.value.file) {
-    importError.value = '请上传 OpenAPI JSON 文件'
+    importError.value = '请上传 OpenAPI JSON/YAML 文件'
     return
   }
   if (importForm.value.sourceType === 'url' && !importForm.value.url) {
@@ -352,7 +687,9 @@ async function pollImportTask(taskId: number) {
     importTask.value = await getOpenApiImportTask(taskId)
     if (importTask.value.status === 'success') {
       importResult.value = importTask.value.data.result || null
-      await resourcePageRef.value?.load()
+      if (importResult.value?.project_id === apiFilter.value.projectId) {
+        await Promise.all([resourcePageRef.value?.load(), loadModules()])
+      }
       return
     }
     if (importTask.value.status === 'failed') {
@@ -401,173 +738,191 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : '导入失败'
 }
 
-async function openCaseDialog(item: ResourceItem) {
-  caseError.value = ''
-  selectedInterface.value = item
-  selectedStrategyIds.value = []
-  caseJsonText.value = ''
-  caseVisible.value = true
-  try {
-    const [fields, strategyItems] = await Promise.all([
-      listAllResourceItems('/api-testing/fields', { interface_id: item.id }),
-      listAllResourceItems('/project-knowledge')
-    ])
-    strategies.value = strategyItems.filter(isCaseStrategy)
-    selectedStrategyIds.value = strategies.value
-      .filter(strategy => strategy.data.domain === 'API' || strategy.data.domain === 'COMMON')
-      .slice(0, 3)
-      .map(strategy => strategy.id)
-    caseJsonText.value = JSON.stringify(buildNormalCaseExampleJson(fields), null, 2)
-  } catch (error) {
-    caseError.value = getErrorMessage(error)
-  }
-}
-
-async function listAllResourceItems(path: string, params: Record<string, unknown> = {}) {
-  const firstPage = await listResources(path, {
-    ...params,
-    page: 1,
-    pageSize: RESOURCE_FETCH_PAGE_SIZE
-  })
-  const items = [...firstPage.items]
-  const totalPages = Math.ceil(firstPage.total / firstPage.pageSize)
-  for (let page = 2; page <= totalPages; page += 1) {
-    const nextPage = await listResources(path, {
-      ...params,
-      page,
-      pageSize: RESOURCE_FETCH_PAGE_SIZE
-    })
-    items.push(...nextPage.items)
-  }
-  return items
-}
-
-function closeCaseDialog() {
-  if (caseSaving.value) {
-    return
-  }
-  caseVisible.value = false
-  caseError.value = ''
-}
-
-async function saveCaseDraft() {
-  caseError.value = ''
-  if (!selectedInterface.value) {
-    caseError.value = '请选择接口'
-    return
-  }
-  let caseJson: Record<string, unknown>
-  try {
-    caseJson = JSON.parse(caseJsonText.value) as Record<string, unknown>
-  } catch {
-    caseError.value = '正常用例 JSON 不是合法 JSON'
-    return
-  }
-  const draftJson = buildCaseDraftJson(selectedInterface.value, caseJson)
-  const assertions = caseAssertions(draftJson)
-  const cleanDraftJson = withoutCaseMeta(draftJson)
-
-  caseSaving.value = true
-  try {
-    await createResource('/api-testing/case-drafts', {
-      name: String(cleanDraftJson.name || `[正常] ${selectedInterface.value.name}`),
-      project_id: selectedInterface.value.project_id,
-      source_id: selectedInterface.value.id,
-      status: 'draft',
-      case_json: cleanDraftJson,
-      data: cleanDraftJson,
-      assertions,
-      strategy_ids: selectedStrategyIds.value
-    })
-    caseVisible.value = false
-  } catch (error) {
-    caseError.value = getErrorMessage(error)
-  } finally {
-    caseSaving.value = false
-  }
-}
-
-function buildNormalCaseExampleJson(fields: ResourceItem[]) {
-  const result: Record<string, unknown> = {}
-  for (const field of fields) {
-    const data = field.data || {}
-    const fieldName = String(data.name || field.name)
-    result[fieldName] = exampleValue(data, fieldName)
-  }
-  return result
-}
-
-function buildCaseDraftJson(api: ResourceItem, values: Record<string, unknown>): Record<string, unknown> {
-  const method = String(api.data.method || 'GET')
-  const path = String(api.data.path || api.name)
-  return {
-    name: `[正常] ${method} ${path}`,
-    case_type: 'API',
-    category: 'normal',
-    priority: 'P1',
-    method,
-    path,
-    params: values
-  }
-}
-
-function caseAssertions(caseJson: Record<string, unknown>) {
-  const assertions = caseJson.assertions
-  return Array.isArray(assertions)
-    ? assertions.filter((item): item is Record<string, unknown> => isRecord(item))
-    : [
-        { type: 'status', expected: 200 },
-        { type: 'response_time', operator: '<=', expected: 3000 }
-      ]
-}
-
-function withoutCaseMeta(caseJson: Record<string, unknown>) {
-  const { assertions, strategies, strategy, strategy_ids, ...rest } = caseJson
-  void assertions
-  void strategies
-  void strategy
-  void strategy_ids
-  return rest
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
-function exampleValue(data: Record<string, unknown>, fieldName: string) {
-  if (data.example != null && data.example !== '') {
-    return data.example
-  }
-  if (data.default_value != null && data.default_value !== '') {
-    return data.default_value
-  }
-  const type = String(data.field_type || data.type || 'string')
-  if (type === 'integer') {
-    return Math.floor(Math.random() * 9000) + 1000
-  }
-  if (type === 'number') {
-    return Number((Math.random() * 1000).toFixed(2))
-  }
-  if (type === 'boolean') {
-    return Math.random() > 0.5
-  }
-  if (type === 'array') {
-    return [`${fieldName}_${Date.now().toString(36)}`]
-  }
-  if (type === 'object') {
-    return {}
-  }
-  return `${fieldName}_${Math.random().toString(36).slice(2, 8)}`
-}
-
-function isCaseStrategy(item: ResourceItem) {
-  const domain = item.data.domain
-  const kind = item.data.kind
-  return (domain === 'API' || domain === 'COMMON') && (kind === 'case_template' || kind === 'design_strategy')
-}
 </script>
 
 <style scoped>
+.directory-create-host {
+  display: contents;
+}
+
+.directory-create-host > :deep(:not(.modal-backdrop):not(.operation-toast)) {
+  display: none;
+}
+
+.module-page {
+  display: grid;
+  gap: 16px;
+}
+
+.module-toolbar,
+.module-filter-group,
+.module-command-group,
+.module-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.module-toolbar {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e3e8f1;
+  padding-bottom: 14px;
+}
+
+.module-filter-group,
+.module-command-group {
+  flex-wrap: wrap;
+}
+
+.module-filter-group {
+  flex: 1 1 510px;
+}
+
+.module-command-group {
+  flex: 0 1 auto;
+  justify-content: flex-end;
+}
+
+.module-toolbar select,
+.module-toolbar input {
+  width: 190px;
+  height: 34px;
+  border: 1px solid #d1d9e6;
+  border-radius: 6px;
+  background: #fff;
+  color: #182230;
+  padding: 0 10px;
+}
+
+.module-table-wrap {
+  overflow: auto;
+  border: 1px solid #dfe5ee;
+  border-radius: 6px;
+}
+
+.module-table-wrap table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.module-table-wrap th,
+.module-table-wrap td {
+  border-bottom: 1px solid #e8edf4;
+  color: #334155;
+  font-size: 13px;
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.module-table-wrap th {
+  background: #f7f9fc;
+  color: #253247;
+  font-weight: 700;
+}
+
+.module-table-wrap tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.module-row {
+  cursor: pointer;
+}
+
+.module-row:hover,
+.module-row:focus-visible {
+  background: #f3f8fb;
+  outline: none;
+}
+
+.module-row td:first-child strong,
+.module-row td:first-child small {
+  display: block;
+}
+
+.module-row td:first-child strong {
+  color: #172033;
+  font-size: 14px;
+}
+
+.module-row td:first-child small {
+  margin-top: 3px;
+  color: #718096;
+}
+
+.count-column {
+  width: 100px;
+}
+
+.status-column {
+  width: 150px;
+}
+
+.time-column {
+  width: 160px;
+}
+
+.enter-column {
+  width: 150px;
+}
+
+.module-command-group > button,
+.module-row-actions { display: flex; align-items: center; gap: 6px; }
+.module-icon-button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; }
+
+.method-summary {
+  color: #285d72;
+  font-variant-numeric: tabular-nums;
+}
+
+.module-status {
+  font-weight: 600;
+}
+
+.module-status.is-normal {
+  color: #166534;
+}
+
+.module-status.has-warning {
+  color: #a16207;
+}
+
+.enter-button {
+  min-width: 48px;
+}
+
+.module-empty {
+  height: 140px;
+  color: #718096;
+  text-align: center !important;
+}
+
+.module-breadcrumb {
+  color: #68758a;
+  font-size: 13px;
+}
+
+.module-breadcrumb button {
+  border: 0;
+  background: transparent;
+  color: #0f6073;
+  padding: 0;
+}
+
+.module-breadcrumb button:first-child {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d6dee9;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 18px;
+}
+
+.module-breadcrumb strong {
+  color: #253247;
+}
+
 .api-filter-select,
 .api-path-filter {
   flex: 0 0 180px;
@@ -587,12 +942,30 @@ function isCaseStrategy(item: ResourceItem) {
   min-width: 108px;
 }
 
+.status-filter {
+  flex-basis: 120px;
+  width: 120px;
+  min-width: 108px;
+}
+
 .api-path-filter {
   flex-basis: 220px;
   width: 220px;
 }
 
 @media (max-width: 720px) {
+  .module-toolbar select,
+  .module-toolbar input {
+    width: 100%;
+  }
+
+  .module-filter-group,
+  .module-command-group {
+    width: 100%;
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+
   .api-filter-select,
   .api-path-filter {
     width: 100%;

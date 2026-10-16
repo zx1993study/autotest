@@ -1,5 +1,5 @@
 ﻿import type { ResourceColumn, ResourceField } from '../types/resource-schema'
-import { apiInterfaceSelectField, apiSourceInterfaceField, authSelectField, caseCategoryOptions, caseStatusOptions, caseTypeOptions, descriptionField, priorityOptions, projectIdField, statusField } from './shared'
+import { apiSourceInterfaceField, authSelectField, caseCategoryOptions, caseStatusOptions, caseTypeOptions, descriptionField, priorityOptions, projectIdField, statusField } from './shared'
 
 export const apiInterfaceFields: ResourceField[] = [
   { key: 'name', label: '接口名称', required: true, placeholder: '例如：用户登录' },
@@ -13,8 +13,20 @@ export const apiInterfaceFields: ResourceField[] = [
     options: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map(value => ({ label: value, value }))
   },
   { key: 'data.path', label: '接口路径', required: true, placeholder: '例如：/api/login' },
-  { key: 'data.module', label: '所属模块', placeholder: '例如：登录模块' },
-  authSelectField,
+  {
+    key: 'data.module_id',
+    label: '所属模块',
+    type: 'select',
+    required: true,
+    placeholder: '请选择 API 模块',
+    remoteOptions: {
+      path: '/api-testing/interfaces/modules/options',
+      valueKey: 'id',
+      labelKeys: ['name'],
+      dependsOn: { project_id: 'project_id' }
+    }
+  },
+  { ...authSelectField, remoteOptions: { ...authSelectField.remoteOptions!, dependsOn: { project_id: 'project_id' } } },
   { key: 'data.content_type', label: '内容类型', placeholder: 'application/json' },
   { key: 'data.original_url', label: '导入原始 URL', placeholder: '可选，调试优先使用项目环境地址' },
   statusField,
@@ -27,42 +39,6 @@ export const apiInterfaceColumns: ResourceColumn[] = [
   { key: 'name', label: '接口名称' },
   { key: 'data.module', label: '模块' },
   { key: 'status', label: '状态', width: '90px' }
-]
-
-export const apiFieldFields: ResourceField[] = [
-  { key: 'name', label: '字段名称', required: true },
-  projectIdField,
-  apiInterfaceSelectField,
-  {
-    key: 'data.location',
-    label: '参数位置',
-    type: 'select',
-    required: true,
-    defaultValue: 'body',
-    options: ['query', 'header', 'body', 'path', 'cookie'].map(value => ({ label: value, value }))
-  },
-  {
-    key: 'data.field_type',
-    label: '字段类型',
-    type: 'select',
-    defaultValue: 'string',
-    options: ['string', 'number', 'integer', 'boolean', 'object', 'array'].map(value => ({ label: value, value }))
-  },
-  { key: 'data.required', label: '是否必填', type: 'checkbox', defaultValue: false },
-  { key: 'data.example', label: '示例值', placeholder: '用于调试和生成用例' },
-  { key: 'data.default_value', label: '默认值' },
-  { key: 'data.rule', label: '校验/生成规则', type: 'textarea', full: true, rows: 3 },
-  statusField,
-  descriptionField
-]
-
-export const apiFieldColumns: ResourceColumn[] = [
-  { key: 'name', label: '字段名称' },
-  { key: 'data.interface_id', label: '接口 ID', width: '90px' },
-  { key: 'data.location', label: '位置' },
-  { key: 'data.field_type', label: '类型' },
-  { key: 'data.required', label: '必填', width: '80px' },
-  { key: 'data.example', label: '示例值' }
 ]
 
 export const caseDraftFields: ResourceField[] = [

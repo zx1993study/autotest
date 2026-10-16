@@ -230,6 +230,11 @@ class AiGenerationResultSaver:
                 "source": "ai_generation",
                 "ai_suggested_route": page.get("ai_suggested_route"),
                 "ai_suggested_url": page.get("ai_suggested_url"),
+                "related_interface_ids": [
+                    int(value)
+                    for value in page.get("related_interface_ids", [])
+                    if str(value).isdigit() and int(value) > 0
+                ],
             },
         }
 

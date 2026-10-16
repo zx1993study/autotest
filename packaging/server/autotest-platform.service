@@ -1,0 +1,17 @@
+[Unit]
+Description=Autotest Remote Platform
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/xiaox/apps/autotest/current
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/xiaox/apps/autotest/shared/venv/bin/python /home/xiaox/apps/autotest/current/packaging/server/run.py --shared-dir /home/xiaox/apps/autotest/shared --port 8800
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=120
+UMask=0077
+
+[Install]
+WantedBy=default.target

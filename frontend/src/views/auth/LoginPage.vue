@@ -50,6 +50,7 @@ import { ApiClientError } from '../../api/client'
 import { DEFAULT_AUTHENTICATED_PATH } from '../../constants/routes'
 import { getAuthBootstrap } from '../../services/auth.service'
 import { useAuthStore } from '../../store/auth'
+import { appPath } from '../../utils/appBase'
 
 const route = useRoute()
 const router = useRouter()
@@ -93,28 +94,56 @@ async function submit() {
   errorMessage.value = ''
   try {
     await authStore.login({ username: form.username, password: form.password })
-    syncRememberedPassword()
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : DEFAULT_AUTHENTICATED_PATH
-    await router.replace(redirect || DEFAULT_AUTHENTICATED_PATH)
   } catch (error) {
-    errorMessage.value = error instanceof ApiClientError ? error.message : '登录失败，请稍后重试'
+    errorMessage.value = error instanceof ApiClientError || error instanceof Error ? error.message : '登录请求失败，请重试'
+    submitting.value = false
+    return
+  }
+  syncRememberedPassword()
+  const redirect = loginRedirect()
+  try {
+    await router.replace(redirect)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    if (/Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Loading chunk .+ failed|Unable to preload CSS/i.test(message)) {
+      const target = new URL(appPath(redirect), window.location.origin)
+      if (!target.searchParams.has('__app_reload')) {
+        target.searchParams.set('__app_reload', String(Date.now()))
+        window.location.replace(target.href)
+        return
+      }
+    }
+    errorMessage.value = '已登录，但页面加载失败，请重新打开程序。'
   } finally {
     submitting.value = false
   }
 }
 
+function loginRedirect() {
+  const requested = typeof route.query.redirect === 'string' ? route.query.redirect : ''
+  try {
+    const target = new URL(requested || DEFAULT_AUTHENTICATED_PATH, window.location.origin)
+    if (target.origin === window.location.origin && target.pathname !== '/login') return `${target.pathname}${target.search}${target.hash}`
+  } catch { /* Invalid redirects fall back to the authenticated home page. */ }
+  return DEFAULT_AUTHENTICATED_PATH
+}
+
 function syncRememberedPassword() {
-  if (!rememberPassword.value) {
-    localStorage.removeItem(rememberedPasswordKey)
-    return
+  try {
+    if (!rememberPassword.value) {
+      localStorage.removeItem(rememberedPasswordKey)
+      return
+    }
+    localStorage.setItem(
+      rememberedPasswordKey,
+      JSON.stringify({
+        username: form.username,
+        password: form.password
+      })
+    )
+  } catch {
+    rememberPassword.value = false
   }
-  localStorage.setItem(
-    rememberedPasswordKey,
-    JSON.stringify({
-      username: form.username,
-      password: form.password
-    })
-  )
 }
 
 function readRememberedPassword() {
@@ -128,7 +157,7 @@ function readRememberedPassword() {
     const password = typeof value.password === 'string' ? value.password : ''
     return username || password ? { username, password } : null
   } catch {
-    localStorage.removeItem(rememberedPasswordKey)
+    try { localStorage.removeItem(rememberedPasswordKey) } catch { /* Remembering credentials is optional. */ }
     return null
   }
 }

@@ -1,0 +1,793 @@
+{
+  "project_id": 10,
+  "snapshot_id": 11942,
+  "campaign_key": "waiqin-add-20261014",
+  "profiles": [
+    {
+      "source_id": 12110,
+      "table_name": "activity",
+      "params": {
+        "activityName": "秋季门店陈列活动",
+        "activityType": "act_260720115642_03522",
+        "productScope": "all",
+        "startTime": "2026-10-16T10:00:00",
+        "endTime": "2026-10-17T10:00:00",
+        "productIds": "16",
+        "paymentType": "online"
+      },
+      "unique_text_fields": [
+        "activityName"
+      ],
+      "required_fields": [
+        "endTime",
+        "startTime",
+        "productScope",
+        "activityType",
+        "activityName"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "activityName": {
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "excluded_fields": [
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "delFlag",
+        "status",
+        "description",
+        "paidItems",
+        "visibleUserIds",
+        "visibleDeptIds",
+        "approvalInstanceId",
+        "approvalStatus",
+        "activityId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12186,
+      "table_name": "warehouse",
+      "params": {
+        "warehouseName": "洪山配送仓",
+        "warehouseType": "1",
+        "customerId": 891,
+        "address": "武汉市洪山区配送中心"
+      },
+      "unique_text_fields": [
+        "warehouseName"
+      ],
+      "required_fields": [
+        "warehouseName"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "warehouseName": {
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "excluded_fields": [
+        "delFlag",
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "remark",
+        "status",
+        "userIds",
+        "adminUserId",
+        "managerPhone",
+        "managerName",
+        "customerName",
+        "warehouseCode",
+        "warehouseId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12102,
+      "table_name": "product",
+      "params": {
+        "productName": "晨露矿泉水",
+        "productType": "巴马水",
+        "productBrand": "巴马丽琅矿泉水",
+        "unit": "瓶",
+        "productSpec": "500ML / 1*24",
+        "purchasePrice": 2.5,
+        "terminalWholesalePrice": 3.5
+      },
+      "unique_text_fields": [
+        "productName"
+      ],
+      "required_fields": [
+        "productName"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "productName": {
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "productType": {
+          "enum": [
+            "巴马水",
+            "神农架酒"
+          ]
+        },
+        "productBrand": {
+          "enum": [
+            "巴马丽琅矿泉水",
+            "神农架酒",
+            "黑酱",
+            "金酱",
+            "大九湖",
+            "高山坛藏",
+            "封藏酒",
+            "空白网点",
+            "巴马水"
+          ]
+        },
+        "unit": {
+          "enum": [
+            "瓶",
+            "件",
+            "套",
+            "片",
+            "盒"
+          ]
+        }
+      },
+      "excluded_fields": [
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "delFlag",
+        "status",
+        "remark",
+        "height",
+        "width",
+        "length",
+        "weightUnit",
+        "weight",
+        "groupBuyPrice",
+        "costPrice",
+        "productImage",
+        "barcode",
+        "productSpecSecond",
+        "productSpecFirst",
+        "productCode",
+        "productId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12119,
+      "table_name": "activity_type_config",
+      "params": {
+        "activityTypeName": "秋季门店陈列支持",
+        "needExecuteReport": "1",
+        "needPaymentReport": "0",
+        "templates": {
+          "apply": [
+            {
+              "stage": "apply",
+              "fieldCode": "customers",
+              "fieldLabel": "参与客户",
+              "isRequired": "1",
+              "sort": 5
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "expectedParticipants",
+              "fieldLabel": "预计参与人数",
+              "isRequired": "1",
+              "sort": 10
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "usedProductIds",
+              "fieldLabel": "活动使用商品/兑付商品",
+              "isRequired": "1",
+              "sort": 20
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "estimatedMealFee",
+              "fieldLabel": "预计使用餐费",
+              "isRequired": "1",
+              "sort": 30
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "hasOurStaff",
+              "fieldLabel": "是否有我方人员参加",
+              "isRequired": "0",
+              "sort": 40
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "executionLocation",
+              "fieldLabel": "活动执行地点",
+              "isRequired": "1",
+              "sort": 50
+            },
+            {
+              "stage": "apply",
+              "fieldCode": "remark",
+              "fieldLabel": "备注",
+              "isRequired": "0",
+              "sort": 90
+            }
+          ],
+          "execute": [
+            {
+              "stage": "execute",
+              "fieldCode": "sitePhotos",
+              "fieldLabel": "活动现场/陈列照片",
+              "isRequired": "1",
+              "sort": 20
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "beforeMealPhotos",
+              "fieldLabel": "餐前图片",
+              "isRequired": "1",
+              "sort": 30
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "duringMealPhotos",
+              "fieldLabel": "餐中图片",
+              "isRequired": "1",
+              "sort": 40
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "afterMealPhotos",
+              "fieldLabel": "餐后图片",
+              "isRequired": "1",
+              "sort": 50
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "invoicePhotos",
+              "fieldLabel": "发票图片",
+              "isRequired": "1",
+              "sort": 60
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "receiptPhotos",
+              "fieldLabel": "小票图片",
+              "isRequired": "1",
+              "sort": 70
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "otherPhotos",
+              "fieldLabel": "其他图片",
+              "isRequired": "0",
+              "sort": 80
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "paymentScreenshot",
+              "fieldLabel": "付款截图",
+              "isRequired": "0",
+              "sort": 90
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "actualParticipants",
+              "fieldLabel": "实际参与人数",
+              "isRequired": "1",
+              "sort": 100
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "actualProductIds",
+              "fieldLabel": "实际使用商品",
+              "isRequired": "1",
+              "sort": 110
+            },
+            {
+              "stage": "execute",
+              "fieldCode": "actualMealFee",
+              "fieldLabel": "实际使用餐费",
+              "isRequired": "1",
+              "sort": 120
+            }
+          ],
+          "payment": []
+        }
+      },
+      "unique_text_fields": [
+        "activityTypeName"
+      ],
+      "required_fields": [
+        "activityTypeName",
+        "templates"
+      ],
+      "rejection_messages": {
+        "boundary:body.activityTypeName:min-length-invalid": [
+          "活动类型名称不能为空"
+        ],
+        "required:body.templates:missing": [
+          "必须配置活动申请模板字段"
+        ]
+      },
+      "field_constraints": {
+        "activityTypeName": {
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "excluded_fields": [
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "remark",
+        "status",
+        "sort",
+        "activityType"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12126,
+      "table_name": "activity_apply",
+      "params": {
+        "activityId": 88,
+        "customers": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1"
+          }
+        ],
+        "startTime": "2026-10-16 10:00:00",
+        "endTime": "2026-10-17 10:00:00"
+      },
+      "unique_text_fields": [],
+      "required_fields": [
+        "endTime",
+        "startTime",
+        "customers",
+        "activityId"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "customers": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [
+        "remark",
+        "usedProductIds",
+        "estimatedMealFee",
+        "executionLocation",
+        "hasOurStaff",
+        "expectedParticipants"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12137,
+      "table_name": "activity_supervision_task",
+      "params": {
+        "customer": {
+          "customerId": 1066,
+          "customerName": "AutoFront10081703",
+          "customerType": "1"
+        },
+        "responsibleUserIds": [
+          1
+        ],
+        "requiredFinishTime": "2026-10-17T10:00:00",
+        "taskContent": "核对门店陈列并记录活动落实情况"
+      },
+      "unique_text_fields": [
+        "taskContent"
+      ],
+      "required_fields": [
+        "taskContent",
+        "requiredFinishTime",
+        "responsibleUserIds",
+        "customer"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "taskContent": {
+          "minLength": 1,
+          "maxLength": 65535
+        },
+        "responsibleUserIds": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [
+        "photoAttachments",
+        "ccUserIds"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12143,
+      "table_name": "visit_plan",
+      "params": {
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员",
+        "customerId": 1082,
+        "customerName": "测试_1791531897535",
+        "customerType": "1",
+        "visitDate": "2026-10-16T10:00:00",
+        "remark": "门店日常回访安排"
+      },
+      "unique_text_fields": [
+        "remark"
+      ],
+      "required_fields": [
+        "visitDate",
+        "customerId",
+        "customerType",
+        "visitorUserId"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "remark": {
+          "maxLength": 500
+        }
+      },
+      "excluded_fields": [
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "delFlag",
+        "approvalInstanceId",
+        "checkOutTime",
+        "checkInTime",
+        "isTemporary",
+        "visitStatus",
+        "status",
+        "customerAddress",
+        "terminalType",
+        "reportConfigSnapshot",
+        "templateName",
+        "templateId",
+        "visitPlanId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12144,
+      "table_name": "visit_plan",
+      "params": {
+        "visitorUserId": 1,
+        "visitorUserName": "超级管理员",
+        "visitPlans": [
+          {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "customerType": "1",
+            "visitDate": "2026-10-17T10:00:00"
+          }
+        ]
+      },
+      "unique_text_fields": [],
+      "required_fields": [
+        "visitPlans",
+        "visitorUserName",
+        "visitorUserId"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "visitPlans": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [
+        "templateId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12156,
+      "table_name": "visit_template",
+      "params": {
+        "templateName": "城区门店周拜访计划",
+        "userId": 1,
+        "weeklyData": {
+          "1": [
+            1082
+          ]
+        }
+      },
+      "unique_text_fields": [
+        "templateName"
+      ],
+      "required_fields": [
+        "weeklyData",
+        "userId",
+        "templateName"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "templateName": {
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "excluded_fields": [
+        "remark",
+        "distributorId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12167,
+      "table_name": "visit_report",
+      "params": {
+        "reportType": "temporary",
+        "images": "https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png",
+        "remark": "记录门店当日经营情况",
+        "address": "武汉市洪山区门店",
+        "customerName": "测试_1791531897535"
+      },
+      "unique_text_fields": [
+        "remark"
+      ],
+      "required_fields": [
+        "reportType"
+      ],
+      "rejection_messages": {},
+      "field_constraints": {
+        "remark": {
+          "maxLength": 500
+        }
+      },
+      "excluded_fields": [
+        "checkOutImages",
+        "locationDeviation",
+        "checkInLatitude",
+        "checkInLongitude",
+        "products",
+        "visitPlanId",
+        "visitReportId",
+        "dept_alias",
+        "user_alias",
+        "db_alias",
+        "query_alias"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12199,
+      "table_name": "purchase_in_order",
+      "params": {
+        "warehouseId": 88,
+        "warehouseName": "硚口总仓",
+        "items": [
+          {
+            "productId": 16,
+            "productName": "五粮液",
+            "quantity": 1
+          }
+        ]
+      },
+      "unique_text_fields": [],
+      "required_fields": [
+        "warehouseId"
+      ],
+      "rejection_messages": {
+        "boundary:body.items:min-items-invalid": [
+          "入库单明细不能为空"
+        ]
+      },
+      "field_constraints": {
+        "items": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [
+        "delFlag",
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "inTime",
+        "approvalTime",
+        "submitTime",
+        "approvalInstanceId",
+        "approvalFlowId",
+        "orderStatus",
+        "voucherUrl",
+        "totalAmount",
+        "totalQuantity",
+        "orderNo",
+        "orderId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12205,
+      "table_name": "sales_order",
+      "params": {
+        "order": {
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "warehouseId": 88,
+          "warehouseName": "硚口总仓",
+          "salesUserId": 1,
+          "salesUserName": "超级管理员",
+          "salesType": "2",
+          "remark": "门店补货销售草稿"
+        },
+        "items": [
+          {
+            "productId": 16,
+            "productName": "五粮液",
+            "quantity": 1
+          }
+        ]
+      },
+      "unique_text_fields": [],
+      "required_fields": [
+        "items",
+        "order"
+      ],
+      "rejection_messages": {
+        "boundary:body.items:min-items-invalid": [
+          "订单明细不能为空"
+        ]
+      },
+      "field_constraints": {
+        "items": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12221,
+      "table_name": "return_order",
+      "params": {
+        "order": {
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "warehouseId": 88,
+          "warehouseName": "硚口总仓",
+          "customerType": "1",
+          "returnOrderType": "2",
+          "returnType": "4",
+          "returnReason": "门店样品退回核对",
+          "handlerUserId": 1,
+          "totalQuantity": 1,
+          "totalAmount": 300.0
+        },
+        "items": [
+          {
+            "productId": 16,
+            "productName": "五粮液",
+            "returnQuantity": 1,
+            "qualityStatus": "1"
+          }
+        ]
+      },
+      "unique_text_fields": [],
+      "required_fields": [
+        "items",
+        "order"
+      ],
+      "rejection_messages": {
+        "boundary:body.items:min-items-invalid": [
+          "退货商品明细不能为空"
+        ]
+      },
+      "field_constraints": {
+        "items": {
+          "minItems": 1
+        }
+      },
+      "excluded_fields": [],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    },
+    {
+      "source_id": 12244,
+      "table_name": "online_visit_record",
+      "params": {
+        "customerId": 1082,
+        "customerName": "测试_1791531897535",
+        "customerType": "1",
+        "visitMethod": "phone",
+        "visitContent": "电话了解门店库存与补货需求",
+        "voucherImages": "https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png"
+      },
+      "unique_text_fields": [
+        "visitContent"
+      ],
+      "required_fields": [
+        "voucherImages",
+        "visitContent",
+        "visitMethod",
+        "customerId"
+      ],
+      "rejection_messages": {
+        "boundary:body.visitContent:min-length-invalid": [
+          "拜访内容不能为空"
+        ]
+      },
+      "field_constraints": {
+        "visitContent": {
+          "minLength": 1,
+          "maxLength": 65535
+        }
+      },
+      "excluded_fields": [
+        "remark",
+        "updateTime",
+        "updateBy",
+        "createTime",
+        "createBy",
+        "delFlag",
+        "visitorDeptName",
+        "visitorDeptId",
+        "visitorUserName",
+        "visitorUserId",
+        "visitTime",
+        "onlineVisitId"
+      ],
+      "notes": [
+        "仅添加；业务库只读；主键、审计、审批输出字段不提交。",
+        "关联 ID/名称保持一致；日期、枚举、图片地址不追加时间戳。"
+      ]
+    }
+  ]
+}

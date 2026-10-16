@@ -25,6 +25,7 @@
       </details>
     </section>
 
+    <DynamicValueEvidence :snapshot="latestExecutionData.dynamic_values" />
     <section class="case-step-panel">
       <div class="case-step-header">
         <strong>操作步骤</strong>
@@ -103,8 +104,10 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import DynamicValueEvidence from '../common/DynamicValueEvidence.vue'
 import { listResources } from '../../services/resource.service'
 import type { ResourceItem } from '../../types/resource'
+import { withScreenshotAccessToken } from '../../utils/screenshotUrl'
 
 const props = defineProps<{ item: ResourceItem | null }>()
 
@@ -207,7 +210,7 @@ function collectScreenshots(target: Record<string, unknown>[], value: unknown, d
     return
   }
   if (!isRecord(value)) return
-  if (screenshotSrc(value) || value.screenshot_error) target.push(value)
+  if (screenshotSrc(value) || value.screenshot_error || hasUnsupportedAgentScreenshot(value)) target.push(value)
   for (const key of ['screenshots', 'feature_screenshot', 'screenshot', 'page_screenshot', 'recording', 'result', 'data']) {
     if (key in value) collectScreenshots(target, value[key], depth + 1)
   }
@@ -223,8 +226,13 @@ function screenshotSrc(screenshot: Record<string, unknown>) {
     const normalized = normalizeScreenshotUrl(path)
     if (normalized) return normalized
   }
+  if (hasUnsupportedAgentScreenshot(screenshot)) return ''
   const file = readStepValue(screenshot, ['screenshot_file', 'file', 'filename', 'screenshot_filename'])
   return typeof file === 'string' && file ? screenshotApiUrl(file) : ''
+}
+function hasUnsupportedAgentScreenshot(screenshot: Record<string, unknown>) {
+  const encoded = readStepValue(screenshot, ['screenshot_base64', 'content_base64'])
+  return typeof encoded === 'string' && Boolean(encoded.trim())
 }
 function looksLikeScreenshotReference(value: string) {
   const normalized = value.trim().replace(/\\/g, '/').toLowerCase()
@@ -236,7 +244,7 @@ function normalizeScreenshotUrl(value: string) {
   if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:') || trimmed.startsWith('blob:')) return trimmed
   const normalized = trimmed.replace(/\\/g, '/')
   const apiIndex = normalized.indexOf('/api/v1/screenshots/')
-  if (apiIndex >= 0) return normalized.slice(apiIndex)
+  if (apiIndex >= 0) return withScreenshotAccessToken(normalized.slice(apiIndex))
   const screenshotIndex = normalized.toLowerCase().lastIndexOf('/screenshots/')
   if (screenshotIndex >= 0) return screenshotApiUrl(normalized.slice(screenshotIndex + '/screenshots/'.length))
   if (/^[^/]+\.png$/i.test(normalized)) return screenshotApiUrl(normalized)
@@ -244,16 +252,17 @@ function normalizeScreenshotUrl(value: string) {
 }
 function screenshotApiUrl(value: string) {
   const filename = value.replace(/\\/g, '/').split('/').filter(Boolean).pop() || ''
-  return filename ? `/api/v1/screenshots/${encodeURIComponent(filename)}` : ''
+  return filename ? withScreenshotAccessToken(`/api/v1/screenshots/${encodeURIComponent(filename)}`) : ''
 }
 function screenshotTitle(screenshot: Record<string, unknown>, index: number) {
   return formatValue(readStepValue(screenshot, ['name', 'title', 'step_name', '元素名称']) ?? `截图 ${index + 1}`)
 }
 function screenshotMeta(screenshot: Record<string, unknown>) {
+  if (hasUnsupportedAgentScreenshot(screenshot)) return '截图产物未同步到服务端，请更新服务端与 Agent 后重新执行'
   return formatValue(readStepValue(screenshot, ['screenshot_file', 'file', 'filename', 'screenshot_error', 'created_at', 'path', 'screenshot_path']))
 }
 function screenshotKey(screenshot: Record<string, unknown>, index: number) {
-  return String(screenshotSrc(screenshot) || readStepValue(screenshot, ['screenshot_file', 'file', 'filename', 'path', 'screenshot_path']) || index)
+  return String(screenshotSrc(screenshot) || readStepValue(screenshot, ['screenshot_file', 'file', 'filename', 'path', 'screenshot_path']) || (hasUnsupportedAgentScreenshot(screenshot) ? `unsupported-${index}` : index))
 }
 function openScreenshotPreview(screenshot: Record<string, unknown>) { previewScreenshot.value = screenshot }
 function closeScreenshotPreview() { previewScreenshot.value = null }

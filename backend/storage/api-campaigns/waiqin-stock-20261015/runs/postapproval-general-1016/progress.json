@@ -1,0 +1,155 @@
+{
+  "started_at": "2026-10-16T02:34:02.928922+00:00",
+  "pid": 11980,
+  "status": "complete",
+  "selected": 4,
+  "executed_business_mutations": true,
+  "results": [
+    {
+      "batch_id": 16461,
+      "flow_id": 16308,
+      "scenario_id": 16314,
+      "name": "场景4补充-销售审批后按需确认并核对扣量",
+      "status": "success",
+      "duration_ms": 5063,
+      "inputs": {
+        "record_marker": "库存回归_1792118045458_196960",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_ship",
+        "stock_matrix_key": "230:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      }
+    },
+    {
+      "batch_id": 16462,
+      "flow_id": 16308,
+      "scenario_id": 16317,
+      "name": "补充-销售审批拒绝不锁库且实际库存不变",
+      "status": "success",
+      "duration_ms": 4539,
+      "inputs": {
+        "record_marker": "库存回归_1792118051616_066079",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_reject",
+        "stock_matrix_key": "230:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      }
+    },
+    {
+      "batch_id": 16463,
+      "flow_id": 16308,
+      "scenario_id": 16451,
+      "name": "总仓销售-直营商客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 4599,
+      "inputs": {
+        "record_marker": "库存回归_1792118057036_665687",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_pass",
+        "stock_matrix_key": "230:2:pass",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "failure": {
+        "node": "receipt_done_inventory",
+        "name": "核对实际库存、锁定库存和可用库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": [
+                {
+                  "paths": [
+                    "/productId"
+                  ],
+                  "expected": 204,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/warehouseId"
+                  ],
+                  "expected": 230,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/quantity"
+                  ],
+                  "expected": 7,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/lockedQuantity"
+                  ],
+                  "expected": 0,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/availableQuantity"
+                  ],
+                  "expected": 7,
+                  "operator": "eq"
+                }
+              ]
+            },
+            "actual": {
+              "count": 1,
+              "mismatched_indices": [
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16464,
+      "flow_id": 16308,
+      "scenario_id": 16453,
+      "name": "总仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 4905,
+      "inputs": {
+        "record_marker": "库存回归_1792118062603_393775",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_pass",
+        "stock_matrix_key": "230:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      }
+    }
+  ],
+  "blocked": [],
+  "finished_at": "2026-10-16T02:34:28.271944+00:00",
+  "passed": 3,
+  "failed": 1
+}

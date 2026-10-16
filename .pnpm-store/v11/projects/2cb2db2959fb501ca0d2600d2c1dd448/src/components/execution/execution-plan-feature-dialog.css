@@ -1,0 +1,29 @@
+.modal-panel { width: min(880px, calc(100vw - 32px)); }
+.modal-header,
+.dialog-tabs,
+.dialog-toolbar,
+.dialog-pager,
+.dialog-pager > div,
+.modal-actions { align-items: center; display: flex; gap: 10px; }
+.modal-header,
+.dialog-pager { justify-content: space-between; }
+.modal-header h3,
+.modal-header p { margin: 0; }
+.modal-header p { color: #64748b; margin-top: 4px; }
+.dialog-tabs { margin: 14px 0; }
+.dialog-tabs .active { background: #2563eb; color: #fff; }
+.dialog-toolbar input { border: 1px solid #cad4e2; border-radius: 6px; flex: 1; min-height: 36px; padding: 0 10px; }
+.dialog-table { margin-top: 12px; max-height: 420px; overflow: auto; }
+table { border-collapse: collapse; width: 100%; }
+th,
+td { border-bottom: 1px solid #e7edf5; padding: 10px; text-align: left; }
+th { background: #f7f9fc; }
+.empty-cell { color: #64748b; padding: 28px; text-align: center; }
+.dialog-pager { color: #60708b; margin-top: 12px; }
+.modal-actions { justify-content: flex-end; margin-top: 16px; }
+.modal-actions > span { margin-right: auto; }
+.form-error { color: #dc2626; }
+@media (max-width: 720px) {
+  .dialog-toolbar,
+  .dialog-pager { align-items: stretch; flex-direction: column; }
+}

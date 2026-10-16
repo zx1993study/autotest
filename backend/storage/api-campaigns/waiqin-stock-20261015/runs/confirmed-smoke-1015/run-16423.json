@@ -1,0 +1,5069 @@
+{
+  "scenario_id": 16414,
+  "name": "正常-按1乘6装箱规格拆箱并核对双侧库存",
+  "status": "success",
+  "path": [
+    "warehouse_guard",
+    "product_create",
+    "product_locate",
+    "product_owned",
+    "inventory_before",
+    "target_create",
+    "target_locate",
+    "target_owned",
+    "target_before",
+    "product_seed_create",
+    "product_seed_detail",
+    "product_seed_process",
+    "product_seed_approve",
+    "product_seed_verify_process",
+    "product_seed_verify_detail",
+    "target_seed_create",
+    "target_seed_detail",
+    "target_seed_process",
+    "target_seed_approve",
+    "target_seed_verify_process",
+    "target_seed_verify_detail",
+    "inventory_seeded",
+    "target_seeded",
+    "convert",
+    "inventory_final",
+    "target_final"
+  ],
+  "nodes": [
+    {
+      "key": "warehouse_guard",
+      "name": "核对仓库归属及实际管理员",
+      "case_id": 1095,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:56 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "533",
+        "Connection": "close",
+        "request-id": "853bffa9367847e996560906696ae0b4"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"warehouseId\": 230, \"warehouseCode\": \"ZCSTORE20260225164912673\", \"warehouseName\": \"测试添加\", \"warehouseType\": \"1\", \"customerId\": null, \"customerName\": null, \"address\": \"测试\", \"managerName\": null, \"managerPhone\": null, \"adminUserId\": 1, \"adminUserName\": \"超级管理员\", \"userIds\": [], \"bindUserNames\": null, \"status\": \"0\", \"remark\": \"1\", \"createBy\": \"admin\", \"createTime\": \"2026-02-25 16:49:13\", \"updateBy\": \"admin\", \"updateTime\": \"2026-02-25 16:49:13\", \"delFlag\": \"0\"}, \"success\": true, \"time\": \"2026-10-15T18:20:56.760540\"}",
+      "response_code": 200,
+      "duration_ms": 193,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 230,
+          "expected": 230
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "测试添加",
+          "expected": "测试添加"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059655726,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {}
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_create",
+      "name": "创建独立库存测试商品",
+      "case_id": 1096,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "unit": "件",
+          "status": "0",
+          "productName": "库存回归_1792059655688_740834_主商品",
+          "productSpec": "500ML / 1*6",
+          "productType": "巴马水",
+          "productBrand": "巴马丽琅矿泉水",
+          "purchasePrice": 2.5,
+          "terminalWholesalePrice": 3.5,
+          "productSpecFirst": "500ML",
+          "productSpecSecond": "1*6"
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "84",
+        "Connection": "close",
+        "request-id": "2aadd45d51b94589af97370110079da6"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"新增成功\", \"success\": true, \"time\": \"2026-10-15T18:20:56.942445\"}",
+      "response_code": 200,
+      "duration_ms": 315,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059655921,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_locate",
+      "name": "按唯一商品名称定位且只允许一条",
+      "case_id": 1097,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/list?pageNum=1&pageSize=10&productName=%E5%BA%93%E5%AD%98%E5%9B%9E%E5%BD%92_1792059655688_740834_%E4%B8%BB%E5%95%86%E5%93%81",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/list",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productName": "库存回归_1792059655688_740834_主商品"
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "770",
+        "Connection": "close",
+        "request-id": "0f3ab5263a9a456e8fa4fdb3a7f8af59"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"productSpec\": \"500ML / 1*6\", \"productImage\": null, \"width\": null, \"updateBy\": \"admin\", \"costPrice\": 0.0, \"height\": null, \"updateTime\": \"2026-10-15 18:20:57\", \"productSpecFirst\": \"500ML\", \"purchasePrice\": 2.5, \"remark\": null, \"productSpecSecond\": \"1*6\", \"terminalWholesalePrice\": 3.5, \"status\": \"0\", \"productId\": 161, \"productType\": \"巴马水\", \"groupBuyPrice\": 0.0, \"delFlag\": \"0\", \"productBrand\": \"巴马丽琅矿泉水\", \"weight\": null, \"createBy\": \"admin\", \"productName\": \"库存回归_1792059655688_740834_主商品\", \"unit\": \"件\", \"weightUnit\": null, \"createTime\": \"2026-10-15 18:20:57\", \"productCode\": \"SP202610150080\", \"barcode\": null, \"length\": null}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-15T18:20:57.268292\"}",
+      "response_code": 200,
+      "duration_ms": 186,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productName"
+                ],
+                "expected": "库存回归_1792059655688_740834_主商品",
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059656242,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_主商品",
+          "$.assertions[2].rules[0].expected": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "product_id": 161
+      },
+      "next": "auto"
+    },
+    {
+      "key": "product_owned",
+      "name": "核对新商品ID、唯一名称及启用状态",
+      "case_id": 1098,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/161",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/161",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "713",
+        "Connection": "close",
+        "request-id": "6d059925baf7409ca00226e23336dc1e"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"productId\": 161, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productSpec\": \"500ML / 1*6\", \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*6\", \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\", \"unit\": \"件\", \"barcode\": null, \"productImage\": null, \"costPrice\": \"0.00\", \"purchasePrice\": \"2.50\", \"terminalWholesalePrice\": \"3.50\", \"groupBuyPrice\": \"0.00\", \"weight\": null, \"weightUnit\": null, \"length\": null, \"width\": null, \"height\": null, \"remark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"admin\", \"createTime\": \"2026-10-15 18:20:57\", \"updateBy\": \"admin\", \"updateTime\": \"2026-10-15 18:20:57\"}, \"success\": true, \"time\": \"2026-10-15T18:20:57.436071\"}",
+      "response_code": 200,
+      "duration_ms": 166,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 161,
+          "expected": 161
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "库存回归_1792059655688_740834_主商品",
+          "expected": "库存回归_1792059655688_740834_主商品"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "500ML",
+          "expected": "500ML"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1*6",
+          "expected": "1*6"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "件",
+          "expected": "件"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059656431,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_product_id}}",
+          "$.assertions[3].expected": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "inventory_before",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1099,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=161",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 161
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "225",
+        "Connection": "close",
+        "request-id": "ba884409f7df4f98b5c5356667422df1"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [], \"pageNum\": 1, \"pageSize\": 10, \"total\": 0, \"hasNext\": false, \"summary\": {\"totalProductCount\": 0, \"totalInventoryQuantity\": 0.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:20:57.603709\"}",
+      "response_code": 200,
+      "duration_ms": 164,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 0,
+            "max_items": 0,
+            "rules": []
+          },
+          "actual": {
+            "count": 0,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059656602,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {}
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_create",
+      "name": "创建独立库存测试商品",
+      "case_id": 1100,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "unit": "瓶",
+          "status": "0",
+          "productName": "库存回归_1792059655688_740834_转换商品",
+          "productSpec": "500ML / 1*1",
+          "productType": "巴马水",
+          "productBrand": "巴马丽琅矿泉水",
+          "purchasePrice": 2.5,
+          "terminalWholesalePrice": 3.5,
+          "productSpecFirst": "500ML",
+          "productSpecSecond": "1*1"
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "84",
+        "Connection": "close",
+        "request-id": "04a27ee708c64150a7b6e4ffc5bd5731"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"新增成功\", \"success\": true, \"time\": \"2026-10-15T18:20:57.812604\"}",
+      "response_code": 200,
+      "duration_ms": 216,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059656769,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_转换商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_locate",
+      "name": "按唯一商品名称定位且只允许一条",
+      "case_id": 1101,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/list?pageNum=1&pageSize=10&productName=%E5%BA%93%E5%AD%98%E5%9B%9E%E5%BD%92_1792059655688_740834_%E8%BD%AC%E6%8D%A2%E5%95%86%E5%93%81",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/list",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productName": "库存回归_1792059655688_740834_转换商品"
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:57 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "773",
+        "Connection": "close",
+        "request-id": "1ea905f5f53f44d9891959db2618024c"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"productSpec\": \"500ML / 1*1\", \"productImage\": null, \"width\": null, \"updateBy\": \"admin\", \"costPrice\": 0.0, \"height\": null, \"updateTime\": \"2026-10-15 18:20:58\", \"productSpecFirst\": \"500ML\", \"purchasePrice\": 2.5, \"remark\": null, \"productSpecSecond\": \"1*1\", \"terminalWholesalePrice\": 3.5, \"status\": \"0\", \"productId\": 162, \"productType\": \"巴马水\", \"groupBuyPrice\": 0.0, \"delFlag\": \"0\", \"productBrand\": \"巴马丽琅矿泉水\", \"weight\": null, \"createBy\": \"admin\", \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"unit\": \"瓶\", \"weightUnit\": null, \"createTime\": \"2026-10-15 18:20:58\", \"productCode\": \"SP202610150081\", \"barcode\": null, \"length\": null}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-15T18:20:57.989664\"}",
+      "response_code": 200,
+      "duration_ms": 163,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productName"
+                ],
+                "expected": "库存回归_1792059655688_740834_转换商品",
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059656987,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_转换商品",
+          "$.assertions[2].rules[0].expected": "{{record_marker}}_转换商品"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "product_id": 162
+      },
+      "next": "auto"
+    },
+    {
+      "key": "target_owned",
+      "name": "核对新商品ID、唯一名称及启用状态",
+      "case_id": 1102,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/162",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/162",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:58 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "716",
+        "Connection": "close",
+        "request-id": "54369fd640c940fda716f2ff5a16bca2"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"productId\": 162, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productSpec\": \"500ML / 1*1\", \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*1\", \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\", \"unit\": \"瓶\", \"barcode\": null, \"productImage\": null, \"costPrice\": \"0.00\", \"purchasePrice\": \"2.50\", \"terminalWholesalePrice\": \"3.50\", \"groupBuyPrice\": \"0.00\", \"weight\": null, \"weightUnit\": null, \"length\": null, \"width\": null, \"height\": null, \"remark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"admin\", \"createTime\": \"2026-10-15 18:20:58\", \"updateBy\": \"admin\", \"updateTime\": \"2026-10-15 18:20:58\"}, \"success\": true, \"time\": \"2026-10-15T18:20:58.157654\"}",
+      "response_code": 200,
+      "duration_ms": 166,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 162,
+          "expected": 162
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "库存回归_1792059655688_740834_转换商品",
+          "expected": "库存回归_1792059655688_740834_转换商品"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "500ML",
+          "expected": "500ML"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1*1",
+          "expected": "1*1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "瓶",
+          "expected": "瓶"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059657153,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_product_id}}",
+          "$.assertions[3].expected": "{{record_marker}}_转换商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_before",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1103,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=162",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 162
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:58 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "225",
+        "Connection": "close",
+        "request-id": "dfd04bb4ccfb452292153c2a0d79befb"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [], \"pageNum\": 1, \"pageSize\": 10, \"total\": 0, \"hasNext\": false, \"summary\": {\"totalProductCount\": 0, \"totalInventoryQuantity\": 0.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:20:58.327243\"}",
+      "response_code": 200,
+      "duration_ms": 165,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 0,
+            "max_items": 0,
+            "rules": []
+          },
+          "actual": {
+            "count": 0,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059657323,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {}
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_create",
+      "name": "创建独立审批测试数据",
+      "case_id": 1166,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "items": [
+            {
+              "quantity": 10,
+              "productId": 161,
+              "unitPrice": 3.5,
+              "productName": "库存回归_1792059655688_740834_主商品"
+            }
+          ],
+          "warehouseId": 230,
+          "warehouseName": "测试添加"
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:58 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "125",
+        "Connection": "close",
+        "request-id": "0fb6bf5f6e11474fb433dafaae767385"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"新增成功并已提交审核\", \"data\": {\"orderId\": 189}, \"success\": true, \"time\": \"2026-10-15T18:20:58.507237\"}",
+      "response_code": 200,
+      "duration_ms": 187,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059657493,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.items[0].productName": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "owned_id": 189
+      },
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_detail",
+      "name": "详情核对新建数据并读取审批实例",
+      "case_id": 1167,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order/189",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order/189",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-product-id": "161"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:58 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "749",
+        "Connection": "close",
+        "request-id": "0c614c5912f549f0a03208dbca83d13c"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"orderId\": 189, \"totalQuantity\": 10.0, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:20:59\", \"inTime\": null, \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"totalAmount\": 35.0, \"orderNo\": \"PO20261015000075\", \"warehouseId\": 230, \"orderStatus\": \"1\", \"approvalInstanceId\": 1841, \"approvalTime\": null, \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\", \"items\": [{\"orderId\": 189, \"productId\": 161, \"unitPrice\": 3.5, \"quantity\": 10.0, \"itemId\": 262, \"totalPrice\": 35.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productImage\": null}]}, \"success\": true, \"time\": \"2026-10-15T18:20:58.695199\"}",
+      "response_code": 200,
+      "duration_ms": 174,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 189,
+          "expected": 189
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 230,
+          "expected": 230
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/items",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 161,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 10,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059657684,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_owned_id": 189,
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_owned_id}}",
+          "$.assertions[4].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "instance_id": 1841,
+        "order_no": "PO20261015000075",
+        "item_id": 262,
+        "owned_status": "1"
+      },
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_process",
+      "name": "读取本次实例并核对当前节点与审批人",
+      "case_id": 1168,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/1841",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/process/1841",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-owned-id": "189"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:58 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "1627",
+        "Connection": "close",
+        "vary": "Accept-Encoding",
+        "request-id": "8e0a1db5c06d4c12943cde5c465c4647"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"instanceId\": 1841, \"businessId\": 189, \"currentNodeId\": 26, \"applicantId\": 251, \"applyTime\": \"2026-10-15 18:20:58\", \"createBy\": \"251\", \"updateBy\": \"\", \"remark\": \"采购入库单审批-PO20261015000075\", \"processStatus\": \"0\", \"flowId\": 11, \"businessType\": \"purchase_in_order\", \"currentNodeOrder\": 1, \"applicantName\": \"审批回归客户经理\", \"finishTime\": null, \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": null, \"flowName\": \"采购入库单审批流程\"}, \"nodeInstances\": [{\"nodeInstanceId\": 2130, \"nodeName\": \"上级\", \"nodeStatus\": \"0\", \"approverName\": \"超级管理员\", \"approveResult\": null, \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": null, \"nodeOrder\": 1, \"instanceId\": 1841, \"nodeId\": 26, \"approverId\": 1, \"approveTime\": null, \"approveRemark\": null, \"arriveTime\": \"2026-10-15 18:20:58\", \"createBy\": \"251\", \"updateBy\": \"\"}], \"businessData\": {\"order\": {\"totalQuantity\": 10.0, \"orderId\": 189, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:20:59\", \"inTime\": null, \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"totalAmount\": 35.0, \"orderNo\": \"PO20261015000075\", \"warehouseId\": 230, \"orderStatus\": \"1\", \"approvalInstanceId\": 1841, \"approvalTime\": null, \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\"}, \"items\": [{\"productId\": 161, \"orderId\": 189, \"unitPrice\": 3.5, \"quantity\": 10.0, \"itemId\": 262, \"totalPrice\": 35.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productSpec\": \"500ML / 1*6\", \"unit\": \"件\"}]}}, \"success\": true, \"time\": \"2026-10-15T18:20:58.889748\"}",
+      "response_code": 200,
+      "duration_ms": 195,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1841,
+          "expected": 1841
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 189,
+          "expected": 189
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "purchase_in_order",
+          "expected": "purchase_in_order"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 11,
+          "expected": 11
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/nodeInstances",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1841,
+          "expected": 1841
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059657862,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_instance_id": 1841,
+          "bound_owned_id": 189,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_instance_id}}",
+          "$.assertions[3].expected": "{{bound_owned_id}}",
+          "$.assertions[8].expected": "{{bound_instance_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "node_instance_id": 2130
+      },
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_approve",
+      "name": "使用当前节点指定审批人审批",
+      "case_id": 1169,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "PUT",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/approve",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/approve",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "approveRemark": "库存回归_1792059655688_740834_审批核对",
+          "approveResult": "1",
+          "nodeInstanceId": 2130
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:59 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "90",
+        "Connection": "close",
+        "request-id": "b2b3434a884747ae9a6fc9c77c1f00e0"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"审批操作成功\", \"success\": true, \"time\": \"2026-10-15T18:20:59.095351\"}",
+      "response_code": 200,
+      "duration_ms": 206,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059658062,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_node_instance_id": 2130,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.approveRemark": "{{record_marker}}_审批核对"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_verify_process",
+      "name": "核对审批结果、节点和审批人",
+      "case_id": 1170,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/1841",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/process/1841",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-owned-id": "189",
+          "X-Test-node-instance-id": "2130"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:59 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "1772",
+        "Connection": "close",
+        "vary": "Accept-Encoding",
+        "request-id": "a3a22dcbfb2e47fa9a106de20312d1fd"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"instanceId\": 1841, \"businessId\": 189, \"currentNodeId\": 26, \"applicantId\": 251, \"applyTime\": \"2026-10-15 18:20:58\", \"createBy\": \"251\", \"updateBy\": \"\", \"remark\": \"采购入库单审批-PO20261015000075\", \"processStatus\": \"1\", \"flowId\": 11, \"businessType\": \"purchase_in_order\", \"currentNodeOrder\": 1, \"applicantName\": \"审批回归客户经理\", \"finishTime\": \"2026-10-15 18:20:59\", \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"flowName\": \"采购入库单审批流程\"}, \"nodeInstances\": [{\"nodeInstanceId\": 2130, \"nodeName\": \"上级\", \"nodeStatus\": \"1\", \"approverName\": \"超级管理员\", \"approveResult\": \"1\", \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"nodeOrder\": 1, \"instanceId\": 1841, \"nodeId\": 26, \"approverId\": 1, \"approveTime\": \"2026-10-15 18:20:59\", \"approveRemark\": \"库存回归_1792059655688_740834_审批核对\", \"arriveTime\": \"2026-10-15 18:20:58\", \"createBy\": \"251\", \"updateBy\": \"\"}], \"businessData\": {\"order\": {\"totalQuantity\": 10.0, \"orderId\": 189, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:20:59\", \"inTime\": \"2026-10-15 18:20:59\", \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"totalAmount\": 35.0, \"orderNo\": \"PO20261015000075\", \"warehouseId\": 230, \"orderStatus\": \"4\", \"approvalInstanceId\": 1841, \"approvalTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\"}, \"items\": [{\"productId\": 161, \"orderId\": 189, \"unitPrice\": 3.5, \"quantity\": 10.0, \"itemId\": 262, \"totalPrice\": 35.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productSpec\": \"500ML / 1*6\", \"unit\": \"件\"}]}}, \"success\": true, \"time\": \"2026-10-15T18:20:59.309006\"}",
+      "response_code": 200,
+      "duration_ms": 201,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1841,
+          "expected": 1841
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 189,
+          "expected": 189
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "purchase_in_order",
+          "expected": "purchase_in_order"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/nodeInstances",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 2130,
+          "expected": 2130
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1841,
+          "expected": 1841
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059658272,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_instance_id": 1841,
+          "bound_owned_id": 189,
+          "bound_node_instance_id": 2130,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_instance_id}}",
+          "$.assertions[3].expected": "{{bound_owned_id}}",
+          "$.assertions[7].expected": "{{bound_node_instance_id}}",
+          "$.assertions[8].expected": "{{bound_instance_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_seed_verify_detail",
+      "name": "审批后核对业务状态",
+      "case_id": 1171,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order/189",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order/189",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-product-id": "161"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:59 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "783",
+        "Connection": "close",
+        "request-id": "c6bf207ac8b24122b9b243a630eac140"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"orderId\": 189, \"totalQuantity\": 10.0, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:20:59\", \"inTime\": \"2026-10-15 18:20:59\", \"createTime\": \"2026-10-15 18:20:58\", \"updateTime\": \"2026-10-15 18:20:59\", \"totalAmount\": 35.0, \"orderNo\": \"PO20261015000075\", \"warehouseId\": 230, \"orderStatus\": \"4\", \"approvalInstanceId\": 1841, \"approvalTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\", \"items\": [{\"orderId\": 189, \"productId\": 161, \"unitPrice\": 3.5, \"quantity\": 10.0, \"itemId\": 262, \"totalPrice\": 35.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productImage\": null}]}, \"success\": true, \"time\": \"2026-10-15T18:20:59.509706\"}",
+      "response_code": 200,
+      "duration_ms": 192,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 189,
+          "expected": 189
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "4",
+          "expected": "4"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 230,
+          "expected": 230
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/items",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 161,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 10,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059658479,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_owned_id": 189,
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_owned_id}}",
+          "$.assertions[5].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "order_no": "PO20261015000075",
+        "item_id": 262,
+        "owned_status": "4"
+      },
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_create",
+      "name": "创建独立审批测试数据",
+      "case_id": 1172,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "items": [
+            {
+              "quantity": 2,
+              "productId": 162,
+              "unitPrice": 3.5,
+              "productName": "库存回归_1792059655688_740834_转换商品"
+            }
+          ],
+          "warehouseId": 230,
+          "warehouseName": "测试添加"
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:59 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "125",
+        "Connection": "close",
+        "request-id": "ea96a972d4314a25bc98996822dc5720"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"新增成功并已提交审核\", \"data\": {\"orderId\": 190}, \"success\": true, \"time\": \"2026-10-15T18:20:59.712033\"}",
+      "response_code": 200,
+      "duration_ms": 207,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059658676,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.items[0].productName": "{{record_marker}}_转换商品"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "owned_id": 190
+      },
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_detail",
+      "name": "详情核对新建数据并读取审批实例",
+      "case_id": 1173,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order/190",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order/190",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-product-id": "162"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:20:59 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "748",
+        "Connection": "close",
+        "request-id": "288ca91a19c64156afb4d32d96723e66"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"totalQuantity\": 2.0, \"orderId\": 190, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:21:00\", \"inTime\": null, \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": \"2026-10-15 18:21:00\", \"totalAmount\": 7.0, \"orderNo\": \"PO20261015000076\", \"warehouseId\": 230, \"orderStatus\": \"1\", \"approvalInstanceId\": 1842, \"approvalTime\": null, \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\", \"items\": [{\"productId\": 162, \"orderId\": 190, \"unitPrice\": 3.5, \"quantity\": 2.0, \"itemId\": 263, \"totalPrice\": 7.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productImage\": null}]}, \"success\": true, \"time\": \"2026-10-15T18:20:59.904562\"}",
+      "response_code": 200,
+      "duration_ms": 176,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 190,
+          "expected": 190
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 230,
+          "expected": 230
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/items",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 162,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 2,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059658889,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_owned_id": 190,
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_owned_id}}",
+          "$.assertions[4].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "instance_id": 1842,
+        "order_no": "PO20261015000076",
+        "item_id": 263,
+        "owned_status": "1"
+      },
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_process",
+      "name": "读取本次实例并核对当前节点与审批人",
+      "case_id": 1174,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/1842",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/process/1842",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-owned-id": "190"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:00 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "1626",
+        "Connection": "close",
+        "vary": "Accept-Encoding",
+        "request-id": "155fbb1866fe4f6c881d9c8627deffc3"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"businessId\": 190, \"instanceId\": 1842, \"currentNodeId\": 26, \"applicantId\": 251, \"applyTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\", \"remark\": \"采购入库单审批-PO20261015000076\", \"processStatus\": \"0\", \"flowId\": 11, \"businessType\": \"purchase_in_order\", \"currentNodeOrder\": 1, \"applicantName\": \"审批回归客户经理\", \"finishTime\": null, \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": null, \"flowName\": \"采购入库单审批流程\"}, \"nodeInstances\": [{\"nodeName\": \"上级\", \"nodeInstanceId\": 2131, \"nodeStatus\": \"0\", \"approverName\": \"超级管理员\", \"approveResult\": null, \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": null, \"nodeOrder\": 1, \"instanceId\": 1842, \"nodeId\": 26, \"approverId\": 1, \"approveTime\": null, \"approveRemark\": null, \"arriveTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\"}], \"businessData\": {\"order\": {\"orderId\": 190, \"totalQuantity\": 2.0, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:21:00\", \"inTime\": null, \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": \"2026-10-15 18:21:00\", \"totalAmount\": 7.0, \"orderNo\": \"PO20261015000076\", \"warehouseId\": 230, \"orderStatus\": \"1\", \"approvalInstanceId\": 1842, \"approvalTime\": null, \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\"}, \"items\": [{\"orderId\": 190, \"productId\": 162, \"unitPrice\": 3.5, \"quantity\": 2.0, \"itemId\": 263, \"totalPrice\": 7.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productSpec\": \"500ML / 1*1\", \"unit\": \"瓶\"}]}}, \"success\": true, \"time\": \"2026-10-15T18:21:00.109727\"}",
+      "response_code": 200,
+      "duration_ms": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1842,
+          "expected": 1842
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 190,
+          "expected": 190
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "purchase_in_order",
+          "expected": "purchase_in_order"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 11,
+          "expected": 11
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/nodeInstances",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1842,
+          "expected": 1842
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059659070,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_instance_id": 1842,
+          "bound_owned_id": 190,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_instance_id}}",
+          "$.assertions[3].expected": "{{bound_owned_id}}",
+          "$.assertions[8].expected": "{{bound_instance_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "node_instance_id": 2131
+      },
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_approve",
+      "name": "使用当前节点指定审批人审批",
+      "case_id": 1175,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "PUT",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/approve",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/approve",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "approveRemark": "库存回归_1792059655688_740834_审批核对",
+          "approveResult": "1",
+          "nodeInstanceId": 2131
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:00 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "90",
+        "Connection": "close",
+        "request-id": "461819418aac46d7b6996918abc8a308"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"审批操作成功\", \"success\": true, \"time\": \"2026-10-15T18:21:00.302358\"}",
+      "response_code": 200,
+      "duration_ms": 196,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059659278,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_node_instance_id": 2131,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.approveRemark": "{{record_marker}}_审批核对"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_verify_process",
+      "name": "核对审批结果、节点和审批人",
+      "case_id": 1176,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/1842",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/approval/task/process/1842",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-owned-id": "190",
+          "X-Test-node-instance-id": "2131"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:00 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "1771",
+        "Connection": "close",
+        "vary": "Accept-Encoding",
+        "request-id": "33543627982147d1ad48ed5e369b0a68"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"instanceId\": 1842, \"businessId\": 190, \"currentNodeId\": 26, \"applicantId\": 251, \"applyTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\", \"remark\": \"采购入库单审批-PO20261015000076\", \"businessType\": \"purchase_in_order\", \"processStatus\": \"1\", \"flowId\": 11, \"currentNodeOrder\": 1, \"applicantName\": \"审批回归客户经理\", \"finishTime\": \"2026-10-15 18:21:00\", \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": \"2026-10-15 18:21:00\", \"flowName\": \"采购入库单审批流程\"}, \"nodeInstances\": [{\"nodeInstanceId\": 2131, \"nodeName\": \"上级\", \"nodeStatus\": \"1\", \"approverName\": \"超级管理员\", \"approveResult\": \"1\", \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": \"2026-10-15 18:21:00\", \"nodeId\": 26, \"nodeOrder\": 1, \"instanceId\": 1842, \"approverId\": 1, \"approveTime\": \"2026-10-15 18:21:00\", \"approveRemark\": \"库存回归_1792059655688_740834_审批核对\", \"arriveTime\": \"2026-10-15 18:20:59\", \"createBy\": \"251\", \"updateBy\": \"\"}], \"businessData\": {\"order\": {\"orderId\": 190, \"totalQuantity\": 2.0, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:21:00\", \"inTime\": \"2026-10-15 18:21:00\", \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": \"2026-10-15 18:21:00\", \"totalAmount\": 7.0, \"orderNo\": \"PO20261015000076\", \"warehouseId\": 230, \"orderStatus\": \"4\", \"approvalInstanceId\": 1842, \"approvalTime\": \"2026-10-15 18:21:00\", \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\"}, \"items\": [{\"unitPrice\": 3.5, \"productId\": 162, \"orderId\": 190, \"quantity\": 2.0, \"itemId\": 263, \"totalPrice\": 7.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productSpec\": \"500ML / 1*1\", \"unit\": \"瓶\"}]}}, \"success\": true, \"time\": \"2026-10-15T18:21:00.536497\"}",
+      "response_code": 200,
+      "duration_ms": 224,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1842,
+          "expected": 1842
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 190,
+          "expected": 190
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "purchase_in_order",
+          "expected": "purchase_in_order"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/nodeInstances",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 2131,
+          "expected": 2131
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1842,
+          "expected": 1842
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059659480,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_instance_id": 1842,
+          "bound_owned_id": 190,
+          "bound_node_instance_id": 2131,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_instance_id}}",
+          "$.assertions[3].expected": "{{bound_owned_id}}",
+          "$.assertions[7].expected": "{{bound_node_instance_id}}",
+          "$.assertions[8].expected": "{{bound_instance_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_seed_verify_detail",
+      "name": "审批后核对业务状态",
+      "case_id": 1177,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/purchase-in-order/190",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/purchase-in-order/190",
+        "headers": {
+          "Authorization": "***",
+          "X-Test-product-id": "162"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:00 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "782",
+        "Connection": "close",
+        "request-id": "a99508aa1f8f49949cba77e289e6150a"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"orderId\": 190, \"totalQuantity\": 2.0, \"voucherUrl\": null, \"approvalFlowId\": 11, \"submitTime\": \"2026-10-15 18:21:00\", \"inTime\": \"2026-10-15 18:21:00\", \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": \"2026-10-15 18:21:00\", \"totalAmount\": 7.0, \"orderNo\": \"PO20261015000076\", \"warehouseId\": 230, \"orderStatus\": \"4\", \"approvalInstanceId\": 1842, \"approvalTime\": \"2026-10-15 18:21:00\", \"createBy\": \"251\", \"updateBy\": \"\", \"delFlag\": \"0\", \"warehouseName\": \"测试添加\", \"createByName\": \"审批回归客户经理\", \"items\": [{\"orderId\": 190, \"productId\": 162, \"unitPrice\": 3.5, \"quantity\": 2.0, \"itemId\": 263, \"totalPrice\": 7.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productImage\": null}]}, \"success\": true, \"time\": \"2026-10-15T18:21:00.741211\"}",
+      "response_code": 200,
+      "duration_ms": 189,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 190,
+          "expected": 190
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "4",
+          "expected": "4"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 230,
+          "expected": 230
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/data/items",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 162,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 2,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059659712,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_owned_id": 190,
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_owned_id}}",
+          "$.assertions[5].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "order_no": "PO20261015000076",
+        "item_id": 263,
+        "owned_status": "4"
+      },
+      "next": "auto"
+    },
+    {
+      "key": "inventory_seeded",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1106,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=161",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 161
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:00 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "760",
+        "Connection": "close",
+        "request-id": "09956c37025541f1bc5c291ccfe5fe73"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"inventoryId\": 210, \"lockedQuantity\": 0.0, \"quantity\": 10.0, \"lastOutTime\": null, \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": null, \"warehouseId\": 230, \"productId\": 161, \"lastInTime\": \"2026-10-15 18:20:59\", \"createBy\": \"\", \"updateBy\": \"\", \"availableQuantity\": 10.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productSpec\": \"500ML / 1*6\", \"unit\": \"件\", \"productImage\": null, \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*6\", \"costPrice\": 0, \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": {\"totalProductCount\": 1, \"totalInventoryQuantity\": 10.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:21:00.926286\"}",
+      "response_code": 200,
+      "duration_ms": 172,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 161,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/warehouseId"
+                ],
+                "expected": 230,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 10,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/lockedQuantity"
+                ],
+                "expected": 0,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/availableQuantity"
+                ],
+                "expected": 10,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059659916,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_seeded",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1107,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=162",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 162
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:01 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "760",
+        "Connection": "close",
+        "request-id": "77f6723b54cf498d8c5241670ccb3541"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"inventoryId\": 211, \"lockedQuantity\": 0.0, \"quantity\": 2.0, \"lastOutTime\": null, \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": null, \"warehouseId\": 230, \"productId\": 162, \"lastInTime\": \"2026-10-15 18:21:00\", \"createBy\": \"\", \"updateBy\": \"\", \"availableQuantity\": 2.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productSpec\": \"500ML / 1*1\", \"unit\": \"瓶\", \"productImage\": null, \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*1\", \"costPrice\": 0, \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": {\"totalProductCount\": 1, \"totalInventoryQuantity\": 2.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:21:01.125106\"}",
+      "response_code": 200,
+      "duration_ms": 187,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 162,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/warehouseId"
+                ],
+                "expected": 230,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 2,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/lockedQuantity"
+                ],
+                "expected": 0,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/availableQuantity"
+                ],
+                "expected": 2,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059660098,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "sales_create",
+      "name": "创建独立审批测试数据",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "sales_locate",
+      "name": "按唯一名称定位本次创建的数据",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "sales_detail",
+      "name": "详情核对新建数据并读取审批实例",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "sales_before_approval_stock",
+      "name": "审批前核对实际库存、锁定量与可用量",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "sales_process",
+      "name": "读取本次实例并核对当前节点与审批人",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "convert",
+      "name": "转换本场景整件与散瓶库存",
+      "case_id": 1108,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory/convert",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory/convert",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "remark": "库存回归_1792059655688_740834_拆箱补件",
+          "warehouseId": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": 6,
+          "sourceProductId": 161,
+          "targetProductId": 162
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:01 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "90",
+        "Connection": "close",
+        "request-id": "00ed2479eb9d41719ef537c08d75e714"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"库存转化成功\", \"success\": true, \"time\": \"2026-10-15T18:21:01.416475\"}",
+      "response_code": 200,
+      "duration_ms": 258,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059660329,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.data.params.remark": "{{record_marker}}_拆箱补件"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "inventory_final",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1109,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=161",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 161
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:01 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "774",
+        "Connection": "close",
+        "request-id": "551f5f6494044f45a03d1cc600cd4777"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"inventoryId\": 210, \"quantity\": 9.0, \"lockedQuantity\": 0.0, \"lastOutTime\": null, \"createTime\": \"2026-10-15 18:20:59\", \"updateTime\": \"2026-10-15 18:21:01\", \"warehouseId\": 230, \"productId\": 161, \"lastInTime\": \"2026-10-15 18:20:59\", \"createBy\": \"\", \"updateBy\": \"\", \"availableQuantity\": 9.0, \"productName\": \"库存回归_1792059655688_740834_主商品\", \"productCode\": \"SP202610150080\", \"productSpec\": \"500ML / 1*6\", \"unit\": \"件\", \"productImage\": null, \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*6\", \"costPrice\": 0, \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": {\"totalProductCount\": 1, \"totalInventoryQuantity\": 9.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:21:01.659740\"}",
+      "response_code": 200,
+      "duration_ms": 256,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 161,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/warehouseId"
+                ],
+                "expected": 230,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 9,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/lockedQuantity"
+                ],
+                "expected": 0,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/availableQuantity"
+                ],
+                "expected": 9,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059660598,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 161,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "target_final",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 1110,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/230/inventory?pageNum=1&pageSize=10&productId=162",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/230/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 162
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Thu, 15 Oct 2026 10:21:01 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "777",
+        "Connection": "close",
+        "request-id": "c0f1ba87f0f9440baf547ef38108225b"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"inventoryId\": 211, \"lockedQuantity\": 0.0, \"quantity\": 8.0, \"lastOutTime\": null, \"createTime\": \"2026-10-15 18:21:00\", \"updateTime\": \"2026-10-15 18:21:01\", \"warehouseId\": 230, \"productId\": 162, \"lastInTime\": \"2026-10-15 18:21:01\", \"createBy\": \"\", \"updateBy\": \"\", \"availableQuantity\": 8.0, \"productName\": \"库存回归_1792059655688_740834_转换商品\", \"productCode\": \"SP202610150081\", \"productSpec\": \"500ML / 1*1\", \"unit\": \"瓶\", \"productImage\": null, \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*1\", \"costPrice\": 0, \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": {\"totalProductCount\": 1, \"totalInventoryQuantity\": 8.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-15T18:21:01.894147\"}",
+      "response_code": 200,
+      "duration_ms": 185,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productId"
+                ],
+                "expected": 162,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/warehouseId"
+                ],
+                "expected": 230,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/quantity"
+                ],
+                "expected": 8,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/lockedQuantity"
+                ],
+                "expected": 0,
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/availableQuantity"
+                ],
+                "expected": 8,
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792059660868,
+        "values": {
+          "record_marker": "库存回归_1792059655688_740834",
+          "bound_product_id": 162,
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1",
+          "stock_scene_key": "packing_six"
+        },
+        "templates": {
+          "$.assertions[2].rules[0].expected": "{{bound_product_id}}"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    }
+  ],
+  "template_version": 3,
+  "duration_ms": 5339,
+  "expected_end": "auto",
+  "end_passed": true,
+  "snapshot": {
+    "flow": {
+      "id": 16344,
+      "name": "拆箱补件库存核对",
+      "project_id": 10,
+      "description": "用户确认规则：销售审批前锁库；从详情读取审批；有待确认单先确认，无待确认则核对直接库存变化；转换按装箱规格。",
+      "status": "active",
+      "data": {
+        "version": 3,
+        "inputs": {
+          "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+          "stock_flow_key": "convert",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261015-user-confirmed-1"
+        },
+        "nodes": [
+          {
+            "key": "warehouse_guard",
+            "name": "核对仓库归属及实际管理员",
+            "api_id": 12191,
+            "case_id": 1095,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_create",
+            "name": "创建独立库存测试商品",
+            "api_id": 12102,
+            "case_id": 1096,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_locate",
+            "name": "按唯一商品名称定位且只允许一条",
+            "api_id": 12100,
+            "case_id": 1097,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_owned",
+            "name": "核对新商品ID、唯一名称及启用状态",
+            "api_id": 12107,
+            "case_id": 1098,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "inventory_before",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1099,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_create",
+            "name": "创建独立库存测试商品",
+            "api_id": 12102,
+            "case_id": 1100,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_locate",
+            "name": "按唯一商品名称定位且只允许一条",
+            "api_id": 12100,
+            "case_id": 1101,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_owned",
+            "name": "核对新商品ID、唯一名称及启用状态",
+            "api_id": 12107,
+            "case_id": 1102,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_before",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1103,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_create",
+            "name": "创建独立审批测试数据",
+            "api_id": 12199,
+            "case_id": 1166,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_detail",
+            "name": "详情核对新建数据并读取审批实例",
+            "api_id": 12202,
+            "case_id": 1167,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_process",
+            "name": "读取本次实例并核对当前节点与审批人",
+            "api_id": 12181,
+            "case_id": 1168,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_approve",
+            "name": "使用当前节点指定审批人审批",
+            "api_id": 12182,
+            "case_id": 1169,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_verify_process",
+            "name": "核对审批结果、节点和审批人",
+            "api_id": 12181,
+            "case_id": 1170,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "product_seed_verify_detail",
+            "name": "审批后核对业务状态",
+            "api_id": 12202,
+            "case_id": 1171,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_create",
+            "name": "创建独立审批测试数据",
+            "api_id": 12199,
+            "case_id": 1172,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_detail",
+            "name": "详情核对新建数据并读取审批实例",
+            "api_id": 12202,
+            "case_id": 1173,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_process",
+            "name": "读取本次实例并核对当前节点与审批人",
+            "api_id": 12181,
+            "case_id": 1174,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_approve",
+            "name": "使用当前节点指定审批人审批",
+            "api_id": 12182,
+            "case_id": 1175,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_verify_process",
+            "name": "核对审批结果、节点和审批人",
+            "api_id": 12181,
+            "case_id": 1176,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seed_verify_detail",
+            "name": "审批后核对业务状态",
+            "api_id": 12202,
+            "case_id": 1177,
+            "auth_id": 16306,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "inventory_seeded",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1106,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_seeded",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1107,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "sales_create",
+            "name": "创建独立审批测试数据",
+            "api_id": 12205,
+            "case_id": 1133,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "sales_locate",
+            "name": "按唯一名称定位本次创建的数据",
+            "api_id": 12204,
+            "case_id": 1134,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "sales_detail",
+            "name": "详情核对新建数据并读取审批实例",
+            "api_id": 12208,
+            "case_id": 1135,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "sales_before_approval_stock",
+            "name": "审批前核对实际库存、锁定量与可用量",
+            "api_id": 12192,
+            "case_id": 1099,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "sales_process",
+            "name": "读取本次实例并核对当前节点与审批人",
+            "api_id": 12181,
+            "case_id": 1136,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "convert",
+            "name": "转换本场景整件与散瓶库存",
+            "api_id": 12195,
+            "case_id": 1147,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "inventory_final",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1152,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          },
+          {
+            "key": "target_final",
+            "name": "核对实际库存、锁定库存和可用库存",
+            "api_id": 12192,
+            "case_id": 1123,
+            "auth_id": 10015,
+            "params": {},
+            "request": {},
+            "request_removals": [],
+            "bindings": [],
+            "extracts": [],
+            "routes": [],
+            "next": "auto"
+          }
+        ]
+      },
+      "created_at": "2026-10-15T16:39:16",
+      "updated_at": "2026-10-15T18:17:11",
+      "deleted": false
+    },
+    "scenario": {
+      "id": 16414,
+      "name": "正常-按1乘6装箱规格拆箱并核对双侧库存",
+      "project_id": 10,
+      "description": "按2026-10-15用户确认规则执行；业务信息未知时停止；失败保留原始证据。",
+      "status": "active",
+      "data": {
+        "nodes": {
+          "convert": {
+            "mode": "always",
+            "params": {
+              "remark": "{{record_marker}}_拆箱补件",
+              "warehouseId": 230,
+              "warehouse_id": 230,
+              "sourceQuantity": 1,
+              "targetQuantity": 6
+            },
+            "case_id": 1108,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/sourceProductId",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "product_id",
+                "path": "/targetProductId",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "sales_create": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "sales_detail": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "sales_locate": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "target_final": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1110,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/warehouseId"
+                    ],
+                    "expected": 230,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 8,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/lockedQuantity"
+                    ],
+                    "expected": 0,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/availableQuantity"
+                    ],
+                    "expected": 8,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "target_owned": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1102,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/product_id",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/productId",
+                "type": "json_pointer",
+                "expected": "{{bound_product_id}}"
+              },
+              {
+                "path": "/data/productName",
+                "type": "json_pointer",
+                "expected": "{{record_marker}}_转换商品"
+              },
+              {
+                "path": "/data/status",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/delFlag",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/productSpecFirst",
+                "type": "json_pointer",
+                "expected": "500ML"
+              },
+              {
+                "path": "/data/productSpecSecond",
+                "type": "json_pointer",
+                "expected": "1*1"
+              },
+              {
+                "path": "/data/unit",
+                "type": "json_pointer",
+                "expected": "瓶"
+              }
+            ],
+            "request_removals": []
+          },
+          "product_owned": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1098,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/product_id",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/productId",
+                "type": "json_pointer",
+                "expected": "{{bound_product_id}}"
+              },
+              {
+                "path": "/data/productName",
+                "type": "json_pointer",
+                "expected": "{{record_marker}}_主商品"
+              },
+              {
+                "path": "/data/status",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/delFlag",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/productSpecFirst",
+                "type": "json_pointer",
+                "expected": "500ML"
+              },
+              {
+                "path": "/data/productSpecSecond",
+                "type": "json_pointer",
+                "expected": "1*6"
+              },
+              {
+                "path": "/data/unit",
+                "type": "json_pointer",
+                "expected": "件"
+              }
+            ],
+            "request_removals": []
+          },
+          "sales_process": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "target_before": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1103,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 0,
+                "min_items": 0
+              }
+            ],
+            "request_removals": []
+          },
+          "target_create": {
+            "mode": "always",
+            "params": {
+              "unit": "瓶",
+              "status": "0",
+              "productName": "{{record_marker}}_转换商品",
+              "productSpec": "500ML / 1*1",
+              "productType": "巴马水",
+              "productBrand": "巴马丽琅矿泉水",
+              "purchasePrice": 2.5,
+              "productSpecFirst": "500ML",
+              "productSpecSecond": "1*1",
+              "terminalWholesalePrice": 3.5
+            },
+            "case_id": 1100,
+            "request": {},
+            "bindings": [],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "target_locate": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productName": "{{record_marker}}_转换商品"
+            },
+            "case_id": 1101,
+            "request": {},
+            "bindings": [],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "product_id",
+                "path": "/rows/0/productId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productName"
+                    ],
+                    "expected": "{{record_marker}}_转换商品",
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seeded": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1107,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/warehouseId"
+                    ],
+                    "expected": 230,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 2,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/lockedQuantity"
+                    ],
+                    "expected": 0,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/availableQuantity"
+                    ],
+                    "expected": 2,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "product_create": {
+            "mode": "always",
+            "params": {
+              "unit": "件",
+              "status": "0",
+              "productName": "{{record_marker}}_主商品",
+              "productSpec": "500ML / 1*6",
+              "productType": "巴马水",
+              "productBrand": "巴马丽琅矿泉水",
+              "purchasePrice": 2.5,
+              "productSpecFirst": "500ML",
+              "productSpecSecond": "1*6",
+              "terminalWholesalePrice": 3.5
+            },
+            "case_id": 1096,
+            "request": {},
+            "bindings": [],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "product_locate": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productName": "{{record_marker}}_主商品"
+            },
+            "case_id": 1097,
+            "request": {},
+            "bindings": [],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "product_id",
+                "path": "/rows/0/productId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productName"
+                    ],
+                    "expected": "{{record_marker}}_主商品",
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "inventory_final": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1109,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/warehouseId"
+                    ],
+                    "expected": 230,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 9,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/lockedQuantity"
+                    ],
+                    "expected": 0,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/availableQuantity"
+                    ],
+                    "expected": 9,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "warehouse_guard": {
+            "mode": "always",
+            "params": {
+              "warehouse_id": 230
+            },
+            "case_id": 1095,
+            "request": {},
+            "bindings": [],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/warehouseId",
+                "type": "json_pointer",
+                "expected": 230
+              },
+              {
+                "path": "/data/warehouseName",
+                "type": "json_pointer",
+                "expected": "测试添加"
+              },
+              {
+                "path": "/data/adminUserId",
+                "type": "json_pointer",
+                "expected": 1
+              },
+              {
+                "path": "/data/status",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/delFlag",
+                "type": "json_pointer",
+                "expected": "0"
+              }
+            ],
+            "request_removals": []
+          },
+          "inventory_before": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1099,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 0,
+                "min_items": 0
+              }
+            ],
+            "request_removals": []
+          },
+          "inventory_seeded": {
+            "mode": "always",
+            "params": {
+              "pageNum": 1,
+              "pageSize": 10,
+              "productId": 0,
+              "warehouse_id": 230
+            },
+            "case_id": 1106,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/productId",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/warehouseId"
+                    ],
+                    "expected": 230,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 10,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/lockedQuantity"
+                    ],
+                    "expected": 0,
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/availableQuantity"
+                    ],
+                    "expected": 10,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_create": {
+            "mode": "always",
+            "params": {
+              "items": [
+                {
+                  "quantity": 2,
+                  "productId": 0,
+                  "unitPrice": 3.5,
+                  "productName": "{{record_marker}}_转换商品"
+                }
+              ],
+              "warehouseId": 230,
+              "warehouseName": "测试添加"
+            },
+            "case_id": 1172,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/items/0/productId",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "owned_id",
+                "path": "/data/orderId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1173,
+            "request": {},
+            "bindings": [
+              {
+                "name": "owned_id",
+                "path": "/order_id",
+                "prefix": "",
+                "source": "target_seed_create",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "product_id",
+                "path": "/X-Test-product-id",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "instance_id",
+                "path": "/data/approvalInstanceId",
+                "paths": [],
+                "source": "body",
+                "required": false,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "order_no",
+                "path": "/data/orderNo",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "item_id",
+                "path": "/data/items/0/itemId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "owned_status",
+                "path": "/data/orderStatus",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/orderId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/warehouseId",
+                "type": "json_pointer",
+                "expected": 230
+              },
+              {
+                "path": "/data/items",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 2,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_create": {
+            "mode": "always",
+            "params": {
+              "items": [
+                {
+                  "quantity": 10,
+                  "productId": 0,
+                  "unitPrice": 3.5,
+                  "productName": "{{record_marker}}_主商品"
+                }
+              ],
+              "warehouseId": 230,
+              "warehouseName": "测试添加"
+            },
+            "case_id": 1166,
+            "request": {},
+            "bindings": [
+              {
+                "name": "product_id",
+                "path": "/items/0/productId",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "owned_id",
+                "path": "/data/orderId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1167,
+            "request": {},
+            "bindings": [
+              {
+                "name": "owned_id",
+                "path": "/order_id",
+                "prefix": "",
+                "source": "product_seed_create",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "product_id",
+                "path": "/X-Test-product-id",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "instance_id",
+                "path": "/data/approvalInstanceId",
+                "paths": [],
+                "source": "body",
+                "required": false,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "order_no",
+                "path": "/data/orderNo",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "item_id",
+                "path": "/data/items/0/itemId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "owned_status",
+                "path": "/data/orderStatus",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/orderId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/warehouseId",
+                "type": "json_pointer",
+                "expected": 230
+              },
+              {
+                "path": "/data/items",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 10,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_approve": {
+            "mode": "condition",
+            "params": {
+              "approveRemark": "{{record_marker}}_审批核对",
+              "approveResult": "1"
+            },
+            "case_id": 1175,
+            "request": {},
+            "bindings": [
+              {
+                "name": "node_instance_id",
+                "path": "/nodeInstanceId",
+                "prefix": "",
+                "source": "target_seed_process",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "target_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_process": {
+            "mode": "condition",
+            "params": {},
+            "case_id": 1174,
+            "request": {},
+            "bindings": [
+              {
+                "name": "instance_id",
+                "path": "/instance_id",
+                "prefix": "",
+                "source": "target_seed_detail",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "owned_id",
+                "path": "/X-Test-owned-id",
+                "prefix": "",
+                "source": "target_seed_create",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "node_instance_id",
+                "path": "/data/nodeInstances/0/nodeInstanceId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "target_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/instance/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/instance/businessId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/instance/businessType",
+                "type": "json_pointer",
+                "expected": "purchase_in_order"
+              },
+              {
+                "path": "/data/instance/processStatus",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/instance/flowId",
+                "type": "json_pointer",
+                "expected": 11
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 1,
+                "min_items": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/approverId",
+                "type": "json_pointer",
+                "expected": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/isCurrent",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeStatus",
+                "type": "json_pointer",
+                "expected": "0"
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_approve": {
+            "mode": "condition",
+            "params": {
+              "approveRemark": "{{record_marker}}_审批核对",
+              "approveResult": "1"
+            },
+            "case_id": 1169,
+            "request": {},
+            "bindings": [
+              {
+                "name": "node_instance_id",
+                "path": "/nodeInstanceId",
+                "prefix": "",
+                "source": "product_seed_process",
+                "target": "params",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "product_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_process": {
+            "mode": "condition",
+            "params": {},
+            "case_id": 1168,
+            "request": {},
+            "bindings": [
+              {
+                "name": "instance_id",
+                "path": "/instance_id",
+                "prefix": "",
+                "source": "product_seed_detail",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "owned_id",
+                "path": "/X-Test-owned-id",
+                "prefix": "",
+                "source": "product_seed_create",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "node_instance_id",
+                "path": "/data/nodeInstances/0/nodeInstanceId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "product_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/instance/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/instance/businessId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/instance/businessType",
+                "type": "json_pointer",
+                "expected": "purchase_in_order"
+              },
+              {
+                "path": "/data/instance/processStatus",
+                "type": "json_pointer",
+                "expected": "0"
+              },
+              {
+                "path": "/data/instance/flowId",
+                "type": "json_pointer",
+                "expected": 11
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 1,
+                "min_items": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/approverId",
+                "type": "json_pointer",
+                "expected": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/isCurrent",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeStatus",
+                "type": "json_pointer",
+                "expected": "0"
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_verify_detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1177,
+            "request": {},
+            "bindings": [
+              {
+                "name": "owned_id",
+                "path": "/order_id",
+                "prefix": "",
+                "source": "target_seed_create",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "product_id",
+                "path": "/X-Test-product-id",
+                "prefix": "",
+                "source": "target_locate",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "order_no",
+                "path": "/data/orderNo",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "item_id",
+                "path": "/data/items/0/itemId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "owned_status",
+                "path": "/data/orderStatus",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/orderId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/orderStatus",
+                "type": "json_pointer",
+                "expected": "4"
+              },
+              {
+                "path": "/data/warehouseId",
+                "type": "json_pointer",
+                "expected": 230
+              },
+              {
+                "path": "/data/items",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 2,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_verify_detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": 1171,
+            "request": {},
+            "bindings": [
+              {
+                "name": "owned_id",
+                "path": "/order_id",
+                "prefix": "",
+                "source": "product_seed_create",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "product_id",
+                "path": "/X-Test-product-id",
+                "prefix": "",
+                "source": "product_locate",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [
+              {
+                "mode": "single",
+                "name": "order_no",
+                "path": "/data/orderNo",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "item_id",
+                "path": "/data/items/0/itemId",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              },
+              {
+                "mode": "single",
+                "name": "owned_status",
+                "path": "/data/orderStatus",
+                "paths": [],
+                "source": "body",
+                "required": true,
+                "sensitive": false
+              }
+            ],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/orderId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/orderStatus",
+                "type": "json_pointer",
+                "expected": "4"
+              },
+              {
+                "path": "/data/warehouseId",
+                "type": "json_pointer",
+                "expected": 230
+              },
+              {
+                "path": "/data/items",
+                "type": "json_query_result",
+                "rules": [
+                  {
+                    "paths": [
+                      "/productId"
+                    ],
+                    "expected": "{{bound_product_id}}",
+                    "operator": "eq"
+                  },
+                  {
+                    "paths": [
+                      "/quantity"
+                    ],
+                    "expected": 10,
+                    "operator": "eq"
+                  }
+                ],
+                "max_items": 1,
+                "min_items": 1
+              }
+            ],
+            "request_removals": []
+          },
+          "target_seed_verify_process": {
+            "mode": "condition",
+            "params": {},
+            "case_id": 1176,
+            "request": {},
+            "bindings": [
+              {
+                "name": "instance_id",
+                "path": "/instance_id",
+                "prefix": "",
+                "source": "target_seed_detail",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "owned_id",
+                "path": "/X-Test-owned-id",
+                "prefix": "",
+                "source": "target_seed_create",
+                "target": "headers",
+                "target_name": ""
+              },
+              {
+                "name": "node_instance_id",
+                "path": "/X-Test-node-instance-id",
+                "prefix": "",
+                "source": "target_seed_process",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "target_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/instance/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/instance/businessId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/instance/businessType",
+                "type": "json_pointer",
+                "expected": "purchase_in_order"
+              },
+              {
+                "path": "/data/instance/processStatus",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 1,
+                "min_items": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeInstanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_node_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/approverId",
+                "type": "json_pointer",
+                "expected": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/approveResult",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeStatus",
+                "type": "json_pointer",
+                "expected": "1"
+              }
+            ],
+            "request_removals": []
+          },
+          "product_seed_verify_process": {
+            "mode": "condition",
+            "params": {},
+            "case_id": 1170,
+            "request": {},
+            "bindings": [
+              {
+                "name": "instance_id",
+                "path": "/instance_id",
+                "prefix": "",
+                "source": "product_seed_detail",
+                "target": "params",
+                "target_name": ""
+              },
+              {
+                "name": "owned_id",
+                "path": "/X-Test-owned-id",
+                "prefix": "",
+                "source": "product_seed_create",
+                "target": "headers",
+                "target_name": ""
+              },
+              {
+                "name": "node_instance_id",
+                "path": "/X-Test-node-instance-id",
+                "prefix": "",
+                "source": "product_seed_process",
+                "target": "headers",
+                "target_name": ""
+              }
+            ],
+            "extracts": [],
+            "condition": {
+              "name": "instance_id",
+              "value": null,
+              "source": "product_seed_detail",
+              "operator": "exists"
+            },
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/instance/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/instance/businessId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/instance/businessType",
+                "type": "json_pointer",
+                "expected": "purchase_in_order"
+              },
+              {
+                "path": "/data/instance/processStatus",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "rules": [],
+                "max_items": 1,
+                "min_items": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeInstanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_node_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/instanceId",
+                "type": "json_pointer",
+                "expected": "{{bound_instance_id}}"
+              },
+              {
+                "path": "/data/nodeInstances/0/approverId",
+                "type": "json_pointer",
+                "expected": 1
+              },
+              {
+                "path": "/data/nodeInstances/0/approveResult",
+                "type": "json_pointer",
+                "expected": "1"
+              },
+              {
+                "path": "/data/nodeInstances/0/nodeStatus",
+                "type": "json_pointer",
+                "expected": "1"
+              }
+            ],
+            "request_removals": []
+          },
+          "sales_before_approval_stock": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          }
+        },
+        "inputs": {
+          "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+          "stock_scene_key": "packing_six",
+          "stock_rules_revision": "20261015-user-confirmed-1"
+        },
+        "flow_id": 16344,
+        "expected_end": "auto",
+        "failure_policy": "stop",
+        "template_version": 3
+      },
+      "created_at": "2026-10-15T18:17:22",
+      "updated_at": "2026-10-15T18:17:22",
+      "deleted": false
+    }
+  },
+  "inputs": {
+    "record_marker": "库存回归_1792059655688_740834",
+    "stock_flow_key": "convert",
+    "stock_campaign_key": "waiqin-stock-20261015",
+    "stock_rules_revision": "20261015-user-confirmed-1",
+    "stock_scene_key": "packing_six"
+  }
+}

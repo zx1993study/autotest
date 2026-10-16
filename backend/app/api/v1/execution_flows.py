@@ -1,5 +1,7 @@
 """Execution flow resource endpoints."""
 
+from typing import Annotated
+
 from fastapi import APIRouter, Depends
 
 from app.api.dependencies import get_resource_repository
@@ -7,28 +9,29 @@ from app.core.response import page_result, success
 from app.repositories.interfaces import ResourceRepository
 from app.schemas.common import (
     BatchDeleteRequest,
-    ResourceCreate,
     ResourceListQuery,
-    ResourceUpdate,
 )
-from app.services.resource_service import ResourceService
-
+from app.schemas.execution_flow import ExecutionFlowCreate, ExecutionFlowUpdate
+from app.services.execution_flow_service import ExecutionFlowService
 
 router = APIRouter(prefix="/execution/flows", tags=["execution-flows"])
 
 
 def get_execution_flow_service(
-    repository: ResourceRepository = Depends(get_resource_repository),
-) -> ResourceService:
+    repository: Annotated[ResourceRepository, Depends(get_resource_repository)],
+) -> ExecutionFlowService:
     """Provide the execution flow service for this router only."""
 
-    return ResourceService("execution_flows", repository)
+    return ExecutionFlowService(repository)
+
+
+FlowService = Annotated[ExecutionFlowService, Depends(get_execution_flow_service)]
 
 
 @router.get("")
 def list_execution_flows(
-    query: ResourceListQuery = Depends(),
-    service: ResourceService = Depends(get_execution_flow_service),
+    query: Annotated[ResourceListQuery, Depends()],
+    service: FlowService,
 ) -> dict[str, object]:
     items, total = service.list(
         query.keyword,
@@ -42,8 +45,8 @@ def list_execution_flows(
 
 @router.post("")
 def create_execution_flow(
-    payload: ResourceCreate,
-    service: ResourceService = Depends(get_execution_flow_service),
+    payload: ExecutionFlowCreate,
+    service: FlowService,
 ) -> dict[str, object]:
     return success(service.create(payload.model_dump()))
 
@@ -51,7 +54,7 @@ def create_execution_flow(
 @router.post("/batch-delete")
 def batch_delete_execution_flows(
     payload: BatchDeleteRequest,
-    service: ResourceService = Depends(get_execution_flow_service),
+    service: FlowService,
 ) -> dict[str, object]:
     return success(service.batch_delete(payload.ids))
 
@@ -59,7 +62,7 @@ def batch_delete_execution_flows(
 @router.get("/{item_id:int}")
 def get_execution_flow(
     item_id: int,
-    service: ResourceService = Depends(get_execution_flow_service),
+    service: FlowService,
 ) -> dict[str, object]:
     return success(service.get(item_id))
 
@@ -67,8 +70,8 @@ def get_execution_flow(
 @router.put("/{item_id:int}")
 def update_execution_flow(
     item_id: int,
-    payload: ResourceUpdate,
-    service: ResourceService = Depends(get_execution_flow_service),
+    payload: ExecutionFlowUpdate,
+    service: FlowService,
 ) -> dict[str, object]:
     return success(service.update(item_id, payload.model_dump(exclude_unset=True)))
 
@@ -76,6 +79,11 @@ def update_execution_flow(
 @router.delete("/{item_id:int}")
 def delete_execution_flow(
     item_id: int,
-    service: ResourceService = Depends(get_execution_flow_service),
+    service: FlowService,
 ) -> dict[str, object]:
     return success(service.delete(item_id))
+
+
+@router.post("/{item_id:int}/copy")
+def copy_execution_flow(item_id: int, service: FlowService):
+    return success(service.copy(item_id))

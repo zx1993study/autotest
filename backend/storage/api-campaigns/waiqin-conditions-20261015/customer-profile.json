@@ -1,0 +1,44 @@
+{
+  "source_id": 12086,
+  "table_name": "terminal_customer",
+  "params": {
+    "customerName": "江城邻里便利店",
+    "customerType": "1",
+    "managerIds": [
+      1
+    ],
+    "cooperationStatus": "正在合作",
+    "editCount": 0
+  },
+  "unique_text_fields": [
+    "customerName"
+  ],
+  "required_fields": [
+    "customerName"
+  ],
+  "field_constraints": {
+    "customerName": {
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "cooperationStatus": {
+      "enum": [
+        "正在合作",
+        "空白网点",
+        "终止合作"
+      ]
+    }
+  },
+  "excluded_fields": [
+    "status",
+    "delFlag",
+    "createBy",
+    "updateBy",
+    "createTime",
+    "updateTime"
+  ],
+  "notes": [
+    "业务库专用只读账号核对字段和字典；状态0待审批、1正常、2停用、3审批拒绝。",
+    "客户名称添加时间戳；不复制真实客户的手机号、证件等个人信息。"
+  ]
+}

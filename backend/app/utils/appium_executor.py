@@ -24,24 +24,47 @@ class AppiumActionExecutor:
         if action in {"press_key", "keycode"}:
             self._press_key(step)
             return
+        if action == "hide_keyboard":
+            self._hide_keyboard()
+            return
+        if action == "switch_context":
+            self._switch_context(step)
+            return
+        if action == "launch_app":
+            self._launch_app(step)
+            return
+        if action == "terminate_app":
+            self._terminate_app(step)
+            return
+        if action == "assert_screen_contains":
+            self._assert_screen_contains(step)
+            return
 
-        element = self.find_element(step)
         if action in {"tap", "click"}:
-            element.click()
+            try:
+                self.find_element(step).click()
+            except Exception:
+                if not self._has_coordinates(step):
+                    raise
+                self._tap_coordinates(step)
         elif action in {"input", "fill", "send_keys", "type"}:
+            element = self.find_element(step)
             try:
                 element.clear()
             except Exception:
                 pass
             element.send_keys("" if step.get("value") is None else str(step.get("value")))
         elif action == "clear":
+            element = self.find_element(step)
             element.clear()
         elif action == "select":
+            element = self.find_element(step)
             element.click()
             value = str(step.get("value") or "")
             if value:
                 self._tap_text(value)
         elif action in {"assert", "assert_text", "text_contains"}:
+            element = self.find_element(step)
             expected = str(step.get("value") or step.get("expected") or "")
             actual = str(getattr(element, "text", "") or "")
             if expected and expected not in actual:
@@ -140,19 +163,28 @@ class AppiumActionExecutor:
         time.sleep(max(seconds, 0))
 
     def _swipe(self, step: dict[str, Any]) -> None:
-        start_x = int(step.get("start_x") or step.get("x1") or 0)
-        start_y = int(step.get("start_y") or step.get("y1") or 0)
-        end_x = int(step.get("end_x") or step.get("x2") or 0)
-        end_y = int(step.get("end_y") or step.get("y2") or 0)
+        start_x = self._coordinate_value(step, "start_x", "x1", "start_x_pct", "x1_pct")
+        start_y = self._coordinate_value(step, "start_y", "y1", "start_y_pct", "y1_pct")
+        end_x = self._coordinate_value(step, "end_x", "x2", "end_x_pct", "x2_pct")
+        end_y = self._coordinate_value(step, "end_y", "y2", "end_y_pct", "y2_pct")
         duration = int(step.get("duration_ms") or step.get("duration") or 500)
         if not any((start_x, start_y, end_x, end_y)):
             size = self.driver.get_window_size()
             width = int(size.get("width", 0))
             height = int(size.get("height", 0))
-            start_x = width // 2
-            end_x = width // 2
-            start_y = int(height * 0.8)
-            end_y = int(height * 0.2)
+            direction = str(step.get("direction") or "up").lower()
+            if direction == "down":
+                start_x, end_x = width // 2, width // 2
+                start_y, end_y = int(height * 0.25), int(height * 0.78)
+            elif direction == "left":
+                start_x, end_x = int(width * 0.82), int(width * 0.18)
+                start_y, end_y = height // 2, height // 2
+            elif direction == "right":
+                start_x, end_x = int(width * 0.18), int(width * 0.82)
+                start_y, end_y = height // 2, height // 2
+            else:
+                start_x, end_x = width // 2, width // 2
+                start_y, end_y = int(height * 0.8), int(height * 0.2)
         self.driver.swipe(start_x, start_y, end_x, end_y, duration)
 
     def _press_key(self, step: dict[str, Any]) -> None:
@@ -160,6 +192,83 @@ class AppiumActionExecutor:
         if keycode is None:
             raise ValueError("press_key requires keycode or value")
         self.driver.press_keycode(int(keycode))
+
+    def _tap_coordinates(self, step: dict[str, Any]) -> None:
+        x = self._coordinate_value(step, "x", "tap_x", "x_pct", "tap_x_pct")
+        y = self._coordinate_value(step, "y", "tap_y", "y_pct", "tap_y_pct")
+        if x <= 0 and y <= 0:
+            raise ValueError("tap requires locator or coordinates")
+        if hasattr(self.driver, "tap"):
+            self.driver.tap([(x, y)])
+            return
+        self.driver.execute_script("mobile: tap", {"x": x, "y": y})
+
+    def _coordinate_value(self, step: dict[str, Any], absolute_key: str, alias_key: str, percent_key: str, percent_alias_key: str) -> int:
+        absolute = step.get(absolute_key)
+        if absolute in (None, ""):
+            absolute = step.get(alias_key)
+        if absolute not in (None, ""):
+            try:
+                return int(float(absolute))
+            except (TypeError, ValueError):
+                return 0
+        percent = step.get(percent_key)
+        if percent in (None, ""):
+            percent = step.get(percent_alias_key)
+        if percent in (None, ""):
+            return 0
+        try:
+            ratio = float(percent)
+        except (TypeError, ValueError):
+            return 0
+        size = self.driver.get_window_size()
+        axis = "width" if "x" in absolute_key else "height"
+        return int(float(size.get(axis, 0)) * max(0.0, min(1.0, ratio)))
+
+    def _has_coordinates(self, step: dict[str, Any]) -> bool:
+        return any(step.get(key) not in (None, "") for key in ("x", "y", "tap_x", "tap_y", "x_pct", "y_pct", "tap_x_pct", "tap_y_pct"))
+
+    def _hide_keyboard(self) -> None:
+        try:
+            self.driver.hide_keyboard()
+        except Exception:
+            pass
+
+    def _switch_context(self, step: dict[str, Any]) -> None:
+        target = str(step.get("context") or step.get("value") or "").strip()
+        keyword = str(step.get("context_keyword") or "").strip().lower()
+        contexts = [str(item) for item in (getattr(self.driver, "contexts", []) or [])]
+        if not target and keyword:
+            target = next((item for item in contexts if keyword in item.lower()), "")
+        if not target:
+            target = next((item for item in contexts if item.upper().startswith("WEBVIEW")), "")
+        if not target:
+            raise RuntimeError(f"context not found, available contexts: {contexts}")
+        self.driver.switch_to.context(target)
+
+    def _launch_app(self, step: dict[str, Any]) -> None:
+        app_id = str(step.get("bundle_id") or step.get("package_name") or step.get("app_id") or step.get("value") or "").strip()
+        if app_id and hasattr(self.driver, "activate_app"):
+            self.driver.activate_app(app_id)
+            return
+        if hasattr(self.driver, "launch_app"):
+            self.driver.launch_app()
+            return
+        raise ValueError("launch_app requires bundle_id/package_name/app_id when driver has no launch_app")
+
+    def _terminate_app(self, step: dict[str, Any]) -> None:
+        app_id = str(step.get("bundle_id") or step.get("package_name") or step.get("app_id") or step.get("value") or "").strip()
+        if not app_id:
+            raise ValueError("terminate_app requires bundle_id/package_name/app_id")
+        self.driver.terminate_app(app_id)
+
+    def _assert_screen_contains(self, step: dict[str, Any]) -> None:
+        expected = str(step.get("value") or step.get("expected") or step.get("locator") or "").strip()
+        if not expected:
+            raise ValueError("assert_screen_contains requires value or expected")
+        source = str(getattr(self.driver, "page_source", "") or "")
+        if expected not in source:
+            raise AssertionError(f"expected screen contains {expected!r}")
 
     def _dedupe(self, locators: list[tuple[str, str]]) -> list[tuple[str, str]]:
         result: list[tuple[str, str]] = []

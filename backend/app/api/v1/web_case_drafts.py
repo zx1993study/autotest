@@ -41,6 +41,7 @@ def generate_drafts(
             payload.project_id,
             payload.source_ids,
             payload.strategy,
+            payload.strategy_ids,
         )
     )
 

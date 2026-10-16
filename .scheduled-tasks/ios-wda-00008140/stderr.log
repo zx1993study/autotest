@@ -1,0 +1,381 @@
+[I 260930 13:31:28 _wdaproxy:128] [00008140-000115803E2A801C] WDA check every 30.0 seconds
+[D 260930 13:31:28 _wdaproxy:134] [00008140-000115803E2A801C] launch WDA
+[W 260930 13:31:28 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:29 _device:996] BundleID: com.yios.wda.xctrunner
+[I 260930 13:31:29 _device:1023] ProductVersion: 26.7.1
+[I 260930 13:31:29 _device:1024] UDID: 00008140-000115803E2A801C
+[W 260930 13:31:29 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:29 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.7.zip -> C:\Users\26713\.tidevice\device-support\26.7.zip
+[W 260930 13:31:30 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:30 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.6.zip -> C:\Users\26713\.tidevice\device-support\26.6.zip
+[W 260930 13:31:31 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:31 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.5.zip -> C:\Users\26713\.tidevice\device-support\26.5.zip
+[W 260930 13:31:32 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:32 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.4.zip -> C:\Users\26713\.tidevice\device-support\26.4.zip
+[W 260930 13:31:33 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:34 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.3.zip -> C:\Users\26713\.tidevice\device-support\26.3.zip
+[W 260930 13:31:34 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:31:35 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:35 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.2.zip -> C:\Users\26713\.tidevice\device-support\26.2.zip
+[W 260930 13:31:36 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:36 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.1.zip -> C:\Users\26713\.tidevice\device-support\26.1.zip
+[W 260930 13:31:37 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:38 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.0.zip -> C:\Users\26713\.tidevice\device-support\26.0.zip
+[W 260930 13:31:38 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:31:39 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 501, in start_service
+    return self._unsafe_start_service(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 520, in _unsafe_start_service
+    raise MuxServiceError(error)
+tidevice.exceptions.MuxServiceError: InvalidService
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1032, in <module>
+    main()
+    ~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1027, in main
+    actions[args.subparser](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 300, in cmd_xcuitest
+    d.runwda(args.bundle_id,
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+             target_bundle_id=args.target_bundle_id,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+             target_app_args=target_app_args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             tests_to_run=tests_to_run)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 997, in runwda
+    return self.xcuitest(bundle_id, target_bundle_id=target_bundle_id,
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         test_runner_env=test_runner_env,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                         target_app_args=target_app_args,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         tests_to_run=tests_to_run)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 1034, in xcuitest
+    x1 = self._connect_testmanagerd_lockdown()
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 802, in _connect_testmanagerd_lockdown
+    conn = self.start_service(
+        LockdownService.TestmanagerdLockdownSecure)
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 503, in start_service
+    self.mount_developer_image()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 674, in mount_developer_image
+    raise ServiceError("DeveloperImage not found")
+tidevice.exceptions.ServiceError: DeveloperImage not found
+[W 260930 13:31:40 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[E 260930 13:31:40 _wdaproxy:153] [00008140-000115803E2A801C] wda started failed
+[D 260930 13:31:40 _wdaproxy:134] [00008140-000115803E2A801C] launch WDA
+[W 260930 13:31:40 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:41 _device:996] BundleID: com.yios.wda.xctrunner
+[I 260930 13:31:41 _device:1023] ProductVersion: 26.7.1
+[I 260930 13:31:41 _device:1024] UDID: 00008140-000115803E2A801C
+[W 260930 13:31:41 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:41 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.7.zip -> C:\Users\26713\.tidevice\device-support\26.7.zip
+[W 260930 13:31:42 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:42 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.6.zip -> C:\Users\26713\.tidevice\device-support\26.6.zip
+[W 260930 13:31:43 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:43 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.5.zip -> C:\Users\26713\.tidevice\device-support\26.5.zip
+[W 260930 13:31:44 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:44 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.4.zip -> C:\Users\26713\.tidevice\device-support\26.4.zip
+[W 260930 13:31:45 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:45 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.3.zip -> C:\Users\26713\.tidevice\device-support\26.3.zip
+[W 260930 13:31:46 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:46 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.2.zip -> C:\Users\26713\.tidevice\device-support\26.2.zip
+[W 260930 13:31:47 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:48 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.1.zip -> C:\Users\26713\.tidevice\device-support\26.1.zip
+[W 260930 13:31:48 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:49 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.0.zip -> C:\Users\26713\.tidevice\device-support\26.0.zip
+[W 260930 13:31:49 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 501, in start_service
+    return self._unsafe_start_service(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 520, in _unsafe_start_service
+    raise MuxServiceError(error)
+tidevice.exceptions.MuxServiceError: InvalidService
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1032, in <module>
+    main()
+    ~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1027, in main
+    actions[args.subparser](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 300, in cmd_xcuitest
+    d.runwda(args.bundle_id,
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+             target_bundle_id=args.target_bundle_id,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+             target_app_args=target_app_args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             tests_to_run=tests_to_run)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 997, in runwda
+    return self.xcuitest(bundle_id, target_bundle_id=target_bundle_id,
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         test_runner_env=test_runner_env,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                         target_app_args=target_app_args,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         tests_to_run=tests_to_run)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 1034, in xcuitest
+    x1 = self._connect_testmanagerd_lockdown()
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 802, in _connect_testmanagerd_lockdown
+    conn = self.start_service(
+        LockdownService.TestmanagerdLockdownSecure)
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 503, in start_service
+    self.mount_developer_image()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 674, in mount_developer_image
+    raise ServiceError("DeveloperImage not found")
+tidevice.exceptions.ServiceError: DeveloperImage not found
+[W 260930 13:31:50 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[E 260930 13:31:50 _wdaproxy:153] [00008140-000115803E2A801C] wda started failed
+[D 260930 13:31:50 _wdaproxy:134] [00008140-000115803E2A801C] launch WDA
+[W 260930 13:31:50 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:51 _device:996] BundleID: com.yios.wda.xctrunner
+[W 260930 13:31:51 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:51 _device:1023] ProductVersion: 26.7.1
+[I 260930 13:31:51 _device:1024] UDID: 00008140-000115803E2A801C
+[I 260930 13:31:51 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.7.zip -> C:\Users\26713\.tidevice\device-support\26.7.zip
+[W 260930 13:31:52 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:53 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.6.zip -> C:\Users\26713\.tidevice\device-support\26.6.zip
+[W 260930 13:31:53 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:53 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.5.zip -> C:\Users\26713\.tidevice\device-support\26.5.zip
+[W 260930 13:31:54 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:55 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.4.zip -> C:\Users\26713\.tidevice\device-support\26.4.zip
+[W 260930 13:31:55 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:56 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.3.zip -> C:\Users\26713\.tidevice\device-support\26.3.zip
+[W 260930 13:31:56 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:57 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.2.zip -> C:\Users\26713\.tidevice\device-support\26.2.zip
+[W 260930 13:31:57 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:31:58 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:58 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.1.zip -> C:\Users\26713\.tidevice\device-support\26.1.zip
+[W 260930 13:31:59 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:31:59 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.0.zip -> C:\Users\26713\.tidevice\device-support\26.0.zip
+[W 260930 13:32:00 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 501, in start_service
+    return self._unsafe_start_service(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 520, in _unsafe_start_service
+    raise MuxServiceError(error)
+tidevice.exceptions.MuxServiceError: InvalidService
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1032, in <module>
+    main()
+    ~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1027, in main
+    actions[args.subparser](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 300, in cmd_xcuitest
+    d.runwda(args.bundle_id,
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+             target_bundle_id=args.target_bundle_id,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+             target_app_args=target_app_args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             tests_to_run=tests_to_run)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 997, in runwda
+    return self.xcuitest(bundle_id, target_bundle_id=target_bundle_id,
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         test_runner_env=test_runner_env,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                         target_app_args=target_app_args,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         tests_to_run=tests_to_run)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 1034, in xcuitest
+    x1 = self._connect_testmanagerd_lockdown()
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 802, in _connect_testmanagerd_lockdown
+    conn = self.start_service(
+        LockdownService.TestmanagerdLockdownSecure)
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 503, in start_service
+    self.mount_developer_image()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 674, in mount_developer_image
+    raise ServiceError("DeveloperImage not found")
+tidevice.exceptions.ServiceError: DeveloperImage not found
+[W 260930 13:32:01 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[E 260930 13:32:01 _wdaproxy:153] [00008140-000115803E2A801C] wda started failed
+[D 260930 13:32:01 _wdaproxy:134] [00008140-000115803E2A801C] launch WDA
+[W 260930 13:32:01 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:32:02 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:02 _device:996] BundleID: com.yios.wda.xctrunner
+[I 260930 13:32:02 _device:1023] ProductVersion: 26.7.1
+[I 260930 13:32:02 _device:1024] UDID: 00008140-000115803E2A801C
+[I 260930 13:32:02 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.7.zip -> C:\Users\26713\.tidevice\device-support\26.7.zip
+[W 260930 13:32:03 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:03 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.6.zip -> C:\Users\26713\.tidevice\device-support\26.6.zip
+[W 260930 13:32:04 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:04 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.5.zip -> C:\Users\26713\.tidevice\device-support\26.5.zip
+[W 260930 13:32:05 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:05 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.4.zip -> C:\Users\26713\.tidevice\device-support\26.4.zip
+[W 260930 13:32:06 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:06 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.3.zip -> C:\Users\26713\.tidevice\device-support\26.3.zip
+[W 260930 13:32:07 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:08 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.2.zip -> C:\Users\26713\.tidevice\device-support\26.2.zip
+[W 260930 13:32:08 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:09 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.1.zip -> C:\Users\26713\.tidevice\device-support\26.1.zip
+[W 260930 13:32:09 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:10 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.0.zip -> C:\Users\26713\.tidevice\device-support\26.0.zip
+[W 260930 13:32:10 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:32:11 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 501, in start_service
+    return self._unsafe_start_service(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 520, in _unsafe_start_service
+    raise MuxServiceError(error)
+tidevice.exceptions.MuxServiceError: InvalidService
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1032, in <module>
+    main()
+    ~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1027, in main
+    actions[args.subparser](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 300, in cmd_xcuitest
+    d.runwda(args.bundle_id,
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+             target_bundle_id=args.target_bundle_id,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+             target_app_args=target_app_args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             tests_to_run=tests_to_run)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 997, in runwda
+    return self.xcuitest(bundle_id, target_bundle_id=target_bundle_id,
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         test_runner_env=test_runner_env,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                         target_app_args=target_app_args,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         tests_to_run=tests_to_run)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 1034, in xcuitest
+    x1 = self._connect_testmanagerd_lockdown()
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 802, in _connect_testmanagerd_lockdown
+    conn = self.start_service(
+        LockdownService.TestmanagerdLockdownSecure)
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 503, in start_service
+    self.mount_developer_image()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 674, in mount_developer_image
+    raise ServiceError("DeveloperImage not found")
+tidevice.exceptions.ServiceError: DeveloperImage not found
+[W 260930 13:32:12 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[E 260930 13:32:12 _wdaproxy:153] [00008140-000115803E2A801C] wda started failed
+[D 260930 13:32:12 _wdaproxy:134] [00008140-000115803E2A801C] launch WDA
+[W 260930 13:32:12 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:32:13 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[D 260930 13:32:14 _relay:46] [00008140-000115803E2A801C] handle stream from: ('127.0.0.1', 11910)
+[E 260930 13:32:14 _relay:55] connect to device error: UsbmuxReplyCode.ConnectionRefused
+[W 260930 13:32:14 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:14 _device:996] BundleID: com.yios.wda.xctrunner
+[I 260930 13:32:15 _device:1023] ProductVersion: 26.7.1
+[I 260930 13:32:15 _device:1024] UDID: 00008140-000115803E2A801C
+[W 260930 13:32:15 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:32:16 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:16 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.7.zip -> C:\Users\26713\.tidevice\device-support\26.7.zip
+[W 260930 13:32:17 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:18 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.6.zip -> C:\Users\26713\.tidevice\device-support\26.6.zip
+[W 260930 13:32:18 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:19 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.5.zip -> C:\Users\26713\.tidevice\device-support\26.5.zip
+[W 260930 13:32:19 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:20 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.4.zip -> C:\Users\26713\.tidevice\device-support\26.4.zip
+[W 260930 13:32:20 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:21 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.3.zip -> C:\Users\26713\.tidevice\device-support\26.3.zip
+[W 260930 13:32:21 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:22 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.2.zip -> C:\Users\26713\.tidevice\device-support\26.2.zip
+[W 260930 13:32:22 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[W 260930 13:32:23 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:23 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.1.zip -> C:\Users\26713\.tidevice\device-support\26.1.zip
+[W 260930 13:32:24 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[I 260930 13:32:25 _imagemounter:25] Download https://github.com/JinjunHan/iOSDeviceSupport/raw/master/iOSDeviceSupport/26.0.zip -> C:\Users\26713\.tidevice\device-support\26.0.zip
+[W 260930 13:32:25 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 501, in start_service
+    return self._unsafe_start_service(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 520, in _unsafe_start_service
+    raise MuxServiceError(error)
+tidevice.exceptions.MuxServiceError: InvalidService
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1032, in <module>
+    main()
+    ~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 1027, in main
+    actions[args.subparser](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\__main__.py", line 300, in cmd_xcuitest
+    d.runwda(args.bundle_id,
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+             target_bundle_id=args.target_bundle_id,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+             target_app_args=target_app_args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             tests_to_run=tests_to_run)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 997, in runwda
+    return self.xcuitest(bundle_id, target_bundle_id=target_bundle_id,
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         test_runner_env=test_runner_env,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                         target_app_args=target_app_args,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         tests_to_run=tests_to_run)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 1034, in xcuitest
+    x1 = self._connect_testmanagerd_lockdown()
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 802, in _connect_testmanagerd_lockdown
+    conn = self.start_service(
+        LockdownService.TestmanagerdLockdownSecure)
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 503, in start_service
+    self.mount_developer_image()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\project\autotest\.venv\Lib\site-packages\tidevice\_device.py", line 674, in mount_developer_image
+    raise ServiceError("DeveloperImage not found")
+tidevice.exceptions.ServiceError: DeveloperImage not found
+[W 260930 13:32:26 _wdaproxy:65] [00008140-000115803E2A801C] Unknown exception: 'tuple' object has no attribute 'cert_reqs' and no __dict__ for setting new attributes
+[E 260930 13:32:26 _wdaproxy:153] [00008140-000115803E2A801C] wda started failed

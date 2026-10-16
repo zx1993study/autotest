@@ -1,0 +1,878 @@
+{
+  "started_at": "2026-10-15T10:21:30.310217+00:00",
+  "pid": 940,
+  "status": "complete",
+  "selected": 27,
+  "executed_business_mutations": true,
+  "results": [
+    {
+      "batch_id": 16424,
+      "flow_id": 16308,
+      "scenario_id": 16311,
+      "name": "场景2-销售数量大于实际库存，创建应拒绝",
+      "status": "failed",
+      "duration_ms": 2574,
+      "inputs": {
+        "record_marker": "库存回归_1792059692002_862092",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "sales_over_stock"
+      },
+      "failure": {
+        "node": "sales_invalid_create",
+        "name": "异常销售必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792059692002_862092_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792059692002_862092_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16425,
+      "flow_id": 16308,
+      "scenario_id": 16312,
+      "name": "场景3-仓库没有该商品库存，创建应拒绝",
+      "status": "failed",
+      "duration_ms": 1087,
+      "inputs": {
+        "record_marker": "库存回归_1792059695420_903572",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "sales_absent"
+      },
+      "failure": {
+        "node": "sales_invalid_create",
+        "name": "异常销售必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792059695420_903572_主商品】在仓库中无库存",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792059695420_903572_主商品】在仓库中无库存"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16426,
+      "flow_id": 16322,
+      "scenario_id": 16327,
+      "name": "幂等-重复确认退货不得重复增加库存",
+      "status": "failed",
+      "duration_ms": 5802,
+      "inputs": {
+        "record_marker": "库存回归_1792059698778_907998",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "return_repeat"
+      },
+      "failure": {
+        "node": "return_receipt_repeat",
+        "name": "由已核对的仓库管理员确认本次单据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "入库单状态不允许确认入库",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "入库单状态不允许确认入库"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16427,
+      "flow_id": 16322,
+      "scenario_id": 16330,
+      "name": "异常-退货明细为空，库存不变",
+      "status": "failed",
+      "duration_ms": 2488,
+      "inputs": {
+        "record_marker": "库存回归_1792059705521_115818",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "empty_items"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "退货商品明细不能为空",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "退货商品明细不能为空"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16428,
+      "flow_id": 16322,
+      "scenario_id": 16331,
+      "name": "异常-退货数量为0，库存不变",
+      "status": "failed",
+      "duration_ms": 2545,
+      "inputs": {
+        "record_marker": "库存回归_1792059708779_218154",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "quantity_zero"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792059708779_218154_主商品】退货数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792059708779_218154_主商品】退货数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16429,
+      "flow_id": 16322,
+      "scenario_id": 16332,
+      "name": "异常-退货数量为负数，库存不变",
+      "status": "failed",
+      "duration_ms": 2602,
+      "inputs": {
+        "record_marker": "库存回归_1792059712044_892639",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "quantity_negative"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792059712044_892639_主商品】退货数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792059712044_892639_主商品】退货数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16430,
+      "flow_id": 16322,
+      "scenario_id": 16333,
+      "name": "异常-订单退货缺少原销售单，库存不变",
+      "status": "failed",
+      "duration_ms": 2615,
+      "inputs": {
+        "record_marker": "库存回归_1792059715406_561579",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_sales_order"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "订单退货必须关联原销售订单",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "订单退货必须关联原销售订单"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16431,
+      "flow_id": 16322,
+      "scenario_id": 16334,
+      "name": "异常-缺少客户，库存不变",
+      "status": "failed",
+      "duration_ms": 2741,
+      "inputs": {
+        "record_marker": "库存回归_1792059718848_116066",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_customer"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "客户不存在",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "客户不存在"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16432,
+      "flow_id": 16322,
+      "scenario_id": 16335,
+      "name": "异常-缺少仓库，库存不变",
+      "status": "failed",
+      "duration_ms": 2558,
+      "inputs": {
+        "record_marker": "库存回归_1792059722386_051712",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_warehouse"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "退货仓库不存在",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "退货仓库不存在"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16433,
+      "flow_id": 16322,
+      "scenario_id": 16338,
+      "name": "审核中节点-编辑应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 4237,
+      "inputs": {
+        "record_marker": "库存回归_1792059725639_524855",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "edit_pending"
+      },
+      "failure": {
+        "node": "return_edit_pending",
+        "name": "当前状态不允许edit",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "只能编辑待审核或已驳回的退货单",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "只能编辑待审核或已驳回的退货单"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16434,
+      "flow_id": 16322,
+      "scenario_id": 16339,
+      "name": "审核中节点-删除应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 3764,
+      "inputs": {
+        "record_marker": "库存回归_1792059730623_216667",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "delete_pending"
+      },
+      "failure": {
+        "node": "return_delete_pending",
+        "name": "当前状态不允许delete",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "退货单【TH202610150014】状态不允许删除",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "退货单【TH202610150014】状态不允许删除"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16435,
+      "flow_id": 16322,
+      "scenario_id": 16340,
+      "name": "审核中节点-重复提交应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 3758,
+      "inputs": {
+        "record_marker": "库存回归_1792059735183_203413",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "submit_pending"
+      },
+      "failure": {
+        "node": "return_submit_pending",
+        "name": "当前状态不允许submit",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "只能提交待审核或已驳回的退货单",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "只能提交待审核或已驳回的退货单"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16436,
+      "flow_id": 16322,
+      "scenario_id": 16341,
+      "name": "已审核待入库节点-编辑应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 4187,
+      "inputs": {
+        "record_marker": "库存回归_1792059739722_204600",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "edit_approved"
+      },
+      "failure": {
+        "node": "return_edit_approved",
+        "name": "当前状态不允许edit",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "只能编辑待审核或已驳回的退货单",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "只能编辑待审核或已驳回的退货单"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16437,
+      "flow_id": 16322,
+      "scenario_id": 16342,
+      "name": "已审核待入库节点-删除应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 4095,
+      "inputs": {
+        "record_marker": "库存回归_1792059744758_946669",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "delete_approved"
+      },
+      "failure": {
+        "node": "return_delete_approved",
+        "name": "当前状态不允许delete",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "退货单【TH202610150017】状态不允许删除",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "退货单【TH202610150017】状态不允许删除"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16438,
+      "flow_id": 16322,
+      "scenario_id": 16343,
+      "name": "已审核待入库节点-重复提交应拒绝且库存不变",
+      "status": "failed",
+      "duration_ms": 4226,
+      "inputs": {
+        "record_marker": "库存回归_1792059749605_149416",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "submit_approved"
+      },
+      "failure": {
+        "node": "return_submit_approved",
+        "name": "当前状态不允许submit",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "只能提交待审核或已驳回的退货单",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "只能提交待审核或已驳回的退货单"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16439,
+      "flow_id": 16344,
+      "scenario_id": 16348,
+      "name": "异常-转出数量0，两侧库存不变",
+      "status": "failed",
+      "duration_ms": 4625,
+      "inputs": {
+        "record_marker": "库存回归_1792059755499_195470",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "source_zero"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16440,
+      "flow_id": 16344,
+      "scenario_id": 16349,
+      "name": "异常-转出数量负数，两侧库存不变",
+      "status": "failed",
+      "duration_ms": 4671,
+      "inputs": {
+        "record_marker": "库存回归_1792059760881_258035",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "source_negative"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16441,
+      "flow_id": 16344,
+      "scenario_id": 16350,
+      "name": "异常-转入数量0，两侧库存不变",
+      "status": "failed",
+      "duration_ms": 4573,
+      "inputs": {
+        "record_marker": "库存回归_1792059766377_524115",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "target_zero"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转入数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转入数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16442,
+      "flow_id": 16344,
+      "scenario_id": 16351,
+      "name": "异常-转入数量负数，两侧库存不变",
+      "status": "failed",
+      "duration_ms": 4826,
+      "inputs": {
+        "record_marker": "库存回归_1792059771902_513194",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "target_negative"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转入数量必须大于0",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转入数量必须大于0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16443,
+      "flow_id": 16344,
+      "scenario_id": 16352,
+      "name": "异常-转出数量大于实际库存，两侧库存不变",
+      "status": "failed",
+      "duration_ms": 4730,
+      "inputs": {
+        "record_marker": "库存回归_1792059777647_509692",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "over_actual"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品可用库存不足，当前可用：10.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品可用库存不足，当前可用：10.00"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16444,
+      "flow_id": 16344,
+      "scenario_id": 16353,
+      "name": "异常-同商品互转应拒绝",
+      "status": "failed",
+      "duration_ms": 5753,
+      "inputs": {
+        "record_marker": "库存回归_1792059783163_713884",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "same_product"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品和转入商品不能相同",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品和转入商品不能相同"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16445,
+      "flow_id": 16344,
+      "scenario_id": 16354,
+      "name": "异常-缺少sourceQuantity应拒绝",
+      "status": "success",
+      "duration_ms": 5147,
+      "inputs": {
+        "record_marker": "库存回归_1792059789694_513848",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_sourceQuantity"
+      }
+    },
+    {
+      "batch_id": 16446,
+      "flow_id": 16344,
+      "scenario_id": 16355,
+      "name": "异常-缺少targetQuantity应拒绝",
+      "status": "success",
+      "duration_ms": 5085,
+      "inputs": {
+        "record_marker": "库存回归_1792059795670_581273",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_targetQuantity"
+      }
+    },
+    {
+      "batch_id": 16447,
+      "flow_id": 16344,
+      "scenario_id": 16356,
+      "name": "异常-缺少sourceProductId应拒绝",
+      "status": "success",
+      "duration_ms": 4947,
+      "inputs": {
+        "record_marker": "库存回归_1792059801620_334776",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_sourceProductId"
+      }
+    },
+    {
+      "batch_id": 16448,
+      "flow_id": 16344,
+      "scenario_id": 16357,
+      "name": "异常-缺少targetProductId应拒绝",
+      "status": "success",
+      "duration_ms": 5021,
+      "inputs": {
+        "record_marker": "库存回归_1792059807386_770017",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "missing_targetProductId"
+      }
+    },
+    {
+      "batch_id": 16449,
+      "flow_id": 16344,
+      "scenario_id": 16361,
+      "name": "异常-源商品在仓库没有库存记录",
+      "status": "failed",
+      "duration_ms": 3154,
+      "inputs": {
+        "record_marker": "库存回归_1792059813252_892922",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "source_absent"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品库存不存在",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品库存不存在"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16450,
+      "flow_id": 16344,
+      "scenario_id": 16415,
+      "name": "异常-转换数量与装箱规格不符应拒绝",
+      "status": "failed",
+      "duration_ms": 4755,
+      "inputs": {
+        "record_marker": "库存回归_1792059817122_122911",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261015-user-confirmed-1",
+        "stock_scene_key": "packing_mismatch"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "库存转化成功",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 200
+            },
+            "message": "库存转化成功"
+          }
+        ]
+      }
+    }
+  ],
+  "blocked": [],
+  "finished_at": "2026-10-15T10:23:42.549391+00:00",
+  "passed": 4,
+  "failed": 23
+}

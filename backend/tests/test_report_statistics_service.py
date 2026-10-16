@@ -1,9 +1,20 @@
 from __future__ import annotations
 
 import unittest
+from datetime import datetime
 from typing import Any
 
+from app.models.resource_record import ResourceRecord
+from app.models.test_case_record import (
+    ApiTestCaseRecord,
+    AppTestCaseRecord,
+    MiniappTestCaseRecord,
+    WebTestCaseRecord,
+)
+from app.repositories.sqlalchemy_resource_repository import SqlAlchemyResourceRepository
 from app.services.report_statistics_service import ReportStatisticsService
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 
 class FakeResourceRepository:
@@ -12,22 +23,28 @@ class FakeResourceRepository:
     def __init__(self, tables: dict[str, list[dict[str, Any]]]) -> None:
         self.tables = tables
 
-    def list(
-        self,
-        table: str,
-        keyword: str | None = None,
-        project_id: int | None = None,
-        page: int = 1,
-        page_size: int = 20,
-        data_filters: dict[str, Any] | None = None,
-    ) -> tuple[list[dict[str, Any]], int]:
-        rows = [
-            item
-            for item in self.tables.get(table, [])
-            if project_id is None or item.get("project_id") == project_id
-        ]
-        start = (page - 1) * page_size
-        return rows[start : start + page_size], len(rows)
+    def report_statistics(self, project_id, start, end):
+        models = {model.__tablename__: model for model in (
+            ApiTestCaseRecord, WebTestCaseRecord, AppTestCaseRecord, MiniappTestCaseRecord,
+        )}
+        engine = create_engine("sqlite:///:memory:")
+        for model in [ResourceRecord, *models.values()]:
+            model.__table__.create(engine)
+        with Session(engine) as db:
+            for table, rows in self.tables.items():
+                for row in rows:
+                    values = {key: value for key, value in row.items() if key in {"id", "name", "project_id", "status", "description"}}
+                    values.setdefault("name", "Case")
+                    if row.get("updated_at"):
+                        values["updated_at"] = datetime.fromisoformat(row["updated_at"])
+                    model = models.get(table, ResourceRecord)
+                    if model is ResourceRecord:
+                        values.update(table_name=table, data_json={"data": row.get("data", {})})
+                    db.add(model(**values))
+            db.commit()
+            result = SqlAlchemyResourceRepository(db).report_statistics(project_id, start, end)
+        engine.dispose()
+        return result
 
 
 class ReportStatisticsServiceTest(unittest.TestCase):
@@ -80,7 +97,7 @@ class ReportStatisticsServiceTest(unittest.TestCase):
         self.assertEqual(overview["summary"]["abnormal_count"], 1)
         self.assertEqual(overview["summary"]["pass_rate"], 50.0)
         self.assertEqual(overview["summary"]["avg_duration_ms"], 100)
-        self.assertEqual(overview["recent_records"][0]["case_type"], "API")
+        self.assertEqual(overview["recent_records"][0]["case_type"], "WEB")
 
 
 if __name__ == "__main__":

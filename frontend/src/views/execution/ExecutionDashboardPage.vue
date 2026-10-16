@@ -22,19 +22,7 @@
 
           <label class="field">
             <span>API</span>
-            <input
-              v-model.trim="apiKeyword"
-              class="filter-input"
-              list="execution-dashboard-api-options"
-              type="search"
-              placeholder="输入接口名称、方法或路径选择 API"
-              :disabled="!selectedProjectId || loadingOptions"
-              @change="syncSelectedApiFromKeyword"
-              @input="syncSelectedApiFromKeyword"
-            />
-            <datalist id="execution-dashboard-api-options">
-              <option v-for="api in filteredApiOptions" :key="api.id" :value="apiOptionLabel(api)" />
-            </datalist>
+            <ApiSelect v-model="selectedApiId" :options="apiOptions" label="API" :disabled="!selectedProjectId" :loading="loadingOptions" />
           </label>
 
           <label class="field">
@@ -147,18 +135,20 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import ApiSelect from '../../components/common/ApiSelect.vue'
 
 import {
   getResource,
   listProjectOptions,
   listRemoteOptions,
   listResources,
-  postAction,
   ProjectOption,
   ResourceItem,
-  SelectOptionRecord
+  SelectOptionRecord,
+  resolveDefaultProjectId
 } from '../../api/http'
 import { ExecutionMode } from '../../constants/enums'
+import { runApiCases } from '../../services/api-case.service'
 import { formatJsonLikeText } from '../../utils/jsonFormatter'
 
 type ExecutionRecord = ResourceItem & {
@@ -183,14 +173,11 @@ const selectedProjectId = ref(0)
 const selectedApiId = ref(0)
 const selectedAuthId = ref(0)
 const selectedCaseId = ref(0)
-const apiKeyword = ref('')
 const paramsJson = ref('{}')
 const formError = ref('')
 const loadingOptions = ref(false)
 const executing = ref(false)
 const executionSummary = ref<ExecutionSummary | null>(null)
-
-const filteredApiOptions = computed(() => filterApiOptions(apiOptions.value, apiKeyword.value))
 
 const filteredCaseOptions = computed(() => {
   if (!selectedApiId.value) {
@@ -251,13 +238,13 @@ const resultSubtitle = computed(() => {
 
 onMounted(async () => {
   projects.value = await listProjectOptions()
+  selectedProjectId.value = resolveDefaultProjectId(projects.value)
 })
 
 watch(selectedProjectId, async projectId => {
   selectedApiId.value = 0
   selectedAuthId.value = 0
   selectedCaseId.value = 0
-  apiKeyword.value = ''
   apiOptions.value = []
   authOptions.value = []
   caseOptions.value = []
@@ -273,12 +260,6 @@ watch(selectedProjectId, async projectId => {
 watch(selectedApiId, async apiId => {
   executionSummary.value = null
   formError.value = ''
-  if (apiId) {
-    const selectedApi = apiOptions.value.find(api => api.id === apiId)
-    if (selectedApi) {
-      apiKeyword.value = apiOptionLabel(selectedApi)
-    }
-  }
   if (selectedCaseId.value && !filteredCaseOptions.value.some(item => item.id === selectedCaseId.value)) {
     selectedCaseId.value = 0
   }
@@ -396,7 +377,7 @@ async function executeCase() {
 
   executing.value = true
   try {
-    executionSummary.value = await postAction<ExecutionSummary>('/api-testing/cases/run', {
+    executionSummary.value = await runApiCases({
       project_id: selectedProjectId.value,
       auth_id: selectedAuthId.value || null,
       case_ids: [selectedCaseId.value],
@@ -408,31 +389,6 @@ async function executeCase() {
   } finally {
     executing.value = false
   }
-}
-
-function apiOptionLabel(api: SelectOptionRecord): string {
-  const method = String(api.method || '').toUpperCase()
-  const path = String(api.path || '')
-  const name = String(api.name || '')
-  return [method, path, name].filter(Boolean).join(' ')
-}
-
-function syncSelectedApiFromKeyword() {
-  const keyword = apiKeyword.value.trim()
-  if (!keyword) {
-    selectedApiId.value = 0
-    return
-  }
-  const matchedApi = apiOptions.value.find(api => apiOptionLabel(api) === keyword)
-  selectedApiId.value = matchedApi?.id || 0
-}
-
-function filterApiOptions(options: SelectOptionRecord[], keyword: string): SelectOptionRecord[] {
-  const normalized = keyword.trim().toLowerCase()
-  if (!normalized) {
-    return options
-  }
-  return options.filter(api => apiOptionLabel(api).toLowerCase().includes(normalized))
 }
 
 function caseOptionLabel(item: ResourceItem): string {

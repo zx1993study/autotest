@@ -51,13 +51,18 @@ try:
         mysql_password: str = ""
         mysql_database: str = "autotest"
         cors_origins: str = "http://127.0.0.1:5173,http://localhost:5173"
-        auto_create_schema: bool = True
+        auto_create_schema: bool = False
         log_dir: Path = PROJECT_ROOT / "logs"
         log_level: str = "INFO"
         auth_secret_key: str = "change-me-local-autotest-secret"
         auth_access_token_expire_minutes: int = 480
         default_admin_username: str = "admin"
         default_admin_password: str = "Admin@123456"
+        allow_public_screenshots: bool = False
+        ai_request_min_interval_ms: int = 1200
+        ai_rate_limit_retries: int = 4
+        ai_rate_limit_backoff_ms: int = 2500
+        ai_cache_enabled: bool = True
 
         @property
         def database_url(self) -> str:
@@ -98,13 +103,18 @@ except ModuleNotFoundError:
         mysql_password: str = ""
         mysql_database: str = "autotest"
         cors_origins: str = "http://127.0.0.1:5173,http://localhost:5173"
-        auto_create_schema: bool = True
+        auto_create_schema: bool = False
         log_dir: Path = PROJECT_ROOT / "logs"
         log_level: str = "INFO"
         auth_secret_key: str = "change-me-local-autotest-secret"
         auth_access_token_expire_minutes: int = 480
         default_admin_username: str = "admin"
         default_admin_password: str = "Admin@123456"
+        allow_public_screenshots: bool = False
+        ai_request_min_interval_ms: int = 1200
+        ai_rate_limit_retries: int = 4
+        ai_rate_limit_backoff_ms: int = 2500
+        ai_cache_enabled: bool = True
 
         class Config:
             """Pydantic v1 environment-loading configuration."""

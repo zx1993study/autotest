@@ -19,7 +19,7 @@
           :index="index"
           :loading-options="loadingOptions"
           :auth-options="authOptions"
-          :api-options="filteredApiOptionsForDraft(draft)"
+          :api-options="apiOptions"
           :case-options="filteredCaseOptionsForDraft(draft)"
           :can-save="canSaveDraft(draft)"
           :title="draftCaseTitle(draft)"
@@ -28,14 +28,13 @@
           :response-body-text="draftResponseBodyText(draft)"
           :result-status-text="draftResultStatusText(draft)"
           :result-status-class="draftResultStatusClass(draft)"
-          :api-option-label="apiOptionLabel"
           :case-option-label="caseOptionLabel"
           :format-duration="formatDuration"
           :stringify-json="stringifyJson"
           @remove="removeStepDraft"
           @save="saveStepDraft"
           @run="runStepDraft"
-          @api-change="syncDraftSelectedApiFromKeyword"
+          @api-change="handleDraftApiChange"
           @case-change="handleDraftCaseChange"
         />
       </div>
@@ -52,13 +51,14 @@ import {
   getResource,
   listRemoteOptions,
   listResources,
-  postAction,
   updateResource
 } from '../../api/http'
 import { ExecutionMode } from '../../constants/enums'
+import { runApiCases } from '../../services/api-case.service'
 import type { ResourceItem, SelectOptionRecord } from '../../api/http'
 import type { ExecutionRecord, ExecutionSummary, FlowStep, StepDraft } from '../../types/execution-flow'
 import { formatJsonLikeText } from '../../utils/jsonFormatter'
+import { apiOptionLabel } from '../../utils/apiOptions'
 
 const RESOURCE_FETCH_PAGE_SIZE = 200
 
@@ -210,7 +210,7 @@ async function executeStep(step: FlowStep): Promise<ExecutionSummary | null> {
   }
   formError.value = ''
   try {
-    return await postAction<ExecutionSummary>('/api-testing/cases/run', {
+    return await runApiCases({
       project_id: projectId.value,
       auth_id: step.auth_id || null,
       case_ids: [step.case_id],
@@ -341,20 +341,12 @@ function filteredCaseOptionsForDraft(draft: StepDraft): ResourceItem[] {
   return caseOptions.value.filter(item => Number(item.source_id || 0) === draft.selectedApiId)
 }
 
-function filteredApiOptionsForDraft(draft: StepDraft): SelectOptionRecord[] {
-  return filterApiOptions(apiOptions.value, draft.apiKeyword)
-}
-
 async function handleDraftApiChange(draft: StepDraft) {
   draft.executionSummary = null
   draft.formError = ''
-  if (draft.selectedApiId) {
-    const selectedApi = apiOptions.value.find(api => api.id === draft.selectedApiId)
-    if (selectedApi) {
-      draft.apiKeyword = apiOptionLabel(selectedApi)
-      draft.api_label = draft.apiKeyword
-    }
-  }
+  const selectedApi = apiOptions.value.find(api => api.id === draft.selectedApiId)
+  draft.apiKeyword = selectedApi ? apiOptionLabel(selectedApi) : ''
+  draft.api_label = draft.apiKeyword
   if (draft.selectedCaseId && !filteredCaseOptionsForDraft(draft).some(item => item.id === draft.selectedCaseId)) {
     draft.selectedCaseId = 0
     draft.case_label = ''
@@ -380,20 +372,6 @@ async function handleDraftCaseChange(draft: StepDraft) {
   draft.caseJsonText = stringifyJson(extractCaseParams(item))
   draft.case_label = caseNameLabel(item)
   draft.caseTitle = caseNameLabel(item)
-}
-
-async function syncDraftSelectedApiFromKeyword(draft: StepDraft) {
-  const keyword = draft.apiKeyword.trim()
-  if (!keyword) {
-    draft.selectedApiId = 0
-    draft.api_label = ''
-    await handleDraftApiChange(draft)
-    return
-  }
-  const matchedApi = apiOptions.value.find(api => apiOptionLabel(api) === keyword)
-  draft.selectedApiId = matchedApi?.id || 0
-  draft.api_label = matchedApi ? apiOptionLabel(matchedApi) : ''
-  await handleDraftApiChange(draft)
 }
 
 function fillDraftApiKeyword(draft: StepDraft) {
@@ -457,21 +435,6 @@ function normalizeFlowSteps(value: unknown): FlowStep[] {
     case_label: String(item.case_label || ''),
     case_json: isRecord(item.case_json) ? cloneRecord(item.case_json) : {}
   })).filter(item => item.case_id > 0)
-}
-
-function apiOptionLabel(api: SelectOptionRecord): string {
-  const method = String(api.method || '').toUpperCase()
-  const path = String(api.path || '')
-  const name = String(api.name || '')
-  return [method, path, name].filter(Boolean).join(' ')
-}
-
-function filterApiOptions(options: SelectOptionRecord[], keyword: string): SelectOptionRecord[] {
-  const normalized = keyword.trim().toLowerCase()
-  if (!normalized) {
-    return options
-  }
-  return options.filter(api => apiOptionLabel(api).toLowerCase().includes(normalized))
 }
 
 function caseOptionLabel(item: ResourceItem): string {

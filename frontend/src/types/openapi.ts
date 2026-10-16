@@ -11,6 +11,8 @@ export interface OpenApiImportResult {
   overwrite: boolean
   interface_count: number
   field_count: number
+  schema_snapshot_id?: number
+  schema_hash?: string
   interfaces: OpenApiImportInterface[]
 }
 

@@ -8,79 +8,12 @@ from app.services.ai_generation_service import (
     DEFAULT_WEB_CASE_USER_TEMPLATE,
     DEFAULT_WEB_PAGE_USER_TEMPLATE,
 )
-
-DEFAULT_WEB_FUNCTION_ELEMENT_USER_TEMPLATE = """请根据以下脱敏后的 Web 页面功能上下文，生成“后台自动操作并解析元素步骤”的操作建议。
-你只负责生成建议，平台负责在后台无头模式加载页面、加载鉴权、自动操作、解析和保存。不要输出真实密码、token、cookie，不要输出 Markdown，只输出合法 JSON。
-
-目标流程：
-1. 在 AI 生成任务中选择任务类型“Web功能元素获取”、扫描方式和目标页面功能。
-2. 后台使用 Playwright 自动进入对应页面；如果页面功能绑定了 Web 鉴权信息，进入页面前应加载对应 cookie。
-3. 根据页面功能类型执行最小闭环操作：
-   - login：输入账号、密码，点击登录，并等待登录成功。
-   - query：填写查询条件，记录所有查询条件元素和按钮，最后点击查询按钮。
-   - add：点击新增入口，等待弹窗/抽屉/新页面出现，填写必填项和典型字段，记录所有功能元素，最后点击保存/确定按钮。
-   - edit：进入编辑入口，等待弹窗/抽屉/新页面出现，修改可编辑字段，记录所有功能元素，最后点击保存/确定按钮。
-   - delete：点击删除入口，记录确认弹窗元素；不要真实删除业务数据，优先点击取消。
-   - detail：进入详情入口，记录关键只读文本或断言元素。
-   - import/export：记录上传/导入/导出入口、文件选择、确认按钮和结果提示，导入类功能最后点击确认按钮。
-4. 操作完成后，后台将自动生成的 Playwright 脚本交给平台解析器。
-5. 解析时只保存和当前功能直接相关的元素步骤，忽略菜单导航、分页器、无关搜索框和无关按钮。
-
-解析与保存规则：
-1. 同一个元素既有 click 又有 fill/input 时，只保存输入操作。
-2. get_by_role 定位方式保存为 role；定位内容只保存括号中的核心信息，例如 get_by_role("button", name="登 录") 保存为 locator_type=role，locator=button, name="登 录"。
-3. 下拉框先点击展开再点击选项时，只保存下拉框元素；选项文本保存到 default_value。
-4. 多选下拉需要再次点击才关闭时，element_type 使用 multi_select，action 使用 multi_select。
-5. readonly input、placeholder 为“请选择...”的输入框、Element UI el-select、Ant Design select 必须按下拉框保存，禁止保存为 fill 输入框。
-6. 日期弹窗按输入框保存，日期值保存到 default_value。
-7. 弹窗/抽屉中的元素需要标记 container=modal/drawer，并保留步骤顺序。
-8. 最后一个有效步骤 take_screenshot=true，其余默认 false；skip 默认 false。
-
-返回结构必须是：
-{
-  "recording_plan": [
-    {
-      "step_id": 1,
-      "instruction": "后台无头打开目标页面并加载鉴权",
-      "expected": "进入目标页面并识别当前功能入口"
-    }
-  ],
-  "operation_steps": [
-    {
-      "step_id": 1,
-      "element_name": "新增按钮",
-      "action": "click",
-      "value": "",
-      "purpose": "打开新增弹窗"
-    }
-  ],
-  "element_steps": [
-    {
-      "step_id": 1,
-      "element_name": "新增按钮",
-      "element_type": "button",
-      "action": "click",
-      "locator_type": "role",
-      "locator": "button, name=\"新增\"",
-      "default_value": "",
-      "container": "page",
-      "required": false,
-      "take_screenshot": false,
-      "skip": false
-    }
-  ],
-  "save_rules": [
-    "解析脚本后保存到 Web 元素库，并同步生成页面功能步骤 JSON"
-  ],
-  "warnings": []
-}
-
-页面功能上下文：
-{{context_json}}
-
-补充需求：
-{{user_prompt}}"""
-
+from app.utils.web_vision_prompts import (
+    DEFAULT_ELEMENT_EXTRACTION_PROMPT,
+    DEFAULT_FUNCTION_DISCOVERY_PROMPT,
+    VISION_ELEMENT_TEMPLATE_TYPE,
+    VISION_FUNCTION_TEMPLATE_TYPE,
+)
 
 DEFAULT_AI_PROMPTS: list[dict[str, Any]] = [
     {
@@ -148,53 +81,59 @@ DEFAULT_AI_PROMPTS: list[dict[str, Any]] = [
             },
         },
     },
+]
+
+DEFAULT_AI_PROMPTS.append(
     {
-        "name": "Web功能元素获取默认模板",
+        "name": "Web视觉功能发现默认模板",
         "status": "active",
-        "description": "指导后台使用无头 Playwright 自动操作目标页面功能，并解析保存 Web 元素步骤。",
+        "description": "根据页面截图识别页面上的业务功能入口，输出功能清单 JSON。",
         "data": {
-            "template_type": "web_function_element_generation",
-            "template_key": "default.web_function_element_generation",
+            "template_type": VISION_FUNCTION_TEMPLATE_TYPE,
+            "template_key": f"default.{VISION_FUNCTION_TEMPLATE_TYPE}",
             "system_prompt": DEFAULT_SYSTEM_PROMPT,
-            "user_template": DEFAULT_WEB_FUNCTION_ELEMENT_USER_TEMPLATE,
+            "user_template": DEFAULT_FUNCTION_DISCOVERY_PROMPT,
             "output_schema": {
-                "recording_plan": [
-                    {
-                        "step_id": 1,
-                        "instruction": "后台无头打开目标页面并加载鉴权",
-                        "expected": "进入目标页面并识别当前功能入口",
-                    }
+                "features": [
+                    {"feature": "新增", "entry_hint": "新增", "risk": "safe"}
                 ],
-                "operation_steps": [
-                    {
-                        "step_id": 1,
-                        "element_name": "新增按钮",
-                        "action": "click",
-                        "value": "",
-                        "purpose": "打开新增弹窗",
-                    }
-                ],
-                "element_steps": [
-                    {
-                        "step_id": 1,
-                        "element_name": "新增按钮",
-                        "element_type": "button",
-                        "action": "click",
-                        "locator_type": "role",
-                        "locator": 'button, name="新增"',
-                        "default_value": "",
-                        "container": "page",
-                        "required": False,
-                        "take_screenshot": False,
-                        "skip": False,
-                    }
-                ],
-                "save_rules": ["解析脚本后保存到 Web 元素库，并同步生成页面功能步骤 JSON"],
                 "warnings": [],
             },
         },
-    },
-]
+    }
+)
+
+DEFAULT_AI_PROMPTS.append(
+    {
+        "name": "Web视觉元素提取默认模板",
+        "status": "active",
+        "description": "批量分析多个功能截图，并按功能提取可操作元素的执行信息。",
+        "data": {
+            "template_type": VISION_ELEMENT_TEMPLATE_TYPE,
+            "template_key": f"default.{VISION_ELEMENT_TEMPLATE_TYPE}",
+            "system_prompt": DEFAULT_SYSTEM_PROMPT,
+            "user_template": DEFAULT_ELEMENT_EXTRACTION_PROMPT,
+            "output_schema": {
+                "features": [
+                    {
+                        "feature_id": "feature_1",
+                        "feature": "新增",
+                        "elements": [
+                            {
+                                "name": "客户名称",
+                                "element_type": "input",
+                                "action": "fill",
+                                "description": "弹窗表单第一行输入框",
+                                "required": True,
+                                "default_value": "测试客户",
+                            }
+                        ],
+                    }
+                ]
+            },
+        },
+    }
+)
 
 
 class AiPromptSeedService:
@@ -215,9 +154,9 @@ class AiPromptSeedService:
             current = existing.get(template_key)
             should_refresh_default = current and template_key in {
                 "default.web_page_generation",
-                "default.web_function_element_generation",
             }
-            if current and (overwrite or should_refresh_default):
+            changed = current and any(current.get(key) != value for key, value in payload.items())
+            if current and (overwrite or (should_refresh_default and changed)):
                 self.repository.update("ai_prompt_templates", current["id"], payload)
                 updated += 1
             elif not current:

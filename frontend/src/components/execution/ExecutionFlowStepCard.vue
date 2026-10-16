@@ -12,19 +12,7 @@
       <div class="field-grid">
         <label class="field">
           <span>API<b>*</b></span>
-          <input
-            v-model.trim="draft.apiKeyword"
-            class="filter-input"
-            :list="`execution-flow-api-options-${draft.uid}`"
-            type="search"
-            placeholder="输入接口名称、方法或路径选择 API"
-            :disabled="loadingOptions"
-            @change="$emit('api-change', draft)"
-            @input="$emit('api-change', draft)"
-          />
-          <datalist :id="`execution-flow-api-options-${draft.uid}`">
-            <option v-for="api in apiOptions" :key="api.id" :value="apiOptionLabel(api)" />
-          </datalist>
+          <ApiSelect v-model="draft.selectedApiId" :options="apiOptions" label="步骤 API" :loading="loadingOptions" required @change="$emit('api-change', draft)" />
         </label>
 
         <label class="field">
@@ -100,6 +88,7 @@
           </div>
         </dl>
 
+        <DynamicValueEvidence :snapshot="recordData.dynamic_values" />
         <details open class="result-block">
           <summary>响应体</summary>
           <pre>{{ responseBodyText }}</pre>
@@ -117,6 +106,8 @@
 </template>
 
 <script setup lang="ts">
+import DynamicValueEvidence from '../common/DynamicValueEvidence.vue'
+import ApiSelect from '../common/ApiSelect.vue'
 import type { ResourceItem, SelectOptionRecord } from '../../api/http'
 import type { ExecutionRecord, StepDraft } from '../../types/execution-flow'
 
@@ -134,7 +125,6 @@ defineProps<{
   responseBodyText: string
   resultStatusText: string
   resultStatusClass: string
-  apiOptionLabel: (api: SelectOptionRecord) => string
   caseOptionLabel: (item: ResourceItem) => string
   formatDuration: (value: unknown) => string
   stringifyJson: (value: unknown) => string

@@ -1,0 +1,150 @@
+{
+  "flow": {
+    "id": 15813,
+    "name": "[业务回归] 线上拜访",
+    "project_id": 10,
+    "description": "无编辑接口；按客户缩小查询，首条唯一内容不匹配时停止。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "online_visit",
+        "campaign_key": "waiqin-crud-20261015",
+        "record_marker": "线上拜访测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "线上拜访维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12244,
+          "case_id": 365,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12243,
+          "case_id": 366,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/rows/0/onlineVisitId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12245,
+          "case_id": 367,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/online_visit_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "delete",
+          "name": "删除本流程创建的数据",
+          "api_id": 12246,
+          "case_id": 368,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/online_visit_ids",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_delete",
+          "name": "查询确认数据已删除",
+          "api_id": 12245,
+          "case_id": 369,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/online_visit_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:44:55",
+    "updated_at": "2026-10-15T10:44:55",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15814,
+      "name": "新增查询删除闭环",
+      "project_id": 10,
+      "description": "无编辑接口；按客户缩小查询，首条唯一内容不匹配时停止。",
+      "status": "active",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15813,
+        "expected_end": "verify_delete",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:44:56",
+      "updated_at": "2026-10-15T10:44:56",
+      "deleted": false
+    }
+  ]
+}

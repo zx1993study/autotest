@@ -1,0 +1,4828 @@
+[
+  {
+    "key": "terminal",
+    "name": "前端客户",
+    "business_type": "terminal_customer",
+    "nodes": [
+      {
+        "key": "terminal_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12086,
+        "params": {
+          "customerName": "{{record_marker}}",
+          "managerIds": [
+            1
+          ],
+          "cooperationStatus": "正在合作",
+          "editCount": 0,
+          "customerType": "1"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "terminal_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12083,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "customerName": "{{record_marker}}",
+          "customerType": "1"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerType",
+            "expected": "1"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/customerId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "terminal_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "terminal_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/approvalProcess/instanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "terminal_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "terminal_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 1
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "terminal_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "terminal_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "terminal_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "terminal_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "terminal_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "terminal_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "terminal_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "terminal_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "terminal_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "terminal_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/approvalProcess/instanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "terminal_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          },
+          {
+            "source": "terminal_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "1",
+    "rejected": "3",
+    "blocked": ""
+  },
+  {
+    "key": "direct",
+    "name": "直营客户",
+    "business_type": "direct_customer",
+    "nodes": [
+      {
+        "key": "direct_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12086,
+        "params": {
+          "customerName": "{{record_marker}}",
+          "managerIds": [
+            1
+          ],
+          "cooperationStatus": "正在合作",
+          "editCount": 0,
+          "customerType": "2"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "direct_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12083,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "customerName": "{{record_marker}}",
+          "customerType": "2"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerType",
+            "expected": "2"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/customerId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "direct_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "direct_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/approvalProcess/instanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "direct_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "direct_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 5
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "direct_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "direct_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "direct_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "direct_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "direct_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "direct_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "direct_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "direct_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "direct_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "direct_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/approvalProcess/instanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "direct_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          },
+          {
+            "source": "direct_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "1",
+    "rejected": "3",
+    "blocked": ""
+  },
+  {
+    "key": "kol",
+    "name": "KOL客户",
+    "business_type": "kol_customer",
+    "nodes": [
+      {
+        "key": "kol_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12086,
+        "params": {
+          "customerName": "{{record_marker}}",
+          "managerIds": [
+            1
+          ],
+          "cooperationStatus": "正在合作",
+          "editCount": 0,
+          "customerType": "3"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "kol_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12083,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "customerName": "{{record_marker}}",
+          "customerType": "3"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/customerType",
+            "expected": "3"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/customerId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "kol_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "kol_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/approvalProcess/instanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "kol_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "kol_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 6
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "kol_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "kol_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "kol_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "kol_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "kol_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "kol_customer"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "kol_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "kol_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "kol_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "kol_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12098,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/customerName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/status",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/approvalProcess/instanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "kol_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/customer_id"
+          },
+          {
+            "source": "kol_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "1",
+    "rejected": "3",
+    "blocked": ""
+  },
+  {
+    "key": "sales",
+    "name": "终端销售订单",
+    "business_type": "sales_order",
+    "nodes": [
+      {
+        "key": "sales_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12205,
+        "params": {
+          "order": {
+            "customerId": 1083,
+            "customerName": "测试_1791948624707",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "salesUserId": 1,
+            "salesType": "2",
+            "remark": "{{record_marker}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "quantity": 1
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12204,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/orderId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "sales_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12208,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderStatus",
+            "expected": "2"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/order/approvalInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "sales_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "sales_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 12
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "sales_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "sales_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "sales_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "sales_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "sales_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "sales_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "sales_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12208,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderStatus",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          },
+          {
+            "source": "sales_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "3",
+    "rejected": "4",
+    "blocked": ""
+  },
+  {
+    "key": "sales_direct",
+    "name": "直营销售订单",
+    "business_type": "sales_order_direct",
+    "nodes": [
+      {
+        "key": "sales_direct_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12205,
+        "params": {
+          "order": {
+            "customerId": 1044,
+            "customerName": "1",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "salesUserId": 252,
+            "salesType": "1",
+            "remark": "{{record_marker}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "quantity": 1
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "auth_id": 16307
+      },
+      {
+        "key": "sales_direct_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12204,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/orderId",
+            "required": true
+          }
+        ],
+        "auth_id": 16307
+      },
+      {
+        "key": "sales_direct_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12208,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderStatus",
+            "expected": "2"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_direct_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/order/approvalInstanceId",
+            "required": true
+          }
+        ],
+        "auth_id": 16307
+      },
+      {
+        "key": "sales_direct_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "sales_order_direct"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 24
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_direct_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "sales_direct_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "sales_direct_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_direct_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "sales_direct_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "sales_order_direct"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_direct_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "sales_direct_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "sales_direct_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "sales_direct_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12208,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderStatus",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "sales_direct_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          },
+          {
+            "source": "sales_direct_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ],
+        "auth_id": 16307
+      }
+    ],
+    "passed": "3",
+    "rejected": "4",
+    "blocked": "",
+    "creator_identity": {
+      "auth_id": 16307,
+      "user_id": 252,
+      "username": "qa_approval_direct",
+      "role_ids": [
+        112
+      ],
+      "login_case_id": 945,
+      "identity_verified_at": "2026-10-15T08:00:47.813273+00:00"
+    }
+  },
+  {
+    "key": "return",
+    "name": "退货订单",
+    "business_type": "return_order",
+    "nodes": [
+      {
+        "key": "return_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12221,
+        "params": {
+          "order": {
+            "customerId": 1083,
+            "customerName": "测试_1791948624707",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "customerType": "1",
+            "returnOrderType": "2",
+            "returnType": "4",
+            "returnReason": "门店样品退回核对",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "totalAmount": 300.0,
+            "remark": "{{record_marker}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "returnQuantity": 1,
+              "qualityStatus": "1"
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "return_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12219,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/returnId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "return_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12223,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnStatus",
+            "expected": "2"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "return_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/order/approvalInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "return_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "return_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 13
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "return_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "return_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "return_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "return_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "return_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "return_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "return_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "return_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "return_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "return_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12223,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnStatus",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "return_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_id"
+          },
+          {
+            "source": "return_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "3",
+    "rejected": "4",
+    "blocked": ""
+  },
+  {
+    "key": "purchase",
+    "name": "采购入库单",
+    "business_type": "purchase_in_order",
+    "nodes": [
+      {
+        "key": "purchase_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12199,
+        "params": {
+          "warehouseId": 88,
+          "warehouseName": "硚口总仓",
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "quantity": 1
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/data/orderId",
+            "required": true
+          }
+        ],
+        "auth_id": 16306
+      },
+      {
+        "key": "purchase_draft",
+        "name": "核对新建采购草稿归属后再提审",
+        "api_id": 12202,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ],
+        "auth_id": 16306
+      },
+      {
+        "key": "purchase_submit",
+        "name": "提交本次采购单审批",
+        "api_id": 12203,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ],
+        "auth_id": 16306
+      },
+      {
+        "key": "purchase_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12202,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderStatus",
+            "expected": "1"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/approvalInstanceId",
+            "required": true
+          }
+        ],
+        "auth_id": 16306
+      },
+      {
+        "key": "purchase_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "purchase_in_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": 11
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "purchase_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "purchase_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "purchase_in_order"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "purchase_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "purchase_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12202,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderStatus",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "purchase_create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          },
+          {
+            "source": "purchase_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ],
+        "auth_id": 16306
+      }
+    ],
+    "passed": "2",
+    "rejected": "3",
+    "blocked": "",
+    "creator_identity": {
+      "auth_id": 16306,
+      "user_id": 251,
+      "username": "qa_approval_manager",
+      "role_ids": [
+        2
+      ],
+      "login_case_id": 944,
+      "identity_verified_at": "2026-10-15T08:00:44.967400+00:00"
+    }
+  },
+  {
+    "key": "activity",
+    "name": "活动",
+    "business_type": "activity",
+    "nodes": [
+      {
+        "key": "activity_type_create",
+        "name": "创建本场景独立活动类型与申请模板",
+        "api_id": 12119,
+        "params": {
+          "activityTypeName": "{{record_marker}}_类型",
+          "needExecuteReport": "0",
+          "needPaymentReport": "0",
+          "status": "0",
+          "templates": {
+            "apply": [
+              {
+                "fieldCode": "customers",
+                "fieldLabel": "参与客户",
+                "isRequired": "1",
+                "sort": 5,
+                "meta": {
+                  "component": "customerSelect"
+                }
+              },
+              {
+                "fieldCode": "remark",
+                "fieldLabel": "备注",
+                "isRequired": "1",
+                "sort": 90,
+                "meta": {
+                  "component": "textarea"
+                }
+              }
+            ],
+            "execute": [],
+            "payment": []
+          }
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "activity_type_locate",
+        "name": "唯一名称定位新建活动类型",
+        "api_id": 12116,
+        "params": {
+          "activityTypeName": "{{record_marker}}_类型",
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityTypeName",
+            "expected": "{{record_marker}}_类型"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "activity_type",
+            "path": "/rows/0/activityType",
+            "required": true
+          },
+          {
+            "name": "config_id",
+            "path": "/rows/0/configId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_type_detail",
+        "name": "核对本场景活动类型与模板",
+        "api_id": 12117,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityTypeName",
+            "expected": "{{record_marker}}_类型"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activity_type"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_create",
+        "name": "为新活动类型创建独立业务审批流程",
+        "api_id": 12173,
+        "params": {
+          "flowName": "{{record_marker}}_活动审批",
+          "businessType": "activity",
+          "status": "0",
+          "isDefault": "0",
+          "creatorRoleId": 1
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_locate",
+        "name": "唯一名称定位并核对本次业务工作流",
+        "api_id": 12169,
+        "params": {
+          "flowName": "{{record_marker}}_活动审批",
+          "businessType": "activity",
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/flowName",
+            "expected": "{{record_marker}}_活动审批"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/isDefault",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "flow_id",
+            "path": "/rows/0/flowId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_node",
+        "name": "为独立工作流指定真实审批用户",
+        "api_id": 12175,
+        "params": {
+          "nodeName": "{{record_marker}}_审核",
+          "nodeOrder": 1,
+          "approverType": "1",
+          "approverIds": "1"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flowId"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_detail",
+        "name": "核对活动类型、创建角色与审批人配置",
+        "api_id": 12170,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/isDefault",
+            "expected": "0"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodes",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverType",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverIds",
+            "expected": "1"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flow_id"
+          },
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ]
+      },
+      {
+        "key": "activity_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12110,
+        "params": {
+          "productScope": "all",
+          "productIds": "16",
+          "paymentType": "online",
+          "startTime": "{{activity_start_time}}",
+          "endTime": "{{activity_end_time}}",
+          "activityName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "activity_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12108,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "activityName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/activityId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12113,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/approvalInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "headers",
+            "path": "/X-Test-flow-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{activity_decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "activity_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{activity_decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{activity_decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{activity_decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "activity_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "activity_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12113,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalStatus",
+            "expected": "{{activity_business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          },
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "1",
+    "rejected": "2",
+    "blocked": ""
+  },
+  {
+    "key": "apply",
+    "name": "活动申请",
+    "business_type": "activity_apply",
+    "nodes": [
+      {
+        "key": "activity_type_create",
+        "name": "创建本场景独立活动类型与申请模板",
+        "api_id": 12119,
+        "params": {
+          "activityTypeName": "{{record_marker}}_类型",
+          "needExecuteReport": "0",
+          "needPaymentReport": "0",
+          "status": "0",
+          "templates": {
+            "apply": [
+              {
+                "fieldCode": "customers",
+                "fieldLabel": "参与客户",
+                "isRequired": "1",
+                "sort": 5,
+                "meta": {
+                  "component": "customerSelect"
+                }
+              },
+              {
+                "fieldCode": "remark",
+                "fieldLabel": "备注",
+                "isRequired": "1",
+                "sort": 90,
+                "meta": {
+                  "component": "textarea"
+                }
+              }
+            ],
+            "execute": [],
+            "payment": []
+          }
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "activity_type_locate",
+        "name": "唯一名称定位新建活动类型",
+        "api_id": 12116,
+        "params": {
+          "activityTypeName": "{{record_marker}}_类型",
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityTypeName",
+            "expected": "{{record_marker}}_类型"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "activity_type",
+            "path": "/rows/0/activityType",
+            "required": true
+          },
+          {
+            "name": "config_id",
+            "path": "/rows/0/configId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_type_detail",
+        "name": "核对本场景活动类型与模板",
+        "api_id": 12117,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityTypeName",
+            "expected": "{{record_marker}}_类型"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activity_type"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_create",
+        "name": "为新活动类型创建独立业务审批流程",
+        "api_id": 12173,
+        "params": {
+          "flowName": "{{record_marker}}_活动审批",
+          "businessType": "activity",
+          "status": "0",
+          "isDefault": "0",
+          "creatorRoleId": 1
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_locate",
+        "name": "唯一名称定位并核对本次业务工作流",
+        "api_id": 12169,
+        "params": {
+          "flowName": "{{record_marker}}_活动审批",
+          "businessType": "activity",
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/flowName",
+            "expected": "{{record_marker}}_活动审批"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/isDefault",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "flow_id",
+            "path": "/rows/0/flowId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_node",
+        "name": "为独立工作流指定真实审批用户",
+        "api_id": 12175,
+        "params": {
+          "nodeName": "{{record_marker}}_审核",
+          "nodeOrder": 1,
+          "approverType": "1",
+          "approverIds": "1"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flowId"
+          }
+        ]
+      },
+      {
+        "key": "activity_flow_detail",
+        "name": "核对活动类型、创建角色与审批人配置",
+        "api_id": 12170,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/isDefault",
+            "expected": "0"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodes",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverType",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverIds",
+            "expected": "1"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flow_id"
+          },
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ]
+      },
+      {
+        "key": "activity_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12110,
+        "params": {
+          "productScope": "all",
+          "productIds": "16",
+          "paymentType": "online",
+          "startTime": "{{activity_start_time}}",
+          "endTime": "{{activity_end_time}}",
+          "activityName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "activity_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12108,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "activityName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/activityId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12113,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/approvalInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "activity_flow_locate",
+            "name": "flow_id",
+            "target": "headers",
+            "path": "/X-Test-flow-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "activity_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{activity_decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "activity_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{activity_decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{activity_decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{activity_decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "activity_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "activity_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12113,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalStatus",
+            "expected": "{{activity_business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          },
+          {
+            "source": "activity_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      },
+      {
+        "key": "apply_flow_create",
+        "name": "为新活动类型创建独立业务审批流程",
+        "api_id": 12173,
+        "params": {
+          "flowName": "{{record_marker}}_申请审批",
+          "businessType": "activity_apply",
+          "status": "0",
+          "isDefault": "0",
+          "creatorRoleId": 1
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "apply_flow_locate",
+        "name": "唯一名称定位并核对本次业务工作流",
+        "api_id": 12169,
+        "params": {
+          "flowName": "{{record_marker}}_申请审批",
+          "businessType": "activity_apply",
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/flowName",
+            "expected": "{{record_marker}}_申请审批"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/businessType",
+            "expected": "activity_apply"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/isDefault",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "flow_id",
+            "path": "/rows/0/flowId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "apply_flow_node",
+        "name": "为独立工作流指定真实审批用户",
+        "api_id": 12175,
+        "params": {
+          "nodeName": "{{record_marker}}_审核",
+          "nodeOrder": 1,
+          "approverType": "1",
+          "approverIds": "1"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flowId"
+          }
+        ]
+      },
+      {
+        "key": "apply_flow_detail",
+        "name": "核对活动类型、创建角色与审批人配置",
+        "api_id": 12170,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/businessType",
+            "expected": "activity_apply"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/activityType",
+            "expected": "{{bound_activity_type}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/creatorRoleId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/flow/isDefault",
+            "expected": "0"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodes",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverType",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodes/0/approverIds",
+            "expected": "1"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_flow_locate",
+            "name": "flow_id",
+            "target": "params",
+            "path": "/flow_id"
+          },
+          {
+            "source": "activity_type_locate",
+            "name": "activity_type",
+            "target": "headers",
+            "path": "/X-Test-activity-type"
+          }
+        ]
+      },
+      {
+        "key": "apply_create",
+        "name": "创建独立审批测试数据",
+        "api_id": 12126,
+        "params": {
+          "customers": [
+            {
+              "customerId": 1083,
+              "customerName": "测试_1791948624707",
+              "customerType": "1"
+            }
+          ],
+          "startTime": "{{start_time}}",
+          "endTime": "{{end_time}}",
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activityId"
+          }
+        ]
+      },
+      {
+        "key": "apply_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "api_id": 12121,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_query_result",
+            "path": "/rows",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityId",
+            "expected": "{{bound_owned_id}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/applyId",
+            "required": true
+          }
+        ],
+        "bindings": [
+          {
+            "source": "activity_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activityId"
+          }
+        ]
+      },
+      {
+        "key": "apply_detail",
+        "name": "详情核对新建数据并读取审批实例",
+        "api_id": 12129,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/applyId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/status",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/apply_id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "instance_id",
+            "path": "/data/apply/approvalInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "apply_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity_apply"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "0"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/flowId",
+            "expected": "{{bound_flow_id}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/isCurrent",
+            "expected": "1"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "0"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "apply_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "apply_flow_locate",
+            "name": "flow_id",
+            "target": "headers",
+            "path": "/X-Test-flow-id"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "node_instance_id",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "apply_approve",
+        "name": "使用当前节点指定审批人审批",
+        "api_id": 12182,
+        "params": {
+          "approveResult": "{{decision}}",
+          "approveRemark": "{{record_marker}}_审批核对"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_process",
+            "name": "node_instance_id",
+            "target": "params",
+            "path": "/nodeInstanceId"
+          }
+        ],
+        "auth_id": 10015
+      },
+      {
+        "key": "apply_verify_process",
+        "name": "核对审批结果、节点和审批人",
+        "api_id": 12181,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/businessType",
+            "expected": "activity_apply"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/instance/processStatus",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_query_result",
+            "path": "/data/nodeInstances",
+            "min_items": 1,
+            "max_items": 1,
+            "rules": []
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeInstanceId",
+            "expected": "{{bound_node_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/instanceId",
+            "expected": "{{bound_instance_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approverId",
+            "expected": 1
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/approveResult",
+            "expected": "{{decision}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/nodeInstances/0/nodeStatus",
+            "expected": "{{decision}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_detail",
+            "name": "instance_id",
+            "target": "params",
+            "path": "/instance_id"
+          },
+          {
+            "source": "apply_locate",
+            "name": "owned_id",
+            "target": "headers",
+            "path": "/X-Test-owned-id"
+          },
+          {
+            "source": "apply_process",
+            "name": "node_instance_id",
+            "target": "headers",
+            "path": "/X-Test-node-instance-id"
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "apply_verify_detail",
+        "name": "审批后核对业务状态",
+        "api_id": 12129,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/applyId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/remark",
+            "expected": "{{record_marker}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/status",
+            "expected": "{{business_status}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/approvalInstanceId",
+            "expected": "{{bound_instance_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "apply_locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/apply_id"
+          },
+          {
+            "source": "apply_detail",
+            "name": "instance_id",
+            "target": "headers",
+            "path": "/X-Test-instance-id"
+          }
+        ]
+      }
+    ],
+    "passed": "1",
+    "rejected": "2",
+    "blocked": ""
+  }
+]

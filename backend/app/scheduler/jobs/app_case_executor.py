@@ -1,15 +1,28 @@
 from __future__ import annotations
 
+import base64
+import subprocess
+import sys
 import time
+import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+from urllib.error import URLError
+from urllib.parse import urljoin
+from urllib.request import Request, urlopen
+from web_automation.dynamic_values import prepare_dynamic_execution
 
 from app.repositories.interfaces import ResourceRepository
 from app.scheduler.jobs.case_execution_base import CaseExecutionBase
 from app.utils.appium_executor import AppiumActionExecutor
 
 
-SCREENSHOT_DIR = Path(__file__).resolve().parents[3] / "storage" / "screenshots"
+from app.core.storage import storage_path
+
+SCREENSHOT_DIR = storage_path("screenshots")
+RECORDING_DIR = storage_path("app-recordings")
+DEFAULT_APPIUM_SERVER_URL = "http://127.0.0.1:4723"
 
 
 class AppExecutionError(RuntimeError):
@@ -26,10 +39,20 @@ class AppCaseExecutor(CaseExecutionBase):
 
     def execute(self, case: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
         started_at = time.perf_counter()
-        steps = self._case_steps(case)
-        config = self._appium_config(case, payload)
+        steps: list[dict[str, Any]] = []
+        config: dict[str, Any] = {}
+        preflight: dict[str, Any] = {}
         try:
-            result = self._run_app_steps(case, steps, config)
+            original_case = case
+            case, payload, dynamic = prepare_dynamic_execution(case, payload)
+            steps = dynamic.resolve(self._case_steps(original_case), "$.steps")
+            case["_dynamic_values"] = dynamic.snapshot()
+            config = self._appium_config(case, payload)
+            preflight = self._preflight_checks(config)
+            if self._script_path(case):
+                result = self._run_python_script(case, config)
+            else:
+                result = self._run_app_steps(case, steps, config)
             status_text = "success"
             description = "App case execution passed"
             error = None
@@ -44,10 +67,13 @@ class AppCaseExecutor(CaseExecutionBase):
             description = str(exc)
             error = str(exc)
 
+        device = config.get("device") if isinstance(config.get("device"), dict) else {}
+        device_data = device.get("data") if isinstance(device.get("data"), dict) else {}
+        device_name = str(device.get("name") or device_data.get("device_name") or device_data.get("udid") or "").strip()
         return self.repository.create(
             "execution_records",
             {
-                "name": f"APP 用例执行 - {case['name']}",
+                "name": f"APP 用例执行 - {case['name']}{f' - {device_name}' if device_name else ''}",
                 "project_id": case.get("project_id") or payload.get("project_id"),
                 "description": description,
                 "status": status_text,
@@ -56,19 +82,149 @@ class AppCaseExecutor(CaseExecutionBase):
                     "case_type": self.case_type,
                     "mode": payload.get("mode", "local_appium"),
                     "node_id": payload.get("node_id"),
+                    "device_id": config.get("device_id"),
+                    "device_name": device_name or None,
+                    "device_platform": device_data.get("platform"),
+                    "device_form_factor": device_data.get("device_form_factor"),
+                    "preflight": preflight,
                     "appium_config": self._safe_config(config),
                     "steps": steps,
+                    "step_timeline": result.get("step_timeline", []),
                     "duration_ms": self.duration_ms(started_at),
                     "step_count": result.get("step_count", 0),
                     "screenshots": result.get("screenshots", []),
                     "screenshot_url": result.get("screenshot_url"),
                     "screenshot_file": result.get("screenshot_file"),
                     "screenshot_error": result.get("screenshot_error"),
+                    "video_file": result.get("video_file"),
+                    "video_url": result.get("video_url"),
+                    "video_error": result.get("video_error"),
+                    "record_video": config.get("record_video"),
                     "assertions": self.case_assertions(case),
+                    "dynamic_values": case.get("_dynamic_values", {}),
+                    "input_snapshot": self.case_data(case).get("input_info", {}),
                     "error": error,
                 },
             },
         )
+
+    def _run_python_script(self, case: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
+        case_data = self.case_data(case)
+        script_path = self._script_path(case)
+        if not script_path:
+            raise RuntimeError("python script execution requires data.script_path")
+        script_file = Path(script_path)
+        if not script_file.exists():
+            raise RuntimeError(f"python script not found: {script_path}")
+        python_path = str(case_data.get("script_python") or sys.executable)
+        command = [python_path, str(script_file)]
+        command.extend(self._script_cli_args(case_data, config))
+        timeout = self.to_int(case_data.get("script_timeout_sec"), 180) or 180
+        started_at = time.perf_counter()
+        step_record = {
+            "index": 1,
+            "sort_order": 1,
+            "name": case_data.get("script_step_name") or script_file.name,
+            "action": "python_script",
+            "started_at": datetime.now().isoformat(timespec="seconds"),
+        }
+        try:
+            completed = subprocess.run(
+                command,
+                cwd=str(script_file.parent),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=timeout,
+                check=False,
+            )
+        except subprocess.TimeoutExpired as exc:
+            step_record.update({"status": "failed", "error": f"script timeout after {timeout}s"})
+            result = {
+                "step_count": 0,
+                "step_timeline": [step_record],
+                "screenshots": [],
+                "error": step_record["error"],
+                "stdout": exc.stdout or "",
+                "stderr": exc.stderr or "",
+            }
+            raise AppExecutionError(str(step_record["error"]), result) from exc
+        stdout = completed.stdout or ""
+        stderr = completed.stderr or ""
+        step_record["duration_ms"] = self.duration_ms(started_at)
+        step_record["stdout"] = stdout[-4000:]
+        if stderr:
+            step_record["stderr"] = stderr[-4000:]
+        if completed.returncode != 0:
+            message = stderr.strip() or stdout.strip() or f"script exited with {completed.returncode}"
+            step_record.update({"status": "failed", "error": message[-1000:]})
+            result = {
+                "step_count": 0,
+                "step_timeline": [step_record],
+                "screenshots": [],
+                "error": message,
+                "stdout": stdout,
+                "stderr": stderr,
+            }
+            raise AppExecutionError(message, result)
+        step_record["status"] = "success"
+        return {
+            "step_count": 1,
+            "step_timeline": [step_record],
+            "screenshots": [],
+            "stdout": stdout,
+            "stderr": stderr,
+        }
+
+    def _script_path(self, case: dict[str, Any]) -> str:
+        data = self.case_data(case)
+        if str(data.get("execution_mode") or "").lower() == "python_script":
+            return str(data.get("script_path") or "").strip()
+        return str(data.get("script_path") or "").strip()
+
+    def _script_cli_args(self, case_data: dict[str, Any], config: dict[str, Any]) -> list[str]:
+        args: list[str] = []
+        capabilities = config.get("capabilities") if isinstance(config.get("capabilities"), dict) else {}
+        script_args = case_data.get("script_args") if isinstance(case_data.get("script_args"), dict) else {}
+        wda_url = self._first_text(script_args.get("wda_url"), capabilities.get("webDriverAgentUrl"), case_data.get("wda_url"))
+        bundle_id = self._first_text(script_args.get("bundle_id"), capabilities.get("bundleId"), case_data.get("bundle_id"))
+        if wda_url:
+            args.extend(["--wda-url", wda_url])
+        if bundle_id:
+            args.extend(["--bundle-id", bundle_id])
+        input_info = case_data.get("input_info") if isinstance(case_data.get("input_info"), dict) else {}
+        arg_map = case_data.get("script_arg_map") if isinstance(case_data.get("script_arg_map"), dict) else {}
+        for key, flag in arg_map.items():
+            value = self._script_input_value(input_info.get(str(key)), script_args.get(str(key)))
+            if value in (None, ""):
+                continue
+            args.extend([str(flag), str(value)])
+        for key, value in script_args.items():
+            if key in {"wda_url", "bundle_id"} or key in arg_map:
+                continue
+            if isinstance(value, bool):
+                if value:
+                    args.append(f"--{str(key).replace('_', '-')}")
+                continue
+            if value not in (None, ""):
+                args.extend([f"--{str(key).replace('_', '-')}", str(value)])
+        return args
+
+    def _script_input_value(self, item: Any, fallback: Any = None) -> Any:
+        if isinstance(item, dict):
+            if item.get("value") not in (None, ""):
+                return item.get("value")
+            if item.get("default") not in (None, ""):
+                return item.get("default")
+        return fallback
+
+    def _first_text(self, *values: Any) -> str:
+        for value in values:
+            text = str(value or "").strip()
+            if text:
+                return text
+        return ""
 
     def _run_app_steps(self, case: dict[str, Any], steps: list[dict[str, Any]], config: dict[str, Any]) -> dict[str, Any]:
         try:
@@ -88,10 +244,11 @@ class AppCaseExecutor(CaseExecutionBase):
 
         driver = webdriver.Remote(server_url, options=options)
         self._switch_context(driver, config)
-        result: dict[str, Any] = {"step_count": 0, "screenshots": []}
+        result: dict[str, Any] = {"step_count": 0, "screenshots": [], "step_timeline": []}
         screenshots: list[dict[str, Any]] = []
+        step_timeline: list[dict[str, Any]] = []
         executed_count = 0
-        current_step: dict[str, Any] | None = None
+        recording_state = self._start_screen_recording(driver, config)
         try:
             executor = AppiumActionExecutor(
                 driver,
@@ -99,27 +256,54 @@ class AppCaseExecutor(CaseExecutionBase):
                 platform=platform,
             )
             driver.implicitly_wait(self.to_int(config.get("implicit_wait_sec"), 10) or 10)
-            for step in steps:
-                current_step = step
-                if self.is_truthy(step.get("skip", step.get("是否跳过"))):
-                    continue
-                executor.run_step(step)
-                executed_count += 1
-                wait_ms = self.to_int(step.get("wait_ms") or config.get("step_wait_ms"), 0) or 0
-                if wait_ms > 0:
-                    time.sleep(wait_ms / 1000)
-                if self.is_truthy(step.get("take_screenshot", step.get("是否截图"))):
-                    screenshots.append(self._capture_screenshot(driver, case, step))
+            for index, step in enumerate(steps, start=1):
+                step_record = self._step_record(step, index)
+                step_started = time.perf_counter()
+                step_timeline.append(step_record)
+                try:
+                    if self.is_truthy(step.get("skip", step.get("是否跳过"))):
+                        step_record["status"] = "skipped"
+                        continue
+                    executor.run_step(step)
+                    executed_count += 1
+                    wait_ms = self.to_int(step.get("wait_ms") or config.get("step_wait_ms"), 0) or 0
+                    if wait_ms > 0:
+                        time.sleep(wait_ms / 1000)
+                    if self.is_truthy(step.get("take_screenshot", step.get("是否截图"))):
+                        screenshot = self._capture_screenshot(driver, case, step)
+                        screenshots.append(screenshot)
+                        step_record.update(self._screenshot_step_meta(screenshot))
+                    step_record["status"] = "success"
+                except Exception as exc:  # noqa: BLE001 - failed step details belong in the execution record.
+                    step_record["status"] = "failed"
+                    step_record["error"] = str(exc)
+                    screenshot = self._capture_screenshot(driver, case, step, error=str(exc))
+                    screenshots.append(screenshot)
+                    step_record.update(self._screenshot_step_meta(screenshot))
+                    result.update(
+                        {
+                            "step_count": executed_count,
+                            "screenshots": screenshots,
+                            "step_timeline": step_timeline,
+                            "error": str(exc),
+                        }
+                    )
+                    result.update(self._last_screenshot(screenshots))
+                    raise AppExecutionError(str(exc), result) from exc
+                finally:
+                    step_record["duration_ms"] = self.duration_ms(step_started)
             result.update({"step_count": executed_count, "screenshots": screenshots})
+            result["step_timeline"] = step_timeline
             result.update(self._last_screenshot(screenshots))
             return result
         except Exception as exc:  # noqa: BLE001 - keep screenshots with failed executions.
-            if current_step:
-                screenshots.append(self._capture_screenshot(driver, case, current_step, error=str(exc)))
-            result.update({"step_count": executed_count, "screenshots": screenshots, "error": str(exc)})
+            result.update({"step_count": executed_count, "screenshots": screenshots, "step_timeline": step_timeline, "error": str(exc)})
             result.update(self._last_screenshot(screenshots))
+            if isinstance(exc, AppExecutionError):
+                raise
             raise AppExecutionError(str(exc), result) from exc
         finally:
+            result.update(self._stop_screen_recording(driver, case, recording_state))
             driver.quit()
 
     def _appium_config(self, case: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
@@ -127,7 +311,11 @@ class AppCaseExecutor(CaseExecutionBase):
         page = self._source_page(case)
         page_data = page.get("data") if page and isinstance(page.get("data"), dict) else {}
         request_config = payload.get("config") if isinstance(payload.get("config"), dict) else {}
-        merged = {**page_data, **case_data, **request_config}
+        device = request_config.get("device") if isinstance(request_config.get("device"), dict) else {}
+        device_data = device.get("data") if isinstance(device.get("data"), dict) else {}
+        entry_data = self._entry_data(page_data, case_data, request_config)
+        merged = {**entry_data, **device_data, **page_data, **case_data, **request_config}
+        merged["capabilities"] = self._merged_capabilities(entry_data, device_data, page_data, case_data, request_config)
         platform = str(merged.get("platform") or "Android")
         capabilities = self._capabilities(merged, platform)
         return {
@@ -138,7 +326,31 @@ class AppCaseExecutor(CaseExecutionBase):
             "context_keyword": str(merged.get("context_keyword") or merged.get("miniapp_name") or "").strip(),
             "implicit_wait_sec": self.to_int(merged.get("implicit_wait_sec"), 10) or 10,
             "step_wait_ms": self.to_int(merged.get("step_wait_ms"), 0) or 0,
+            "device_id": request_config.get("device_id"),
+            "device": device,
+            "record_video": self.is_truthy(merged.get("record_video", True)),
+            "health_check": self.is_truthy(merged.get("health_check", True)),
         }
+
+    def _entry_data(self, *sources: dict[str, Any]) -> dict[str, Any]:
+        entry_id = None
+        for source in sources:
+            entry_id = self.to_int(source.get("entry_id"), None)
+            if entry_id is not None:
+                break
+        if entry_id is None:
+            return {}
+        entry = self.repository.get("app_entries", entry_id)
+        data = entry.get("data") if entry and isinstance(entry.get("data"), dict) else {}
+        return data if isinstance(data, dict) else {}
+
+    def _merged_capabilities(self, *sources: dict[str, Any]) -> dict[str, Any]:
+        capabilities: dict[str, Any] = {}
+        for source in sources:
+            raw = source.get("capabilities")
+            if isinstance(raw, dict):
+                capabilities.update(raw)
+        return capabilities
 
     def _capabilities(self, data: dict[str, Any], platform: str) -> dict[str, Any]:
         raw = data.get("capabilities")
@@ -164,6 +376,12 @@ class AppCaseExecutor(CaseExecutionBase):
             ("chrome_driver_executable", "chromedriverExecutable"),
             ("chrome_driver_port", "chromedriverPort"),
             ("system_port", "systemPort"),
+            ("wda_local_port", "wdaLocalPort"),
+            ("wda_url", "webDriverAgentUrl"),
+            ("wda_remote_port", "wdaRemotePort"),
+            ("wda_bundle_id", "updatedWDABundleId"),
+            ("use_preinstalled_wda", "usePreinstalledWDA"),
+            ("use_new_wda", "useNewWDA"),
         ):
             if data.get(source_key) not in (None, ""):
                 capabilities.setdefault(capability_key, data.get(source_key))
@@ -213,6 +431,8 @@ class AppCaseExecutor(CaseExecutionBase):
         self,
         case: dict[str, Any],
     ) -> tuple[dict[str, dict[str, Any]], dict[int, dict[str, Any]]]:
+        if self.case_type != "MINIAPP":
+            return {}, {}
         source_id = case.get("source_id")
         project_id = case.get("project_id")
         rows: list[dict[str, Any]] = []
@@ -234,16 +454,15 @@ class AppCaseExecutor(CaseExecutionBase):
         return by_name, by_id
 
     def _source_page(self, case: dict[str, Any]) -> dict[str, Any] | None:
+        if self.case_type != "MINIAPP":
+            return None
         source_id = self.to_int(case.get("source_id"), None)
         if source_id is None:
             return None
-        return self.repository.get(self._page_table(), source_id)
-
-    def _page_table(self) -> str:
-        return "miniapp_pages" if self.case_type == "MINIAPP" else "app_pages"
+        return self.repository.get("miniapp_pages", source_id)
 
     def _element_table(self) -> str:
-        return "miniapp_elements" if self.case_type == "MINIAPP" else "app_elements"
+        return "miniapp_elements"
 
     def _switch_context(self, driver: Any, config: dict[str, Any]) -> None:
         if self.case_type != "MINIAPP":
@@ -354,6 +573,92 @@ class AppCaseExecutor(CaseExecutionBase):
                 "screenshot_error": str(exc),
                 "error": error,
             }
+
+    def _preflight_checks(self, config: dict[str, Any]) -> dict[str, Any]:
+        if not self.is_truthy(config.get("health_check", True)):
+            return {"enabled": False, "checks": []}
+        checks: list[dict[str, Any]] = []
+        server_url = str(config.get("server_url") or DEFAULT_APPIUM_SERVER_URL).rstrip("/")
+        checks.append(self._http_status_check("appium_server", urljoin(f"{server_url}/", "status")))
+        device = config.get("device") if isinstance(config.get("device"), dict) else {}
+        data = device.get("data") if isinstance(device.get("data"), dict) else {}
+        if data:
+            checks.append(
+                {
+                    "name": "device_pool_status",
+                    "ok": str(data.get("connection_status") or "").lower() != "offline",
+                    "status": data.get("connection_status") or "unknown",
+                    "device_id": config.get("device_id"),
+                }
+            )
+            wda_url = data.get("wda_url")
+            if str(data.get("platform") or "").lower() == "ios" and wda_url:
+                checks.append(self._http_status_check("wda", urljoin(f"{str(wda_url).rstrip('/')}/", "status")))
+        return {
+            "enabled": True,
+            "ok": all(check.get("ok") for check in checks) if checks else True,
+            "checks": checks,
+        }
+
+    def _http_status_check(self, name: str, status_url: str) -> dict[str, Any]:
+        try:
+            request = Request(status_url, headers={"Accept": "application/json"})
+            with urlopen(request, timeout=3) as response:  # noqa: S310 - user-configured automation endpoint.
+                raw = response.read().decode("utf-8", errors="ignore")
+            return {"name": name, "ok": True, "url": status_url, "status_code": response.status, "preview": raw[:240]}
+        except (OSError, URLError) as exc:
+            return {"name": name, "ok": False, "url": status_url, "error": str(exc)}
+
+    def _step_record(self, step: dict[str, Any], index: int) -> dict[str, Any]:
+        return {
+            "index": index,
+            "sort_order": step.get("sort_order"),
+            "name": step.get("name") or f"step-{index}",
+            "action": step.get("action"),
+            "started_at": datetime.now().isoformat(timespec="seconds"),
+        }
+
+    def _screenshot_step_meta(self, screenshot: dict[str, Any]) -> dict[str, Any]:
+        return {
+            key: screenshot[key]
+            for key in ("screenshot_file", "screenshot_url", "screenshot_error")
+            if screenshot.get(key)
+        }
+
+    def _start_screen_recording(self, driver: Any, config: dict[str, Any]) -> dict[str, Any]:
+        if not self.is_truthy(config.get("record_video", False)):
+            return {"enabled": False}
+        if not hasattr(driver, "start_recording_screen"):
+            return {"enabled": True, "started": False, "error": "driver does not support screen recording"}
+        try:
+            driver.start_recording_screen()
+            return {"enabled": True, "started": True, "started_at": datetime.now().isoformat(timespec="seconds")}
+        except Exception as exc:  # noqa: BLE001 - recording failure should not block functional execution.
+            return {"enabled": True, "started": False, "error": str(exc)}
+
+    def _stop_screen_recording(self, driver: Any, case: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+        if not state.get("started"):
+            return {"video_error": state.get("error")} if state.get("error") else {}
+        try:
+            raw = driver.stop_recording_screen()
+            if not raw:
+                return {"video_error": "screen recording returned empty payload"}
+            RECORDING_DIR.mkdir(parents=True, exist_ok=True)
+            filename = self._recording_filename(case)
+            path = RECORDING_DIR / filename
+            path.write_bytes(base64.b64decode(raw))
+            return {
+                "video_file": filename,
+                "video_url": f"/api/v1/app-recordings/{filename}",
+                "recording_started_at": state.get("started_at"),
+                "recording_finished_at": datetime.now().isoformat(timespec="seconds"),
+            }
+        except Exception as exc:  # noqa: BLE001 - preserve execution result even when video write fails.
+            return {"video_error": str(exc)}
+
+    def _recording_filename(self, case: dict[str, Any]) -> str:
+        prefix = self._safe_file_stem(str(case.get("id") or case.get("name") or "app_case"))
+        return f"{prefix}_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}.mp4"
 
     def _last_screenshot(self, screenshots: list[dict[str, Any]]) -> dict[str, Any]:
         for screenshot in reversed(screenshots):

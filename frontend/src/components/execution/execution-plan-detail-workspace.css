@@ -1,0 +1,28 @@
+.plan-detail-workspace { display: flex; flex-direction: column; gap: 18px; }
+.page-header,
+.tab-toolbar,
+.tab-toolbar > div,
+.feature-tabs { align-items: center; display: flex; gap: 10px; }
+.page-header,
+.tab-toolbar { justify-content: space-between; }
+.page-header { align-items: flex-start; }
+.page-header h2,
+.page-header p { margin: 0; }
+.page-header p { color: #64748b; margin-top: 5px; }
+.back-button { margin-bottom: 8px; }
+.feature-tabs { border-bottom: 1px solid #dbe3ee; overflow-x: auto; }
+.feature-tabs button { background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 10px 14px; }
+.feature-tabs button.active { border-bottom-color: #2563eb; color: #1d4ed8; }
+.feature-tabs span { color: #64748b; margin-left: 4px; }
+.tab-toolbar { background: #fff; border: 1px solid #dce4ef; border-radius: 8px; padding: 13px 16px; }
+.tab-toolbar > div:first-child { align-items: flex-start; flex-direction: column; gap: 2px; }
+.tab-toolbar > div:first-child span { color: #64748b; font-size: 13px; }
+.form-error { color: #dc2626; }
+.empty-state { color: #64748b; padding: 28px; text-align: center; }
+button { cursor: pointer; min-height: 34px; padding: 0 12px; }
+button:disabled { cursor: not-allowed; opacity: 0.58; }
+@media (max-width: 760px) {
+  .page-header,
+  .tab-toolbar,
+  .tab-toolbar > div:last-child { align-items: stretch; flex-direction: column; }
+}

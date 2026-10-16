@@ -5,8 +5,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from app.core.storage import storage_path
 
-AI_SECRET_DIR = Path(__file__).resolve().parents[2] / "storage" / "ai-secrets"
+
+AI_SECRET_DIR = storage_path("ai-secrets")
 
 
 class AiSecretService:
@@ -27,7 +29,7 @@ class AiSecretService:
         if not path.exists():
             return ""
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
         except json.JSONDecodeError:
             return ""
         if not isinstance(data, dict):

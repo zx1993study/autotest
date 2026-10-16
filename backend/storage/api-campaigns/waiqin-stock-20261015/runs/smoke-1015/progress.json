@@ -1,0 +1,76 @@
+{
+  "started_at": "2026-10-15T09:23:20.413764+00:00",
+  "pid": 2100,
+  "status": "complete",
+  "selected": 2,
+  "results": [
+    {
+      "batch_id": 16364,
+      "flow_id": 16308,
+      "scenario_id": 16309,
+      "name": "场景1-采购新增、提审与审批自动入库库存核对",
+      "status": "failed",
+      "duration_ms": 1293,
+      "inputs": {
+        "record_marker": "库存回归_1792056202726_636848",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_scene_key": "purchase_auto"
+      },
+      "failure": {
+        "node": "purchase_draft",
+        "name": "核对新建采购草稿归属后再提审",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_pointer",
+            "passed": false,
+            "actual": "1",
+            "expected": "0"
+          }
+        ]
+      }
+    },
+    {
+      "batch_id": 16365,
+      "flow_id": 16308,
+      "scenario_id": 16312,
+      "name": "场景3-仓库没有该商品库存，创建应拒绝",
+      "status": "failed",
+      "duration_ms": 1193,
+      "inputs": {
+        "record_marker": "库存回归_1792056204847_585891",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_scene_key": "sales_absent"
+      },
+      "failure": {
+        "node": "sales_invalid_create",
+        "name": "异常销售必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792056204847_585891_主商品】在仓库中无库存",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792056204847_585891_主商品】在仓库中无库存"
+          }
+        ]
+      }
+    }
+  ],
+  "blocked": [],
+  "finished_at": "2026-10-15T09:23:26.625484+00:00",
+  "passed": 0,
+  "failed": 2
+}

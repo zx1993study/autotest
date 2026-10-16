@@ -13,6 +13,7 @@ class ResourceRecord(Base):
     __tablename__ = "resource_records"
     __table_args__ = (
         Index("ix_resource_table_project_deleted", "table_name", "project_id", "deleted"),
+        Index("ix_resource_table_status_deleted", "table_name", "status", "deleted"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)

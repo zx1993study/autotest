@@ -83,6 +83,7 @@
 }
 
 .content {
+  --content-gutter: 28px;
   min-width: 0;
   padding: 28px;
   font-size: 14px;
@@ -90,17 +91,26 @@
 
 .content-topbar {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 14px;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  min-width: 0;
+  margin-right: calc(var(--content-gutter) * -1);
   margin-bottom: 18px;
+  margin-left: calc(var(--content-gutter) * -1);
+  border-bottom: 1px solid #dce3ed;
+  background: #ffffff;
   color: #35435c;
 }
 
-.content-topbar > div {
+.user-summary {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
   gap: 8px;
+  border-left: 1px solid #e1e7ef;
+  padding: 0 14px;
+  white-space: nowrap;
 }
 
 .topbar-kicker {
@@ -109,7 +119,10 @@
 }
 
 .logout-button {
+  align-self: center;
+  flex: 0 0 auto;
   height: 34px;
+  margin-right: var(--content-gutter);
   border-color: #cfd8e8;
   background: #ffffff;
   color: #24324a;
@@ -151,7 +164,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 22px 0 12px;
+  margin: 0 0 12px;
 }
 
 .toolbar-top + .toolbar {
@@ -223,6 +236,17 @@ td > input[type="checkbox"] {
   display: flex;
   gap: 8px;
   white-space: nowrap;
+}
+
+.row-actions button.active {
+  border-color: #2478ff;
+  background: #2478ff;
+  color: #ffffff;
+}
+
+.row-actions button.active:hover {
+  border-color: #1d63d6;
+  background: #1d63d6;
 }
 
 .pager {
@@ -1192,6 +1216,7 @@ td > input[type="checkbox"] {
   }
 
   .content {
+    --content-gutter: 22px;
     padding: 22px;
   }
 
@@ -1260,12 +1285,13 @@ td > input[type="checkbox"] {
   }
 
   .content {
+    --content-gutter: 16px;
     padding: 16px;
   }
 
   .content-topbar {
-    justify-content: space-between;
-    margin-bottom: 12px;
+    justify-content: flex-start;
+    margin-bottom: 14px;
   }
 
   .page {
@@ -1328,16 +1354,25 @@ td > input[type="checkbox"] {
   }
 
   .content {
+    --content-gutter: 12px;
     padding: 12px;
   }
 
-  .content-topbar {
-    align-items: stretch;
-    flex-direction: column;
+  .user-summary {
+    gap: 0;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .topbar-kicker {
+    display: none;
   }
 
   .logout-button {
-    width: 100%;
+    width: auto;
+    margin-right: var(--content-gutter);
+    padding: 6px 8px;
+    font-size: 12px;
   }
 
   .page {

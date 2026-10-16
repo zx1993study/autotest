@@ -2,7 +2,6 @@ from typing import Any
 
 from app.repositories.interfaces import ResourceRepository
 from app.services.resource_service import ResourceService
-from app.utils.playwright_script_parser import PlaywrightCodegenParser
 
 
 EXISTING_ELEMENT_UPDATE = "update"
@@ -16,6 +15,28 @@ class UiTestingService:
         self.element_table = element_table
         self.pages = ResourceService(page_table, repository)
         self.elements = ResourceService(element_table, repository)
+
+    def update_ai_cache(self, element_id: int, cache: dict[str, Any]) -> dict[str, Any] | None:
+        """Persist an AI-resolved selector onto an element for deterministic replays."""
+
+        element = self.elements.get(element_id)
+        if not element:
+            return None
+        data = dict(element.get("data") or {})
+        data["ai_cache"] = cache
+        return self.elements.update(element_id, {"data": data})
+
+    def invalidate_ai_cache(self, element_id: int) -> dict[str, Any] | None:
+        """Drop the cached selector when it no longer matches the live page."""
+
+        element = self.elements.get(element_id)
+        if not element:
+            return None
+        data = dict(element.get("data") or {})
+        if "ai_cache" not in data:
+            return element
+        data.pop("ai_cache", None)
+        return self.elements.update(element_id, {"data": data})
 
     def scan_elements(
         self,
@@ -54,76 +75,6 @@ class UiTestingService:
             )
             self._merge_save_stats(stats, saved)
         return {"element_count": stats["saved_count"], "page_id": target_page_id, **stats}
-
-    def parse_playwright_script(
-        self,
-        project_id: int,
-        page_id: int,
-        script: str,
-        source_type: str = "codegen",
-        existing_strategy: str = EXISTING_ELEMENT_UPDATE,
-    ) -> dict[str, Any]:
-        page = self.pages.get(page_id)
-        parser = PlaywrightCodegenParser()
-        parsed_elements = parser.parse(script)
-        saved_elements: list[dict[str, Any]] = []
-        skipped_elements: list[dict[str, Any]] = []
-        stats = self._empty_save_stats()
-        existing_rows = self._existing_elements(project_id, page_id)
-
-        for index, element in enumerate(parsed_elements, start=1):
-            data = {
-                "page_id": page_id,
-                "feature": page.get("name"),
-                "element_type": element.get("element_type"),
-                "type": element.get("element_type"),
-                "action": element.get("action"),
-                "locator_type": element.get("locator_type"),
-                "locator": element.get("locator"),
-                "default_value": element.get("default_value"),
-                "example": element.get("example"),
-                "playwright_locator": element.get("playwright_locator"),
-                "locator_method": element.get("locator_method"),
-                "locator_args": element.get("locator_args"),
-                "role": element.get("role"),
-                "role_name": element.get("role_name"),
-                "source": f"playwright_{source_type}",
-            }
-            name = str(element.get("name") or f"element {index}")
-            saved = self._save_element(
-                project_id,
-                page_id,
-                name,
-                "parsed from Playwright codegen script",
-                data,
-                existing_strategy,
-                existing_rows,
-            )
-            self._merge_save_stats(stats, saved)
-            if saved:
-                saved_elements.append(saved)
-            else:
-                skipped_elements.append({"name": name, "data": data})
-
-        stats["deleted_stale_count"] = self._delete_stale_generated_elements(
-            source_type,
-            saved_elements,
-            existing_rows,
-            existing_strategy,
-        )
-
-        return {
-            "page_id": page_id,
-            "element_count": stats["saved_count"],
-            "created_count": stats["created_count"],
-            "updated_count": stats["updated_count"],
-            "skipped_count": stats["skipped_count"],
-            "deduplicated_count": stats["deduplicated_count"],
-            "deleted_stale_count": stats["deleted_stale_count"],
-            "existing_strategy": self._normalize_existing_strategy(existing_strategy),
-            "elements": saved_elements,
-            "skipped_elements": skipped_elements,
-        }
 
     def _save_element(
         self,
@@ -251,30 +202,6 @@ class UiTestingService:
             existing_rows[:] = [row for row in existing_rows if int(row.get("id") or 0) not in deleted_ids]
         return len(deleted_ids)
 
-    def _delete_stale_generated_elements(
-        self,
-        source_type: str,
-        saved_elements: list[dict[str, Any]],
-        existing_rows: list[dict[str, Any]],
-        existing_strategy: str,
-    ) -> int:
-        if source_type != "ai_auto" or self._normalize_existing_strategy(existing_strategy) != EXISTING_ELEMENT_UPDATE:
-            return 0
-        saved_ids = {int(item["id"]) for item in saved_elements if item.get("id")}
-        deleted_ids: set[int] = set()
-        for row in list(existing_rows):
-            row_id = int(row.get("id") or 0)
-            if not row_id or row_id in saved_ids:
-                continue
-            row_data = row.get("data") if isinstance(row.get("data"), dict) else {}
-            if row_data.get("source") != "playwright_ai_auto":
-                continue
-            if self.elements.delete(row_id):
-                deleted_ids.add(row_id)
-        if deleted_ids:
-            existing_rows[:] = [row for row in existing_rows if int(row.get("id") or 0) not in deleted_ids]
-        return len(deleted_ids)
-
     def _normalize_existing_strategy(self, value: str | None) -> str:
         strategy = str(value or EXISTING_ELEMENT_UPDATE).strip().lower()
         return strategy if strategy in EXISTING_ELEMENT_STRATEGIES else EXISTING_ELEMENT_UPDATE
@@ -311,7 +238,7 @@ class UiTestingService:
             "example": element.get("example"),
             "default_value": element.get("default_value"),
         }
-        if self.element_table in {"app_elements", "miniapp_elements"}:
+        if self.element_table == "miniapp_elements":
             data.update(
                 {
                     "platform": element.get("platform") or "Android",
@@ -339,6 +266,7 @@ class UiTestingService:
                     "locator_args": element.get("locator_args"),
                     "role": element.get("role"),
                     "role_name": element.get("role_name"),
+                    "ai_cache": element.get("ai_cache"),
                     "source": element.get("source"),
                     "take_screenshot": bool(element.get("take_screenshot")),
                     "container": element.get("container"),
@@ -348,8 +276,6 @@ class UiTestingService:
 
     def _default_elements(self, feature: str | None) -> list[dict[str, Any]]:
         feature_text = str(feature or "")
-        if self.element_table == "app_elements":
-            return self._default_app_elements(feature_text)
         if self.element_table == "miniapp_elements":
             return self._default_miniapp_elements(feature_text)
         return self._default_web_elements(feature_text)
@@ -377,24 +303,6 @@ class UiTestingService:
         if element.get("text"):
             return "text"
         return "css"
-
-    def _default_app_elements(self, feature: str) -> list[dict[str, Any]]:
-        if "login" in feature.lower() or "登录" in feature:
-            return [
-                {"name": "username", "type": "input", "action": "input", "required": True, "locator_type": "text", "text": "用户名"},
-                {"name": "password", "type": "input", "action": "input", "required": True, "locator_type": "text", "text": "密码"},
-                {"name": "login_button", "type": "button", "action": "tap", "locator_type": "text", "text": "登录", "take_screenshot": True},
-            ]
-        if "add" in feature.lower() or "新增" in feature:
-            return [
-                {"name": "add_button", "type": "button", "action": "tap", "locator_type": "text", "text": "新增"},
-                {"name": "name", "type": "input", "action": "input", "required": True, "locator_type": "text", "text": "名称"},
-                {"name": "confirm_button", "type": "button", "action": "tap", "locator_type": "text", "text": "确定", "take_screenshot": True},
-            ]
-        return [
-            {"name": "search_input", "type": "input", "action": "input", "locator_type": "text", "text": "搜索"},
-            {"name": "query_button", "type": "button", "action": "tap", "locator_type": "text", "text": "查询", "take_screenshot": True},
-        ]
 
     def _default_web_elements(self, feature: str) -> list[dict[str, Any]]:
         if "login" in feature.lower() or "登录" in feature:

@@ -19,7 +19,7 @@
       </div>
     </dl>
 
-    <section class="execution-record-card">
+    <section v-if="showExecution" class="execution-record-card">
       <header class="execution-record-header">
         <div>
           <h4>最近执行结果</h4>
@@ -47,7 +47,8 @@
       </dl>
     </section>
 
-    <details open class="result-detail">
+    <DynamicValueEvidence v-if="showExecution" :snapshot="recordData.dynamic_values" />
+    <details v-if="showExecution" open class="result-detail">
       <summary>响应体</summary>
       <pre class="json-response">{{ responseBodyText }}</pre>
     </details>
@@ -57,7 +58,7 @@
       <pre>{{ stringifyJson(requestInfo) }}</pre>
     </details>
 
-    <details class="result-detail">
+    <details v-if="showExecution" class="result-detail">
       <summary>响应头</summary>
       <pre>{{ stringifyJson(recordData.response_headers || {}) }}</pre>
     </details>
@@ -81,11 +82,14 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import DynamicValueEvidence from '../common/DynamicValueEvidence.vue'
 import { getResource, listResources } from '../../services/resource.service'
 import type { ResourceItem } from '../../types/resource'
 import { formatJsonLikeText } from '../../utils/jsonFormatter'
 
-const props = defineProps<{ item: ResourceItem | null }>()
+const props = withDefaults(defineProps<{ item: ResourceItem | null; showExecution?: boolean }>(), {
+  showExecution: true
+})
 
 const sourceInterface = ref<ResourceItem | null>(null)
 const executionRecords = ref<ResourceItem[]>([])
@@ -190,9 +194,10 @@ watch(
 )
 
 watch(
-  () => [props.item?.id, props.item?.project_id],
-  async ([caseId, projectId]) => {
+  () => [props.item?.id, props.item?.project_id, props.showExecution] as const,
+  async ([caseId, projectId, showExecution]) => {
     executionRecords.value = []
+    if (!showExecution) return
     const normalizedCaseId = Number(caseId)
     if (!Number.isFinite(normalizedCaseId) || normalizedCaseId <= 0) return
     const sequence = ++executionRecordLoadSequence

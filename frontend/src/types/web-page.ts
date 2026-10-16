@@ -1,31 +1,31 @@
 import type { ResourceItem } from './resource'
 
-export interface WebScriptParseResult {
-  page_id: number
+export interface WebPageGroup extends ResourceItem {
+  feature_count: number
+  interface_count: number
+}
+
+export interface WebPageFeature extends ResourceItem {
+  data: Record<string, any>
   element_count: number
-  created_count?: number
-  updated_count?: number
-  skipped_count?: number
-  existing_strategy?: string
-  elements: ResourceItem[]
-  skipped_elements?: Array<{ name: string; data?: Record<string, unknown> }>
+  case_count: number
+  parameter_count?: number
+  script_status?: string
 }
 
-export interface WebCodegenSession {
-  session_id: string
-  status: string
-  script_path: string
-  return_code?: number | null
-  script_exists?: boolean
-  script_text?: string
-  browser_running?: boolean
-  ended_by_browser_close?: boolean
-  stopped_by_request?: boolean
-  metadata?: Record<string, unknown>
+export interface WebPageInterface extends ResourceItem {
+  relation_id: number
+  relation_source: 'manual' | 'network' | 'ai' | string
+  relation_feature_id?: number | null
+  relation_feature_name?: string | null
 }
 
-export interface WebCodegenStartOptions {
-  projectId?: number
-  featureType?: string
-  featureName?: string
+export interface WebPageGroupPayload {
+  name: string
+  project_id: number
+  route?: string
+  url?: string
+  auth_id?: number | null
+  description?: string
+  status?: string
 }

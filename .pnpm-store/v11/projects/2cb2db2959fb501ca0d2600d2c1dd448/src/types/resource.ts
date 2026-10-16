@@ -1,0 +1,40 @@
+import type { CaseExecutionSummary } from './api-case'
+
+export interface ResourceItem {
+  id: number
+  name: string
+  project_id?: number | null
+  description?: string | null
+  status: string
+  data: Record<string, unknown>
+  created_at: string
+  updated_at: string
+  latest_execution?: CaseExecutionSummary | null
+  [key: string]: unknown
+}
+
+export interface ResourcePayload {
+  name: string
+  project_id?: number | null
+  description?: string | null
+  status?: string
+  data?: Record<string, unknown>
+  [key: string]: unknown
+}
+
+export interface ProjectOption {
+  id: number
+  name: string
+  base_url: string
+  is_default?: boolean
+}
+
+export interface SelectOptionRecord {
+  id: number
+  name?: string
+  base_url?: string
+  project_id?: number | null
+  method?: string
+  path?: string
+  [key: string]: unknown
+}

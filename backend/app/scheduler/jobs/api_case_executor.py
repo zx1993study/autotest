@@ -7,9 +7,14 @@ from urllib.error import HTTPError
 from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
+from jsonpointer import JsonPointerException, resolve_pointer
+
 from app.repositories.interfaces import ResourceRepository
 from app.scheduler.jobs.case_execution_base import CaseExecutionBase
 from app.services.project_auth_service import ProjectAuthService
+from app.utils.api_query_assertion import assert_query_result
+from app.utils.api_rejection import assert_api_rejection
+from app.utils.api_response import extract_response_code
 
 
 class ApiCaseExecutor(CaseExecutionBase):
@@ -18,7 +23,8 @@ class ApiCaseExecutor(CaseExecutionBase):
     def __init__(self, repository: ResourceRepository) -> None:
         super().__init__("API", repository)
 
-    def execute(self, case: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
+    def execute(self, case: dict[str, Any], payload: dict[str, Any], *,
+                response_capture: dict[str, Any] | None = None, persist_record: bool = True) -> dict[str, Any]:
         started_at = time.perf_counter()
         request_info: dict[str, Any] = {}
         response_status: int | None = None
@@ -28,12 +34,14 @@ class ApiCaseExecutor(CaseExecutionBase):
         error_message: str | None = None
 
         try:
+            case, payload = self.prepare_execution(case, payload)
             request_info = self._build_api_request(case, payload)
             response_status, response_headers, response_body = self._send_http_request(request_info)
             duration_ms = self.duration_ms(started_at)
             assertion_results = self._assert_response(
                 self.case_assertions(case),
                 response_status,
+                response_headers,
                 duration_ms,
                 response_body,
             )
@@ -46,9 +54,9 @@ class ApiCaseExecutor(CaseExecutionBase):
             error_message = str(exc)
             description = error_message
 
-        return self.repository.create(
-            "execution_records",
-            {
+        if response_capture is not None:
+            response_capture.update(status=response_status, headers=response_headers, body=response_body)
+        record = {
                 "name": f"API 用例执行 - {case['name']}",
                 "project_id": case.get("project_id") or payload.get("project_id"),
                 "description": description,
@@ -61,12 +69,14 @@ class ApiCaseExecutor(CaseExecutionBase):
                     "response_status": response_status,
                     "response_headers": response_headers,
                     "response_body": self._truncate(response_body),
+                    "response_code": extract_response_code(response_body),
                     "duration_ms": duration_ms,
                     "assertions": assertion_results,
+                    "dynamic_values": case.get("_dynamic_values", {}),
                     "error": error_message,
                 },
-            },
-        )
+            }
+        return self.repository.create("execution_records", record) if persist_record else record
 
     def _build_api_request(self, case: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
         case_data = self.case_data(case)
@@ -74,6 +84,7 @@ class ApiCaseExecutor(CaseExecutionBase):
         request_spec = {**legacy_request, **case_data}
         request_spec.pop("request", None)
         self._apply_runtime_overrides(request_spec, payload)
+        self._validate_dynamic_params(case, request_spec)
         interface = self._interface(case.get("source_id"))
         interface_data = interface.get("data", {}) if interface else {}
 
@@ -89,7 +100,9 @@ class ApiCaseExecutor(CaseExecutionBase):
 
         headers = self._as_string_map(request_spec.get("headers"))
         query = self._as_dict(request_spec.get("query"))
-        body = self._as_dict(request_spec.get("body"))
+        body = request_spec.get("body")
+        if body is None:
+            body = {}
         content_type = str(request_spec.get("content_type") or interface_data.get("content_type") or "").strip()
         if content_type and not self._has_header(headers, "content-type"):
             headers["Content-Type"] = content_type
@@ -107,11 +120,12 @@ class ApiCaseExecutor(CaseExecutionBase):
             path_params,
             cookies,
         )
-        self._apply_auth(
-            payload.get("auth_id") or request_spec.get("auth_id") or interface_data.get("auth_id"),
-            headers,
-            query,
-        )
+        if not bool(request_spec.get("skip_auth")):
+            self._apply_auth(
+                payload.get("auth_id") or request_spec.get("auth_id") or interface_data.get("auth_id"),
+                headers,
+                query,
+            )
 
         if cookies:
             cookie_value = "; ".join(f"{key}={value}" for key, value in cookies.items())
@@ -159,10 +173,32 @@ class ApiCaseExecutor(CaseExecutionBase):
         if isinstance(params, dict):
             request_spec["params"] = params
 
-        for key in ("headers", "query", "body"):
+        for key in ("headers", "query"):
             value = config.get(key)
             if isinstance(value, dict):
                 request_spec[key] = value
+        if "body" in config:
+            request_spec["body"] = config.get("body")
+
+    def _validate_dynamic_params(self, case: dict[str, Any], request_spec: dict[str, Any]) -> None:
+        snapshot = case.get("_dynamic_values") or {}
+        paths = snapshot.get("templates") or {}
+        params = request_spec.get("params")
+        if not paths or not isinstance(params, dict):
+            return
+        for field in self._fields_for_interface(case.get("source_id"), case.get("project_id")):
+            data = field.get("data") or {}
+            name = str(data.get("name") or field.get("name"))
+            if name not in params or not any(path in paths for path in (f"$.data.params.{name}", f"$.data.request.params.{name}", f"$.config.params.{name}")):
+                continue
+            schema = data.get("schema") if isinstance(data.get("schema"), dict) else {}
+            field_type = str(data.get("field_type") or data.get("type") or schema.get("type") or "string")
+            value = params[name]
+            if field_type in {"integer", "number", "boolean"} and isinstance(value, str):
+                raise ValueError(f"Dynamic value for {name} is text but the field type is {field_type}")
+            maximum = data.get("maxLength", schema.get("maxLength"))
+            if maximum is not None and isinstance(value, str) and len(value) > int(maximum):
+                raise ValueError(f"Dynamic value for {name} exceeds maxLength {maximum}")
 
     def _apply_params(
         self,
@@ -171,7 +207,7 @@ class ApiCaseExecutor(CaseExecutionBase):
         project_id: Any,
         method: str,
         query: dict[str, Any],
-        body: dict[str, Any],
+        body: Any,
         headers: dict[str, str],
         path_params: dict[str, Any],
         cookies: dict[str, Any],
@@ -197,21 +233,29 @@ class ApiCaseExecutor(CaseExecutionBase):
                 path_params[str(name)] = value
             elif location == "cookie":
                 cookies[str(name)] = value
-            else:
+            elif isinstance(body, dict):
                 body[str(name)] = value
 
     def _apply_auth(self, auth_id: Any, headers: dict[str, str], query: dict[str, Any]) -> None:
         if not auth_id:
             return
+        auth = self.repository.get("project_auth", int(auth_id))
+        if not auth:
+            raise ValueError("所选 API 认证配置不存在，请重新选择 Token")
         auth_headers = ProjectAuthService(self.repository).auth_headers(auth_id)
         if auth_headers:
-            headers.update(auth_headers)
+            for name, value in auth_headers.items():
+                for existing in list(headers):
+                    if existing.lower() == name.lower():
+                        del headers[existing]
+                headers[name] = value
             return
-        auth = self.repository.get("project_auth", int(auth_id))
-        data = auth.get("data") if auth else {}
+        data = auth.get("data") or {}
         token = (data or {}).get("token") or (data or {}).get("access_token") or (data or {}).get("value")
         if token and not (data or {}).get("header_name"):
             query["api_key"] = token
+            return
+        raise ValueError("所选 API 认证没有有效的 Token 或 Cookie，请刷新认证信息")
 
     def _send_http_request(self, request_info: dict[str, Any]) -> tuple[int, dict[str, str], str]:
         method = str(request_info["method"]).upper()
@@ -254,6 +298,7 @@ class ApiCaseExecutor(CaseExecutionBase):
         self,
         assertions: list[dict[str, Any]],
         response_status: int | None,
+        response_headers: dict[str, str],
         duration_ms: int,
         response_body: str,
     ) -> list[dict[str, Any]]:
@@ -264,10 +309,25 @@ class ApiCaseExecutor(CaseExecutionBase):
         results: list[dict[str, Any]] = []
         for assertion in assertions:
             assertion_type = str(assertion.get("type") or "unknown")
-            if assertion_type == "status":
+            if assertion_type == "api_rejection":
+                results.append(assert_api_rejection(response_status, response_body, assertion.get("expected"),
+                                                    assertion.get("allowed_business_errors")))
+            elif assertion_type == "json_query_result":
+                results.append(assert_query_result(response_body, assertion))
+            elif assertion_type == "status":
                 expected = self.to_int(assertion.get("expected"))
                 passed = response_status == expected
                 results.append({"type": assertion_type, "passed": passed, "actual": response_status, "expected": expected})
+            elif assertion_type == "status_not_5xx":
+                passed = response_status is not None and response_status < 500
+                results.append({"type": assertion_type, "passed": passed, "actual": response_status, "expected": "not 5xx"})
+            elif assertion_type in {"status_in", "status_class"}:
+                raw_expected = assertion.get("expected")
+                expected_values = raw_expected if isinstance(raw_expected, list) else [raw_expected]
+                passed = response_status is not None and any(
+                    self._status_matches(response_status, value) for value in expected_values
+                )
+                results.append({"type": assertion_type, "passed": passed, "actual": response_status, "expected": raw_expected})
             elif assertion_type in {"response_time", "duration"}:
                 operator = str(assertion.get("operator") or "<=")
                 expected = self.to_int(assertion.get("expected"), 3000)
@@ -277,9 +337,50 @@ class ApiCaseExecutor(CaseExecutionBase):
                 expected = str(assertion.get("expected") or "")
                 passed = expected in response_body
                 results.append({"type": assertion_type, "passed": passed, "expected": expected})
+            elif assertion_type in {"json_equals", "json_pointer"}:
+                expected, actual, passed = assertion.get("expected"), None, False
+                try:
+                    actual = json.loads(response_body)
+                    if assertion_type == "json_pointer":
+                        actual = resolve_pointer(actual, str(assertion.get("path") or ""))
+                    else:
+                        path = str(assertion.get("path") or "").removeprefix("$.")
+                        for part in path.split(".") if path else []:
+                            actual = actual[int(part)] if isinstance(actual, list) else actual[part]
+                    passed = actual == expected
+                except (ValueError, KeyError, IndexError, TypeError, JsonPointerException):
+                    pass
+                results.append({"type": assertion_type, "passed": passed, "actual": actual, "expected": expected})
+            elif assertion_type == "content_type_in":
+                actual = next(
+                    (value for key, value in response_headers.items() if key.lower() == "content-type"),
+                    "",
+                ).split(";", 1)[0].strip().lower()
+                raw_expected = assertion.get("expected")
+                expected_values = raw_expected if isinstance(raw_expected, list) else [raw_expected]
+                normalized = [str(item).split(";", 1)[0].strip().lower() for item in expected_values if item]
+                passed = bool(actual) and actual in normalized
+                results.append({"type": assertion_type, "passed": passed, "actual": actual, "expected": raw_expected})
+            elif assertion_type == "response_header":
+                name = str(assertion.get("name") or assertion.get("expected") or "")
+                actual = next((value for key, value in response_headers.items() if key.lower() == name.lower()), None)
+                passed = actual is not None
+                results.append({"type": assertion_type, "passed": passed, "actual": actual, "expected": name})
             else:
-                results.append({"type": assertion_type, "passed": True, "message": "当前断言类型暂按通过记录"})
+                results.append({"type": assertion_type, "passed": False, "message": "不支持的断言类型"})
         return results
+
+    def _status_matches(self, actual: int, expected: Any) -> bool:
+        text = str(expected or "").strip().upper()
+        if text.isdigit():
+            return actual == int(text)
+        if len(text) == 3 and text[0].isdigit() and text[1:] == "XX":
+            return actual // 100 == int(text[0])
+        if len(text) == 3 and text.endswith("X") and text[:2].isdigit():
+            return actual // 10 == int(text[:2])
+        if text == "DEFAULT":
+            return True
+        return False
 
     def _interface(self, source_id: Any) -> dict[str, Any] | None:
         if not source_id:

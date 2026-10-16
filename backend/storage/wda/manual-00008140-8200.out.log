@@ -1,0 +1,83 @@
+WDA status probe returned HTTP 200: {
+  "value" : {
+    "build" : {
+      "version" : "16.13.1",
+      "time" : "Sep 30 2026 11:45:04",
+      "productBundleIdentifier" : "com.facebook.WebDriverAgentRunner"
+    },
+    "os" : {
+      "testmanagerdVersion" : 65535,
+      "name" : "iOS",
+      "sdkVersion" : "27.0",
+      "version" : "26.7.1"
+    },
+    "device" : "iphone",
+    "ios" : {
+      "ip" : "192.168.50.212"
+    },
+    "message" : "WebDriverAgent is ready to accept commands",
+    "state" : "success",
+    "ready" : true
+  },
+  "sessionId" : null
+}
+WDA proxy listening on http://127.0.0.1:8200
+127.0.0.1 - - [30/Sep/2026 14:30:24] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 14:30:41] "GET /screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 14:31:04] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 14:33:50] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 14:35:01] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 14:53:41] "GET /status HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 15:38:01] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 15:44:42] "GET /wda/shutdown HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 15:44:51] "POST /wda/shutdown HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 15:45:02] "GET /status HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 15:46:16] "GET /status HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 15:58:41] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 15:58:44] "POST /session HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 15:58:58] "GET /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 15:58:59] "GET /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 15:59:45] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/element HTTP/1.1" 404 -
+127.0.0.1 - - [30/Sep/2026 15:59:45] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/element//click HTTP/1.1" 404 -
+127.0.0.1 - - [30/Sep/2026 15:59:46] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/wda/keys HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:00:10] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/wda/tap/0 HTTP/1.1" 404 -
+127.0.0.1 - - [30/Sep/2026 16:00:12] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:00:25] "POST /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/wda/keys HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:00:28] "GET /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:00:50] "GET /session/7EB893C2-C3D7-4EEB-999D-883420D5137B/screenshot HTTP/1.1" 404 -
+127.0.0.1 - - [30/Sep/2026 16:00:57] "POST /session HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:01:11] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:01:13] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:01:39] "POST /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:01:41] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:01:44] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:05] "POST /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:08] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:10] "POST /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:13] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:15] "POST /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:18] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:19] "GET /session/08D9D991-CAA8-44D2-A1C9-83A9BB0B38DA/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:42] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:02:50] "POST /wda/unlock HTTP/1.1" 500 -
+127.0.0.1 - - [30/Sep/2026 16:06:20] "GET /status HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:06:22] "POST /session HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:06:38] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:06:40] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:07:20] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:07:22] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:07:25] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:07:28] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:07:28] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:03] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:06] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:06] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:25] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:27] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:30] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:33] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:08:33] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:09:01] "POST /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/wda/dragfromtoforduration HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:09:03] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/source HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:09:03] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 16:09:32] "GET /session/5066C48E-13C0-4F71-93AB-CBD71D3814EF/screenshot HTTP/1.1" 200 -

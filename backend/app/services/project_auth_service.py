@@ -6,6 +6,7 @@ from typing import Any
 from app.core.exceptions import BusinessRuleError, ResourceNotFoundError
 from app.repositories.interfaces import ResourceRepository
 from app.services.auth_file_service import AuthFileService
+from app.utils.auth_token import normalize_auth_token
 
 
 class ProjectAuthService:
@@ -68,11 +69,15 @@ class ProjectAuthService:
             raise BusinessRuleError("只有 Web 用例支持生成 Cookie 鉴权")
 
         cookies = record_data.get("cookies")
+        storage_state = record_data.get("storage_state") if isinstance(record_data.get("storage_state"), dict) else None
         if not isinstance(cookies, list) or not cookies:
             auth_saved = record_data.get("auth_saved") if isinstance(record_data.get("auth_saved"), dict) else {}
             cookie_file = auth_saved.get("token_file")
             if cookie_file:
-                cookies = AuthFileService().load_json(str(cookie_file)).get("cookies")
+                file_data = AuthFileService().load_json(str(cookie_file))
+                cookies = file_data.get("cookies")
+                if storage_state is None and isinstance(file_data.get("storage_state"), dict):
+                    storage_state = file_data["storage_state"]
         if not isinstance(cookies, list) or not cookies:
             raise BusinessRuleError("执行记录中未找到 Cookie，请先重新执行登录用例")
 
@@ -95,6 +100,7 @@ class ProjectAuthService:
             metadata={
                 "source_record_id": record.get("id"),
                 "url": record_data.get("url") or record_data.get("final_url"),
+                "storage_state": storage_state,
             },
             refresh_strategy="manual",
             description="从 Web 正式用例查看生成 Cookie",
@@ -103,7 +109,7 @@ class ProjectAuthService:
 
     def generate_token_auth(self, payload: dict[str, Any]) -> dict[str, Any]:
         name = str(payload.get("name") or "").strip()
-        token = str(payload.get("token") or "").strip()
+        token = normalize_auth_token(str(payload.get("token") or ""), str(payload.get("auth_type") or "bearer"))
         if not name:
             raise BusinessRuleError("请输入鉴权名称")
         if not token:
@@ -181,8 +187,8 @@ class ProjectAuthService:
             token = self._token_from_file(str(data["token_file"]))
 
         if auth_type == "bearer" and token:
-            token_text = str(token)
-            return {header_name: token_text if token_text.lower().startswith("bearer ") else f"Bearer {token_text}"}
+            token_text = normalize_auth_token(str(token))
+            return {header_name: f"Bearer {token_text}"} if token_text else {}
         if auth_type == "api_key" and token and header_name:
             return {header_name: str(token)}
         if auth_type == "cookie":
@@ -192,17 +198,43 @@ class ProjectAuthService:
             return {header_name: str(token)}
         return {}
 
+    def web_auth_context(self, auth_id: Any, target_url: str = "") -> dict[str, Any]:
+        """Return a browser-oriented auth context for a trusted Agent task.
+
+        The platform keeps auth files on the server. Local Agents receive only
+        the snapshot required by the task they have already claimed, so they do
+        not need direct filesystem access to ``storage/auth``.
+        """
+
+        auth = self._auth(auth_id)
+        if not auth:
+            return {}
+        data = self._record_data(auth)
+        token_file = str(data.get("token_file") or "")
+        file_data = AuthFileService().load_json(token_file) if token_file else {}
+        cookies = self._auth_cookies_from_data(data, file_data)
+        storage_state = self._auth_storage_state(file_data, cookies)
+        headers = self._browser_headers(auth_id, cookies)
+        if not storage_state.get("cookies") and not storage_state.get("origins") and not headers:
+            return {}
+        return {
+            "auth_id": self._to_int(auth.get("id")),
+            "auth_type": str(data.get("auth_type") or file_data.get("type") or ""),
+            "target_url": target_url,
+            "cookies": cookies,
+            "storage_state": storage_state,
+            "headers": headers,
+            "token_file": token_file,
+            "source_updated_at": auth.get("updated_at") or file_data.get("updated_at") or file_data.get("saved_at"),
+        }
+
     def web_cookies(self, auth_id: Any) -> list[dict[str, Any]]:
         auth = self._auth(auth_id)
         if not auth:
             return []
         data = self._record_data(auth)
-        cookies = data.get("cookies")
-        if not isinstance(cookies, list) and data.get("token_file"):
-            cookies = AuthFileService().load_json(str(data["token_file"])).get("cookies")
-        if not isinstance(cookies, list):
-            return []
-        return [item for item in cookies if isinstance(item, dict) and item.get("name") is not None]
+        file_data = AuthFileService().load_json(str(data["token_file"])) if data.get("token_file") else {}
+        return self._auth_cookies_from_data(data, file_data)
 
     def cookie_header(self, auth_id: Any) -> str:
         cookies = self.web_cookies(auth_id)
@@ -212,6 +244,50 @@ class ProjectAuthService:
         data = self._record_data(auth)
         token = data.get("token") or data.get("value")
         return str(token) if token else ""
+
+    def _auth_cookies_from_data(
+        self,
+        data: dict[str, Any],
+        file_data: dict[str, Any],
+    ) -> list[dict[str, Any]]:
+        cookies = data.get("cookies")
+        if not isinstance(cookies, list):
+            cookies = file_data.get("cookies")
+        storage_state = file_data.get("storage_state") if isinstance(file_data.get("storage_state"), dict) else {}
+        if not isinstance(cookies, list) and isinstance(storage_state, dict):
+            cookies = storage_state.get("cookies")
+        if not isinstance(cookies, list):
+            return []
+        return [item for item in cookies if isinstance(item, dict) and item.get("name") is not None]
+
+    def _auth_storage_state(
+        self,
+        file_data: dict[str, Any],
+        cookies: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        storage_state = file_data.get("storage_state")
+        if isinstance(storage_state, dict):
+            state_cookies = storage_state.get("cookies")
+            state_origins = storage_state.get("origins")
+            return {
+                "cookies": state_cookies if isinstance(state_cookies, list) and state_cookies else cookies,
+                "origins": state_origins if isinstance(state_origins, list) else [],
+            }
+        origins = file_data.get("origins")
+        return {
+            "cookies": cookies,
+            "origins": origins if isinstance(origins, list) else [],
+        }
+
+    def _browser_headers(self, auth_id: Any, cookies: list[dict[str, Any]]) -> dict[str, str]:
+        headers = self.auth_headers(auth_id)
+        if cookies:
+            headers.pop("Cookie", None)
+        return {
+            str(key): str(value)
+            for key, value in headers.items()
+            if key and value not in (None, "")
+        }
 
     def save_web_cookie_auth(
         self,
@@ -262,6 +338,10 @@ class ProjectAuthService:
                 "auth_name": resource_name,
                 "url": metadata.get("url"),
                 "cookies": cookies,
+                "storage_state": metadata.get("storage_state") if isinstance(metadata.get("storage_state"), dict) else {
+                    "cookies": cookies,
+                    "origins": [],
+                },
                 "source_record_id": metadata.get("source_record_id"),
                 "saved_at": saved_at,
                 "updated_at": saved_at,

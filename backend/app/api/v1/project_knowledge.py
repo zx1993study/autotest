@@ -11,8 +11,6 @@ from app.schemas.common import (
     ResourceListQuery,
     ResourceUpdate,
 )
-from app.schemas.knowledge import SeedKnowledgeRequest
-from app.services.knowledge_seed_service import KnowledgeSeedService
 from app.services.resource_service import ResourceService
 
 
@@ -25,22 +23,6 @@ def get_knowledge_resource_service(
     """Provide project knowledge CRUD behavior."""
 
     return ResourceService("project_knowledge", repository)
-
-
-def get_knowledge_seed_service(
-    repository: ResourceRepository = Depends(get_resource_repository),
-) -> KnowledgeSeedService:
-    """Provide project knowledge seed behavior."""
-
-    return KnowledgeSeedService(repository)
-
-
-@router.post("/seed-defaults")
-def seed_default_knowledge(
-    payload: SeedKnowledgeRequest,
-    service: KnowledgeSeedService = Depends(get_knowledge_seed_service),
-) -> dict[str, object]:
-    return success(service.seed_defaults(payload.project_id, payload.overwrite))
 
 
 @router.get("")

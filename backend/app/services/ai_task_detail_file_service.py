@@ -5,7 +5,9 @@ from pathlib import Path
 from typing import Any
 
 
-AI_TASK_DETAIL_DIR = Path(__file__).resolve().parents[2] / "storage" / "ai-task-details"
+from app.core.storage import storage_path
+
+AI_TASK_DETAIL_DIR = storage_path("ai-task-details")
 
 
 class AiTaskDetailFileService:

@@ -1,0 +1,71 @@
+{
+  "flow": {
+    "id": 15826,
+    "name": "[业务回归] 商品交易明细",
+    "project_id": 10,
+    "description": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "transaction",
+        "campaign_key": "waiqin-crud-20261015"
+      },
+      "nodes": [
+        {
+          "key": "listing",
+          "name": "列表查询",
+          "api_id": 12236,
+          "case_id": 384,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "next_page",
+          "name": "第二页查询",
+          "api_id": 12236,
+          "case_id": 385,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:45:11",
+    "updated_at": "2026-10-15T10:45:11",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15827,
+      "name": "查询流程",
+      "project_id": 10,
+      "description": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+      "status": "active",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15826,
+        "expected_end": "next_page",
+        "latest_run_id": 15831,
+        "latest_status": "success",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:45:11",
+      "updated_at": "2026-10-15T11:21:14",
+      "deleted": false
+    }
+  ]
+}

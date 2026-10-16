@@ -3,6 +3,8 @@ import type { AxiosError, AxiosRequestConfig } from 'axios'
 
 import { requestStore } from '../store/request'
 import type { ApiResult } from '../types/api'
+import { readSessionValue, removeSessionValue } from '../utils/browserSession'
+import { appPath, routerPath } from '../utils/appBase'
 
 export class ApiClientError extends Error {
   constructor(
@@ -16,14 +18,14 @@ export class ApiClientError extends Error {
 }
 
 export const apiClient = axios.create({
-  baseURL: '/api/v1',
+  baseURL: appPath('/api/v1'),
   timeout: 15_000
 })
 
 apiClient.interceptors.request.use(config => {
   requestStore.startRequest()
   requestStore.setLastError(null)
-  const token = typeof window === 'undefined' ? null : window.sessionStorage.getItem('access_token')
+  const token = readSessionValue('access_token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -37,15 +39,16 @@ apiClient.interceptors.response.use(
   },
   (error: AxiosError<unknown>) => {
     requestStore.finishRequest()
+    if (axios.isCancel(error)) return Promise.reject(error)
     const payload = isApiResult(error.response?.data) ? error.response?.data : null
     const message = payload?.message || error.message || '请求失败'
     const code = typeof payload?.code === 'number' ? payload.code : null
     if (error.response?.status === 401 && typeof window !== 'undefined') {
-      window.sessionStorage.removeItem('access_token')
-      window.sessionStorage.removeItem('current_user')
-      if (window.location.pathname !== '/login') {
-        const redirect = encodeURIComponent(`${window.location.pathname}${window.location.search}`)
-        window.location.assign(`/login?redirect=${redirect}`)
+      removeSessionValue('access_token')
+      removeSessionValue('current_user')
+      if (window.location.pathname !== appPath('/login')) {
+        const redirect = encodeURIComponent(`${routerPath(window.location.pathname) || '/'}${window.location.search}`)
+        window.location.assign(`${appPath('/login')}?redirect=${redirect}`)
       }
     }
     requestStore.setLastError(message)

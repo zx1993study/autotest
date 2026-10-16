@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends
 from app.api.dependencies import get_resource_repository
 from app.core.response import page_result, success
 from app.repositories.interfaces import ResourceRepository
-from app.schemas.cases import CaseListQuery, ExecuteRequest, TestCaseCreate
+from app.schemas.cases import ApiExecuteRequest, CaseListQuery, TestCaseCreate
 from app.schemas.common import BatchDeleteRequest
-from app.schemas.testing import ExecuteCasesRequest
-from app.scheduler.jobs.case_execution_jobs import run_case_execution_job
+from app.schemas.testing import ApiExecuteCasesRequest
+from app.services.case_execution_dispatcher import CaseExecutionDispatcher
 from app.services.test_case_service import TestCaseService
 
 router = APIRouter(prefix="/api-testing/cases", tags=["api-cases"])
@@ -22,10 +22,10 @@ def get_api_test_case_service(
 
 @router.post("/run")
 def run_cases(
-    payload: ExecuteCasesRequest,
+    payload: ApiExecuteCasesRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("API", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("API", payload.model_dump()))
 
 
 @router.get("")
@@ -33,7 +33,15 @@ def list_api_cases(
     query: CaseListQuery = Depends(),
     service: TestCaseService = Depends(get_api_test_case_service),
 ) -> dict[str, object]:
-    items, total = service.list(query.keyword, query.project_id, query.page, query.page_size)
+    items, total = service.list(
+        query.keyword,
+        query.project_id,
+        query.page,
+        query.page_size,
+        source_id=query.source_id,
+        status=query.status,
+        include_latest_execution=query.include_latest_execution,
+    )
     return page_result(items, total, query.page, query.page_size)
 
 
@@ -47,10 +55,10 @@ def create_api_case(
 
 @router.post("/execute")
 def execute_api_cases(
-    payload: ExecuteRequest,
+    payload: ApiExecuteRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("API", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("API", payload.model_dump()))
 
 
 @router.post("/batch-delete")

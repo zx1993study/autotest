@@ -1,0 +1,501 @@
+{
+  "updated_at": "2026-10-16T02:41:12.350821+00:00",
+  "pid": 12448,
+  "scenario_id": 16455,
+  "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+  "status": "running",
+  "nodes": [
+    {
+      "key": "warehouse_guard",
+      "name": "核对仓库归属及实际管理员",
+      "case_id": 946,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/152",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/152",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Fri, 16 Oct 2026 02:41:13 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "631",
+        "Connection": "close",
+        "request-id": "66862cd4da7743c98e9b794e7d63a8b8"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"warehouseId\": 152, \"warehouseCode\": \"ZYSTORE20251216192736\", \"warehouseName\": \"洪山a1直营端2仓库\", \"warehouseType\": \"2\", \"customerId\": 756, \"customerName\": \"洪山a1直营端2\", \"address\": \"收货地址01\", \"managerName\": \"收货人01\", \"managerPhone\": \"15500000003\", \"adminUserId\": 1, \"adminUserName\": \"超级管理员\", \"userIds\": [218, 222], \"bindUserNames\": null, \"status\": \"0\", \"remark\": \"审批通过自动创建（客户ID：756）\", \"createBy\": \"218\", \"createTime\": \"2025-12-16 19:27:37\", \"updateBy\": \"admin\", \"updateTime\": \"2026-02-09 15:40:16\", \"delFlag\": \"0\"}, \"success\": true, \"time\": \"2026-10-16T10:41:13.190450\"}",
+      "response_code": 200,
+      "duration_ms": 146,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 152,
+          "expected": 152
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "洪山a1直营端2仓库",
+          "expected": "洪山a1直营端2仓库"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792118471381,
+        "values": {
+          "record_marker": "库存回归_1792118471338_325409",
+          "stock_flow_key": "inventory",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261016-postapproval-lock",
+          "stock_scene_key": "sales_direct_customer_1_pass",
+          "stock_matrix_key": "152:1:pass",
+          "stock_customer_id": 1083,
+          "stock_customer_type": "1",
+          "stock_source_warehouse_id": 152,
+          "stock_source_warehouse_type": "2"
+        },
+        "templates": {}
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "sales_receiver_guard",
+      "name": "确认直营客户收货仓与实际仓管",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "product_create",
+      "name": "创建独立库存测试商品",
+      "case_id": 947,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "POST",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product",
+        "headers": {
+          "Authorization": "***",
+          "Content-Type": "application/json"
+        },
+        "query": {},
+        "body": {
+          "unit": "瓶",
+          "status": "0",
+          "productName": "库存回归_1792118471338_325409_主商品",
+          "productSpec": "500ML / 1*1",
+          "productType": "巴马水",
+          "productBrand": "巴马丽琅矿泉水",
+          "purchasePrice": 2.5,
+          "terminalWholesalePrice": 3.5,
+          "productSpecFirst": "500ML",
+          "productSpecSecond": "1*1"
+        },
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Fri, 16 Oct 2026 02:41:13 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "84",
+        "Connection": "close",
+        "request-id": "0638a3f7255a49ea95989183a47adac3"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"新增成功\", \"success\": true, \"time\": \"2026-10-16T10:41:13.375735\"}",
+      "response_code": 200,
+      "duration_ms": 196,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792118471530,
+        "values": {
+          "record_marker": "库存回归_1792118471338_325409",
+          "stock_flow_key": "inventory",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261016-postapproval-lock",
+          "stock_scene_key": "sales_direct_customer_1_pass",
+          "stock_matrix_key": "152:1:pass",
+          "stock_customer_id": 1083,
+          "stock_customer_type": "1",
+          "stock_source_warehouse_id": 152,
+          "stock_source_warehouse_type": "2"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "product_locate",
+      "name": "按唯一商品名称定位且只允许一条",
+      "case_id": 948,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/list?pageNum=1&pageSize=10&productName=%E5%BA%93%E5%AD%98%E5%9B%9E%E5%BD%92_1792118471338_325409_%E4%B8%BB%E5%95%86%E5%93%81",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/list",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productName": "库存回归_1792118471338_325409_主商品"
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Fri, 16 Oct 2026 02:41:13 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "770",
+        "Connection": "close",
+        "request-id": "6c3d04a133af45b88d6d149c8c3c4e92"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"productSpec\": \"500ML / 1*1\", \"productImage\": null, \"width\": null, \"updateBy\": \"admin\", \"costPrice\": 0.0, \"height\": null, \"updateTime\": \"2026-10-16 10:41:13\", \"productSpecFirst\": \"500ML\", \"purchasePrice\": 2.5, \"remark\": null, \"productSpecSecond\": \"1*1\", \"terminalWholesalePrice\": 3.5, \"status\": \"0\", \"productId\": 212, \"productType\": \"巴马水\", \"groupBuyPrice\": 0.0, \"delFlag\": \"0\", \"productBrand\": \"巴马丽琅矿泉水\", \"weight\": null, \"createBy\": \"admin\", \"productName\": \"库存回归_1792118471338_325409_主商品\", \"unit\": \"瓶\", \"weightUnit\": null, \"createTime\": \"2026-10-16 10:41:13\", \"productCode\": \"SP202610160011\", \"barcode\": null, \"length\": null}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-16T10:41:13.618517\"}",
+      "response_code": 200,
+      "duration_ms": 229,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 1,
+            "max_items": 1,
+            "rules": [
+              {
+                "paths": [
+                  "/productName"
+                ],
+                "expected": "库存回归_1792118471338_325409_主商品",
+                "operator": "eq"
+              }
+            ]
+          },
+          "actual": {
+            "count": 1,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792118471728,
+        "values": {
+          "record_marker": "库存回归_1792118471338_325409",
+          "stock_flow_key": "inventory",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261016-postapproval-lock",
+          "stock_scene_key": "sales_direct_customer_1_pass",
+          "stock_matrix_key": "152:1:pass",
+          "stock_customer_id": 1083,
+          "stock_customer_type": "1",
+          "stock_source_warehouse_id": 152,
+          "stock_source_warehouse_type": "2"
+        },
+        "templates": {
+          "$.data.params.productName": "{{record_marker}}_主商品",
+          "$.assertions[2].rules[0].expected": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {
+        "product_id": 212
+      },
+      "next": "auto"
+    },
+    {
+      "key": "product_owned",
+      "name": "核对新商品ID、唯一名称及启用状态",
+      "case_id": 949,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/product/212",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/product/212",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {},
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Fri, 16 Oct 2026 02:41:13 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "713",
+        "Connection": "close",
+        "request-id": "942e3ec291aa45c4bcdc363a0f9bd257"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"productId\": 212, \"productName\": \"库存回归_1792118471338_325409_主商品\", \"productCode\": \"SP202610160011\", \"productSpec\": \"500ML / 1*1\", \"productSpecFirst\": \"500ML\", \"productSpecSecond\": \"1*1\", \"productType\": \"巴马水\", \"productBrand\": \"巴马丽琅矿泉水\", \"unit\": \"瓶\", \"barcode\": null, \"productImage\": null, \"costPrice\": \"0.00\", \"purchasePrice\": \"2.50\", \"terminalWholesalePrice\": \"3.50\", \"groupBuyPrice\": \"0.00\", \"weight\": null, \"weightUnit\": null, \"length\": null, \"width\": null, \"height\": null, \"remark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"admin\", \"createTime\": \"2026-10-16 10:41:13\", \"updateBy\": \"admin\", \"updateTime\": \"2026-10-16 10:41:13\"}, \"success\": true, \"time\": \"2026-10-16T10:41:13.866166\"}",
+      "response_code": 200,
+      "duration_ms": 245,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 212,
+          "expected": 212
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "库存回归_1792118471338_325409_主商品",
+          "expected": "库存回归_1792118471338_325409_主商品"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "0",
+          "expected": "0"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "500ML",
+          "expected": "500ML"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "1*1",
+          "expected": "1*1"
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": "瓶",
+          "expected": "瓶"
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792118471959,
+        "values": {
+          "record_marker": "库存回归_1792118471338_325409",
+          "bound_product_id": 212,
+          "stock_flow_key": "inventory",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261016-postapproval-lock",
+          "stock_scene_key": "sales_direct_customer_1_pass",
+          "stock_matrix_key": "152:1:pass",
+          "stock_customer_id": 1083,
+          "stock_customer_type": "1",
+          "stock_source_warehouse_id": 152,
+          "stock_source_warehouse_type": "2"
+        },
+        "templates": {
+          "$.assertions[2].expected": "{{bound_product_id}}",
+          "$.assertions[3].expected": "{{record_marker}}_主商品"
+        }
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    },
+    {
+      "key": "sales_receiver_before",
+      "name": "核对收货仓库本次商品库存",
+      "status": "skipped",
+      "reason": "场景配置为跳过",
+      "next": "auto"
+    },
+    {
+      "key": "inventory_before",
+      "name": "核对实际库存、锁定库存和可用库存",
+      "case_id": 950,
+      "status": "success",
+      "case_type": "API",
+      "mode": "local_headless",
+      "request": {
+        "method": "GET",
+        "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/152/inventory?pageNum=1&pageSize=10&productId=212",
+        "base_url": "https://test.waiqin.yios.cn/",
+        "api_base_path": "/dev-api",
+        "path": "/business/warehouse/152/inventory",
+        "headers": {
+          "Authorization": "***"
+        },
+        "query": {
+          "pageNum": 1,
+          "pageSize": 10,
+          "productId": 212
+        },
+        "body": {},
+        "timeout": 15
+      },
+      "response_status": 200,
+      "response_headers": {
+        "Server": "nginx/1.21.4",
+        "Date": "Fri, 16 Oct 2026 02:41:14 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "225",
+        "Connection": "close",
+        "request-id": "0816871dde7b425a8092f0ab5c2fff22"
+      },
+      "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [], \"pageNum\": 1, \"pageSize\": 10, \"total\": 0, \"hasNext\": false, \"summary\": {\"totalProductCount\": 0, \"totalInventoryQuantity\": 0.0, \"totalCost\": 0.0}, \"success\": true, \"time\": \"2026-10-16T10:41:14.010852\"}",
+      "response_code": 200,
+      "duration_ms": 137,
+      "assertions": [
+        {
+          "type": "status",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "passed": true,
+          "actual": 200,
+          "expected": 200
+        },
+        {
+          "type": "json_query_result",
+          "passed": true,
+          "path": "/rows",
+          "expected": {
+            "min_items": 0,
+            "max_items": 0,
+            "rules": []
+          },
+          "actual": {
+            "count": 0,
+            "mismatched_indices": []
+          }
+        }
+      ],
+      "dynamic_values": {
+        "generated_at_ms": 1792118472210,
+        "values": {
+          "record_marker": "库存回归_1792118471338_325409",
+          "bound_product_id": 212,
+          "stock_flow_key": "inventory",
+          "stock_campaign_key": "waiqin-stock-20261015",
+          "stock_rules_revision": "20261016-postapproval-lock",
+          "stock_scene_key": "sales_direct_customer_1_pass",
+          "stock_matrix_key": "152:1:pass",
+          "stock_customer_id": 1083,
+          "stock_customer_type": "1",
+          "stock_source_warehouse_id": 152,
+          "stock_source_warehouse_type": "2"
+        },
+        "templates": {}
+      },
+      "error": null,
+      "outputs": {},
+      "next": "auto"
+    }
+  ],
+  "path": [
+    "warehouse_guard",
+    "product_create",
+    "product_locate",
+    "product_owned",
+    "inventory_before"
+  ],
+  "duration_ms": 967
+}

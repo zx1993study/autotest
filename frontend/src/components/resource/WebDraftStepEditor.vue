@@ -42,11 +42,7 @@
           <td>{{ stepLabel(step) }}</td>
           <td>{{ stepAction(step) }}</td>
           <td>
-            <input
-              class="step-inline-input"
-              :value="stepInputValue(step)"
-              @input="updateStepDefaultValue(stepIndex, inputEventValue($event))"
-            />
+            <DynamicValueInput :model-value="stepInputValue(step)" :label="`${stepLabel(step)}输入值`" :variables="variableDefinitions" @update:model-value="updateStepDefaultValue(stepIndex, $event)" />
           </td>
           <td>
             <button type="button" class="tiny-toggle" :class="{ active: stepScreenshot(step) }" @click="toggleStepScreenshot(stepIndex)">
@@ -66,12 +62,17 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import DynamicValueInput from '../common/DynamicValueInput.vue'
 
 const props = defineProps<{ modelValue: string }>()
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 
 const draggingIndex = ref<number | null>(null)
 const dragOverIndex = ref<number | null>(null)
+const variableDefinitions = computed<Record<string, unknown>>(() => {
+  const definition = parseCaseJsonText(props.modelValue)
+  return isRecord(definition) && isRecord(definition.variables) ? definition.variables : {}
+})
 
 const stepRows = computed<Record<string, unknown>[]>(() => {
   const caseJson = parseCaseJsonText(props.modelValue)

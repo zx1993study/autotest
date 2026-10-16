@@ -1,7 +1,9 @@
 import { computed, readonly, ref } from 'vue'
 
 import { getCurrentUser, login as loginRequest, logout as logoutRequest } from '../services/auth.service'
+import { clearRemoteOptionsCache } from '../services/resource.service'
 import type { AuthUser, LoginPayload } from '../types/auth'
+import { readSessionValue, removeSessionValue, writeSessionValue } from '../utils/browserSession'
 
 const ACCESS_TOKEN_KEY = 'access_token'
 const CURRENT_USER_KEY = 'current_user'
@@ -12,6 +14,7 @@ const initialized = ref(false)
 
 async function login(payload: LoginPayload) {
   const result = await loginRequest(payload)
+  if (!result || typeof result.access_token !== 'string' || !result.access_token || !isAuthUser(result.user)) throw new Error('登录接口返回数据不完整，请重试。')
   setSession(result.access_token, result.user)
   return result.user
 }
@@ -45,17 +48,19 @@ async function logout() {
 }
 
 function setSession(accessToken: string, user: AuthUser) {
+  if (token.value !== accessToken) clearRemoteOptionsCache()
   token.value = accessToken
   currentUser.value = user
-  window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
-  window.sessionStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
+  writeSessionValue(ACCESS_TOKEN_KEY, accessToken)
+  writeSessionValue(CURRENT_USER_KEY, JSON.stringify(user))
 }
 
 function clearSession() {
+  clearRemoteOptionsCache()
   token.value = ''
   currentUser.value = null
-  window.sessionStorage.removeItem(ACCESS_TOKEN_KEY)
-  window.sessionStorage.removeItem(CURRENT_USER_KEY)
+  removeSessionValue(ACCESS_TOKEN_KEY)
+  removeSessionValue(CURRENT_USER_KEY)
 }
 
 function readCurrentUser(): AuthUser | null {
@@ -69,10 +74,6 @@ function readCurrentUser(): AuthUser | null {
   } catch {
     return null
   }
-}
-
-function readSessionValue(key: string): string {
-  return typeof window === 'undefined' ? '' : window.sessionStorage.getItem(key) || ''
 }
 
 function isAuthUser(value: unknown): value is AuthUser {

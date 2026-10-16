@@ -1,0 +1,694 @@
+{
+  "flow": {
+    "id": 15832,
+    "name": "[业务回归] 终端客户管理",
+    "project_id": 10,
+    "description": "增删改仅操作流程新建客户；批量编辑也只含本次客户；不自动审批或修改历史客户。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "customer",
+        "campaign_key": "waiqin-conditions-20261015",
+        "record_marker": "终端客户管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "终端客户管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12086,
+          "case_id": 408,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12083,
+          "case_id": 409,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/rows/0/customerId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            },
+            {
+              "name": "owned_ids",
+              "source": "body",
+              "path": "",
+              "mode": "array",
+              "paths": [
+                "/rows/0/customerId"
+              ],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12098,
+          "case_id": 410,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [
+            {
+              "name": "edit_count",
+              "source": "body",
+              "path": "/data/editCount",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "edit",
+          "name": "编辑本流程创建的数据",
+          "api_id": 12085,
+          "case_id": 411,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customerId",
+              "target_name": "",
+              "prefix": ""
+            },
+            {
+              "source": "detail",
+              "name": "edit_count",
+              "target": "params",
+              "path": "/editCount",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_edit",
+          "name": "再次查询并验证修改生效",
+          "api_id": 12098,
+          "case_id": 412,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "batch_edit",
+          "name": "批量编辑本次测试客户地址",
+          "api_id": 12087,
+          "case_id": 413,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_ids",
+              "target": "params",
+              "path": "/customerIds",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_batch",
+          "name": "查询确认批量编辑生效",
+          "api_id": 12098,
+          "case_id": 414,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "delete",
+          "name": "删除本流程创建的数据",
+          "api_id": 12088,
+          "case_id": 415,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_ids",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_delete",
+          "name": "按本次客户ID查询确认删除",
+          "api_id": 12083,
+          "case_id": 416,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customerId",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "change_status",
+          "name": "停用本次正常客户",
+          "api_id": 12099,
+          "case_id": 417,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customerId",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_status",
+          "name": "查询确认客户停用",
+          "api_id": 12098,
+          "case_id": 418,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "resubmit",
+          "name": "重新提交本次被拒绝客户",
+          "api_id": 12089,
+          "case_id": 419,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_resubmit",
+          "name": "查询确认重新进入待审批",
+          "api_id": 12098,
+          "case_id": 420,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/customer_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T11:43:41",
+    "updated_at": "2026-10-15T11:43:41",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15835,
+      "name": "客户重新提审（待拒绝前置）",
+      "project_id": 10,
+      "description": "增删改仅操作流程新建客户；批量编辑也只含本次客户；不自动审批或修改历史客户。 需给本流程新建客户补充审批前置步骤，启用前先核对。",
+      "status": "disabled",
+      "data": {
+        "nodes": {
+          "edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/customerId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/customerName",
+                "type": "json_pointer",
+                "expected": "{{record_marker}}"
+              },
+              {
+                "path": "/data/status",
+                "type": "json_pointer",
+                "expected": "3"
+              }
+            ],
+            "request_removals": []
+          },
+          "batch_edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_batch": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "change_status": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_status": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          }
+        },
+        "inputs": {},
+        "flow_id": 15832,
+        "expected_end": "auto",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T11:43:46",
+      "updated_at": "2026-10-15T11:43:46",
+      "deleted": false
+    },
+    {
+      "id": 15834,
+      "name": "客户状态变更（待审批前置）",
+      "project_id": 10,
+      "description": "增删改仅操作流程新建客户；批量编辑也只含本次客户；不自动审批或修改历史客户。 需给本流程新建客户补充审批前置步骤，启用前先核对。",
+      "status": "disabled",
+      "data": {
+        "nodes": {
+          "edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "detail": {
+            "mode": "always",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              },
+              {
+                "path": "/data/customerId",
+                "type": "json_pointer",
+                "expected": "{{bound_owned_id}}"
+              },
+              {
+                "path": "/data/customerName",
+                "type": "json_pointer",
+                "expected": "{{record_marker}}"
+              },
+              {
+                "path": "/data/status",
+                "type": "json_pointer",
+                "expected": "1"
+              }
+            ],
+            "request_removals": []
+          },
+          "resubmit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "batch_edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_edit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_batch": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_resubmit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          }
+        },
+        "inputs": {},
+        "flow_id": 15832,
+        "expected_end": "auto",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T11:43:44",
+      "updated_at": "2026-10-15T11:43:44",
+      "deleted": false
+    },
+    {
+      "id": 15833,
+      "name": "客户增查改删闭环",
+      "project_id": 10,
+      "description": "增删改仅操作流程新建客户；批量编辑也只含本次客户；不自动审批或修改历史客户。",
+      "status": "active",
+      "data": {
+        "nodes": {
+          "resubmit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "change_status": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_status": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "verify_resubmit": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          }
+        },
+        "inputs": {},
+        "flow_id": 15832,
+        "expected_end": "auto",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T11:43:42",
+      "updated_at": "2026-10-15T11:43:42",
+      "deleted": false
+    }
+  ]
+}

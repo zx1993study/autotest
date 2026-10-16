@@ -1,0 +1,1695 @@
+{
+  "dicts": [
+    {
+      "dict_type": "sales_area",
+      "dict_label": "暂无",
+      "dict_value": "暂无"
+    },
+    {
+      "dict_type": "customer_level",
+      "dict_label": "暂无",
+      "dict_value": "暂无"
+    },
+    {
+      "dict_type": "direct_customer_type",
+      "dict_label": "直营商",
+      "dict_value": "直营商"
+    },
+    {
+      "dict_type": "direct_customer_type",
+      "dict_label": "C端商",
+      "dict_value": "C端商"
+    },
+    {
+      "dict_type": "direct_customer_level",
+      "dict_label": "暂无",
+      "dict_value": "暂无"
+    },
+    {
+      "dict_type": "customer_scope",
+      "dict_label": "不限制",
+      "dict_value": "0"
+    },
+    {
+      "dict_type": "customer_scope",
+      "dict_label": "终端客户",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "customer_scope",
+      "dict_label": "直营商",
+      "dict_value": "2"
+    },
+    {
+      "dict_type": "warehouse_type",
+      "dict_label": "总仓库",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "warehouse_type",
+      "dict_label": "直营商仓库",
+      "dict_value": "2"
+    },
+    {
+      "dict_type": "sales_order_status",
+      "dict_label": "待审核",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "sales_order_status",
+      "dict_label": "审核中",
+      "dict_value": "2"
+    },
+    {
+      "dict_type": "sales_order_status",
+      "dict_label": "审核通过",
+      "dict_value": "3"
+    },
+    {
+      "dict_type": "sales_order_status",
+      "dict_label": "审核驳回",
+      "dict_value": "4"
+    },
+    {
+      "dict_type": "sales_order_status",
+      "dict_label": "已出库",
+      "dict_value": "5"
+    },
+    {
+      "dict_type": "sales_item_type",
+      "dict_label": "普通商品",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "sales_item_type",
+      "dict_label": "赠品",
+      "dict_value": "2"
+    },
+    {
+      "dict_type": "customer_type",
+      "dict_label": "前端客户",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "customer_type",
+      "dict_label": "直营商客户",
+      "dict_value": "2"
+    },
+    {
+      "dict_type": "customer_type",
+      "dict_label": "KOL客户",
+      "dict_value": "3"
+    },
+    {
+      "dict_type": "sales_type",
+      "dict_label": "开发",
+      "dict_value": "1"
+    },
+    {
+      "dict_type": "sales_type",
+      "dict_label": "复购",
+      "dict_value": "2"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "sales_order",
+      "name": "customer_id",
+      "comment": "客户ID"
+    },
+    {
+      "table_name": "sales_order",
+      "name": "warehouse_id",
+      "comment": "仓库ID"
+    },
+    {
+      "table_name": "sales_order",
+      "name": "sales_type",
+      "comment": "销售类型(1开发 2复购)"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "customer_id",
+      "comment": "客户ID"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "customer_name",
+      "comment": "客户名称"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "customer_type",
+      "comment": "客户类型（1终端客户 2直营商客户 3KOL客户）"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "direct_customer_type",
+      "comment": "直营商类型(仅直营商客户使用)"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "direct_customer_level",
+      "comment": "直营商客户级别(仅直营商客户使用)"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "status",
+      "comment": "审核状态（0待审批 1已通过 2已拒绝 3已跳过）"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "del_flag",
+      "comment": "删除标志（0代表存在 2代表删除）"
+    },
+    {
+      "table_name": "terminal_customer",
+      "name": "customer_level",
+      "comment": "客户级别"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "warehouse_id",
+      "comment": "仓库ID"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "warehouse_code",
+      "comment": "仓库编码"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "warehouse_name",
+      "comment": "仓库名称"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "warehouse_type",
+      "comment": "仓库类型(1总仓库 2直营商仓库)"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "customer_id",
+      "comment": "绑定的直营商客户ID(仅直营商仓库使用)"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "customer_name",
+      "comment": "绑定的直营商客户名称(仅直营商仓库使用)"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "status",
+      "comment": "状态(0正常 1停用)"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "del_flag",
+      "comment": "删除标志(0存在 2删除)"
+    },
+    {
+      "table_name": "warehouse",
+      "name": "admin_user_id",
+      "comment": "仓库管理员用户ID"
+    }
+  ],
+  "customers": [
+    {
+      "customer_id": 1083,
+      "customer_name": "测试_1791948624707",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1079,
+      "customer_name": "😁",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1066,
+      "customer_name": "AutoFront10081703",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1063,
+      "customer_name": "app1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1062,
+      "customer_name": "测试0811",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1061,
+      "customer_name": "前端01",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1060,
+      "customer_name": "85test",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1059,
+      "customer_name": "pw2",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1058,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1057,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1056,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1055,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1054,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1053,
+      "customer_name": "pw客户1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1050,
+      "customer_name": "测试存草稿",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1049,
+      "customer_name": "测试合作状态1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1046,
+      "customer_name": "测试拒绝1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1045,
+      "customer_name": "0525",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1044,
+      "customer_name": "1",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 1043,
+      "customer_name": "q01",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1037,
+      "customer_name": "测试0320",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1035,
+      "customer_name": "kol流程03",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 1034,
+      "customer_name": "kol流程02",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 1033,
+      "customer_name": "kol流程01",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 1031,
+      "customer_name": "kol测试流程2",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 1025,
+      "customer_name": "客户称客户名称客户名称客户名称客户称客户名称客户名称客户名称",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1024,
+      "customer_name": "导入测试",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 1019,
+      "customer_name": "直营端测试距离04",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 1018,
+      "customer_name": "直营端测试距离03",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 1017,
+      "customer_name": "直营端测试距离02",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 1016,
+      "customer_name": "直营端测试距离01",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 1014,
+      "customer_name": "测试距离04",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1013,
+      "customer_name": "测试距离03",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1012,
+      "customer_name": "测试距离02",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1011,
+      "customer_name": "测试距离01",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1006,
+      "customer_name": "测试座机2",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 1004,
+      "customer_name": "测试添加kol01",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 998,
+      "customer_name": "0211测试直营商",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 996,
+      "customer_name": "0211测试",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 992,
+      "customer_name": "a3前端09",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 989,
+      "customer_name": "a3前端08",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 988,
+      "customer_name": "0805test",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 987,
+      "customer_name": "a3前端05",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 986,
+      "customer_name": "a3直营05",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 985,
+      "customer_name": "a3前端05",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 984,
+      "customer_name": "a3前端04",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 983,
+      "customer_name": "a3前端03",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 982,
+      "customer_name": "a3前端02",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 981,
+      "customer_name": "a3前端01",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 980,
+      "customer_name": "a3直营05",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 979,
+      "customer_name": "a3直营04",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 978,
+      "customer_name": "a3直营03",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 977,
+      "customer_name": "a3直营02",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 976,
+      "customer_name": "a3直营01",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 967,
+      "customer_name": "0129导入",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 964,
+      "customer_name": "a3kol05",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 963,
+      "customer_name": "a3kol04",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 962,
+      "customer_name": "a3kol03",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 961,
+      "customer_name": "a3kol02best",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 960,
+      "customer_name": "a3kol01",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 942,
+      "customer_name": "CC",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 934,
+      "customer_name": "测试kol1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 933,
+      "customer_name": "测试直营商1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 932,
+      "customer_name": "测试前端1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 931,
+      "customer_name": "JIANG",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 930,
+      "customer_name": "JIANG直营商",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 929,
+      "customer_name": "嘻嘻嘻嘻",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 928,
+      "customer_name": "我",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 927,
+      "customer_name": "水水水水",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 924,
+      "customer_name": "测试880000",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 923,
+      "customer_name": "测试0121",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 921,
+      "customer_name": "121",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 920,
+      "customer_name": "直营121",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 919,
+      "customer_name": "直营120",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 918,
+      "customer_name": "测试123",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 917,
+      "customer_name": "测试",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 915,
+      "customer_name": "导入k2",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 914,
+      "customer_name": "导入z2",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 913,
+      "customer_name": "导入k1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 912,
+      "customer_name": "导入z1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 911,
+      "customer_name": "导入3",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 909,
+      "customer_name": "导入22",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 908,
+      "customer_name": "导入1",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 894,
+      "customer_name": "测试导入",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 887,
+      "customer_name": "2222",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 885,
+      "customer_name": "洪山a1ceKol5",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 884,
+      "customer_name": "洪山a1ceKol4",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 882,
+      "customer_name": "洪山a1ceKol2",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 866,
+      "customer_name": "cess",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 864,
+      "customer_name": "测试直营商",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 862,
+      "customer_name": "测试客户123",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 860,
+      "customer_name": "e",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 859,
+      "customer_name": "a34",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 858,
+      "customer_name": "a33",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 857,
+      "customer_name": "ko1",
+      "customer_type": "3",
+      "status": "1"
+    },
+    {
+      "customer_id": 856,
+      "customer_name": "a3y2",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 855,
+      "customer_name": "a3y1",
+      "customer_type": "2",
+      "status": "1"
+    },
+    {
+      "customer_id": 854,
+      "customer_name": "a3b",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 853,
+      "customer_name": "a3a",
+      "customer_type": "1",
+      "status": "1"
+    },
+    {
+      "customer_id": 851,
+      "customer_name": "1",
+      "customer_type": "3",
+      "status": "1"
+    }
+  ],
+  "warehouses": [
+    {
+      "warehouse_id": 1,
+      "warehouse_name": "北京总仓",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 2,
+      "warehouse_name": "上海总仓",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 100,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 83,
+      "warehouse_name": "娃哈哈仓库",
+      "warehouse_type": "2",
+      "customer_id": 377,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 84,
+      "warehouse_name": "武汉洪山",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 85,
+      "warehouse_name": "直营商001仓库",
+      "warehouse_type": "2",
+      "customer_id": 379,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 86,
+      "warehouse_name": "沃尔玛仓库",
+      "warehouse_type": "2",
+      "customer_id": 381,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 87,
+      "warehouse_name": "测试仓库",
+      "warehouse_type": "2",
+      "customer_id": 391,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 88,
+      "warehouse_name": "硚口总仓",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 129,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 89,
+      "warehouse_name": "汉口总仓",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 90,
+      "warehouse_name": "汉口A4直营端客户02仓库",
+      "warehouse_type": "2",
+      "customer_id": 564,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 93,
+      "warehouse_name": "汉口A3直营端客户02仓库",
+      "warehouse_type": "2",
+      "customer_id": 549,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 96,
+      "warehouse_name": "汉口A2直营端客户01仓库",
+      "warehouse_type": "2",
+      "customer_id": 533,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 97,
+      "warehouse_name": "汉口A1直营端客户02仓库",
+      "warehouse_type": "2",
+      "customer_id": 519,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 99,
+      "warehouse_name": "硚口B3直营端客户01仓库",
+      "warehouse_type": "2",
+      "customer_id": 488,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 103,
+      "warehouse_name": "硚口B1直营端客户03仓库",
+      "warehouse_type": "2",
+      "customer_id": 460,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 117,
+      "warehouse_name": "汉口A4直营端客户05仓库",
+      "warehouse_type": "2",
+      "customer_id": 567,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 126,
+      "warehouse_name": "硚口B1直营端客户05仓库",
+      "warehouse_type": "2",
+      "customer_id": 462,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 128,
+      "warehouse_name": "小程序直营商002仓库",
+      "warehouse_type": "2",
+      "customer_id": 581,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 129,
+      "warehouse_name": "小程序直营商003仓库",
+      "warehouse_type": "2",
+      "customer_id": 583,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 130,
+      "warehouse_name": "硚口A1直营端客户02仓库",
+      "warehouse_type": "2",
+      "customer_id": 595,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 134,
+      "warehouse_name": "硚口A1直营端客户03仓库",
+      "warehouse_type": "2",
+      "customer_id": 596,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 137,
+      "warehouse_name": "硚口A1直营端客户04仓库",
+      "warehouse_type": "2",
+      "customer_id": 597,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 138,
+      "warehouse_name": "硚口A1直营端客户01仓库",
+      "warehouse_type": "2",
+      "customer_id": 594,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 139,
+      "warehouse_name": "1仓库",
+      "warehouse_type": "2",
+      "customer_id": 616,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 140,
+      "warehouse_name": "2仓库",
+      "warehouse_type": "2",
+      "customer_id": 617,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 141,
+      "warehouse_name": "3仓库",
+      "warehouse_type": "2",
+      "customer_id": 618,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 149,
+      "warehouse_name": "洪山A1直营端客户03仓库",
+      "warehouse_type": "2",
+      "customer_id": 669,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 151,
+      "warehouse_name": "test1仓库",
+      "warehouse_type": "2",
+      "customer_id": 732,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 152,
+      "warehouse_name": "洪山a1直营端2仓库",
+      "warehouse_type": "2",
+      "customer_id": 756,
+      "admin_user_id": 1,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 154,
+      "warehouse_name": "洪山a1直营端4仓库",
+      "warehouse_type": "2",
+      "customer_id": 758,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 157,
+      "warehouse_name": "洪山a1直营端0仓库",
+      "warehouse_type": "2",
+      "customer_id": 754,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 158,
+      "warehouse_name": "洪山a1直营端1仓库",
+      "warehouse_type": "2",
+      "customer_id": 755,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 160,
+      "warehouse_name": "洪山a1直营端5仓库",
+      "warehouse_type": "2",
+      "customer_id": 759,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 161,
+      "warehouse_name": "洪山a1直营端3仓库",
+      "warehouse_type": "2",
+      "customer_id": 757,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 162,
+      "warehouse_name": "洪山a2直营端2仓库",
+      "warehouse_type": "2",
+      "customer_id": 792,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 165,
+      "warehouse_name": "洪山a2直营端4仓库",
+      "warehouse_type": "2",
+      "customer_id": 794,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 167,
+      "warehouse_name": "洪山a2直营端0仓库",
+      "warehouse_type": "2",
+      "customer_id": 790,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 170,
+      "warehouse_name": "洪山a2直营端1仓库",
+      "warehouse_type": "2",
+      "customer_id": 791,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 172,
+      "warehouse_name": "洪山a2直营端5仓库",
+      "warehouse_type": "2",
+      "customer_id": 795,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 173,
+      "warehouse_name": "洪山a4直营端0仓库",
+      "warehouse_type": "2",
+      "customer_id": 833,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 179,
+      "warehouse_name": "洪山a4直营端1仓库",
+      "warehouse_type": "2",
+      "customer_id": 834,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 183,
+      "warehouse_name": "洪山a4直营端5仓库",
+      "warehouse_type": "2",
+      "customer_id": 838,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 184,
+      "warehouse_name": "洪山a4直营端2仓库",
+      "warehouse_type": "2",
+      "customer_id": 835,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 185,
+      "warehouse_name": "洪山a4直营端3仓库",
+      "warehouse_type": "2",
+      "customer_id": 836,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 186,
+      "warehouse_name": "洪山a4直营端4仓库",
+      "warehouse_type": "2",
+      "customer_id": 837,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 187,
+      "warehouse_name": "a3y2仓库",
+      "warehouse_type": "2",
+      "customer_id": 856,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 189,
+      "warehouse_name": "e仓库",
+      "warehouse_type": "2",
+      "customer_id": 860,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 191,
+      "warehouse_name": "a3y1仓库",
+      "warehouse_type": "2",
+      "customer_id": 855,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 194,
+      "warehouse_name": "测试导入仓库",
+      "warehouse_type": "2",
+      "customer_id": 894,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 195,
+      "warehouse_name": "直营120仓库",
+      "warehouse_type": "2",
+      "customer_id": 919,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 196,
+      "warehouse_name": "直营121仓库",
+      "warehouse_type": "2",
+      "customer_id": 920,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 197,
+      "warehouse_name": "测试0121仓库",
+      "warehouse_type": "2",
+      "customer_id": 923,
+      "admin_user_id": 100,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 198,
+      "warehouse_name": "测试880000仓库",
+      "warehouse_type": "2",
+      "customer_id": 924,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 199,
+      "warehouse_name": "我去饿啊是初中学校超市的仓库",
+      "warehouse_type": "2",
+      "customer_id": 925,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 200,
+      "warehouse_name": "阿萨大大仓库",
+      "warehouse_type": "2",
+      "customer_id": 926,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 201,
+      "warehouse_name": "水水水水仓库",
+      "warehouse_type": "2",
+      "customer_id": 927,
+      "admin_user_id": 234,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 202,
+      "warehouse_name": "JIANG仓库",
+      "warehouse_type": "2",
+      "customer_id": 930,
+      "admin_user_id": 235,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 211,
+      "warehouse_name": "0129导入仓库",
+      "warehouse_type": "2",
+      "customer_id": 967,
+      "admin_user_id": 236,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 220,
+      "warehouse_name": "a3直营01仓库",
+      "warehouse_type": "2",
+      "customer_id": 976,
+      "admin_user_id": 243,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 221,
+      "warehouse_name": "a3直营02仓库",
+      "warehouse_type": "2",
+      "customer_id": 977,
+      "admin_user_id": 244,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 222,
+      "warehouse_name": "a3直营03仓库",
+      "warehouse_type": "2",
+      "customer_id": 978,
+      "admin_user_id": 245,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 223,
+      "warehouse_name": "a3直营04仓库",
+      "warehouse_type": "2",
+      "customer_id": 979,
+      "admin_user_id": 246,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 224,
+      "warehouse_name": "a3直营05仓库",
+      "warehouse_type": "2",
+      "customer_id": 980,
+      "admin_user_id": 247,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 226,
+      "warehouse_name": "0211测试直营商仓库",
+      "warehouse_type": "2",
+      "customer_id": 998,
+      "admin_user_id": 248,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 230,
+      "warehouse_name": "测试添加",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 1,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 231,
+      "warehouse_name": "测试添加1",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 1,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 232,
+      "warehouse_name": "直营端测试距离01仓库",
+      "warehouse_type": "2",
+      "customer_id": 1015,
+      "admin_user_id": 249,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 233,
+      "warehouse_name": "直营端测试距离01仓库",
+      "warehouse_type": "2",
+      "customer_id": 1016,
+      "admin_user_id": 249,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 234,
+      "warehouse_name": "直营端测试距离02仓库0000",
+      "warehouse_type": "2",
+      "customer_id": 1017,
+      "admin_user_id": 249,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 236,
+      "warehouse_name": "直营端测试距离04仓库",
+      "warehouse_type": "2",
+      "customer_id": 1019,
+      "admin_user_id": 249,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 237,
+      "warehouse_name": "直营端测试距离01仓库",
+      "warehouse_type": "2",
+      "customer_id": 1020,
+      "admin_user_id": 249,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 243,
+      "warehouse_name": "测试",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 244,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 244,
+      "warehouse_name": "测试",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": 244,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 245,
+      "warehouse_name": "洪山配送仓_1791973922138_61ad42",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 246,
+      "warehouse_name": "洪山配送仓_1791974329713_9b1443",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 247,
+      "warehouse_name": "洪山配送仓_1791974329897_58c67f",
+      "warehouse_type": "2",
+      "customer_id": 891,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 248,
+      "warehouse_name": "",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 249,
+      "warehouse_name": "x",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 250,
+      "warehouse_name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 251,
+      "warehouse_name": "洪山配送仓_1791974332002_c829c9",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 252,
+      "warehouse_name": "洪山配送仓_1791974332119_449464",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    },
+    {
+      "warehouse_id": 253,
+      "warehouse_name": "洪山配送仓_1791974819104_61ad42",
+      "warehouse_type": "1",
+      "customer_id": null,
+      "admin_user_id": null,
+      "status": "0"
+    }
+  ],
+  "distribution": [
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "2",
+      "order_status": "5",
+      "order_count": 46
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "5",
+      "order_count": 22
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "5",
+      "order_count": 59
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "4",
+      "order_count": 3
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "3",
+      "order_status": "4",
+      "order_count": 2
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "3",
+      "order_status": "4",
+      "order_count": 3
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "4",
+      "order_count": 6
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "2",
+      "order_count": 12
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "2",
+      "order_status": "3",
+      "order_count": 2
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "3",
+      "order_count": 5
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "2",
+      "order_status": "4",
+      "order_count": 5
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "3",
+      "order_status": "5",
+      "order_count": 33
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "2",
+      "order_count": 16
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "3",
+      "order_count": 1
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "3",
+      "order_status": "5",
+      "order_count": 16
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "3",
+      "order_status": "2",
+      "order_count": 2
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "1",
+      "customer_type": "2",
+      "order_status": "2",
+      "order_count": 2
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "3",
+      "order_status": "2",
+      "order_count": 4
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "2",
+      "order_status": "2",
+      "order_count": 2
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "2",
+      "order_status": "5",
+      "order_count": 4
+    },
+    {
+      "sales_type": null,
+      "warehouse_type": "2",
+      "customer_type": "2",
+      "order_status": "4",
+      "order_count": 2
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "2",
+      "order_count": 1
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "5",
+      "order_count": 2
+    },
+    {
+      "sales_type": "2",
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "5",
+      "order_count": 14
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "1",
+      "customer_type": "3",
+      "order_status": "5",
+      "order_count": 2
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "1",
+      "customer_type": "2",
+      "order_status": "3",
+      "order_count": 1
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "4",
+      "order_count": 1
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "2",
+      "customer_type": "1",
+      "order_status": "5",
+      "order_count": 1
+    },
+    {
+      "sales_type": "1",
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "4",
+      "order_count": 1
+    },
+    {
+      "sales_type": "2",
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "2",
+      "order_count": 7
+    },
+    {
+      "sales_type": "2",
+      "warehouse_type": "1",
+      "customer_type": "1",
+      "order_status": "4",
+      "order_count": 1
+    }
+  ]
+}

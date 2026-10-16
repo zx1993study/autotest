@@ -1,0 +1,104 @@
+{
+  "flow": {
+    "id": 15815,
+    "name": "[业务回归] 活动督办任务",
+    "project_id": 10,
+    "description": "无任务编辑、删除接口；撤销、处理不冒充编辑、删除。仅新增和查询，数据需后续人工清理。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "supervision",
+        "campaign_key": "waiqin-crud-20261015",
+        "record_marker": "活动督办任务测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "活动督办任务维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12137,
+          "case_id": 370,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12130,
+          "case_id": 371,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/rows/0/taskId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12140,
+          "case_id": 372,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/task_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:44:57",
+    "updated_at": "2026-10-15T10:44:57",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15816,
+      "name": "新增查询验证",
+      "project_id": 10,
+      "description": "无任务编辑、删除接口；撤销、处理不冒充编辑、删除。仅新增和查询，数据需后续人工清理。",
+      "status": "active",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15815,
+        "expected_end": "detail",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:44:58",
+      "updated_at": "2026-10-15T10:44:58",
+      "deleted": false
+    }
+  ]
+}

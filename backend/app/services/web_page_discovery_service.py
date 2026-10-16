@@ -15,7 +15,9 @@ from app.services.project_auth_service import ProjectAuthService
 from app.utils.cookie_utils import normalize_playwright_cookie, normalize_playwright_cookies
 
 
-DISCOVERY_SCREENSHOT_DIR = Path(__file__).resolve().parents[2] / "storage" / "screenshots"
+from app.core.storage import storage_path
+
+DISCOVERY_SCREENSHOT_DIR = storage_path("screenshots")
 
 
 class WebPageDiscoveryService:

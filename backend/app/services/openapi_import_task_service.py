@@ -6,9 +6,14 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
+import yaml
+
 from app.repositories.interfaces import ResourceRepository
 from app.schemas.tasks import OpenApiImportJobPayload
 from app.services.api_testing_service import ApiTestingService
+
+
+MAX_OPENAPI_BYTES = 10 * 1024 * 1024
 
 
 class OpenApiImportTaskService:
@@ -52,7 +57,8 @@ class OpenApiImportTaskService:
             return
         try:
             self._update_task(task, "running", "正在获取 OpenAPI 内容")
-            content = self._load_content(payload)
+            task_data = task.get("data") if isinstance(task.get("data"), dict) else {}
+            content = self._load_content(payload, str(task_data.get("source") or ""))
             task = self.repository.get("api_import_tasks", task_id) or task
             self._update_task(task, "running", "正在解析并保存接口和字段")
             result = ApiTestingService(self.repository).import_openapi(
@@ -60,6 +66,8 @@ class OpenApiImportTaskService:
                 content,
                 bool((task.get("data") or {}).get("overwrite", True)),
                 source_url=payload.url,
+                source_type=str(task_data.get("source_type") or "inline"),
+                source_name=str(task_data.get("source") or ""),
             )
             task = self.repository.get("api_import_tasks", task_id) or task
             self._update_task(task, "success", "导入成功", result=result)
@@ -104,10 +112,10 @@ class OpenApiImportTaskService:
             data["error"] = error
         self.repository.update("api_import_tasks", int(task["id"]), {"status": status_text, "data": data})
 
-    def _load_content(self, payload: OpenApiImportJobPayload) -> dict[str, Any]:
+    def _load_content(self, payload: OpenApiImportJobPayload, source: str = "") -> dict[str, Any]:
         if payload.url:
             return self._load_openapi_from_url(payload.url)
-        return self._decode_openapi_json(payload.raw or b"", "JSON 文件解析失败")
+        return self._decode_openapi(payload.raw or b"", f"OpenAPI 文件解析失败：{source}" if source else "OpenAPI 文件解析失败")
 
     def _validate_url(self, url: str) -> None:
         parsed = urlparse(url)
@@ -119,20 +127,29 @@ class OpenApiImportTaskService:
         request = Request(url, headers={"User-Agent": "Autotest-OpenAPI-Importer/1.0"})
         try:
             with urlopen(request, timeout=30) as response:
-                raw = response.read()
+                raw = response.read(MAX_OPENAPI_BYTES + 1)
         except HTTPError as exc:
             raise ValueError(f"OpenAPI URL 请求失败：HTTP {exc.code}") from exc
         except URLError as exc:
             raise ValueError(f"OpenAPI URL 请求失败：{exc.reason}") from exc
         except TimeoutError as exc:
             raise ValueError("OpenAPI URL 请求超时") from exc
-        return self._decode_openapi_json(raw, "OpenAPI URL 返回内容不是合法 JSON")
+        if len(raw) > MAX_OPENAPI_BYTES:
+            raise ValueError("OpenAPI 内容超过 10 MB 限制")
+        return self._decode_openapi(raw, "OpenAPI URL 返回内容不是合法 JSON/YAML")
 
-    def _decode_openapi_json(self, raw: bytes, error_message: str) -> dict[str, Any]:
+    def _decode_openapi(self, raw: bytes, error_message: str) -> dict[str, Any]:
         try:
-            content = json.loads(raw.decode("utf-8-sig"))
-        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            text = raw.decode("utf-8-sig")
+        except UnicodeDecodeError as exc:
             raise ValueError(error_message) from exc
+        try:
+            content = json.loads(text)
+        except json.JSONDecodeError:
+            try:
+                content = yaml.safe_load(text)
+            except yaml.YAMLError as exc:
+                raise ValueError(error_message) from exc
         if not isinstance(content, dict):
-            raise ValueError("OpenAPI 内容必须是 JSON 对象")
+            raise ValueError("OpenAPI 内容必须是对象")
         return content

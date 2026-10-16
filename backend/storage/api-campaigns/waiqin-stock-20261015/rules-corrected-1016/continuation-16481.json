@@ -1,0 +1,157 @@
+{
+  "scenario_id": 16457,
+  "original_batch_id": 16481,
+  "sales_order_id": 352,
+  "inbound_id": 333,
+  "product_id": 222,
+  "source_warehouse": 152,
+  "target_warehouse": 236,
+  "auth_id": 16497,
+  "verified_user_id": 249,
+  "requests": [
+    {
+      "api_id": 12208,
+      "params": {
+        "order_id": 352
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12213,
+      "params": {
+        "inbound_id": 333
+      },
+      "auth_id": 16497,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12192,
+      "params": {
+        "warehouse_id": 152,
+        "productId": 222,
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12192,
+      "params": {
+        "warehouse_id": 236,
+        "productId": 222,
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12214,
+      "params": {
+        "inboundId": 333,
+        "remark": "库存回归_1792119153179_021161_收货仓249补充确认"
+      },
+      "auth_id": 16497,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12208,
+      "params": {
+        "order_id": 352
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12213,
+      "params": {
+        "inbound_id": 333
+      },
+      "auth_id": 16497,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12192,
+      "params": {
+        "warehouse_id": 152,
+        "productId": 222,
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    },
+    {
+      "api_id": 12192,
+      "params": {
+        "warehouse_id": 236,
+        "productId": 222,
+        "pageNum": 1,
+        "pageSize": 10
+      },
+      "auth_id": 10015,
+      "http_status": 200,
+      "business_code": 200
+    }
+  ],
+  "before": {
+    "parent_status": "3",
+    "inbound_status": "2",
+    "confirmation_time_present": false,
+    "confirmation_actor_matches": false,
+    "stocks": {
+      "152": {
+        "quantity": 10.0,
+        "lockedQuantity": 3.0,
+        "availableQuantity": 7.0
+      },
+      "236": null
+    }
+  },
+  "mutation_attempted_at": "2026-10-16T03:12:13.070277+00:00",
+  "after": {
+    "parent_status": "5",
+    "inbound_status": "1",
+    "confirmation_time_present": true,
+    "confirmation_actor_matches": true,
+    "stocks": {
+      "152": {
+        "quantity": 7.0,
+        "lockedQuantity": 0.0,
+        "availableQuantity": 7.0
+      },
+      "236": {
+        "quantity": 3.0,
+        "lockedQuantity": 0.0,
+        "availableQuantity": 3.0
+      }
+    }
+  },
+  "database_after": [
+    {
+      "warehouse_id": 152,
+      "product_id": 222,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 236,
+      "product_id": 222,
+      "quantity": "3.00",
+      "locked_quantity": "0.00"
+    }
+  ],
+  "status": "success",
+  "completed_at": "2026-10-16T03:12:14.418866+00:00",
+  "historical_result_unchanged": true
+}

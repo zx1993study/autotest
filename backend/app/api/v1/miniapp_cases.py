@@ -6,7 +6,7 @@ from app.repositories.interfaces import ResourceRepository
 from app.schemas.cases import CaseListQuery, ExecuteRequest, TestCaseCreate
 from app.schemas.common import BatchDeleteRequest
 from app.schemas.testing import ExecuteCasesRequest
-from app.scheduler.jobs.case_execution_jobs import run_case_execution_job
+from app.services.case_execution_dispatcher import CaseExecutionDispatcher
 from app.services.test_case_service import TestCaseService
 
 router = APIRouter(prefix="/miniapp-testing/cases", tags=["miniapp-cases"])
@@ -25,7 +25,7 @@ def run_cases(
     payload: ExecuteCasesRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("MINIAPP", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("MINIAPP", payload.model_dump()))
 
 
 @router.get("")
@@ -50,7 +50,7 @@ def execute_miniapp_cases(
     payload: ExecuteRequest,
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
-    return success(run_case_execution_job("MINIAPP", payload.model_dump(), repository))
+    return success(CaseExecutionDispatcher(repository).execute("MINIAPP", payload.model_dump()))
 
 
 @router.post("/batch-delete")

@@ -1,0 +1,3545 @@
+[
+  {
+    "key": "warehouse",
+    "name": "仓库管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12186,
+        "params": {
+          "warehouseName": "{{record_marker}}",
+          "warehouseType": "1",
+          "customerId": 891,
+          "address": "武汉市洪山区配送中心"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12184,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "warehouseName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/warehouseName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/warehouseId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12191,
+        "params": {
+          "warehouse_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/warehouseId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/warehouseName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/warehouse_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12185,
+        "params": {
+          "warehouseName": "{{updated_marker}}",
+          "warehouseType": "1",
+          "customerId": 891,
+          "address": "武汉市洪山区配送中心",
+          "warehouseId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/warehouseId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12191,
+        "params": {
+          "warehouse_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/warehouseId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/warehouseName",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/warehouse_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12190,
+        "params": {
+          "warehouse_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/warehouse_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12191,
+        "params": {
+          "warehouse_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/warehouseId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/warehouse_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "仓库管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "仓库管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "product",
+    "name": "商品管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12102,
+        "params": {
+          "productName": "{{record_marker}}",
+          "productType": "巴马水",
+          "productBrand": "巴马丽琅矿泉水",
+          "unit": "瓶",
+          "productSpec": "500ML / 1*24",
+          "purchasePrice": 2.5,
+          "terminalWholesalePrice": 3.5
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12100,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "productName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/productName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/productId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12107,
+        "params": {
+          "product_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/productId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/productName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/product_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12101,
+        "params": {
+          "productName": "{{updated_marker}}",
+          "productType": "巴马水",
+          "productBrand": "巴马丽琅矿泉水",
+          "unit": "瓶",
+          "productSpec": "500ML / 1*24",
+          "purchasePrice": 2.5,
+          "terminalWholesalePrice": 3.5,
+          "productId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/productId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12107,
+        "params": {
+          "product_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/productId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/productName",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/product_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12103,
+        "params": {
+          "product_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/product_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12107,
+        "params": {
+          "product_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/productId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/product_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "商品管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "商品管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "activity",
+    "name": "活动管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12110,
+        "params": {
+          "activityName": "{{record_marker}}",
+          "activityType": "act_260720115642_03522",
+          "productScope": "all",
+          "startTime": "2026-10-16T10:00:00",
+          "endTime": "2026-10-17T10:00:00",
+          "productIds": "16",
+          "paymentType": "online"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12108,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "activityName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/activityId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12113,
+        "params": {
+          "activity_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12109,
+        "params": {
+          "activityName": "{{updated_marker}}",
+          "activityType": "act_260720115642_03522",
+          "productScope": "all",
+          "startTime": "2026-10-16T10:00:00",
+          "endTime": "2026-10-17T10:00:00",
+          "productIds": "16",
+          "paymentType": "online",
+          "activityId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activityId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12113,
+        "params": {
+          "activity_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityName",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12111,
+        "params": {
+          "activity_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12113,
+        "params": {
+          "activity_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/activity_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "活动管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "活动管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "activity_type",
+    "name": "活动类型配置",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12119,
+        "params": {
+          "activityTypeName": "{{record_marker}}",
+          "needExecuteReport": "1",
+          "needPaymentReport": "0",
+          "templates": {
+            "apply": [
+              {
+                "stage": "apply",
+                "fieldCode": "customers",
+                "fieldLabel": "参与客户",
+                "isRequired": "1",
+                "sort": 5
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "expectedParticipants",
+                "fieldLabel": "预计参与人数",
+                "isRequired": "1",
+                "sort": 10
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "usedProductIds",
+                "fieldLabel": "活动使用商品/兑付商品",
+                "isRequired": "1",
+                "sort": 20
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "estimatedMealFee",
+                "fieldLabel": "预计使用餐费",
+                "isRequired": "1",
+                "sort": 30
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "hasOurStaff",
+                "fieldLabel": "是否有我方人员参加",
+                "isRequired": "0",
+                "sort": 40
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "executionLocation",
+                "fieldLabel": "活动执行地点",
+                "isRequired": "1",
+                "sort": 50
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "remark",
+                "fieldLabel": "备注",
+                "isRequired": "0",
+                "sort": 90
+              }
+            ],
+            "execute": [
+              {
+                "stage": "execute",
+                "fieldCode": "sitePhotos",
+                "fieldLabel": "活动现场/陈列照片",
+                "isRequired": "1",
+                "sort": 20
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "beforeMealPhotos",
+                "fieldLabel": "餐前图片",
+                "isRequired": "1",
+                "sort": 30
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "duringMealPhotos",
+                "fieldLabel": "餐中图片",
+                "isRequired": "1",
+                "sort": 40
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "afterMealPhotos",
+                "fieldLabel": "餐后图片",
+                "isRequired": "1",
+                "sort": 50
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "invoicePhotos",
+                "fieldLabel": "发票图片",
+                "isRequired": "1",
+                "sort": 60
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "receiptPhotos",
+                "fieldLabel": "小票图片",
+                "isRequired": "1",
+                "sort": 70
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "otherPhotos",
+                "fieldLabel": "其他图片",
+                "isRequired": "0",
+                "sort": 80
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "paymentScreenshot",
+                "fieldLabel": "付款截图",
+                "isRequired": "0",
+                "sort": 90
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualParticipants",
+                "fieldLabel": "实际参与人数",
+                "isRequired": "1",
+                "sort": 100
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualProductIds",
+                "fieldLabel": "实际使用商品",
+                "isRequired": "1",
+                "sort": 110
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualMealFee",
+                "fieldLabel": "实际使用餐费",
+                "isRequired": "1",
+                "sort": 120
+              }
+            ],
+            "payment": []
+          }
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12116,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "activityTypeName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/activityTypeName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/configId",
+            "required": true
+          },
+          {
+            "name": "activity_type",
+            "path": "/rows/0/activityType",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12117,
+        "params": {
+          "activity_type": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityTypeName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activity_type"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12118,
+        "params": {
+          "activityTypeName": "{{updated_marker}}",
+          "needExecuteReport": "1",
+          "needPaymentReport": "0",
+          "templates": {
+            "apply": [
+              {
+                "stage": "apply",
+                "fieldCode": "customers",
+                "fieldLabel": "参与客户",
+                "isRequired": "1",
+                "sort": 5
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "expectedParticipants",
+                "fieldLabel": "预计参与人数",
+                "isRequired": "1",
+                "sort": 10
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "usedProductIds",
+                "fieldLabel": "活动使用商品/兑付商品",
+                "isRequired": "1",
+                "sort": 20
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "estimatedMealFee",
+                "fieldLabel": "预计使用餐费",
+                "isRequired": "1",
+                "sort": 30
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "hasOurStaff",
+                "fieldLabel": "是否有我方人员参加",
+                "isRequired": "0",
+                "sort": 40
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "executionLocation",
+                "fieldLabel": "活动执行地点",
+                "isRequired": "1",
+                "sort": 50
+              },
+              {
+                "stage": "apply",
+                "fieldCode": "remark",
+                "fieldLabel": "备注",
+                "isRequired": "0",
+                "sort": 90
+              }
+            ],
+            "execute": [
+              {
+                "stage": "execute",
+                "fieldCode": "sitePhotos",
+                "fieldLabel": "活动现场/陈列照片",
+                "isRequired": "1",
+                "sort": 20
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "beforeMealPhotos",
+                "fieldLabel": "餐前图片",
+                "isRequired": "1",
+                "sort": 30
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "duringMealPhotos",
+                "fieldLabel": "餐中图片",
+                "isRequired": "1",
+                "sort": 40
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "afterMealPhotos",
+                "fieldLabel": "餐后图片",
+                "isRequired": "1",
+                "sort": 50
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "invoicePhotos",
+                "fieldLabel": "发票图片",
+                "isRequired": "1",
+                "sort": 60
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "receiptPhotos",
+                "fieldLabel": "小票图片",
+                "isRequired": "1",
+                "sort": 70
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "otherPhotos",
+                "fieldLabel": "其他图片",
+                "isRequired": "0",
+                "sort": 80
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "paymentScreenshot",
+                "fieldLabel": "付款截图",
+                "isRequired": "0",
+                "sort": 90
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualParticipants",
+                "fieldLabel": "实际参与人数",
+                "isRequired": "1",
+                "sort": 100
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualProductIds",
+                "fieldLabel": "实际使用商品",
+                "isRequired": "1",
+                "sort": 110
+              },
+              {
+                "stage": "execute",
+                "fieldCode": "actualMealFee",
+                "fieldLabel": "实际使用餐费",
+                "isRequired": "1",
+                "sort": 120
+              }
+            ],
+            "payment": []
+          },
+          "configId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/configId"
+          },
+          {
+            "source": "locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activityType"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12117,
+        "params": {
+          "activity_type": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/activityTypeName",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activity_type"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12120,
+        "params": {
+          "config_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/config_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12117,
+        "params": {
+          "activity_type": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/configId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "activity_type",
+            "target": "params",
+            "path": "/activity_type"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "活动类型配置测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "活动类型配置维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "visit_plan",
+    "name": "拜访计划管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12143,
+        "params": {
+          "visitorUserId": 1,
+          "visitorUserName": "超级管理员",
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "customerType": "1",
+          "visitDate": "2026-10-16T10:00:00",
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/data/visitPlanId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12141,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12142,
+        "params": {
+          "visitorUserId": 1,
+          "visitorUserName": "超级管理员",
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "customerType": "1",
+          "visitDate": "2026-10-16T10:00:00",
+          "remark": "{{updated_marker}}",
+          "visitPlanId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visitPlanId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/remark",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12145,
+        "params": {
+          "visit_plan_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "拜访计划管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "拜访计划管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "visit_plan_batch",
+    "name": "拜访计划管理（批量添加）",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12144,
+        "params": {
+          "visitorUserId": 1,
+          "visitorUserName": "超级管理员",
+          "visitPlans": [
+            {
+              "customerId": 1082,
+              "customerName": "测试_1791531897535",
+              "customerType": "1",
+              "visitDate": "2026-10-17T10:00:00",
+              "remark": "{{record_marker}}"
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12141,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "visitorUserId": 1
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/visitPlanId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12142,
+        "params": {
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "customerType": "1",
+          "visitDate": "2026-10-17T10:00:00",
+          "remark": "{{updated_marker}}",
+          "visitorUserId": 1,
+          "visitorUserName": "超级管理员",
+          "visitPlanId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visitPlanId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/remark",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12145,
+        "params": {
+          "visit_plan_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12147,
+        "params": {
+          "visit_plan_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitPlan/visitPlanId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_plan_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "拜访计划管理（批测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "拜访计划管理（批维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "仅添加一条带独立备注的计划；列表首条不属于本次创建时停止，不猜测 ID。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "visit_template",
+    "name": "拜访计划模板管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12156,
+        "params": {
+          "templateName": "{{record_marker}}",
+          "userId": 1,
+          "weeklyData": {
+            "1": [
+              1082
+            ]
+          }
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12149,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "templateName": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/templateName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/templateId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12154,
+        "params": {
+          "template_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/templateId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/templateName",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/template_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12155,
+        "params": {
+          "templateName": "{{updated_marker}}",
+          "userId": 1,
+          "weeklyData": {
+            "1": [
+              1082
+            ]
+          },
+          "templateId": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/templateId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12154,
+        "params": {
+          "template_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/templateId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/templateName",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/template_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12157,
+        "params": {
+          "template_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/template_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12154,
+        "params": {
+          "template_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/template_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "拜访计划模板管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "拜访计划模板管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "visit_report",
+    "name": "拜访上报管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12167,
+        "params": {
+          "reportType": "temporary",
+          "images": "https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png",
+          "remark": "{{record_marker}}",
+          "address": "武汉市洪山区门店",
+          "customerName": "测试_1791531897535"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12158,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/visitReportId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12165,
+        "params": {
+          "visit_report_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitReportId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_report_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12168,
+        "params": {
+          "visit_report_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_report_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12165,
+        "params": {
+          "visit_report_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitReportId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/visit_report_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "拜访上报管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "拜访上报管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "无上报记录编辑接口；配置编辑不等于记录编辑。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": true
+    }
+  },
+  {
+    "key": "purchase",
+    "name": "采购入库管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12199,
+        "params": {
+          "warehouseId": 88,
+          "warehouseName": "硚口总仓",
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "quantity": 1
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/data/orderId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12198,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": []
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12202,
+        "params": {
+          "order_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/orderId",
+            "expected": "{{bound_owned_id}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12201,
+        "params": {
+          "order_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12202,
+        "params": {
+          "order_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data",
+            "expected": {}
+          }
+        ],
+        "bindings": [
+          {
+            "source": "create",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "采购入库管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "采购入库管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "无编辑接口；不提交审批、不确认入库。新增可能提示审批启动失败，保留真实断言结果。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": true
+    }
+  },
+  {
+    "key": "sales",
+    "name": "销售订单管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12205,
+        "params": {
+          "order": {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "salesUserId": 1,
+            "salesUserName": "超级管理员",
+            "salesType": "2",
+            "remark": "{{record_marker}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "quantity": 1
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12204,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/orderId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12208,
+        "params": {
+          "order_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/orderId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12209,
+        "params": {
+          "order_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12208,
+        "params": {
+          "order_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 500
+          },
+          {
+            "type": "json_pointer",
+            "path": "/msg",
+            "expected": "订单不存在"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "销售订单管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "销售订单管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "无编辑接口；只删除流程自身新建订单，不操作库存确认。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": true
+    }
+  },
+  {
+    "key": "return",
+    "name": "退货订单管理",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12221,
+        "params": {
+          "order": {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "customerType": "1",
+            "returnOrderType": "2",
+            "returnType": "4",
+            "returnReason": "门店样品退回核对",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "totalAmount": 300.0,
+            "remark": "{{record_marker}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "returnQuantity": 1,
+              "qualityStatus": "1"
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12219,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/returnId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12223,
+        "params": {
+          "return_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_id"
+          }
+        ]
+      },
+      {
+        "key": "edit",
+        "name": "编辑本流程创建的数据",
+        "api_id": 12220,
+        "params": {
+          "order": {
+            "customerId": 1082,
+            "customerName": "测试_1791531897535",
+            "warehouseId": 88,
+            "warehouseName": "硚口总仓",
+            "customerType": "1",
+            "returnOrderType": "2",
+            "returnType": "4",
+            "returnReason": "门店样品退回核对",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "totalAmount": 300.0,
+            "remark": "{{updated_marker}}",
+            "returnId": "{{owned_id}}"
+          },
+          "items": [
+            {
+              "productId": 16,
+              "productName": "五粮液",
+              "returnQuantity": 1,
+              "qualityStatus": "1"
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/order/returnId"
+          }
+        ]
+      },
+      {
+        "key": "verify_edit",
+        "name": "再次查询并验证修改生效",
+        "api_id": 12223,
+        "params": {
+          "return_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/returnId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/order/remark",
+            "expected": "{{updated_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12222,
+        "params": {
+          "return_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12223,
+        "params": {
+          "return_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 500
+          },
+          {
+            "type": "json_pointer",
+            "path": "/msg",
+            "expected": "退货单不存在"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/return_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "退货订单管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "退货订单管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "新增直接进入审核中；编辑或删除若被状态规则拒绝，流程保留失败，不自动审批。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": true,
+      "delete": true
+    }
+  },
+  {
+    "key": "online_visit",
+    "name": "线上拜访",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12244,
+        "params": {
+          "customerId": 1082,
+          "customerName": "测试_1791531897535",
+          "customerType": "1",
+          "visitMethod": "phone",
+          "visitContent": "{{record_marker}}",
+          "voucherImages": "https://xun-ai.tos-cn-beijing.volces.com/upload/2026/08/06/modern-chat-ui-devices (1)_20260806141933A725.png"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12243,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "customerId": 1082
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/visitContent",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/onlineVisitId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12245,
+        "params": {
+          "online_visit_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/onlineVisitId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/visitContent",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/online_visit_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12246,
+        "params": {
+          "online_visit_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/online_visit_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12245,
+        "params": {
+          "online_visit_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 500
+          },
+          {
+            "type": "json_pointer",
+            "path": "/msg",
+            "expected": "线上拜访记录不存在"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/online_visit_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "线上拜访测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "线上拜访维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "无编辑接口；按客户缩小查询，首条唯一内容不匹配时停止。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": true
+    }
+  },
+  {
+    "key": "supervision",
+    "name": "活动督办任务",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12137,
+        "params": {
+          "customer": {
+            "customerId": 1066,
+            "customerName": "AutoFront10081703",
+            "customerType": "1"
+          },
+          "responsibleUserIds": [
+            1
+          ],
+          "requiredFinishTime": "2026-10-17T10:00:00",
+          "taskContent": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12130,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "taskContent": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/taskContent",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/taskId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12140,
+        "params": {
+          "task_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/taskId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/taskContent",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/task_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "活动督办任务测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "活动督办任务维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": false,
+    "note": "无任务编辑、删除接口；撤销、处理不冒充编辑、删除。仅新增和查询，数据需后续人工清理。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": false
+    }
+  },
+  {
+    "key": "activity_apply",
+    "name": "活动申请",
+    "nodes": [
+      {
+        "key": "create",
+        "name": "新增独立测试数据",
+        "api_id": 12126,
+        "params": {
+          "activityId": 88,
+          "customers": [
+            {
+              "customerId": 1082,
+              "customerName": "测试_1791531897535",
+              "customerType": "1"
+            }
+          ],
+          "startTime": "2026-10-16 10:00:00",
+          "endTime": "2026-10-17 10:00:00",
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "locate",
+        "name": "列表查询并安全定位本次数据",
+        "api_id": 12121,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 100,
+          "remark": "{{record_marker}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/rows/0/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "extracts": [
+          {
+            "name": "owned_id",
+            "path": "/rows/0/applyId",
+            "required": true
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "详情查询与数据归属校验",
+        "api_id": 12129,
+        "params": {
+          "apply_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/applyId",
+            "expected": "{{bound_owned_id}}"
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/remark",
+            "expected": "{{record_marker}}"
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/apply_id"
+          }
+        ]
+      },
+      {
+        "key": "delete",
+        "name": "删除本流程创建的数据",
+        "api_id": 12127,
+        "params": {
+          "apply_ids": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/apply_ids"
+          }
+        ]
+      },
+      {
+        "key": "verify_delete",
+        "name": "查询确认数据已删除",
+        "api_id": 12129,
+        "params": {
+          "apply_id": "{{owned_id}}"
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/data/apply/applyId",
+            "expected": null
+          }
+        ],
+        "bindings": [
+          {
+            "source": "locate",
+            "name": "owned_id",
+            "target": "params",
+            "path": "/apply_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {
+      "record_marker": "活动申请测试_{{timestamp_ms}}_{{random_digits:6}}",
+      "updated_marker": "活动申请维护_{{timestamp_ms}}_{{random_digits:6}}"
+    },
+    "blocked": true,
+    "note": "新增不返回申请 ID，当前活动模板不保存备注；增删场景停用，确认可靠归属方案后再启用。无申请编辑接口。",
+    "capabilities": {
+      "create": true,
+      "query": true,
+      "edit": false,
+      "delete": true
+    }
+  },
+  {
+    "key": "stock_in",
+    "name": "入库管理",
+    "nodes": [
+      {
+        "key": "listing",
+        "name": "列表查询",
+        "api_id": 12211,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "query_id",
+            "path": "/rows/0/inboundId",
+            "required": false
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "列表与详情查询串联",
+        "api_id": 12213,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "listing",
+            "name": "query_id",
+            "target": "params",
+            "path": "/inbound_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {},
+    "blocked": false,
+    "note": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+    "capabilities": {
+      "create": false,
+      "query": true,
+      "edit": false,
+      "delete": false
+    },
+    "scene_nodes": {
+      "detail": {
+        "mode": "condition",
+        "condition": {
+          "source": "listing",
+          "name": "query_id",
+          "operator": "exists"
+        }
+      }
+    }
+  },
+  {
+    "key": "outbound",
+    "name": "出库管理",
+    "nodes": [
+      {
+        "key": "listing",
+        "name": "列表查询",
+        "api_id": 12216,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "query_id",
+            "path": "/rows/0/outboundId",
+            "required": false
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "列表与详情查询串联",
+        "api_id": 12217,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "listing",
+            "name": "query_id",
+            "target": "params",
+            "path": "/outbound_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {},
+    "blocked": false,
+    "note": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+    "capabilities": {
+      "create": false,
+      "query": true,
+      "edit": false,
+      "delete": false
+    },
+    "scene_nodes": {
+      "detail": {
+        "mode": "condition",
+        "condition": {
+          "source": "listing",
+          "name": "query_id",
+          "operator": "exists"
+        }
+      }
+    }
+  },
+  {
+    "key": "todo",
+    "name": "待办列表",
+    "nodes": [
+      {
+        "key": "listing",
+        "name": "列表查询",
+        "api_id": 12226,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "statistics",
+        "name": "统计查询",
+        "api_id": 12227,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      }
+    ],
+    "inputs": {},
+    "blocked": false,
+    "note": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+    "capabilities": {
+      "create": false,
+      "query": true,
+      "edit": false,
+      "delete": false
+    }
+  },
+  {
+    "key": "transaction",
+    "name": "商品交易明细",
+    "nodes": [
+      {
+        "key": "listing",
+        "name": "列表查询",
+        "api_id": 12236,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      },
+      {
+        "key": "next_page",
+        "name": "第二页查询",
+        "api_id": 12236,
+        "params": {
+          "pageNum": 2,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ]
+      }
+    ],
+    "inputs": {},
+    "blocked": false,
+    "note": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+    "capabilities": {
+      "create": false,
+      "query": true,
+      "edit": false,
+      "delete": false
+    }
+  },
+  {
+    "key": "terminal_inventory",
+    "name": "网点上报库存",
+    "nodes": [
+      {
+        "key": "listing",
+        "name": "列表查询",
+        "api_id": 12240,
+        "params": {
+          "pageNum": 1,
+          "pageSize": 10
+        },
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "extracts": [
+          {
+            "name": "query_id",
+            "path": "/rows/0/customerId",
+            "required": false
+          }
+        ]
+      },
+      {
+        "key": "detail",
+        "name": "列表与详情查询串联",
+        "api_id": 12241,
+        "params": {},
+        "assertions": [
+          {
+            "type": "status",
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "path": "/code",
+            "expected": 200
+          }
+        ],
+        "bindings": [
+          {
+            "source": "listing",
+            "name": "query_id",
+            "target": "params",
+            "path": "/customer_id"
+          }
+        ]
+      }
+    ],
+    "inputs": {},
+    "blocked": false,
+    "note": "仅有查询能力或业务确认动作，不虚构增删改接口，也不执行确认入出库。",
+    "capabilities": {
+      "create": false,
+      "query": true,
+      "edit": false,
+      "delete": false
+    },
+    "scene_nodes": {
+      "detail": {
+        "mode": "condition",
+        "condition": {
+          "source": "listing",
+          "name": "query_id",
+          "operator": "exists"
+        }
+      }
+    }
+  }
+]

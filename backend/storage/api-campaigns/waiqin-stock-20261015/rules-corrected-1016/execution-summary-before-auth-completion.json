@@ -1,0 +1,5651 @@
+{
+  "checked_at": "2026-10-16T02:55:49.329814+00:00",
+  "read_only_database": true,
+  "source_code_changed": false,
+  "attempts": 36,
+  "unique_scenarios_executed": 24,
+  "latest_categories": {
+    "passed": 15,
+    "passed_scoped": 1,
+    "business_rejection_code_contract": 8
+  },
+  "flow_audit": [
+    {
+      "flow_id": 16308,
+      "version": 7,
+      "nodes": 90,
+      "scenes": 22
+    },
+    {
+      "flow_id": 16322,
+      "version": 6,
+      "nodes": 60,
+      "scenes": 20
+    },
+    {
+      "flow_id": 16344,
+      "version": 4,
+      "nodes": 35,
+      "scenes": 19
+    }
+  ],
+  "latest_results": [
+    {
+      "batch_id": 16465,
+      "flow_id": 16308,
+      "scenario_id": 16314,
+      "name": "场景4补充-销售审批后按需确认并核对扣量",
+      "status": "success",
+      "duration_ms": 5203,
+      "inputs": {
+        "record_marker": "库存回归_1792118433194_969481",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_ship",
+        "stock_matrix_key": "230:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          232
+        ],
+        "sales_order": [
+          327
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 206,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 206,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16466,
+      "flow_id": 16308,
+      "scenario_id": 16317,
+      "name": "补充-销售审批拒绝不锁库且实际库存不变",
+      "status": "success",
+      "duration_ms": 4602,
+      "inputs": {
+        "record_marker": "库存回归_1792118439592_182906",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_reject",
+        "stock_matrix_key": "230:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          233
+        ],
+        "sales_order": [
+          328
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 207,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 207,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16467,
+      "flow_id": 16308,
+      "scenario_id": 16451,
+      "name": "总仓销售-直营商客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 7566,
+      "inputs": {
+        "record_marker": "库存回归_1792118445143_803382",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_pass",
+        "stock_matrix_key": "230:2:pass",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          234
+        ],
+        "sales_order": [
+          329
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 208,
+          "api_before": {
+            "quantity": "3.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 208,
+            "quantity": "3.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 208,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 208,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16469,
+      "flow_id": 16308,
+      "scenario_id": 16453,
+      "name": "总仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 5177,
+      "inputs": {
+        "record_marker": "库存回归_1792118459567_172037",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_pass",
+        "stock_matrix_key": "230:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          236
+        ],
+        "sales_order": [
+          331
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 210,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 210,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16468,
+      "flow_id": 16308,
+      "scenario_id": 16452,
+      "name": "总仓销售-直营商客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 4984,
+      "inputs": {
+        "record_marker": "库存回归_1792118453683_793958",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_reject",
+        "stock_matrix_key": "230:2:reject",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          235
+        ],
+        "sales_order": [
+          330
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 209,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 209,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 209,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16470,
+      "flow_id": 16308,
+      "scenario_id": 16454,
+      "name": "总仓销售-KOL客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 4650,
+      "inputs": {
+        "record_marker": "库存回归_1792118465810_050115",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_reject",
+        "stock_matrix_key": "230:3:reject",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          237
+        ],
+        "sales_order": [
+          332
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 211,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 211,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16479,
+      "flow_id": 16308,
+      "scenario_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 10615,
+      "inputs": {
+        "record_marker": "库存回归_1792119104363_089216",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_pass",
+        "stock_matrix_key": "152:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_supply_marker": "直营仓备货_1792119104363_089216",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-smoke2-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          245
+        ],
+        "sales_order": [
+          347,
+          348
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 220,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 220,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 220,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 220,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16480,
+      "flow_id": 16308,
+      "scenario_id": 16456,
+      "name": "直营仓销售-前端客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 8955,
+      "inputs": {
+        "record_marker": "库存回归_1792119142998_946410",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_reject",
+        "stock_matrix_key": "152:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_supply_marker": "直营仓备货_1792119142998_946410",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          246
+        ],
+        "sales_order": [
+          349,
+          350
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 221,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 221,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 221,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 221,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16481,
+      "flow_id": 16308,
+      "scenario_id": 16457,
+      "name": "直营仓销售-直营商客户审批通过后锁库、确认前库存核对",
+      "status": "success",
+      "duration_ms": 10518,
+      "inputs": {
+        "record_marker": "库存回归_1792119153179_021161",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_pass",
+        "stock_matrix_key": "152:2:pass",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_supply_marker": "直营仓备货_1792119153179_021161",
+        "stock_source_warehouse_id": 152,
+        "stock_confirmation_coverage": "approval_only_missing_target_warehouse_auth",
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed_scoped",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          247
+        ],
+        "sales_order": [
+          351,
+          352
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 222,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 222,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "3.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 222,
+            "quantity": "10.00",
+            "locked_quantity": "3.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 222,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 222,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16482,
+      "flow_id": 16308,
+      "scenario_id": 16458,
+      "name": "直营仓销售-直营商客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 9547,
+      "inputs": {
+        "record_marker": "库存回归_1792119164819_633980",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_reject",
+        "stock_matrix_key": "152:2:reject",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_supply_marker": "直营仓备货_1792119164819_633980",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          248
+        ],
+        "sales_order": [
+          353,
+          354
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 223,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 223,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 223,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 223,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 223,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16483,
+      "flow_id": 16308,
+      "scenario_id": 16459,
+      "name": "直营仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 10586,
+      "inputs": {
+        "record_marker": "库存回归_1792119176175_410977",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_pass",
+        "stock_matrix_key": "152:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_supply_marker": "直营仓备货_1792119176175_410977",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          249
+        ],
+        "sales_order": [
+          355,
+          356
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 224,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 224,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 224,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 224,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16484,
+      "flow_id": 16308,
+      "scenario_id": 16460,
+      "name": "直营仓销售-KOL客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 9174,
+      "inputs": {
+        "record_marker": "库存回归_1792119187697_932552",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_reject",
+        "stock_matrix_key": "152:3:reject",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_supply_marker": "直营仓备货_1792119187697_932552",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          250
+        ],
+        "sales_order": [
+          357,
+          358
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 225,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 225,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 225,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 225,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16485,
+      "flow_id": 16308,
+      "scenario_id": 16313,
+      "name": "场景4-销售审批前不锁库、审批后按确认流程核对库存",
+      "status": "success",
+      "duration_ms": 4970,
+      "inputs": {
+        "record_marker": "库存回归_1792119227092_578613",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_approve"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          251
+        ],
+        "sales_order": [
+          359
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 226,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 226,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16486,
+      "flow_id": 16308,
+      "scenario_id": 16315,
+      "name": "场景5-审批后售罄锁库、可用0时追加销售应拒绝",
+      "status": "failed",
+      "duration_ms": 4673,
+      "inputs": {
+        "record_marker": "库存回归_1792119233230_831241",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "sales2_zero_available",
+        "name": "审批后锁库且可用为0时追加销售应拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          252
+        ],
+        "sales_order": [
+          360
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 227,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 227,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 227,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 227,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16487,
+      "flow_id": 16308,
+      "scenario_id": 16316,
+      "name": "补充-多个待审订单不锁库、审批时不得超卖",
+      "status": "failed",
+      "duration_ms": 5764,
+      "inputs": {
+        "record_marker": "库存回归_1792119240371_177704",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "pending_conflict",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "sales2_conflict_approve",
+        "name": "其他订单已锁库后审批不得超卖",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          253
+        ],
+        "sales_order": [
+          361,
+          362
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 228,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "7.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 228,
+            "quantity": "10.00",
+            "locked_quantity": "7.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 228,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "7.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 228,
+            "quantity": "10.00",
+            "locked_quantity": "7.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16488,
+      "flow_id": 16308,
+      "scenario_id": 16318,
+      "name": "补充-销售重复确认不得重复扣库存",
+      "status": "failed",
+      "duration_ms": 6163,
+      "inputs": {
+        "record_marker": "库存回归_1792119247191_964610",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "confirm_repeat"
+      },
+      "failure": {
+        "node": "receipt_confirm_again",
+        "name": "重复确认不得重复扣减库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          254
+        ],
+        "sales_order": [
+          363
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 229,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 229,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 229,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 229,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16489,
+      "flow_id": 16322,
+      "scenario_id": 16325,
+      "name": "正常-原销售单已发货后部分退货、确认入库",
+      "status": "success",
+      "duration_ms": 8591,
+      "inputs": {
+        "record_marker": "库存回归_1792119256327_149686",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "order_partial"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          255
+        ],
+        "sales_order": [
+          364
+        ],
+        "return_order": [
+          148
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 230,
+          "api_before": {
+            "quantity": "8.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 230,
+            "quantity": "8.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16490,
+      "flow_id": 16322,
+      "scenario_id": 16326,
+      "name": "边界-原销售数量全部退回",
+      "status": "success",
+      "duration_ms": 8460,
+      "inputs": {
+        "record_marker": "库存回归_1792119266026_922283",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "order_full"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          256
+        ],
+        "sales_order": [
+          365
+        ],
+        "return_order": [
+          149
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 231,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 231,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16491,
+      "flow_id": 16322,
+      "scenario_id": 16329,
+      "name": "异常-重复退货累计数量超过可退余额",
+      "status": "failed",
+      "duration_ms": 10166,
+      "inputs": {
+        "record_marker": "库存回归_1792119275708_970307",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "cumulative_over"
+      },
+      "failure": {
+        "node": "return2_over_remaining",
+        "name": "累计退货不得超过原销售可退数量",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          257
+        ],
+        "sales_order": [
+          366
+        ],
+        "return_order": [
+          150
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 232,
+          "api_before": {
+            "quantity": "9.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 232,
+            "quantity": "9.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 232,
+          "api_before": {
+            "quantity": "9.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 232,
+            "quantity": "9.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16492,
+      "flow_id": 16322,
+      "scenario_id": 16336,
+      "name": "异常-退货数量大于原销售数量，库存不变",
+      "status": "failed",
+      "duration_ms": 5563,
+      "inputs": {
+        "record_marker": "库存回归_1792119287016_042019",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "over_return"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          258
+        ],
+        "sales_order": [
+          367
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 233,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 233,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 233,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 233,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16493,
+      "flow_id": 16322,
+      "scenario_id": 16337,
+      "name": "异常-明细不属于原销售订单，库存不变",
+      "status": "failed",
+      "duration_ms": 5553,
+      "inputs": {
+        "record_marker": "库存回归_1792119293593_073712",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "wrong_sales_item"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "订单退货必须关联原订单明细",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "订单退货必须关联原订单明细"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          259
+        ],
+        "sales_order": [
+          368
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 234,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 234,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 234,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 234,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16494,
+      "flow_id": 16344,
+      "scenario_id": 16358,
+      "name": "异常-审批后部分锁库、不得超可用量转换",
+      "status": "failed",
+      "duration_ms": 7125,
+      "inputs": {
+        "record_marker": "库存回归_1792119301525_693999",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "locked_8",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品可用库存不足，当前可用：2.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品可用库存不足，当前可用：2.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          260,
+          261
+        ],
+        "sales_order": [
+          369
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 235,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 235,
+            "quantity": "10.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 236,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 236,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 235,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 235,
+            "quantity": "10.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 236,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 236,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16495,
+      "flow_id": 16344,
+      "scenario_id": 16359,
+      "name": "异常-审批后全部锁库、可用0时不得转换",
+      "status": "failed",
+      "duration_ms": 6575,
+      "inputs": {
+        "record_marker": "库存回归_1792119309872_361336",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "locked_10",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品可用库存不足，当前可用：0.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品可用库存不足，当前可用：0.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          262,
+          263
+        ],
+        "sales_order": [
+          370
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 237,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 237,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 238,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 238,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 237,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 237,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 238,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 238,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16496,
+      "flow_id": 16344,
+      "scenario_id": 16360,
+      "name": "边界-审批后仅转换未锁定部分、保留锁定库存",
+      "status": "success",
+      "duration_ms": 6807,
+      "inputs": {
+        "record_marker": "库存回归_1792119317503_544032",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "partial_lock_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          264,
+          265
+        ],
+        "sales_order": [
+          371
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 239,
+          "api_before": {
+            "quantity": "8.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 239,
+            "quantity": "8.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 240,
+          "api_before": {
+            "quantity": "50.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 240,
+            "quantity": "50.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    }
+  ],
+  "all_attempts": [
+    {
+      "batch_id": 16461,
+      "flow_id": 16308,
+      "scenario_id": 16314,
+      "name": "场景4补充-销售审批后按需确认并核对扣量",
+      "status": "success",
+      "duration_ms": 5063,
+      "inputs": {
+        "record_marker": "库存回归_1792118045458_196960",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_ship",
+        "stock_matrix_key": "230:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-general-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          228
+        ],
+        "sales_order": [
+          323
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 202,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 202,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16462,
+      "flow_id": 16308,
+      "scenario_id": 16317,
+      "name": "补充-销售审批拒绝不锁库且实际库存不变",
+      "status": "success",
+      "duration_ms": 4539,
+      "inputs": {
+        "record_marker": "库存回归_1792118051616_066079",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_reject",
+        "stock_matrix_key": "230:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-general-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          229
+        ],
+        "sales_order": [
+          324
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 203,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 203,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16463,
+      "flow_id": 16308,
+      "scenario_id": 16451,
+      "name": "总仓销售-直营商客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 4599,
+      "inputs": {
+        "record_marker": "库存回归_1792118057036_665687",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_pass",
+        "stock_matrix_key": "230:2:pass",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "failure": {
+        "node": "receipt_done_inventory",
+        "name": "核对实际库存、锁定库存和可用库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": [
+                {
+                  "paths": [
+                    "/productId"
+                  ],
+                  "expected": 204,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/warehouseId"
+                  ],
+                  "expected": 230,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/quantity"
+                  ],
+                  "expected": 7,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/lockedQuantity"
+                  ],
+                  "expected": 0,
+                  "operator": "eq"
+                },
+                {
+                  "paths": [
+                    "/availableQuantity"
+                  ],
+                  "expected": 7,
+                  "operator": "eq"
+                }
+              ]
+            },
+            "actual": {
+              "count": 1,
+              "mismatched_indices": [
+                0
+              ]
+            }
+          }
+        ]
+      },
+      "category": "fixed_template_confirmation_route",
+      "label": "postapproval-general-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          230
+        ],
+        "sales_order": [
+          325
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 204,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "3.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 204,
+            "quantity": "10.00",
+            "locked_quantity": "3.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16464,
+      "flow_id": 16308,
+      "scenario_id": 16453,
+      "name": "总仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 4905,
+      "inputs": {
+        "record_marker": "库存回归_1792118062603_393775",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_pass",
+        "stock_matrix_key": "230:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-general-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          231
+        ],
+        "sales_order": [
+          326
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 205,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 205,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16465,
+      "flow_id": 16308,
+      "scenario_id": 16314,
+      "name": "场景4补充-销售审批后按需确认并核对扣量",
+      "status": "success",
+      "duration_ms": 5203,
+      "inputs": {
+        "record_marker": "库存回归_1792118433194_969481",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_ship",
+        "stock_matrix_key": "230:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          232
+        ],
+        "sales_order": [
+          327
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 206,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 206,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16466,
+      "flow_id": 16308,
+      "scenario_id": 16317,
+      "name": "补充-销售审批拒绝不锁库且实际库存不变",
+      "status": "success",
+      "duration_ms": 4602,
+      "inputs": {
+        "record_marker": "库存回归_1792118439592_182906",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_reject",
+        "stock_matrix_key": "230:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          233
+        ],
+        "sales_order": [
+          328
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 207,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 207,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16467,
+      "flow_id": 16308,
+      "scenario_id": 16451,
+      "name": "总仓销售-直营商客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 7566,
+      "inputs": {
+        "record_marker": "库存回归_1792118445143_803382",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_pass",
+        "stock_matrix_key": "230:2:pass",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          234
+        ],
+        "sales_order": [
+          329
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 208,
+          "api_before": {
+            "quantity": "3.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 208,
+            "quantity": "3.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 208,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 208,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16468,
+      "flow_id": 16308,
+      "scenario_id": 16452,
+      "name": "总仓销售-直营商客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 4984,
+      "inputs": {
+        "record_marker": "库存回归_1792118453683_793958",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_2_reject",
+        "stock_matrix_key": "230:2:reject",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          235
+        ],
+        "sales_order": [
+          330
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 209,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 209,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 209,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16469,
+      "flow_id": 16308,
+      "scenario_id": 16453,
+      "name": "总仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 5177,
+      "inputs": {
+        "record_marker": "库存回归_1792118459567_172037",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_pass",
+        "stock_matrix_key": "230:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          236
+        ],
+        "sales_order": [
+          331
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 210,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 210,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16470,
+      "flow_id": 16308,
+      "scenario_id": 16454,
+      "name": "总仓销售-KOL客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 4650,
+      "inputs": {
+        "record_marker": "库存回归_1792118465810_050115",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_total_customer_3_reject",
+        "stock_matrix_key": "230:3:reject",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 230,
+        "stock_source_warehouse_type": "1"
+      },
+      "category": "passed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          237
+        ],
+        "sales_order": [
+          332
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 211,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 211,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16471,
+      "flow_id": 16308,
+      "scenario_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 1148,
+      "inputs": {
+        "record_marker": "库存回归_1792118471338_325409",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_pass",
+        "stock_matrix_key": "152:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "product_seed_create",
+        "name": "创建独立审批测试数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "只有总仓库才能进行采购入库",
+        "assertions": [
+          {
+            "type": "json_pointer",
+            "passed": false,
+            "actual": 500,
+            "expected": 200
+          }
+        ]
+      },
+      "category": "fixed_direct_warehouse_seed",
+      "label": "postapproval-matrix-1016",
+      "order_ids": {},
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 212,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 212,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16472,
+      "flow_id": 16308,
+      "scenario_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 10058,
+      "inputs": {
+        "record_marker": "库存回归_1792118657788_172212",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_pass",
+        "stock_matrix_key": "152:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          238
+        ],
+        "sales_order": [
+          333
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 213,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 213,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 213,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 213,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16473,
+      "flow_id": 16308,
+      "scenario_id": 16456,
+      "name": "直营仓销售-前端客户审批拒绝不占库存",
+      "status": "failed",
+      "duration_ms": 6708,
+      "inputs": {
+        "record_marker": "库存回归_1792118668915_383481",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_reject",
+        "stock_matrix_key": "152:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          239
+        ],
+        "sales_order": [
+          335
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 214,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 214,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 214,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 214,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16474,
+      "flow_id": 16308,
+      "scenario_id": 16457,
+      "name": "直营仓销售-直营商客户审批通过后锁库、确认前库存核对",
+      "status": "failed",
+      "duration_ms": 7330,
+      "inputs": {
+        "record_marker": "库存回归_1792118676624_004936",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_pass",
+        "stock_matrix_key": "152:2:pass",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 152,
+        "stock_confirmation_coverage": "approval_only_missing_target_warehouse_auth",
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          240
+        ],
+        "sales_order": [
+          337
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 215,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 215,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 215,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 215,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 215,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16475,
+      "flow_id": 16308,
+      "scenario_id": 16458,
+      "name": "直营仓销售-直营商客户审批拒绝不占库存",
+      "status": "failed",
+      "duration_ms": 8672,
+      "inputs": {
+        "record_marker": "库存回归_1792118684864_587771",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_reject",
+        "stock_matrix_key": "152:2:reject",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          241
+        ],
+        "sales_order": [
+          339
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 216,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 216,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 216,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 216,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 216,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16476,
+      "flow_id": 16308,
+      "scenario_id": 16459,
+      "name": "直营仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 6876,
+      "inputs": {
+        "record_marker": "库存回归_1792118694543_134049",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_pass",
+        "stock_matrix_key": "152:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          242
+        ],
+        "sales_order": [
+          341
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 217,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 217,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 217,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 217,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16477,
+      "flow_id": 16308,
+      "scenario_id": 16460,
+      "name": "直营仓销售-KOL客户审批拒绝不占库存",
+      "status": "failed",
+      "duration_ms": 6894,
+      "inputs": {
+        "record_marker": "库存回归_1792118702383_139708",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_reject",
+        "stock_matrix_key": "152:3:reject",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_locate",
+        "name": "按唯一名称定位本次创建的数据",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_query_result",
+            "passed": false,
+            "path": "/rows",
+            "expected": {
+              "min_items": 1,
+              "max_items": 1,
+              "rules": []
+            },
+            "actual": {
+              "count": 2,
+              "mismatched_indices": []
+            }
+          }
+        ]
+      },
+      "category": "fixed_supply_order_marker_collision",
+      "label": "postapproval-direct-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          243
+        ],
+        "sales_order": [
+          343
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 218,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 218,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 218,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 218,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16478,
+      "flow_id": 16308,
+      "scenario_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "status": "failed",
+      "duration_ms": 9549,
+      "inputs": {
+        "record_marker": "库存回归_1792118856018_371905",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_pass",
+        "stock_matrix_key": "152:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_supply_marker": "直营仓备货_1792118856018_371905",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "failure": {
+        "node": "sales_process",
+        "name": "读取本次实例并核对当前节点与审批人",
+        "error": null,
+        "http_status": 200,
+        "business_code": 200,
+        "message": "操作成功",
+        "assertions": [
+          {
+            "type": "json_pointer",
+            "passed": false,
+            "actual": "sales_order_direct",
+            "expected": "sales_order"
+          },
+          {
+            "type": "json_pointer",
+            "passed": false,
+            "actual": 0,
+            "expected": 12
+          }
+        ]
+      },
+      "category": "fixed_direct_approval_type",
+      "label": "postapproval-direct-smoke-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          244
+        ],
+        "sales_order": [
+          345,
+          346
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 219,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 219,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 219,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 219,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16479,
+      "flow_id": 16308,
+      "scenario_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 10615,
+      "inputs": {
+        "record_marker": "库存回归_1792119104363_089216",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_pass",
+        "stock_matrix_key": "152:1:pass",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_supply_marker": "直营仓备货_1792119104363_089216",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-smoke2-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          245
+        ],
+        "sales_order": [
+          347,
+          348
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 220,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 220,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 220,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 220,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16480,
+      "flow_id": 16308,
+      "scenario_id": 16456,
+      "name": "直营仓销售-前端客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 8955,
+      "inputs": {
+        "record_marker": "库存回归_1792119142998_946410",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_1_reject",
+        "stock_matrix_key": "152:1:reject",
+        "stock_customer_id": 1083,
+        "stock_customer_type": "1",
+        "stock_supply_marker": "直营仓备货_1792119142998_946410",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          246
+        ],
+        "sales_order": [
+          349,
+          350
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 221,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 221,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 221,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 221,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16481,
+      "flow_id": 16308,
+      "scenario_id": 16457,
+      "name": "直营仓销售-直营商客户审批通过后锁库、确认前库存核对",
+      "status": "success",
+      "duration_ms": 10518,
+      "inputs": {
+        "record_marker": "库存回归_1792119153179_021161",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_pass",
+        "stock_matrix_key": "152:2:pass",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_supply_marker": "直营仓备货_1792119153179_021161",
+        "stock_source_warehouse_id": 152,
+        "stock_confirmation_coverage": "approval_only_missing_target_warehouse_auth",
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed_scoped",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          247
+        ],
+        "sales_order": [
+          351,
+          352
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 222,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 222,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "3.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 222,
+            "quantity": "10.00",
+            "locked_quantity": "3.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 222,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 222,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16482,
+      "flow_id": 16308,
+      "scenario_id": 16458,
+      "name": "直营仓销售-直营商客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 9547,
+      "inputs": {
+        "record_marker": "库存回归_1792119164819_633980",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_2_reject",
+        "stock_matrix_key": "152:2:reject",
+        "stock_customer_id": 1019,
+        "stock_customer_type": "2",
+        "stock_supply_marker": "直营仓备货_1792119164819_633980",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          248
+        ],
+        "sales_order": [
+          353,
+          354
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 236,
+          "product_id": 223,
+          "api_before": null,
+          "database_now": null,
+          "matches": true
+        },
+        {
+          "warehouse_id": 152,
+          "product_id": 223,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 223,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 223,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 223,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16483,
+      "flow_id": 16308,
+      "scenario_id": 16459,
+      "name": "直营仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "status": "success",
+      "duration_ms": 10586,
+      "inputs": {
+        "record_marker": "库存回归_1792119176175_410977",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_pass",
+        "stock_matrix_key": "152:3:pass",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_supply_marker": "直营仓备货_1792119176175_410977",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          249
+        ],
+        "sales_order": [
+          355,
+          356
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 224,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 224,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 224,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 224,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16484,
+      "flow_id": 16308,
+      "scenario_id": 16460,
+      "name": "直营仓销售-KOL客户审批拒绝不占库存",
+      "status": "success",
+      "duration_ms": 9174,
+      "inputs": {
+        "record_marker": "库存回归_1792119187697_932552",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_direct_customer_3_reject",
+        "stock_matrix_key": "152:3:reject",
+        "stock_customer_id": 1035,
+        "stock_customer_type": "3",
+        "stock_supply_marker": "直营仓备货_1792119187697_932552",
+        "stock_source_warehouse_id": 152,
+        "stock_source_warehouse_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-direct-remaining-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          250
+        ],
+        "sales_order": [
+          357,
+          358
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 152,
+          "product_id": 225,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 152,
+            "product_id": 225,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 225,
+          "api_before": {
+            "quantity": "0.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 225,
+            "quantity": "0.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16485,
+      "flow_id": 16308,
+      "scenario_id": 16313,
+      "name": "场景4-销售审批前不锁库、审批后按确认流程核对库存",
+      "status": "success",
+      "duration_ms": 4970,
+      "inputs": {
+        "record_marker": "库存回归_1792119227092_578613",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_approve"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          251
+        ],
+        "sales_order": [
+          359
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 226,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 226,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16486,
+      "flow_id": 16308,
+      "scenario_id": 16315,
+      "name": "场景5-审批后售罄锁库、可用0时追加销售应拒绝",
+      "status": "failed",
+      "duration_ms": 4673,
+      "inputs": {
+        "record_marker": "库存回归_1792119233230_831241",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "sales2_zero_available",
+        "name": "审批后锁库且可用为0时追加销售应拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          252
+        ],
+        "sales_order": [
+          360
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 227,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 227,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 227,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 227,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16487,
+      "flow_id": 16308,
+      "scenario_id": 16316,
+      "name": "补充-多个待审订单不锁库、审批时不得超卖",
+      "status": "failed",
+      "duration_ms": 5764,
+      "inputs": {
+        "record_marker": "库存回归_1792119240371_177704",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "pending_conflict",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "sales2_conflict_approve",
+        "name": "其他订单已锁库后审批不得超卖",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          253
+        ],
+        "sales_order": [
+          361,
+          362
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 228,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "7.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 228,
+            "quantity": "10.00",
+            "locked_quantity": "7.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 228,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "7.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 228,
+            "quantity": "10.00",
+            "locked_quantity": "7.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16488,
+      "flow_id": 16308,
+      "scenario_id": 16318,
+      "name": "补充-销售重复确认不得重复扣库存",
+      "status": "failed",
+      "duration_ms": 6163,
+      "inputs": {
+        "record_marker": "库存回归_1792119247191_964610",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "confirm_repeat"
+      },
+      "failure": {
+        "node": "receipt_confirm_again",
+        "name": "重复确认不得重复扣减库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          254
+        ],
+        "sales_order": [
+          363
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 229,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 229,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 229,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 229,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16489,
+      "flow_id": 16322,
+      "scenario_id": 16325,
+      "name": "正常-原销售单已发货后部分退货、确认入库",
+      "status": "success",
+      "duration_ms": 8591,
+      "inputs": {
+        "record_marker": "库存回归_1792119256327_149686",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "order_partial"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          255
+        ],
+        "sales_order": [
+          364
+        ],
+        "return_order": [
+          148
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 230,
+          "api_before": {
+            "quantity": "8.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 230,
+            "quantity": "8.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16490,
+      "flow_id": 16322,
+      "scenario_id": 16326,
+      "name": "边界-原销售数量全部退回",
+      "status": "success",
+      "duration_ms": 8460,
+      "inputs": {
+        "record_marker": "库存回归_1792119266026_922283",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "order_full"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          256
+        ],
+        "sales_order": [
+          365
+        ],
+        "return_order": [
+          149
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 231,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 231,
+            "quantity": "10.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16491,
+      "flow_id": 16322,
+      "scenario_id": 16329,
+      "name": "异常-重复退货累计数量超过可退余额",
+      "status": "failed",
+      "duration_ms": 10166,
+      "inputs": {
+        "record_marker": "库存回归_1792119275708_970307",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "cumulative_over"
+      },
+      "failure": {
+        "node": "return2_over_remaining",
+        "name": "累计退货不得超过原销售可退数量",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          257
+        ],
+        "sales_order": [
+          366
+        ],
+        "return_order": [
+          150
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 232,
+          "api_before": {
+            "quantity": "9.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 232,
+            "quantity": "9.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 232,
+          "api_before": {
+            "quantity": "9.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 232,
+            "quantity": "9.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16492,
+      "flow_id": 16322,
+      "scenario_id": 16336,
+      "name": "异常-退货数量大于原销售数量，库存不变",
+      "status": "failed",
+      "duration_ms": 5563,
+      "inputs": {
+        "record_marker": "库存回归_1792119287016_042019",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "over_return"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          258
+        ],
+        "sales_order": [
+          367
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 233,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 233,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 233,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 233,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16493,
+      "flow_id": 16322,
+      "scenario_id": 16337,
+      "name": "异常-明细不属于原销售订单，库存不变",
+      "status": "failed",
+      "duration_ms": 5553,
+      "inputs": {
+        "record_marker": "库存回归_1792119293593_073712",
+        "stock_flow_key": "return",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "wrong_sales_item"
+      },
+      "failure": {
+        "node": "return_invalid_create",
+        "name": "异常退货必须被业务校验拒绝",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "订单退货必须关联原订单明细",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "订单退货必须关联原订单明细"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          259
+        ],
+        "sales_order": [
+          368
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 234,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 234,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 234,
+          "api_before": {
+            "quantity": "7.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 234,
+            "quantity": "7.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16494,
+      "flow_id": 16344,
+      "scenario_id": 16358,
+      "name": "异常-审批后部分锁库、不得超可用量转换",
+      "status": "failed",
+      "duration_ms": 7125,
+      "inputs": {
+        "record_marker": "库存回归_1792119301525_693999",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "locked_8",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品可用库存不足，当前可用：2.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品可用库存不足，当前可用：2.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          260,
+          261
+        ],
+        "sales_order": [
+          369
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 235,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 235,
+            "quantity": "10.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 236,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 236,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 235,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 235,
+            "quantity": "10.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 236,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 236,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16495,
+      "flow_id": 16344,
+      "scenario_id": 16359,
+      "name": "异常-审批后全部锁库、可用0时不得转换",
+      "status": "failed",
+      "duration_ms": 6575,
+      "inputs": {
+        "record_marker": "库存回归_1792119309872_361336",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "locked_10",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "failure": {
+        "node": "convert",
+        "name": "转换本场景整件与散瓶库存",
+        "error": null,
+        "http_status": 200,
+        "business_code": 500,
+        "message": "转出商品可用库存不足，当前可用：0.00",
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "passed": false,
+            "expected": "validation",
+            "actual": {
+              "http_status": 200,
+              "code": 500
+            },
+            "message": "转出商品可用库存不足，当前可用：0.00"
+          }
+        ]
+      },
+      "category": "business_rejection_code_contract",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          262,
+          263
+        ],
+        "sales_order": [
+          370
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 237,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 237,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 238,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 238,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ],
+      "rejection_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 237,
+          "api_before": {
+            "quantity": "10.0",
+            "locked_quantity": "10.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 237,
+            "quantity": "10.00",
+            "locked_quantity": "10.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 238,
+          "api_before": {
+            "quantity": "2.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 238,
+            "quantity": "2.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    },
+    {
+      "batch_id": 16496,
+      "flow_id": 16344,
+      "scenario_id": 16360,
+      "name": "边界-审批后仅转换未锁定部分、保留锁定库存",
+      "status": "success",
+      "duration_ms": 6807,
+      "inputs": {
+        "record_marker": "库存回归_1792119317503_544032",
+        "stock_flow_key": "convert",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "partial_lock_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      },
+      "category": "passed",
+      "label": "postapproval-regression-1016",
+      "order_ids": {
+        "purchase_in_order": [
+          264,
+          265
+        ],
+        "sales_order": [
+          371
+        ]
+      },
+      "database_stock_checks": [
+        {
+          "warehouse_id": 230,
+          "product_id": 239,
+          "api_before": {
+            "quantity": "8.0",
+            "locked_quantity": "8.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 239,
+            "quantity": "8.00",
+            "locked_quantity": "8.00"
+          },
+          "matches": true
+        },
+        {
+          "warehouse_id": 230,
+          "product_id": 240,
+          "api_before": {
+            "quantity": "50.0",
+            "locked_quantity": "0.0"
+          },
+          "database_now": {
+            "warehouse_id": 230,
+            "product_id": 240,
+            "quantity": "50.00",
+            "locked_quantity": "0.00"
+          },
+          "matches": true
+        }
+      ]
+    }
+  ],
+  "stocks": [
+    {
+      "warehouse_id": 230,
+      "product_id": 202,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 203,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 204,
+      "quantity": "10.00",
+      "locked_quantity": "3.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 205,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 206,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 207,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 208,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 208,
+      "quantity": "3.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 209,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 210,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 211,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 213,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 213,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 214,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 214,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 215,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 215,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 216,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 216,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 217,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 217,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 218,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 218,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 219,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 219,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 220,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 220,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 221,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 221,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 222,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 222,
+      "quantity": "10.00",
+      "locked_quantity": "3.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 223,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 223,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 224,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 224,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 225,
+      "quantity": "0.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 152,
+      "product_id": 225,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 226,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 227,
+      "quantity": "10.00",
+      "locked_quantity": "10.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 228,
+      "quantity": "10.00",
+      "locked_quantity": "7.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 229,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 230,
+      "quantity": "8.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 231,
+      "quantity": "10.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 232,
+      "quantity": "9.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 233,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 234,
+      "quantity": "7.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 235,
+      "quantity": "10.00",
+      "locked_quantity": "8.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 236,
+      "quantity": "2.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 237,
+      "quantity": "10.00",
+      "locked_quantity": "10.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 238,
+      "quantity": "2.00",
+      "locked_quantity": "0.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 239,
+      "quantity": "8.00",
+      "locked_quantity": "8.00"
+    },
+    {
+      "warehouse_id": 230,
+      "product_id": 240,
+      "quantity": "50.00",
+      "locked_quantity": "0.00"
+    }
+  ],
+  "orders": {
+    "sales_order": [
+      {
+        "order_id": 323,
+        "order_no": "SO20261016000001",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1888
+      },
+      {
+        "order_id": 324,
+        "order_no": "SO20261016000002",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1890
+      },
+      {
+        "order_id": 325,
+        "order_no": "SO20261016000003",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "3",
+        "approval_instance_id": 1892
+      },
+      {
+        "order_id": 326,
+        "order_no": "SO20261016000004",
+        "customer_id": 1035,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1894
+      },
+      {
+        "order_id": 327,
+        "order_no": "SO20261016000005",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1896
+      },
+      {
+        "order_id": 328,
+        "order_no": "SO20261016000006",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1898
+      },
+      {
+        "order_id": 329,
+        "order_no": "SO20261016000007",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1900
+      },
+      {
+        "order_id": 330,
+        "order_no": "SO20261016000008",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1902
+      },
+      {
+        "order_id": 331,
+        "order_no": "SO20261016000009",
+        "customer_id": 1035,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1904
+      },
+      {
+        "order_id": 332,
+        "order_no": "SO20261016000010",
+        "customer_id": 1035,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1906
+      },
+      {
+        "order_id": 333,
+        "order_no": "SO20261016000011",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1908
+      },
+      {
+        "order_id": 335,
+        "order_no": "SO20261016000013",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1911
+      },
+      {
+        "order_id": 337,
+        "order_no": "SO20261016000015",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1914
+      },
+      {
+        "order_id": 339,
+        "order_no": "SO20261016000017",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1917
+      },
+      {
+        "order_id": 341,
+        "order_no": "SO20261016000019",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1920
+      },
+      {
+        "order_id": 343,
+        "order_no": "SO20261016000021",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1923
+      },
+      {
+        "order_id": 345,
+        "order_no": "SO20261016000023",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1926
+      },
+      {
+        "order_id": 346,
+        "order_no": "SO20261016000024",
+        "customer_id": 1083,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "2",
+        "approval_instance_id": 1927
+      },
+      {
+        "order_id": 347,
+        "order_no": "SO20261016000025",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1929
+      },
+      {
+        "order_id": 348,
+        "order_no": "SO20261016000026",
+        "customer_id": 1083,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1930
+      },
+      {
+        "order_id": 349,
+        "order_no": "SO20261016000027",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1932
+      },
+      {
+        "order_id": 350,
+        "order_no": "SO20261016000028",
+        "customer_id": 1083,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1933
+      },
+      {
+        "order_id": 351,
+        "order_no": "SO20261016000029",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1935
+      },
+      {
+        "order_id": 352,
+        "order_no": "SO20261016000030",
+        "customer_id": 1019,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "3",
+        "approval_instance_id": 1936
+      },
+      {
+        "order_id": 353,
+        "order_no": "SO20261016000031",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1938
+      },
+      {
+        "order_id": 354,
+        "order_no": "SO20261016000032",
+        "customer_id": 1019,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1939
+      },
+      {
+        "order_id": 355,
+        "order_no": "SO20261016000033",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1941
+      },
+      {
+        "order_id": 356,
+        "order_no": "SO20261016000034",
+        "customer_id": 1035,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1942
+      },
+      {
+        "order_id": 357,
+        "order_no": "SO20261016000035",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "5",
+        "approval_instance_id": 1944
+      },
+      {
+        "order_id": 358,
+        "order_no": "SO20261016000036",
+        "customer_id": 1035,
+        "warehouse_id": 152,
+        "total_quantity": "3.00",
+        "order_status": "4",
+        "approval_instance_id": 1945
+      },
+      {
+        "order_id": 359,
+        "order_no": "SO20261016000037",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1947
+      },
+      {
+        "order_id": 360,
+        "order_no": "SO20261016000038",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "3",
+        "approval_instance_id": 1949
+      },
+      {
+        "order_id": 361,
+        "order_no": "SO20261016000039",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "7.00",
+        "order_status": "3",
+        "approval_instance_id": 1951
+      },
+      {
+        "order_id": 362,
+        "order_no": "SO20261016000040",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "7.00",
+        "order_status": "2",
+        "approval_instance_id": 1952
+      },
+      {
+        "order_id": 363,
+        "order_no": "SO20261016000041",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1954
+      },
+      {
+        "order_id": 364,
+        "order_no": "SO20261016000042",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1956
+      },
+      {
+        "order_id": 365,
+        "order_no": "SO20261016000043",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1959
+      },
+      {
+        "order_id": 366,
+        "order_no": "SO20261016000044",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1962
+      },
+      {
+        "order_id": 367,
+        "order_no": "SO20261016000045",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1965
+      },
+      {
+        "order_id": 368,
+        "order_no": "SO20261016000046",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "order_status": "5",
+        "approval_instance_id": 1967
+      },
+      {
+        "order_id": 369,
+        "order_no": "SO20261016000047",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "8.00",
+        "order_status": "3",
+        "approval_instance_id": 1970
+      },
+      {
+        "order_id": 370,
+        "order_no": "SO20261016000048",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "3",
+        "approval_instance_id": 1973
+      },
+      {
+        "order_id": 371,
+        "order_no": "SO20261016000049",
+        "customer_id": 756,
+        "warehouse_id": 230,
+        "total_quantity": "8.00",
+        "order_status": "3",
+        "approval_instance_id": 1976
+      }
+    ],
+    "return_order": [
+      {
+        "return_id": 148,
+        "return_no": "TH202610160001",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "1.00",
+        "return_status": "5",
+        "approval_instance_id": 1957
+      },
+      {
+        "return_id": 149,
+        "return_no": "TH202610160002",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "3.00",
+        "return_status": "5",
+        "approval_instance_id": 1960
+      },
+      {
+        "return_id": 150,
+        "return_no": "TH202610160003",
+        "customer_id": 1083,
+        "warehouse_id": 230,
+        "total_quantity": "2.00",
+        "return_status": "5",
+        "approval_instance_id": 1963
+      }
+    ],
+    "purchase_in_order": [
+      {
+        "order_id": 228,
+        "order_no": "PO20261016000001",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1887
+      },
+      {
+        "order_id": 229,
+        "order_no": "PO20261016000002",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1889
+      },
+      {
+        "order_id": 230,
+        "order_no": "PO20261016000003",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1891
+      },
+      {
+        "order_id": 231,
+        "order_no": "PO20261016000004",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1893
+      },
+      {
+        "order_id": 232,
+        "order_no": "PO20261016000005",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1895
+      },
+      {
+        "order_id": 233,
+        "order_no": "PO20261016000006",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1897
+      },
+      {
+        "order_id": 234,
+        "order_no": "PO20261016000007",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1899
+      },
+      {
+        "order_id": 235,
+        "order_no": "PO20261016000008",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1901
+      },
+      {
+        "order_id": 236,
+        "order_no": "PO20261016000009",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1903
+      },
+      {
+        "order_id": 237,
+        "order_no": "PO20261016000010",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1905
+      },
+      {
+        "order_id": 238,
+        "order_no": "PO20261016000011",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1907
+      },
+      {
+        "order_id": 239,
+        "order_no": "PO20261016000012",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1910
+      },
+      {
+        "order_id": 240,
+        "order_no": "PO20261016000013",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1913
+      },
+      {
+        "order_id": 241,
+        "order_no": "PO20261016000014",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1916
+      },
+      {
+        "order_id": 242,
+        "order_no": "PO20261016000015",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1919
+      },
+      {
+        "order_id": 243,
+        "order_no": "PO20261016000016",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1922
+      },
+      {
+        "order_id": 244,
+        "order_no": "PO20261016000017",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1925
+      },
+      {
+        "order_id": 245,
+        "order_no": "PO20261016000018",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1928
+      },
+      {
+        "order_id": 246,
+        "order_no": "PO20261016000019",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1931
+      },
+      {
+        "order_id": 247,
+        "order_no": "PO20261016000020",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1934
+      },
+      {
+        "order_id": 248,
+        "order_no": "PO20261016000021",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1937
+      },
+      {
+        "order_id": 249,
+        "order_no": "PO20261016000022",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1940
+      },
+      {
+        "order_id": 250,
+        "order_no": "PO20261016000023",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1943
+      },
+      {
+        "order_id": 251,
+        "order_no": "PO20261016000024",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1946
+      },
+      {
+        "order_id": 252,
+        "order_no": "PO20261016000025",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1948
+      },
+      {
+        "order_id": 253,
+        "order_no": "PO20261016000026",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1950
+      },
+      {
+        "order_id": 254,
+        "order_no": "PO20261016000027",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1953
+      },
+      {
+        "order_id": 255,
+        "order_no": "PO20261016000028",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1955
+      },
+      {
+        "order_id": 256,
+        "order_no": "PO20261016000029",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1958
+      },
+      {
+        "order_id": 257,
+        "order_no": "PO20261016000030",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1961
+      },
+      {
+        "order_id": 258,
+        "order_no": "PO20261016000031",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1964
+      },
+      {
+        "order_id": 259,
+        "order_no": "PO20261016000032",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1966
+      },
+      {
+        "order_id": 260,
+        "order_no": "PO20261016000033",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1968
+      },
+      {
+        "order_id": 261,
+        "order_no": "PO20261016000034",
+        "warehouse_id": 230,
+        "total_quantity": "2.00",
+        "order_status": "4",
+        "approval_instance_id": 1969
+      },
+      {
+        "order_id": 262,
+        "order_no": "PO20261016000035",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1971
+      },
+      {
+        "order_id": 263,
+        "order_no": "PO20261016000036",
+        "warehouse_id": 230,
+        "total_quantity": "2.00",
+        "order_status": "4",
+        "approval_instance_id": 1972
+      },
+      {
+        "order_id": 264,
+        "order_no": "PO20261016000037",
+        "warehouse_id": 230,
+        "total_quantity": "10.00",
+        "order_status": "4",
+        "approval_instance_id": 1974
+      },
+      {
+        "order_id": 265,
+        "order_no": "PO20261016000038",
+        "warehouse_id": 230,
+        "total_quantity": "2.00",
+        "order_status": "4",
+        "approval_instance_id": 1975
+      }
+    ]
+  },
+  "sales_receipts": [
+    {
+      "inbound_id": 316,
+      "source_type": "1",
+      "source_id": 323,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:34:10",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 317,
+      "source_type": "1",
+      "source_id": 325,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 318,
+      "source_type": "1",
+      "source_id": 326,
+      "customer_type": "3",
+      "customer_id": 1035,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:34:27",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 319,
+      "source_type": "1",
+      "source_id": 327,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:40:38",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 320,
+      "source_type": "1",
+      "source_id": 329,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "3.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:40:53",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 321,
+      "source_type": "1",
+      "source_id": 331,
+      "customer_type": "3",
+      "customer_id": 1035,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:41:04",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 322,
+      "source_type": "1",
+      "source_id": 333,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:44:28",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 323,
+      "source_type": "1",
+      "source_id": 335,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:44:35",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 324,
+      "source_type": "1",
+      "source_id": 337,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:44:44",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 325,
+      "source_type": "1",
+      "source_id": 339,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:44:53",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 326,
+      "source_type": "1",
+      "source_id": 341,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:45:01",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 327,
+      "source_type": "1",
+      "source_id": 343,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:45:09",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 328,
+      "source_type": "1",
+      "source_id": 345,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:47:45",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 329,
+      "source_type": "1",
+      "source_id": 347,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:51:51",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 330,
+      "source_type": "1",
+      "source_id": 348,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 152,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:51:54",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 331,
+      "source_type": "1",
+      "source_id": 349,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:52:30",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 332,
+      "source_type": "1",
+      "source_id": 351,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:52:41",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 333,
+      "source_type": "1",
+      "source_id": 352,
+      "customer_type": "2",
+      "customer_id": 1019,
+      "warehouse_id": 152,
+      "target_warehouse_id": 236,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 334,
+      "source_type": "1",
+      "source_id": 353,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:52:52",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 335,
+      "source_type": "1",
+      "source_id": 355,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:53:04",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 336,
+      "source_type": "1",
+      "source_id": 356,
+      "customer_type": "3",
+      "customer_id": 1035,
+      "warehouse_id": 152,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:53:06",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 337,
+      "source_type": "1",
+      "source_id": 357,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "1",
+      "inbound_time": "2026-10-16 10:53:15",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 338,
+      "source_type": "1",
+      "source_id": 359,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:53:52",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 339,
+      "source_type": "1",
+      "source_id": 360,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 340,
+      "source_type": "1",
+      "source_id": 361,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "7.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 341,
+      "source_type": "1",
+      "source_id": 363,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:13",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 342,
+      "source_type": "1",
+      "source_id": 364,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:21",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 344,
+      "source_type": "1",
+      "source_id": 365,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:31",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 346,
+      "source_type": "1",
+      "source_id": 366,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:41",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 348,
+      "source_type": "1",
+      "source_id": 367,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:52",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 349,
+      "source_type": "1",
+      "source_id": 368,
+      "customer_type": "1",
+      "customer_id": 1083,
+      "warehouse_id": 230,
+      "target_warehouse_id": null,
+      "total_quantity": "3.00",
+      "inbound_status": "2",
+      "inbound_time": "2026-10-16 10:54:59",
+      "confirmed_by_present": 1
+    },
+    {
+      "inbound_id": 350,
+      "source_type": "1",
+      "source_id": 369,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "8.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 351,
+      "source_type": "1",
+      "source_id": 370,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "10.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    },
+    {
+      "inbound_id": 352,
+      "source_type": "1",
+      "source_id": 371,
+      "customer_type": "2",
+      "customer_id": 756,
+      "warehouse_id": 230,
+      "target_warehouse_id": 152,
+      "total_quantity": "8.00",
+      "inbound_status": "2",
+      "inbound_time": null,
+      "confirmed_by_present": 0
+    }
+  ],
+  "historical_expectation_error": {
+    "batch_id": 16417,
+    "defect_withdrawn": true,
+    "raw_result_unchanged": true
+  }
+}

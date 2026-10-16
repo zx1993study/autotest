@@ -1,0 +1,238 @@
+{
+  "flow": {
+    "id": 15817,
+    "name": "[业务回归] 活动申请",
+    "project_id": 10,
+    "description": "新增不返回申请 ID，当前活动模板不保存备注；增删场景停用，确认可靠归属方案后再启用。无申请编辑接口。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。",
+    "status": "active",
+    "data": {
+      "version": 1,
+      "inputs": {
+        "module_key": "activity_apply",
+        "campaign_key": "waiqin-crud-20261015",
+        "record_marker": "活动申请测试_{{timestamp_ms}}_{{random_digits:6}}",
+        "updated_marker": "活动申请维护_{{timestamp_ms}}_{{random_digits:6}}"
+      },
+      "nodes": [
+        {
+          "key": "create",
+          "name": "新增独立测试数据",
+          "api_id": 12126,
+          "case_id": 373,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "locate",
+          "name": "列表查询并安全定位本次数据",
+          "api_id": 12121,
+          "case_id": 374,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [],
+          "extracts": [
+            {
+              "name": "owned_id",
+              "source": "body",
+              "path": "/rows/0/applyId",
+              "mode": "single",
+              "paths": [],
+              "required": true,
+              "sensitive": false
+            }
+          ],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "detail",
+          "name": "详情查询与数据归属校验",
+          "api_id": 12129,
+          "case_id": 375,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/apply_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "delete",
+          "name": "删除本流程创建的数据",
+          "api_id": 12127,
+          "case_id": 376,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/apply_ids",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        },
+        {
+          "key": "verify_delete",
+          "name": "查询确认数据已删除",
+          "api_id": 12129,
+          "case_id": 377,
+          "auth_id": 10015,
+          "params": {},
+          "request": {},
+          "request_removals": [],
+          "bindings": [
+            {
+              "source": "locate",
+              "name": "owned_id",
+              "target": "params",
+              "path": "/apply_id",
+              "target_name": "",
+              "prefix": ""
+            }
+          ],
+          "extracts": [],
+          "routes": [],
+          "next": "auto"
+        }
+      ]
+    },
+    "created_at": "2026-10-15T10:45:02",
+    "updated_at": "2026-10-15T10:45:02",
+    "deleted": false
+  },
+  "scenarios": [
+    {
+      "id": 15819,
+      "name": "列表查询（不修改数据）",
+      "project_id": 10,
+      "description": "新增不返回申请 ID，当前活动模板不保存备注；增删场景停用，确认可靠归属方案后再启用。无申请编辑接口。",
+      "status": "active",
+      "data": {
+        "nodes": {
+          "create": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "detail": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          },
+          "locate": {
+            "mode": "always",
+            "params": {
+              "pageSize": 10
+            },
+            "case_id": null,
+            "request": {},
+            "bindings": [],
+            "extracts": [],
+            "condition": null,
+            "assertions": [
+              {
+                "type": "status",
+                "expected": 200
+              },
+              {
+                "path": "/code",
+                "type": "json_pointer",
+                "expected": 200
+              }
+            ],
+            "request_removals": [
+              "/params/remark"
+            ]
+          },
+          "verify_delete": {
+            "mode": "skip",
+            "params": {},
+            "case_id": null,
+            "request": {},
+            "bindings": null,
+            "extracts": null,
+            "condition": null,
+            "assertions": null,
+            "request_removals": []
+          }
+        },
+        "inputs": {},
+        "flow_id": 15817,
+        "expected_end": "locate",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:45:04",
+      "updated_at": "2026-10-15T10:45:04",
+      "deleted": false
+    },
+    {
+      "id": 15818,
+      "name": "新增查询删除闭环",
+      "project_id": 10,
+      "description": "新增不返回申请 ID，当前活动模板不保存备注；增删场景停用，确认可靠归属方案后再启用。无申请编辑接口。",
+      "status": "disabled",
+      "data": {
+        "nodes": {},
+        "inputs": {},
+        "flow_id": 15817,
+        "expected_end": "verify_delete",
+        "failure_policy": "stop",
+        "template_version": 1
+      },
+      "created_at": "2026-10-15T10:45:03",
+      "updated_at": "2026-10-15T10:45:03",
+      "deleted": false
+    }
+  ]
+}

@@ -7,6 +7,7 @@ from app.core.exceptions import BusinessRuleError
 from app.repositories.interfaces import ResourceRepository
 from app.services.ai_secret_service import AiSecretService
 from app.services.resource_service import ResourceService
+from app.utils.model_api_request import model_protocol
 
 
 class AiModelResourceService(ResourceService):
@@ -92,6 +93,10 @@ class AiModelResourceService(ResourceService):
     def _prepare_payload(self, payload: dict[str, Any], item_id: int | None = None) -> dict[str, Any]:
         copied = dict(payload)
         data = dict(copied.get("data") or {})
+        try:
+            model_protocol(data)
+        except ValueError as exc:
+            raise BusinessRuleError("不支持的 AI 调用协议") from exc
         api_key = data.pop("api_key", None)
         if isinstance(api_key, str) and api_key.strip():
             secret_name = self._secret_name(copied, item_id)
