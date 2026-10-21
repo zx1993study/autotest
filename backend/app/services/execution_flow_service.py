@@ -70,17 +70,25 @@ class ExecutionFlowService(ResourceService):
         return copied
 
     def delete(self, item_id):
-        from app.services.api_flow_run_service import ApiFlowRunService
-        ApiFlowRunService(self.repository).list_for_flow(item_id)
-        batches, _ = self.repository.list("api_flow_runs", page_size=10000, data_filters={"flow_id": item_id})
-        if any(row["status"] in {"queued", "running"} for row in batches):
-            raise BusinessRuleError("流程正在执行，请先取消并等待结束")
-        scenes, _ = self.repository.list("api_flow_scenarios", page_size=10000, data_filters={"flow_id": item_id})
-        self.repository.batch_delete("api_flow_scenarios", [row["id"] for row in scenes])
-        return super().delete(item_id)
+        self.get(item_id)
+        if not self.batch_delete([item_id])["deleted_count"]:
+            return super().delete(item_id)
+        return True
 
     def batch_delete(self, ids):
-        return {"deleted_count": sum(int(self.delete(item_id)) for item_id in ids)}
+        from app.scheduler.jobs.api_flow_jobs import is_batch_active
+        from app.services.api_flow_run_service import ApiFlowRunService
+
+        existing = self.repository.get_many(self.table, list(dict.fromkeys(ids)))
+        flow_ids = [row["id"] for row in existing]
+        if not flow_ids:
+            return {"deleted_count": 0}
+        batches = self.repository.get_related("api_flow_runs", "flow_id", flow_ids, ["queued", "running"])
+        if any(is_batch_active(row["id"]) for row in batches):
+            raise BusinessRuleError("流程正在执行，请先取消并等待结束")
+        ApiFlowRunService(self.repository).interrupt_many(batches)
+        count = self.repository.batch_delete_with_children(self.table, flow_ids, "api_flow_scenarios", "flow_id")
+        return {"deleted_count": count}
 
     def _project(self, project_id):
         if not project_id or not self.repository.get("projects", project_id):

@@ -1,0 +1,52 @@
+{
+  "case_id": 96,
+  "feature_id": 20061,
+  "name": "CASE BELI-PERM-L0-PAGE 固定L0账号能看到待审核奖励入口但不提交",
+  "task_id": 21413,
+  "status": "success",
+  "records": [
+    {
+      "id": 21414,
+      "status": "success",
+      "error": null,
+      "step_count": 10,
+      "business_result": "passed",
+      "assertion_count": 4,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": "h1:text-is(\"贝利\")",
+          "step": 6,
+          "actual": "贝利",
+          "passed": true,
+          "locator": "h1:text-is(\"贝利\")",
+          "expected": "贝利"
+        },
+        {
+          "name": ".beli-tabs button:text-is(\"工作日历\")",
+          "step": 9,
+          "actual": "工作日历",
+          "passed": true,
+          "locator": ".beli-tabs button:text-is(\"工作日历\")",
+          "expected": "工作日历"
+        },
+        {
+          "name": ".beli-table-wrap tr:has(button:text-is(\"审核\")) >> nth=0",
+          "step": 10,
+          "actual": "test_requset_leave\n回归-1792557294004 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\n审核",
+          "passed": true,
+          "locator": ".beli-table-wrap tr:has(button:text-is(\"审核\")) >> nth=0",
+          "expected": "审核"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/beli"
+    }
+  ]
+}

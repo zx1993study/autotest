@@ -1,0 +1,550 @@
+.dev-progress-page {
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #dbe3ef;
+    --panel: #ffffff;
+    --brand: #0ea5e9;
+}
+
+.dev-progress-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.dev-progress-actions {
+    display: inline-flex;
+    gap: 8px;
+}
+
+.dev-progress-back,
+.dev-progress-refresh {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 0 12px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--ink);
+}
+
+.dev-progress-primary {
+    border: 1px solid #0f172a;
+    background: #0f172a;
+    color: #fff;
+    border-radius: 10px;
+    padding: 0 12px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.dev-progress-refresh:disabled,
+.dev-progress-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dev-progress-hero {
+    border-radius: 16px;
+    padding: 20px 22px;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 16px;
+    background: linear-gradient(130deg, #0b1d3a, #0369a1);
+}
+
+.dev-progress-kicker {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.72;
+}
+
+.dev-progress-hero h1 {
+    margin: 6px 0 8px;
+    font-size: 28px;
+}
+
+.dev-progress-subtitle {
+    margin: 0;
+    opacity: 0.92;
+}
+
+.dev-progress-meter {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    padding: 14px;
+}
+
+.dev-progress-percent {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.dev-progress-track {
+    margin-top: 10px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.dev-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22d3ee, #67e8f9);
+}
+
+.dev-progress-caption {
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.dev-progress-banner {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #bae6fd;
+    background: #f0f9ff;
+    color: #0c4a6e;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+
+.dev-progress-stats {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.dev-stat-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.dev-stat-card span {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.dev-stat-card strong {
+    font-size: 20px;
+}
+
+.dev-view-toggle {
+    margin-top: 16px;
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dev-view-toggle button {
+    border: none;
+    background: #fff;
+    color: var(--muted);
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+.dev-view-toggle button.active {
+    background: #0f172a;
+    color: #fff;
+}
+
+.dev-batch-panel {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.dev-batch-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dev-batch-title em {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    padding: 3px 8px;
+    border: 1px solid #dbe3ef;
+    border-radius: 999px;
+    background: #fff;
+}
+
+.dev-batch-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dev-batch-select {
+    min-width: 220px;
+    height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0 10px;
+    background: #fff;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.dev-table-wrap {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    overflow: auto;
+}
+
+.dev-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+}
+
+.dev-table thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fbff;
+    z-index: 1;
+}
+
+.dev-table th,
+.dev-table td {
+    border-bottom: 1px solid #edf2f7;
+    text-align: left;
+    font-size: 13px;
+    padding: 10px 12px;
+}
+
+.group-row td {
+    background: #f8fbff;
+    border-bottom: 1px solid #e7edf5;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.group-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.group-count {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.dev-table select {
+    min-width: 120px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px 7px;
+    font-size: 12px;
+}
+
+.dev-table input[type="date"] {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px 7px;
+    font-size: 12px;
+}
+
+.dev-edit-btn {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.dev-edit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.task-title {
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+.status-tag {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-open { background: #eff6ff; color: #2563eb; }
+.status-in_progress { background: #fff7ed; color: #c2410c; }
+.status-pending_review { background: #f5f3ff; color: #6d28d9; }
+.status-done { background: #ecfdf5; color: #059669; }
+.status-blocked { background: #fef2f2; color: #dc2626; }
+.status-dismissed { background: #f8fafc; color: #64748b; }
+
+.row-progress {
+    height: 7px;
+    width: 120px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.row-progress div {
+    height: 100%;
+    background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+}
+
+.gantt-wrap {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: 10px;
+}
+
+.gantt-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.gantt-list {
+    display: grid;
+    gap: 8px;
+    max-height: 560px;
+    overflow: auto;
+}
+
+.gantt-group {
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    background: #fff;
+    padding: 6px;
+}
+
+.gantt-group-head {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #0f172a;
+    cursor: pointer;
+    padding: 2px 4px 6px;
+}
+
+.gantt-group-head span {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.gantt-row {
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.gantt-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.gantt-meta strong {
+    font-size: 13px;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gantt-meta span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.gantt-track {
+    height: 12px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    overflow: hidden;
+}
+
+.gantt-bar {
+    height: 100%;
+    border-radius: 999px;
+    display: flex;
+    align-items: stretch;
+}
+
+.gantt-bar i {
+    display: block;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.42);
+}
+
+.dev-progress-loading,
+.dev-progress-error {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.dev-progress-page .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+}
+
+.dev-progress-page .modal-content {
+    width: min(680px, 92vw);
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #dbe3ef;
+}
+
+.dev-progress-page .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dev-progress-page .modal-header h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.dev-progress-page .modal-close-btn {
+    border: none;
+    background: transparent;
+    color: #334155;
+    cursor: pointer;
+}
+
+.dev-progress-page .modal-body {
+    padding: 14px;
+}
+
+.dev-progress-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.dev-progress-page .form-group label {
+    font-size: 12px;
+    color: #475569;
+}
+
+.dev-progress-page .form-group input,
+.dev-progress-page .form-group textarea,
+.dev-progress-page .form-group select {
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.dev-progress-page .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.dev-progress-page .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.dev-progress-page .btn-primary,
+.dev-progress-page .btn-secondary {
+    border-radius: 8px;
+    padding: 7px 12px;
+    border: 1px solid #dbe3ef;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.dev-progress-page .btn-primary {
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+}
+
+.dev-progress-page .btn-secondary {
+    background: #fff;
+    color: #334155;
+}
+
+@media (max-width: 1100px) {
+    .dev-progress-hero { grid-template-columns: 1fr; }
+    .dev-progress-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dev-progress-actions { flex-wrap: wrap; justify-content: flex-end; }
+    .dev-progress-page .form-row { grid-template-columns: 1fr; }
+    .dev-batch-controls { width: 100%; justify-content: flex-end; }
+    .dev-batch-select { min-width: 180px; }
+}

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import ast
+import asyncio
 import re
+import time
 from typing import Any
 
 
@@ -19,11 +21,16 @@ class PlaywrightEngine:
     def __init__(self, page: Any, default_timeout: int = 5000) -> None:
         self.page = page
         self.default_timeout = default_timeout
+        self.last_assertion: dict[str, Any] | None = None
 
     async def execute(self, step: dict[str, Any]) -> None:
         if self._truthy(step.get("skip", step.get("是否跳过"))):
             return
         action = str(step.get("action") or step.get("交互类型") or "click").lower()
+        self.last_assertion = {"locator": step.get("locator"), "expected": step.get("expected"), "actual": None, "passed": False} if action == "assert" else None
+        supported = {"wait", "manual", "fill", "input", "type", "select", "select_option", "multi_select", "multi-select", "check", "checkbox", "uncheck", "dblclick", "double_click", "hover", "assert", "click"}
+        if action not in supported:
+            raise ValueError(f"Unsupported Web action: {action}")
         value = step.get("value", step.get("元素值", step.get("default_value")))
         if action == "wait":
             await self.page.wait_for_timeout(int(value or 1000))
@@ -40,12 +47,18 @@ class PlaywrightEngine:
         await self._perform(locator, step, action, value)
 
     async def execute_selector(self, step: dict[str, Any], selector: str) -> None:
-        locator = self._first(self.page.locator(selector))
+        self.last_assertion = None
         action = str(step.get("action") or step.get("交互类型") or "click").lower()
+        if action in {"wait", "manual", "assert"}:
+            await self.execute(step)
+            return
+        locator = self._first(self.page.locator(selector))
         value = step.get("value", step.get("元素值", step.get("default_value")))
         await self._perform(locator, step, action, value)
 
     async def _perform(self, locator: Any, step: dict[str, Any], action: str, value: Any) -> None:
+        if action not in {"fill", "input", "type", "select", "select_option", "multi_select", "multi-select", "check", "checkbox", "uncheck", "dblclick", "double_click", "hover", "assert", "click"}:
+            raise ValueError(f"Unsupported Web action: {action}")
         await locator.wait_for(state="visible", timeout=self.default_timeout)
         if action in {"fill", "input", "type"}:
             await self._fill(locator, step, value)
@@ -67,12 +80,50 @@ class PlaywrightEngine:
             return
         if action == "assert":
             expected = step.get("expected")
-            if expected is not None:
-                actual = await locator.inner_text()
-                if str(expected) not in actual:
-                    raise AssertionError(f"Expected text {expected!r} was not found")
-            return
+            if expected is None or not str(expected).strip():
+                raise ValueError("Business assertions require a non-empty expected result")
+            deadline = time.monotonic() + self.default_timeout / 1000
+            kind = step.get('assertion_type', 'text')
+            if kind not in {'text', 'input_length', 'within_container'}:
+                raise ValueError(f'Unsupported assertion type: {kind}')
+            if kind != 'text':
+                await locator.scroll_into_view_if_needed()
+            while True:
+                if kind == 'input_length':
+                    actual = len(await locator.input_value())
+                    passed = actual == int(expected)
+                elif kind == 'within_container':
+                    actual = await locator.evaluate("""el => {
+                      const r = el.getBoundingClientRect(), p = el.parentElement.getBoundingClientRect();
+                      const s = getComputedStyle(el), clipped = v => ['hidden','clip','auto','scroll'].includes(v);
+                      const horizontal = el.scrollWidth <= el.clientWidth + 1 || clipped(s.overflowX);
+                      const vertical = el.scrollHeight <= el.clientHeight + 1 || clipped(s.overflowY);
+                      return {clientWidth:el.clientWidth, scrollWidth:el.scrollWidth,
+                        clientHeight:el.clientHeight, scrollHeight:el.scrollHeight,
+                        overflowX:s.overflowX, overflowY:s.overflowY,
+                        contained:r.width > 0 && r.height > 0 && horizontal && vertical &&
+                          r.left >= p.left - 1 && r.right <= p.right + 1 &&
+                          r.left >= -1 && r.right <= innerWidth + 1};
+                    }""")
+                    passed = expected == 'contained' and actual['contained']
+                else:
+                    actual = await locator.inner_text()
+                    passed = str(expected) in actual
+                reported = '[redacted]' if step.get('sensitive_result') else actual
+                self.last_assertion = {"locator": step.get("locator"), "expected": expected, "actual": reported, "passed": passed}
+                if self.last_assertion["passed"]:
+                    return
+                if time.monotonic() >= deadline:
+                    raise AssertionError(f"Assertion {kind}: expected {expected!r}; actual: {reported!r}")
+                await asyncio.sleep(0.1)
         await locator.click()
+
+    def screenshot_masks(self, steps: list[dict[str, Any]]) -> list[Any]:
+        masks = [self.page.locator('input[type="password"], input[autocomplete="one-time-code"], [data-sensitive="true"]')]
+        for step in steps:
+            if step.get('sensitive') or step.get('action') == 'manual' or step.get('mask_in_screenshots'):
+                masks.append(self.locator(step))
+        return masks
 
     async def _fill(self, locator: Any, step: dict[str, Any], value: Any) -> None:
         text = "" if value is None else str(value)
@@ -130,7 +181,7 @@ class PlaywrightEngine:
         if str(meta.get("tag") or "").lower() == "select":
             return True
         role = str(meta.get("role") or "").lower()
-        if role in {"combobox", "listbox"}:
+        if role in {"combobox", "listbox"} and (meta.get("readonly") or str(meta.get("tag") or "").lower() not in {"input", "textarea"}):
             return True
         markers = " ".join(
             str(item or "")
@@ -147,31 +198,41 @@ class PlaywrightEngine:
         )
 
     async def _select(self, locator: Any, value: Any, *, multi: bool, strict: bool = False) -> None:
-        values = [str(item) for item in value] if multi and isinstance(value, list) else [str(value or "")]
+        values = [str(item) for item in value] if multi and isinstance(value, list) else [str(value if value is not None else "")]
+        options_script = "el => el.tagName === 'SELECT' ? Array.from(el.options, o => ({label: o.label, value: o.value})) : null"
         try:
-            await locator.select_option(label=values if multi else values[0])
-            return
+            options = await locator.evaluate(options_script)
         except Exception:
-            pass
-        if strict:
-            try:
-                await locator.select_option(value=values if multi else values[0])
-                return
-            except Exception:
-                pass
+            options = None
+        if isinstance(options, list):
+            deadline = time.monotonic() + self.default_timeout / 1000
+            while True:
+                selected = []
+                for text in values:
+                    matches = [o for o in options if o.get('value') == text]
+                    matches = matches or [o for o in options if o.get('label') == text]
+                    if len(matches) > 1:
+                        raise ValueError(f"Option {text!r} is ambiguous; use its unique value")
+                    if not matches:
+                        break
+                    selected.append(matches[0]['value'])
+                if len(selected) == len(values):
+                    await locator.select_option(value=selected if multi else selected[0])
+                    return
+                if time.monotonic() >= deadline:
+                    raise ValueError(f"Option {values!r} is missing; refusing to select another value")
+                await asyncio.sleep(0.1)
+                options = await locator.evaluate(options_script)
+        if any(not text.strip() for text in values):
+            raise ValueError("Select requires an explicit option; refusing to select the first option")
         await locator.click()
         for text in values:
-            if strict:
-                option = self.page.locator(OPTION_SELECTOR).filter(has_text=re.compile(r"^\s*" + re.escape(text) + r"\s*$"))
-                if not text or await option.count() != 1:
-                    raise ValueError("Option is missing or ambiguous; refusing to select another value")
-                await option.click()
-                continue
-            option = self.page.locator(OPTION_SELECTOR).filter(has_text=text).first if text else self.page.locator(OPTION_SELECTOR).first
-            try:
-                await option.click()
-            except Exception:
-                await self.page.locator(OPTION_SELECTOR).first.click()
+            visible_options = ", ".join(selector.strip() + ":visible" for selector in OPTION_SELECTOR.split(","))
+            option = self.page.locator(visible_options).filter(has_text=re.compile(r"^\s*" + re.escape(text) + r"\s*$"))
+            await option.first.wait_for(state="visible", timeout=self.default_timeout)
+            if await option.count() != 1:
+                raise ValueError(f"Option {text!r} is missing or ambiguous; refusing to select another value")
+            await option.click()
 
     def _strict_locator(self, step: dict[str, Any]) -> Any:
         kind, value = step.get("locator_type"), str(step.get("locator") or "")

@@ -1,0 +1,153 @@
+{
+  "finished_at": "2026-10-16T05:34:29.097392+00:00",
+  "selected": 2,
+  "passed": 2,
+  "failed": 0,
+  "business_mutations": false,
+  "historical_run_16287_unchanged": true,
+  "flow_version_unchanged": true,
+  "results": [
+    {
+      "scene_id": 16206,
+      "run_id": 16529,
+      "status": "success",
+      "latest_run_matches": true,
+      "request_query": {
+        "pageNum": 1,
+        "pageSize": 50,
+        "customerType": "1",
+        "cooperationStatus": "正在合作"
+      },
+      "http_status": 200,
+      "business_code": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "actual": {
+            "count": 35,
+            "mismatched_indices": []
+          },
+          "passed": true,
+          "expected": {
+            "rules": [
+              {
+                "paths": [
+                  "/cooperationStatus"
+                ],
+                "expected": "正在合作",
+                "operator": "tokens"
+              },
+              {
+                "paths": [
+                  "/customerType"
+                ],
+                "expected": "1",
+                "operator": "eq"
+              }
+            ],
+            "min_items": 1
+          }
+        }
+      ]
+    },
+    {
+      "scene_id": 16227,
+      "run_id": 16529,
+      "status": "success",
+      "latest_run_matches": true,
+      "request_query": {
+        "pageNum": 1,
+        "createBy": "1",
+        "pageSize": 50,
+        "managerId": 1,
+        "customerType": "1",
+        "cooperationStatus": "正在合作"
+      },
+      "http_status": 200,
+      "business_code": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_pointer",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "actual": {
+            "count": 11,
+            "mismatched_indices": []
+          },
+          "passed": true,
+          "expected": {
+            "rules": [
+              {
+                "paths": [
+                  "/managerIds"
+                ],
+                "expected": 1,
+                "operator": "tokens"
+              },
+              {
+                "paths": [
+                  "/customerType"
+                ],
+                "expected": "1",
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/createBy"
+                ],
+                "expected": "1",
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/customerType"
+                ],
+                "expected": "1",
+                "operator": "eq"
+              },
+              {
+                "paths": [
+                  "/cooperationStatus"
+                ],
+                "expected": "正在合作",
+                "operator": "tokens"
+              },
+              {
+                "paths": [
+                  "/customerType"
+                ],
+                "expected": "1",
+                "operator": "eq"
+              }
+            ],
+            "min_items": 1
+          }
+        }
+      ]
+    }
+  ]
+}

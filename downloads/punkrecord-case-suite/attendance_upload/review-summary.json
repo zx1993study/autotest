@@ -1,0 +1,923 @@
+{
+  "project_id": 17796,
+  "date": "2026-10-21",
+  "flows": [
+    {
+      "id": 21062,
+      "name": "项目任务生成与同步",
+      "counts": {
+        "success": 4
+      },
+      "scenarios": [
+        {
+          "id": 21063,
+          "name": "TODO01-03-batch 批量生成默认0工时、边界与重复身份",
+          "status": "success",
+          "batch_id": 21280,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21064,
+          "name": "TODO03-sync 重复同步不重建任务或复制Bug",
+          "status": "success",
+          "batch_id": 21259,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21065,
+          "name": "TODO02-identity 项目与待办双向编辑保持同一ID和工时",
+          "status": "success",
+          "batch_id": 21260,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21156,
+          "name": "PROJECT-EMPTY-SYNC 空功能清单重复同步不产生任务",
+          "status": "success",
+          "batch_id": 21276,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21066,
+      "name": "任务提交与验收",
+      "counts": {
+        "success": 4
+      },
+      "scenarios": [
+        {
+          "id": 21067,
+          "name": "TODO05-resubmit 退回重提以最终提交时间验收",
+          "status": "success",
+          "batch_id": 21262,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21068,
+          "name": "FOUR-TASK-ACCEPT-EMPLOYEE 本人及同级不能验收，L1主管可验收test_user3任务，验收不自动发奖",
+          "status": "success",
+          "batch_id": 21281,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21069,
+          "name": "FOUR-TASK-ACCEPT-OTHER 本人及同级不能验收，L1主管可验收test_user4任务，验收不自动发奖",
+          "status": "success",
+          "batch_id": 21282,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21157,
+          "name": "TASK-EARLY-REVIEW 未提交的任务不能验收，任务状态与余额不变",
+          "status": "success",
+          "batch_id": 21283,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21070,
+      "name": "Bug创建与检索",
+      "counts": {
+        "success": 1
+      },
+      "scenarios": [
+        {
+          "id": 21071,
+          "name": "BUG01-search Bug大小写、字面百分号/下划线和分页",
+          "status": "success",
+          "batch_id": 21266,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21072,
+      "name": "获取贝利",
+      "counts": {
+        "success": 35
+      },
+      "scenarios": [
+        {
+          "id": 21073,
+          "name": "BELI02-p0-0 工资12000、8小时、p0、延期0天",
+          "status": "success",
+          "batch_id": 21267,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21074,
+          "name": "BELI02-p0-1 工资12000、8小时、p0、延期1天",
+          "status": "success",
+          "batch_id": 21268,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21075,
+          "name": "BELI02-p0-2 工资12000、8小时、p0、延期2天",
+          "status": "success",
+          "batch_id": 21269,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21076,
+          "name": "BELI02-p0-3 工资12000、8小时、p0、延期3天",
+          "status": "success",
+          "batch_id": 21270,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21077,
+          "name": "BELI02-p0-4 工资12000、8小时、p0、延期4天",
+          "status": "success",
+          "batch_id": 21271,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21078,
+          "name": "BELI02-p0-5 工资12000、8小时、p0、延期5天",
+          "status": "success",
+          "batch_id": 21198,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21079,
+          "name": "BELI02-p0-8 工资12000、8小时、p0、延期8天",
+          "status": "success",
+          "batch_id": 21199,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21080,
+          "name": "BELI02-p1-0 工资12000、8小时、p1、延期0天",
+          "status": "success",
+          "batch_id": 21200,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21081,
+          "name": "BELI02-p1-1 工资12000、8小时、p1、延期1天",
+          "status": "success",
+          "batch_id": 21201,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21082,
+          "name": "BELI02-p1-2 工资12000、8小时、p1、延期2天",
+          "status": "success",
+          "batch_id": 21202,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21083,
+          "name": "BELI02-p1-3 工资12000、8小时、p1、延期3天",
+          "status": "success",
+          "batch_id": 21203,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21084,
+          "name": "BELI02-p1-4 工资12000、8小时、p1、延期4天",
+          "status": "success",
+          "batch_id": 21204,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21085,
+          "name": "BELI02-p1-5 工资12000、8小时、p1、延期5天",
+          "status": "success",
+          "batch_id": 21205,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21086,
+          "name": "BELI02-p1-8 工资12000、8小时、p1、延期8天",
+          "status": "success",
+          "batch_id": 21206,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21087,
+          "name": "BELI02-p2-0 工资12000、8小时、p2、延期0天",
+          "status": "success",
+          "batch_id": 21207,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21088,
+          "name": "BELI02-p2-1 工资12000、8小时、p2、延期1天",
+          "status": "success",
+          "batch_id": 21208,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21089,
+          "name": "BELI02-p2-2 工资12000、8小时、p2、延期2天",
+          "status": "success",
+          "batch_id": 21209,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21090,
+          "name": "BELI02-p2-3 工资12000、8小时、p2、延期3天",
+          "status": "success",
+          "batch_id": 21210,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21091,
+          "name": "BELI02-p2-4 工资12000、8小时、p2、延期4天",
+          "status": "success",
+          "batch_id": 21211,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21092,
+          "name": "BELI02-p2-5 工资12000、8小时、p2、延期5天",
+          "status": "success",
+          "batch_id": 21212,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21093,
+          "name": "BELI02-p2-8 工资12000、8小时、p2、延期8天",
+          "status": "success",
+          "batch_id": 21213,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21094,
+          "name": "BELI02-p3-0 工资12000、8小时、p3、延期0天",
+          "status": "success",
+          "batch_id": 21214,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21095,
+          "name": "BELI02-p3-1 工资12000、8小时、p3、延期1天",
+          "status": "success",
+          "batch_id": 21215,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21096,
+          "name": "BELI02-p3-2 工资12000、8小时、p3、延期2天",
+          "status": "success",
+          "batch_id": 21216,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21097,
+          "name": "BELI02-p3-3 工资12000、8小时、p3、延期3天",
+          "status": "success",
+          "batch_id": 21217,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21098,
+          "name": "BELI02-p3-4 工资12000、8小时、p3、延期4天",
+          "status": "success",
+          "batch_id": 21218,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21099,
+          "name": "BELI02-p3-5 工资12000、8小时、p3、延期5天",
+          "status": "success",
+          "batch_id": 21219,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21100,
+          "name": "BELI02-p3-8 工资12000、8小时、p3、延期8天",
+          "status": "success",
+          "batch_id": 21220,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21101,
+          "name": "BELI05-10-idempotency 重复审核只发一次、已发奖归零拒绝、重开冲销后再结算",
+          "status": "success",
+          "batch_id": 21284,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21102,
+          "name": "BELI03-edits 独立审核修改工时重要级同步原任务且不泄露快照",
+          "status": "success",
+          "batch_id": 21222,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21103,
+          "name": "BELI04-guards 未验收/工资缺失/非L0不发奖，驳回奖励不改变完成态",
+          "status": "success",
+          "batch_id": 21285,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21104,
+          "name": "BELI07-backfill 0工时完成不入队，补录和重复保存只生成待审核不发钱",
+          "status": "success",
+          "batch_id": 21286,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21105,
+          "name": "BELI08-pending pending归零退出且不能伪造工时审核，恢复唯一待审核",
+          "status": "success",
+          "batch_id": 21287,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21106,
+          "name": "BELI08-rejected rejected归零退出且不能伪造工时审核，恢复唯一待审核",
+          "status": "success",
+          "batch_id": 21288,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21158,
+          "name": "REWARD-REJECT-REVIEW 奖励拒绝不发钱，重新审核通过后仅到账一次",
+          "status": "success",
+          "batch_id": 21273,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21107,
+      "name": "贝利调整与防重",
+      "counts": {
+        "success": 1
+      },
+      "scenarios": [
+        {
+          "id": 21108,
+          "name": "BELI06-adjust 新员工余额调整防重、同键异参和原因校验",
+          "status": "success",
+          "batch_id": 21289,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21109,
+      "name": "请假申请与审核",
+      "counts": {
+        "success": 5
+      },
+      "scenarios": [
+        {
+          "id": 21110,
+          "name": "LEAVE01-03-approve 未来工作日上午半天请假批准只扣0.5天、不创建Todo",
+          "status": "success",
+          "batch_id": 21231,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21111,
+          "name": "LEAVE01-reject 独立请假驳回不扣假期、不创建Todo",
+          "status": "success",
+          "batch_id": 21232,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21112,
+          "name": "FOUR-LEAVE-CHAIN-APPROVE test_user4请假：同级和本人拒绝、L1直属主管通过只扣半天一次",
+          "status": "success",
+          "batch_id": 21290,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21113,
+          "name": "FOUR-LEAVE-CHAIN-REJECT test_user4请假：同级和本人拒绝、L0跨级主管可驳回且不扣假",
+          "status": "success",
+          "batch_id": 21291,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21159,
+          "name": "LEAVE-INSUFFICIENT 假期额度不足不创建申请、不扣假",
+          "status": "success",
+          "batch_id": 21292,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21114,
+      "name": "商城商品上架与下架",
+      "counts": {
+        "success": 1
+      },
+      "scenarios": [
+        {
+          "id": 21115,
+          "name": "SHOP01-publish L0建商品上下架，员工不能维护或看到下架商品",
+          "status": "success",
+          "batch_id": 21293,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21116,
+      "name": "商城下单与审核",
+      "counts": {
+        "success": 21
+      },
+      "scenarios": [
+        {
+          "id": 21117,
+          "name": "SHOP03-05-repeat 重复兑换只冻结一次，申请人重复取消不重复解冻",
+          "status": "success",
+          "batch_id": 21294,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21118,
+          "name": "SHOP05-reject L0 reject 重复操作不重复退款",
+          "status": "success",
+          "batch_id": 21238,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21119,
+          "name": "SHOP05-approved_cancel L0 approved_cancel 重复操作不重复退款",
+          "status": "success",
+          "batch_id": 21239,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21120,
+          "name": "SHOP06-shipping 实物批准发货后不可普通取消退款",
+          "status": "success",
+          "batch_id": 21295,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21121,
+          "name": "SHOP04-leave 假期兑换最小0.5天，批准时扣款解冻并增假期",
+          "status": "success",
+          "batch_id": 21296,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21122,
+          "name": "SHOP07-balance 冻结后新员工余额下降，不得绕过余额不足完成审批",
+          "status": "success",
+          "batch_id": 21297,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21123,
+          "name": "SHOPPLUS-NORMAL-DEFAULT 正常兑换数量默认1，取消后恢复",
+          "status": "success",
+          "batch_id": 21243,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21124,
+          "name": "SHOPPLUS-NORMAL-MIN 正常兑换数量1，取消后恢复",
+          "status": "success",
+          "batch_id": 21244,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21125,
+          "name": "SHOPPLUS-NORMAL-MULTIPLE 正常兑换数量2，取消后恢复",
+          "status": "success",
+          "batch_id": 21245,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21126,
+          "name": "SHOPPLUS-NORMAL-MAX 正常兑换数量100，取消后恢复",
+          "status": "success",
+          "batch_id": 21246,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21127,
+          "name": "SHOPPLUS-NORMAL-EXACT-STOCK 正常兑换数量3，取消后恢复",
+          "status": "success",
+          "batch_id": 21247,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21128,
+          "name": "SHOPPLUS-STOCK-ZERO 库存为0拒绝兑换",
+          "status": "success",
+          "batch_id": 21298,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21129,
+          "name": "SHOPPLUS-STOCK-OVER 库存3件购买4件拒绝",
+          "status": "success",
+          "batch_id": 21299,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21130,
+          "name": "SHOPPLUS-INACTIVE 已下架商品拒绝兑换",
+          "status": "success",
+          "batch_id": 21300,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21131,
+          "name": "SHOPPLUS-AMOUNT-LARGE 超出可用余额的大额总价拒绝",
+          "status": "success",
+          "batch_id": 21301,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21132,
+          "name": "SHOPPLUS-L0-FORBIDDEN L0不属于商城兑换员工范围",
+          "status": "success",
+          "batch_id": 21302,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21133,
+          "name": "SHOPPLUS-OTHER-INSUFFICIENT 固定另一员工余额不足拒绝兑换",
+          "status": "success",
+          "batch_id": 21303,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21134,
+          "name": "SHOPPLUS-IDEMPOTENCY 同键重放只建一单；变更数量、配送、商品均拒绝",
+          "status": "success",
+          "batch_id": 21304,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21135,
+          "name": "SHOPPLUS-ACTION-GUARDS 他人取消、员工审批、未批准发货、无效操作及不存在订单",
+          "status": "success",
+          "batch_id": 21305,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21136,
+          "name": "SHOPPLUS-EXACT-BALANCE 可用余额恰好等于总价可兑换，冻结后不能再透支",
+          "status": "success",
+          "batch_id": 21306,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        },
+        {
+          "id": 21137,
+          "name": "SHOPPLUS-LEAVE-MULTIPLE 兑换2份半天假期：只扣款一次、增加1天，履约后不可取消发货",
+          "status": "success",
+          "batch_id": 21307,
+          "failed_nodes": [],
+          "evidence_file": "review-execution.json"
+        }
+      ]
+    },
+    {
+      "id": 21138,
+      "name": "扣除贝利（早会考勤）",
+      "counts": {
+        "success": 14,
+        "failed": 1
+      },
+      "scenarios": [
+        {
+          "id": 21139,
+          "name": "ATT-UPLOAD-ABSENT 文稿缺席扣除500贝利",
+          "status": "success",
+          "batch_id": 21147,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21140,
+          "name": "ATT-UPLOAD-REPEAT 重复上传不重复扣款",
+          "status": "success",
+          "batch_id": 21148,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21142,
+          "name": "ATT-UPLOAD-PRESENT 文稿出席不扣款",
+          "status": "success",
+          "batch_id": 21149,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21143,
+          "name": "ATT-UPLOAD-CORRECTION 补传出席文稿退还已扣贝利",
+          "status": "success",
+          "batch_id": 21150,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21144,
+          "name": "ATT-UPLOAD-WEEKLY 周会上传不产生早会扣款",
+          "status": "success",
+          "batch_id": 21151,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21145,
+          "name": "ATT-UPLOAD-DUPLICATE 文稿同名人员未映射不自动认定出席",
+          "status": "failed",
+          "batch_id": 21279,
+          "failed_nodes": [
+            {
+              "key": "attendance",
+              "assertions": [
+                {
+                  "path": "/data/items",
+                  "type": "json_query_result",
+                  "actual": {
+                    "count": 1,
+                    "mismatched_indices": [
+                      0
+                    ]
+                  },
+                  "passed": false,
+                  "expected": {
+                    "rules": [
+                      {
+                        "paths": [
+                          "/user_id"
+                        ],
+                        "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                        "operator": "eq"
+                      },
+                      {
+                        "paths": [
+                          "/day"
+                        ],
+                        "expected": "2026-10-21",
+                        "operator": "eq"
+                      },
+                      {
+                        "paths": [
+                          "/absent"
+                        ],
+                        "expected": true,
+                        "operator": "eq"
+                      },
+                      {
+                        "paths": [
+                          "/charged"
+                        ],
+                        "expected": true,
+                        "operator": "eq"
+                      },
+                      {
+                        "paths": [
+                          "/waived"
+                        ],
+                        "expected": false,
+                        "operator": "eq"
+                      }
+                    ],
+                    "max_items": 1,
+                    "min_items": 1
+                  }
+                }
+              ]
+            },
+            {
+              "key": "ambiguous_name",
+              "assertions": [
+                {
+                  "path": "/data",
+                  "type": "json_query_result",
+                  "actual": {
+                    "count": 1,
+                    "mismatched_indices": [
+                      0
+                    ]
+                  },
+                  "passed": false,
+                  "expected": {
+                    "rules": [
+                      {
+                        "paths": [
+                          "/unmatched_names"
+                        ],
+                        "expected": [
+                          "test_user3"
+                        ],
+                        "operator": "tokens"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "key": "balance",
+              "assertions": [
+                {
+                  "path": "/data/items/0/balance",
+                  "type": "json_number_delta",
+                  "actual": "0.00",
+                  "passed": false,
+                  "baseline": 4969.54,
+                  "expected": -500
+                }
+              ]
+            }
+          ],
+          "evidence_file": "edges-execution.json"
+        },
+        {
+          "id": 21146,
+          "name": "ATT-UPLOAD-INVALID 无效文稿拒绝后会议可查且不重复扣款",
+          "status": "success",
+          "batch_id": 21153,
+          "failed_nodes": [],
+          "evidence_file": "execution.json"
+        },
+        {
+          "id": 21225,
+          "name": "ATT-UPLOAD-FUTURE 未来早会上传不提前扣款",
+          "status": "success",
+          "batch_id": 21277,
+          "failed_nodes": [],
+          "evidence_file": "edges-execution.json"
+        },
+        {
+          "id": 21226,
+          "name": "ATT-UPLOAD-WEEKEND 非工作日早会上传不扣款",
+          "status": "success",
+          "batch_id": 21278,
+          "failed_nodes": [],
+          "evidence_file": "edges-execution.json"
+        },
+        {
+          "id": 21308,
+          "name": "ATT-UPLOAD-MULTI 同日多场早会取出席并集，删除缺席场次不再次扣款",
+          "status": "success",
+          "batch_id": 21309,
+          "failed_nodes": [],
+          "evidence_file": "multi-execution.json"
+        },
+        {
+          "id": 21310,
+          "name": "ATT-NON-MORNING-WEEKLY 周会创建及上传文稿均不扣款",
+          "status": "success",
+          "batch_id": 21325,
+          "failed_nodes": [],
+          "evidence_file": "non-morning-execution.json"
+        },
+        {
+          "id": 21311,
+          "name": "ATT-NON-MORNING-PROJECT 项目会议创建及上传文稿均不扣款",
+          "status": "success",
+          "batch_id": 21326,
+          "failed_nodes": [],
+          "evidence_file": "non-morning-execution.json"
+        },
+        {
+          "id": 21312,
+          "name": "ATT-NON-MORNING-REVIEW 复盘会议创建及上传文稿均不扣款",
+          "status": "success",
+          "batch_id": 21327,
+          "failed_nodes": [],
+          "evidence_file": "non-morning-execution.json"
+        },
+        {
+          "id": 21313,
+          "name": "ATT-NON-MORNING-BRAINSTORM 头脑风暴创建及上传文稿均不扣款",
+          "status": "success",
+          "batch_id": 21328,
+          "failed_nodes": [],
+          "evidence_file": "non-morning-execution.json"
+        },
+        {
+          "id": 21314,
+          "name": "ATT-NON-MORNING-OTHER 其他创建及上传文稿均不扣款",
+          "status": "success",
+          "batch_id": 21329,
+          "failed_nodes": [],
+          "evidence_file": "non-morning-execution.json"
+        }
+      ]
+    }
+  ],
+  "latest_counts": {
+    "success": 86,
+    "failed": 1
+  },
+  "scenario_count": 87,
+  "validated_scene_count": 87,
+  "attempt_count": 169,
+  "attempt_counts": {
+    "success": 114,
+    "failed": 55
+  },
+  "running_project_batches": [],
+  "cleanup_failures": [],
+  "configuration_failures_before_requests": [
+    21160,
+    21161,
+    21162,
+    21163,
+    21164,
+    21165,
+    21166,
+    21167,
+    21168,
+    21169,
+    21170,
+    21171,
+    21172,
+    21173,
+    21174,
+    21175,
+    21176,
+    21177,
+    21178,
+    21179,
+    21180,
+    21181,
+    21182,
+    21183
+  ]
+}

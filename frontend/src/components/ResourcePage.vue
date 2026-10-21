@@ -10,7 +10,7 @@
       <slot name="search-before-button"></slot>
       <button type="button" :disabled="listLoading" @click="search">查询</button>
       <slot name="search-actions"></slot>
-      <button type="button" :disabled="!selectedIds.length" @click="removeSelected">批量删除</button>
+      <button type="button" :disabled="!selectedIds.length || deleting || listLoading" @click="removeSelected">{{ deleting ? '删除中...' : '批量删除' }}</button>
       <button
         v-for="(action, index) in actions"
         :key="actionKey(action, index)"
@@ -23,11 +23,12 @@
     </div>
 
     <p v-if="loadError" role="alert">{{ loadError }} <button type="button" :disabled="listLoading" @click="load">重试</button></p>
-    <div class="table-wrap" :aria-busy="listLoading">
+    <p v-if="deleteError" role="alert">{{ deleteError }}</p>
+    <div class="table-wrap" :aria-busy="listLoading || deleting">
       <table>
         <thead>
           <tr>
-            <th class="check-column"><input type="checkbox" :checked="allChecked" @change="toggleAll" /></th>
+            <th class="check-column"><input type="checkbox" :checked="allChecked" :disabled="deleting" @change="toggleAll" /></th>
             <th v-for="column in visibleColumns" :key="column.key" :style="{ width: column.width }">{{ column.label }}</th>
             <th class="action-column">操作</th>
           </tr>
@@ -39,7 +40,7 @@
             :class="{ 'clickable-row': detailMode === 'case-draft' }"
             @click="handleRowClick(item, $event)"
           >
-            <td><input v-model="selectedIds" type="checkbox" :value="item.id" @click.stop /></td>
+            <td><input v-model="selectedIds" type="checkbox" :value="item.id" :disabled="deleting" @click.stop /></td>
             <td v-for="column in visibleColumns" :key="column.key" class="table-cell">{{ formatCellValue(item, column.key) }}</td>
             <td class="row-actions">
               <button
@@ -55,7 +56,7 @@
               </button>
               <button v-if="detailMode === 'test-case'" type="button" @click.stop="openDetail(item)">查看</button>
               <button v-if="allowEdit && detailMode !== 'case-draft'" type="button" @click.stop="openEdit(item)">编辑</button>
-              <button class="danger" type="button" @click.stop="remove(item.id)">删除</button>
+              <button class="danger" type="button" :disabled="deleting || listLoading" @click.stop="remove(item.id)">删除</button>
             </td>
           </tr>
           <tr v-if="listLoading"><td class="empty-cell" :colspan="visibleColumns.length + 2">正在加载...</td></tr>
@@ -71,7 +72,7 @@
       :page-size="pageSize"
       :total="total"
       :message="message"
-      :loading="listLoading"
+      :loading="listLoading || deleting"
       @change="handlePaginationChange"
     />
 
@@ -98,7 +99,7 @@
           <div class="case-draft-header-actions">
             <button type="button" :disabled="!caseDraftCanReview || actionRunning" @click="acceptCurrentCaseDraft">采纳</button>
             <button type="button" :disabled="!caseDraftCanReview || actionRunning" @click="rejectCurrentCaseDraft">驳回</button>
-            <button type="button" class="danger" :disabled="actionRunning" @click="deleteCurrentCaseDraft">删除</button>
+            <button type="button" class="danger" :disabled="actionRunning || deleting" @click="deleteCurrentCaseDraft">删除</button>
             <button class="modal-close" type="button" aria-label="关闭" @click="closeDialog">×</button>
           </div>
         </header>
@@ -188,7 +189,7 @@
     </div>
 
     <div v-if="detailVisible" class="modal-backdrop" @click.self="closeDetailDialog">
-      <section class="modal-panel execution-result-modal" role="dialog" aria-modal="true">
+      <section class="modal-panel execution-result-modal" :class="{ 'api-evidence-modal': isApiTestCasePage }" role="dialog" aria-modal="true">
         <header class="modal-header">
           <h3>查看详情</h3>
           <button class="modal-close" type="button" aria-label="关闭" @click="closeDetailDialog">×</button>
@@ -238,10 +239,8 @@
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import {
-  batchDeleteResources,
   clearRemoteOptionsCache,
   createResource,
-  deleteResource,
   listRemoteOptionsCached,
   listResources,
   postAction,
@@ -260,6 +259,7 @@ import WebCaseDetailContent from './resource/WebCaseDetailContent.vue'
 import WebDraftStepEditor from './resource/WebDraftStepEditor.vue'
 import { useOperationToast } from './resource/useOperationToast'
 import { useLatestRequest } from '../composables/useLatestRequest'
+import { useResourceDeletion } from '../composables/useResourceDeletion'
 
 type FormValue = string | number | null
 
@@ -331,6 +331,16 @@ const {
   showOperationToast
 } = useOperationToast()
 const { loading: listLoading, error: loadError, run: loadRequest, cancel: cancelLoad } = useLatestRequest()
+const { deleting, deleteError, removeResources } = useResourceDeletion({
+  path: () => props.apiPath,
+  scope: () => JSON.stringify([props.apiPath, props.initialParams, props.searchParams]),
+  reload: async count => {
+    const lastPage = Math.max(1, Math.ceil(Math.max(0, total.value - count) / pageSize.value))
+    currentPage.value = Math.min(currentPage.value, lastPage)
+    await load()
+  },
+  success: count => showOperationToast('删除成功', `已删除 ${count} 条`)
+})
 
 const formFields = computed(() => props.fields)
 const visibleFields = computed(() => props.fields.filter(field => !field.hidden && fieldVisible(field)))
@@ -396,7 +406,14 @@ async function runCurrentCaseDraftAction(label: string, path: string, payload: R
     runningActionKey.value = ''
   }
 }
-async function deleteCurrentCaseDraft() { if (!editingItem.value) return; const currentIndex = caseDraftCurrentIndex.value; await deleteResource(props.apiPath, editingItem.value.id); showOperationToast('删除成功', '用例草稿已删除'); await load(); const nextItem = items.value[Math.min(currentIndex, items.value.length - 1)]; nextItem ? await openCaseDraftDetail(nextItem) : closeDialog() }
+async function deleteCurrentCaseDraft() {
+  if (!editingItem.value) return
+  const currentIndex = caseDraftCurrentIndex.value
+  await removeResources([editingItem.value.id], false, async () => {
+    const nextItem = items.value[Math.min(currentIndex, items.value.length - 1)]
+    nextItem ? await openCaseDraftDetail(nextItem) : closeDialog()
+  })
+}
 function closeDialog() { if (saving.value) return; dialogVisible.value = false; caseDraftDialogMode.value = false; formError.value = '' }
 async function submitForm() {
   if (saving.value || props.formBlocked) return
@@ -410,8 +427,8 @@ async function submitForm() {
     if (!caseDraftDialogMode.value) dialogVisible.value = false
   } catch (error) { formError.value = getErrorMessage(error) } finally { saving.value = false }
 }
-async function remove(id: number) { await deleteResource(props.apiPath, id); await load(); showOperationToast('删除成功', '数据已删除') }
-async function removeSelected() { if (!selectedIds.value.length) return; const result = await batchDeleteResources(props.apiPath, [...selectedIds.value]); await load(); showOperationToast('删除成功', `已删除 ${result.deleted_count ?? 0} 条`) }
+async function remove(id: number) { await removeResources([id], false) }
+async function removeSelected() { await removeResources([...selectedIds.value]) }
 async function runAction(action: PageAction, key = actionKey(action, 0)) { if (action.type === 'custom') { const payload = buildActionPayload(action); if (action.selectedKey) payload[action.selectedKey] = selectedIds.value; emit('customAction', action, undefined, payload); return } if (action.type === 'route') { await router.push({ path: action.path, query: buildQueryParams(buildActionPayload(action)) }); return } const payload = buildActionPayload(action); if (action.selectedKey) payload[action.selectedKey] = selectedIds.value; await runRequestAction(action, payload, undefined, key) }
 async function runRowAction(action: PageAction, item: ResourceItem, key = actionKey(action, 0, item)) { if (isRowActionDisabled(action, item)) return; if (action.type === 'custom') { emit('customAction', action, item, { id: item.id, ...buildActionPayload(action, item) }); return } if (action.type === 'route') { await router.push({ path: resolveActionPath(action.path, item), query: buildQueryParams(buildActionPayload(action, item)) }); return } await runRequestAction(action, { id: item.id, ...buildActionPayload(action, item) }, item, key) }
 async function runRequestAction(action: PageAction, payload: Record<string, unknown>, item?: ResourceItem, key = actionKey(action, 0, item)) {
@@ -499,7 +516,7 @@ function caseSourceDisplay(item: ResourceItem) {
 function formatValue(value: unknown): string { if (value == null || value === '') return '-'; if (typeof value === 'boolean') return value ? '是' : '否'; if (typeof value === 'object') return JSON.stringify(value); return String(value) }
 function formatCellValue(item: ResourceItem, key: string) { const value = readValue(item, key); if (key === 'status' || key.endsWith('.status')) return formatStatus(value); return localOptionLabel(key, value) || formatValue(value) }
 function localOptionLabel(key: string, value: unknown) { const field = formFields.value.find(item => item.key === key); if (!field?.options || value == null || value === '') return ''; return field.options.find(item => String(item.value) === String(value))?.label || '' }
-function formatStatus(value: unknown) { const labels: Record<string, string> = { success: '成功', failed: '失败', queued: '排队中', running: '执行中', active: '启用', draft: props.apiPath.includes('case-drafts') ? '待审核' : '草稿', disabled: '停用', accepted: '已采纳', rejected: '已驳回', pending: '待处理', done: '已完成', cancelled: '已取消', canceled: '已取消', error: '异常', passed: '通过', skipped: '已跳过' }; return labels[String(value || '')] || formatValue(value) }
+function formatStatus(value: unknown) { const labels: Record<string, string> = { success: '成功', failed: '失败', queued: '排队中', running: '执行中', blocked: '阻塞', interrupted: '中断', active: '启用', draft: props.apiPath.includes('case-drafts') ? '待审核' : '草稿', disabled: '停用', accepted: '已采纳', rejected: '已驳回', pending: '待处理', done: '已完成', cancelled: '已取消', canceled: '已取消', error: '异常', passed: '通过', skipped: '已跳过' }; return labels[String(value || '')] || formatValue(value) }
 function actionSuccessMessage(action: PageAction, result: unknown) {
   if (isRecord(result)) {
     const successCount = Number(result.success_count)
@@ -548,4 +565,5 @@ defineExpose({ load, openCreate })
 
 <style scoped>
 .modal-backdrop { z-index: 60; }
+.api-evidence-modal { width: min(1600px, 100%); }
 </style>

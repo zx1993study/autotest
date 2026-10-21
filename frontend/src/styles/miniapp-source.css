@@ -1,0 +1,23 @@
+.mini-workspace { padding: 24px; color: #172033; min-width: 0; }
+.mini-workspace header, .mini-dialog header, .mini-workspace footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mini-workspace h2 { font-size: 22px; margin: 0 0 12px; }
+.mini-workspace h3, .mini-dialog h3 { font-size: 17px; margin: 16px 0; overflow-wrap: anywhere; }
+.mini-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 10px 0; }
+.mini-toolbar select, .mini-toolbar input:not([type=checkbox]) { border: 1px solid #ccd4df; border-radius: 4px; min-height: 34px; padding: 5px 9px; min-width: 0; max-width: 100%; background: #fff; }
+.mini-workspace button, .mini-dialog button { display: inline-flex; justify-content: center; align-items: center; gap: 6px; min-height: 34px; padding: 6px 10px; background: #fff; color: #243b61; border: 1px solid #ccd4df; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+.mini-workspace button:disabled, .mini-dialog button:disabled { opacity: .5; cursor: default; }
+.mini-table-scroll { overflow-x: auto; border-top: 1px solid #dfe4ec; }
+.mini-workspace table, .mini-dialog table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13px; }
+.mini-workspace th, .mini-workspace td, .mini-dialog th, .mini-dialog td { text-align: left; padding: 10px; border-bottom: 1px solid #e7ebf0; overflow-wrap: anywhere; max-width: 380px; }
+.mini-workspace th, .mini-dialog th { background: #f3f5f8; font-weight: 500; }
+.mini-workspace footer { justify-content: flex-end; padding: 12px 0; }
+.mini-check { display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; }
+.mini-toolbar > span { white-space: nowrap; }
+.mini-workspace td:nth-child(2), .mini-workspace th:nth-child(2) { min-width: 60px; white-space: nowrap; }
+.mini-workspace td:nth-child(3), .mini-workspace th:nth-child(3) { min-width: 190px; }
+.mini-error { color: #bd202f; overflow-wrap: anywhere; }
+.mini-backdrop { position: fixed; inset: 0; z-index: 1500; background: #17203366; display: grid; place-items: center; padding: 20px; }
+.mini-dialog { width: min(1100px, 96vw); max-height: 90dvh; overflow: auto; padding: 20px; border-radius: 6px; background: #fff; min-width: 0; }
+.mini-dialog li { margin: 8px 0; line-height: 1.6; overflow-wrap: anywhere; }
+.mini-dialog p { overflow-wrap: anywhere; }
+@media (max-width: 720px) { .mini-workspace { padding: 12px; } .mini-toolbar > select, .mini-toolbar > input { flex: 1 1 140px; } .mini-backdrop { padding: 8px; } .mini-dialog { padding: 12px; width: 100%; } }

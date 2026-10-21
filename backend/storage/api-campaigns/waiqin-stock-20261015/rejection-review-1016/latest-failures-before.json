@@ -1,0 +1,1430 @@
+{
+  "checked_at": "2026-10-16T12:21:24.998643",
+  "scenes": [
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16309,
+      "name": "场景1-采购新增、提审与审批自动入库库存核对",
+      "scene_key": "purchase_auto",
+      "active": true,
+      "run_id": 16416,
+      "run_version": 4,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16310,
+      "name": "场景1补充-采购对应独立确认入库（待接口支持）",
+      "scene_key": "purchase_confirm_gap",
+      "active": false,
+      "run_id": null,
+      "run_version": null,
+      "status": null,
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16311,
+      "name": "场景2-销售数量大于实际库存，创建应拒绝",
+      "scene_key": "sales_over_stock",
+      "active": true,
+      "run_id": 16424,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales_invalid_create",
+          "name": "异常销售必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792059692002_862092_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792059692002_862092_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16312,
+      "name": "场景3-仓库没有该商品库存，创建应拒绝",
+      "scene_key": "sales_absent",
+      "active": true,
+      "run_id": 16425,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales_invalid_create",
+          "name": "异常销售必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792059695420_903572_主商品】在仓库中无库存",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792059695420_903572_主商品】在仓库中无库存",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16313,
+      "name": "场景4-销售审批前不锁库、审批后按确认流程核对库存",
+      "scene_key": "sales_approve",
+      "active": true,
+      "run_id": 16485,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16314,
+      "name": "场景4补充-销售审批后按需确认并核对扣量",
+      "scene_key": "sales_ship",
+      "active": true,
+      "run_id": 16465,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16315,
+      "name": "场景5-审批后售罄锁库、可用0时追加销售应拒绝",
+      "scene_key": "sales_exact",
+      "active": true,
+      "run_id": 16486,
+      "run_version": 7,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales2_zero_available",
+          "name": "审批后锁库且可用为0时追加销售应拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792119233230_831241_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16316,
+      "name": "补充-多个待审订单不锁库、审批时不得超卖",
+      "scene_key": "pending_conflict",
+      "active": true,
+      "run_id": 16487,
+      "run_version": 7,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales2_conflict_approve",
+          "name": "其他订单已锁库后审批不得超卖",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792119240371_177704_主商品】库存不足，可用库存：3.00，需要：7.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16317,
+      "name": "补充-销售审批拒绝不锁库且实际库存不变",
+      "scene_key": "sales_reject",
+      "active": true,
+      "run_id": 16466,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16318,
+      "name": "补充-销售重复确认不得重复扣库存",
+      "scene_key": "confirm_repeat",
+      "active": true,
+      "run_id": 16488,
+      "run_version": 7,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "receipt_confirm_again",
+          "name": "重复确认不得重复扣减库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792119247191_964610_主商品】锁定库存不足，当前锁定：0.00，需要：3.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16320,
+      "name": "补充-销售数量为0应拒绝",
+      "scene_key": "sales_qty_zero",
+      "active": true,
+      "run_id": 16375,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales_invalid_create",
+          "name": "异常销售必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 200,
+          "message": "创建成功",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 200,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "创建成功",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16321,
+      "name": "补充-销售数量为负数应拒绝",
+      "scene_key": "sales_qty_negative",
+      "active": true,
+      "run_id": 16376,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "sales_invalid_create",
+          "name": "异常销售必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 200,
+          "message": "创建成功",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 200,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "创建成功",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16451,
+      "name": "总仓销售-直营商客户审批通过并按实际确认链路核对库存",
+      "scene_key": "sales_total_customer_2_pass",
+      "active": true,
+      "run_id": 16467,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16452,
+      "name": "总仓销售-直营商客户审批拒绝不占库存",
+      "scene_key": "sales_total_customer_2_reject",
+      "active": true,
+      "run_id": 16468,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16453,
+      "name": "总仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "scene_key": "sales_total_customer_3_pass",
+      "active": true,
+      "run_id": 16469,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16454,
+      "name": "总仓销售-KOL客户审批拒绝不占库存",
+      "scene_key": "sales_total_customer_3_reject",
+      "active": true,
+      "run_id": 16470,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16455,
+      "name": "直营仓销售-前端客户审批通过并按实际确认链路核对库存",
+      "scene_key": "sales_direct_customer_1_pass",
+      "active": true,
+      "run_id": 16479,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16456,
+      "name": "直营仓销售-前端客户审批拒绝不占库存",
+      "scene_key": "sales_direct_customer_1_reject",
+      "active": true,
+      "run_id": 16480,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16457,
+      "name": "直营仓销售-直营商客户审批通过、仓管确认并核对双仓库存",
+      "scene_key": "sales_direct_customer_2_pass",
+      "active": true,
+      "run_id": 16498,
+      "run_version": 8,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16458,
+      "name": "直营仓销售-直营商客户审批拒绝不占库存",
+      "scene_key": "sales_direct_customer_2_reject",
+      "active": true,
+      "run_id": 16482,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16459,
+      "name": "直营仓销售-KOL客户审批通过并按实际确认链路核对库存",
+      "scene_key": "sales_direct_customer_3_pass",
+      "active": true,
+      "run_id": 16483,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16460,
+      "name": "直营仓销售-KOL客户审批拒绝不占库存",
+      "scene_key": "sales_direct_customer_3_reject",
+      "active": true,
+      "run_id": 16484,
+      "run_version": 7,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16323,
+      "name": "正常-直接退货按实际审批与确认流程入库",
+      "scene_key": "direct_pass",
+      "active": true,
+      "run_id": 16418,
+      "run_version": 4,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16324,
+      "name": "拒绝-直接退货审批拒绝、不生成入库单、库存不变",
+      "scene_key": "direct_reject",
+      "active": true,
+      "run_id": 16419,
+      "run_version": 4,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16325,
+      "name": "正常-原销售单已发货后部分退货、确认入库",
+      "scene_key": "order_partial",
+      "active": true,
+      "run_id": 16489,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16326,
+      "name": "边界-原销售数量全部退回",
+      "scene_key": "order_full",
+      "active": true,
+      "run_id": 16490,
+      "run_version": 6,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16327,
+      "name": "幂等-重复确认退货不得重复增加库存",
+      "scene_key": "return_repeat",
+      "active": true,
+      "run_id": 16426,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_receipt_repeat",
+          "name": "由已核对的仓库管理员确认本次单据",
+          "http_status": 200,
+          "code": 500,
+          "message": "入库单状态不允许确认入库",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "入库单状态不允许确认入库",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16329,
+      "name": "异常-重复退货累计数量超过可退余额",
+      "scene_key": "cumulative_over",
+      "active": true,
+      "run_id": 16491,
+      "run_version": 6,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return2_over_remaining",
+          "name": "累计退货不得超过原销售可退数量",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792119275708_970307_第二次退货_主商品】退货数量超过可退数量，可退：1.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16330,
+      "name": "异常-退货明细为空，库存不变",
+      "scene_key": "empty_items",
+      "active": true,
+      "run_id": 16427,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "退货商品明细不能为空",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "退货商品明细不能为空",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16331,
+      "name": "异常-退货数量为0，库存不变",
+      "scene_key": "quantity_zero",
+      "active": true,
+      "run_id": 16428,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792059708779_218154_主商品】退货数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792059708779_218154_主商品】退货数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16332,
+      "name": "异常-退货数量为负数，库存不变",
+      "scene_key": "quantity_negative",
+      "active": true,
+      "run_id": 16429,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792059712044_892639_主商品】退货数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792059712044_892639_主商品】退货数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16333,
+      "name": "异常-订单退货缺少原销售单，库存不变",
+      "scene_key": "missing_sales_order",
+      "active": true,
+      "run_id": 16430,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "订单退货必须关联原销售订单",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "订单退货必须关联原销售订单",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16334,
+      "name": "异常-缺少客户，库存不变",
+      "scene_key": "missing_customer",
+      "active": true,
+      "run_id": 16431,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "客户不存在",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "客户不存在",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16335,
+      "name": "异常-缺少仓库，库存不变",
+      "scene_key": "missing_warehouse",
+      "active": true,
+      "run_id": 16432,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "退货仓库不存在",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "退货仓库不存在",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16336,
+      "name": "异常-退货数量大于原销售数量，库存不变",
+      "scene_key": "over_return",
+      "active": true,
+      "run_id": 16492,
+      "run_version": 6,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "商品【库存回归_1792119287016_042019_主商品】退货数量超过可退数量，可退：3.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16337,
+      "name": "异常-明细不属于原销售订单，库存不变",
+      "scene_key": "wrong_sales_item",
+      "active": true,
+      "run_id": 16493,
+      "run_version": 6,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_invalid_create",
+          "name": "异常退货必须被业务校验拒绝",
+          "http_status": 200,
+          "code": 500,
+          "message": "订单退货必须关联原订单明细",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "订单退货必须关联原订单明细",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16338,
+      "name": "审核中节点-编辑应拒绝且库存不变",
+      "scene_key": "edit_pending",
+      "active": true,
+      "run_id": 16433,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_edit_pending",
+          "name": "当前状态不允许edit",
+          "http_status": 200,
+          "code": 500,
+          "message": "只能编辑待审核或已驳回的退货单",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "只能编辑待审核或已驳回的退货单",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16339,
+      "name": "审核中节点-删除应拒绝且库存不变",
+      "scene_key": "delete_pending",
+      "active": true,
+      "run_id": 16434,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_delete_pending",
+          "name": "当前状态不允许delete",
+          "http_status": 200,
+          "code": 500,
+          "message": "退货单【TH202610150014】状态不允许删除",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "退货单【TH202610150014】状态不允许删除",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16340,
+      "name": "审核中节点-重复提交应拒绝且库存不变",
+      "scene_key": "submit_pending",
+      "active": true,
+      "run_id": 16435,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_submit_pending",
+          "name": "当前状态不允许submit",
+          "http_status": 200,
+          "code": 500,
+          "message": "只能提交待审核或已驳回的退货单",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "只能提交待审核或已驳回的退货单",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16341,
+      "name": "已审核待入库节点-编辑应拒绝且库存不变",
+      "scene_key": "edit_approved",
+      "active": true,
+      "run_id": 16436,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_edit_approved",
+          "name": "当前状态不允许edit",
+          "http_status": 200,
+          "code": 500,
+          "message": "只能编辑待审核或已驳回的退货单",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "只能编辑待审核或已驳回的退货单",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16342,
+      "name": "已审核待入库节点-删除应拒绝且库存不变",
+      "scene_key": "delete_approved",
+      "active": true,
+      "run_id": 16437,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_delete_approved",
+          "name": "当前状态不允许delete",
+          "http_status": 200,
+          "code": 500,
+          "message": "退货单【TH202610150017】状态不允许删除",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "退货单【TH202610150017】状态不允许删除",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16343,
+      "name": "已审核待入库节点-重复提交应拒绝且库存不变",
+      "scene_key": "submit_approved",
+      "active": true,
+      "run_id": 16438,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "return_submit_approved",
+          "name": "当前状态不允许submit",
+          "http_status": 200,
+          "code": 500,
+          "message": "只能提交待审核或已驳回的退货单",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "只能提交待审核或已驳回的退货单",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16345,
+      "name": "正常-拆1件补24瓶，双商品库存核对",
+      "scene_key": "unpack",
+      "active": true,
+      "run_id": 16420,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16346,
+      "name": "正常-24瓶补1件，双商品库存核对",
+      "scene_key": "repack",
+      "active": true,
+      "run_id": 16421,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16347,
+      "name": "边界-转出数量恰好等于可用库存",
+      "scene_key": "convert_exact",
+      "active": true,
+      "run_id": 16422,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16348,
+      "name": "异常-转出数量0，两侧库存不变",
+      "scene_key": "source_zero",
+      "active": true,
+      "run_id": 16439,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16349,
+      "name": "异常-转出数量负数，两侧库存不变",
+      "scene_key": "source_negative",
+      "active": true,
+      "run_id": 16440,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16350,
+      "name": "异常-转入数量0，两侧库存不变",
+      "scene_key": "target_zero",
+      "active": true,
+      "run_id": 16441,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转入数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转入数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16351,
+      "name": "异常-转入数量负数，两侧库存不变",
+      "scene_key": "target_negative",
+      "active": true,
+      "run_id": 16442,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转入数量必须大于0",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转入数量必须大于0",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16352,
+      "name": "异常-转出数量大于实际库存，两侧库存不变",
+      "scene_key": "over_actual",
+      "active": true,
+      "run_id": 16443,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出商品可用库存不足，当前可用：10.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出商品可用库存不足，当前可用：10.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16353,
+      "name": "异常-同商品互转应拒绝",
+      "scene_key": "same_product",
+      "active": true,
+      "run_id": 16444,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出商品和转入商品不能相同",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出商品和转入商品不能相同",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16354,
+      "name": "异常-缺少sourceQuantity应拒绝",
+      "scene_key": "missing_sourceQuantity",
+      "active": true,
+      "run_id": 16445,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16355,
+      "name": "异常-缺少targetQuantity应拒绝",
+      "scene_key": "missing_targetQuantity",
+      "active": true,
+      "run_id": 16446,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16356,
+      "name": "异常-缺少sourceProductId应拒绝",
+      "scene_key": "missing_sourceProductId",
+      "active": true,
+      "run_id": 16447,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16357,
+      "name": "异常-缺少targetProductId应拒绝",
+      "scene_key": "missing_targetProductId",
+      "active": true,
+      "run_id": 16448,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16358,
+      "name": "异常-审批后部分锁库、不得超可用量转换",
+      "scene_key": "locked_8",
+      "active": true,
+      "run_id": 16494,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出商品可用库存不足，当前可用：2.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出商品可用库存不足，当前可用：2.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16359,
+      "name": "异常-审批后全部锁库、可用0时不得转换",
+      "scene_key": "locked_10",
+      "active": true,
+      "run_id": 16495,
+      "run_version": 4,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出商品可用库存不足，当前可用：0.00",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出商品可用库存不足，当前可用：0.00",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16360,
+      "name": "边界-审批后仅转换未锁定部分、保留锁定库存",
+      "scene_key": "partial_lock_exact",
+      "active": true,
+      "run_id": 16496,
+      "run_version": 4,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16361,
+      "name": "异常-源商品在仓库没有库存记录",
+      "scene_key": "source_absent",
+      "active": true,
+      "run_id": 16449,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 500,
+          "message": "转出商品库存不存在",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 500,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "转出商品库存不存在",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16414,
+      "name": "正常-按1乘6装箱规格拆箱并核对双侧库存",
+      "scene_key": "packing_six",
+      "active": true,
+      "run_id": 16423,
+      "run_version": 3,
+      "status": "success",
+      "failed": []
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16415,
+      "name": "异常-转换数量与装箱规格不符应拒绝",
+      "scene_key": "packing_mismatch",
+      "active": true,
+      "run_id": 16450,
+      "run_version": 3,
+      "status": "failed",
+      "failed": [
+        {
+          "key": "convert",
+          "name": "转换本场景整件与散瓶库存",
+          "http_status": 200,
+          "code": 200,
+          "message": "库存转化成功",
+          "error": null,
+          "assertions": [
+            {
+              "type": "api_rejection",
+              "actual": {
+                "code": 200,
+                "http_status": 200
+              },
+              "passed": false,
+              "message": "库存转化成功",
+              "expected": "validation"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

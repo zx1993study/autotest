@@ -1,0 +1,44 @@
+{
+  "case_id": 60,
+  "feature_id": 17817,
+  "name": "AUTH-006 退出登录返回远程根路径登录页",
+  "task_id": 21361,
+  "status": "success",
+  "records": [
+    {
+      "id": 21362,
+      "status": "success",
+      "error": null,
+      "step_count": 7,
+      "business_result": "passed",
+      "assertion_count": 3,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":is(h1,h2):text-is(\"PunkRecord\")",
+          "step": 6,
+          "actual": "PunkRecord",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"PunkRecord\")",
+          "expected": "PunkRecord"
+        },
+        {
+          "name": "button[type=submit]",
+          "step": 7,
+          "actual": "登录",
+          "passed": true,
+          "locator": "button[type=submit]",
+          "expected": "登录"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/login"
+    }
+  ]
+}

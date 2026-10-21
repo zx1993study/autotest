@@ -1,0 +1,76 @@
+{
+  "case_id": 85,
+  "feature_id": 18999,
+  "name": "CASE TODO08-my-edit 我的任务看板/列表与工时归零恢复标识",
+  "task_id": 21429,
+  "status": "success",
+  "records": [
+    {
+      "id": 21430,
+      "status": "success",
+      "error": null,
+      "step_count": 20,
+      "business_result": "passed",
+      "assertion_count": 7,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": "h1:text-is(\"我的任务\")",
+          "step": 6,
+          "actual": "我的任务",
+          "passed": true,
+          "locator": "h1:text-is(\"我的任务\")",
+          "expected": "我的任务"
+        },
+        {
+          "name": ".todo-card:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task .beli-task-badge",
+          "step": 7,
+          "actual": "贝利任务",
+          "passed": true,
+          "locator": ".todo-card:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task .beli-task-badge",
+          "expected": "贝利任务"
+        },
+        {
+          "name": ".todo-card:has-text(\"WEB_RECHECK_20261021 Zero hours\"):not(.beli-task):not(:has(.beli-task-badge))",
+          "step": 8,
+          "actual": "P2\n10/10\nWEB_RECHECK_20261021 Zero hours\n项目: 项目任务\ntest_user3",
+          "passed": true,
+          "locator": ".todo-card:has-text(\"WEB_RECHECK_20261021 Zero hours\"):not(.beli-task):not(:has(.beli-task-badge))",
+          "expected": "WEB_RECHECK_20261021 Zero hours"
+        },
+        {
+          "name": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task",
+          "step": 10,
+          "actual": "WEB_RECHECK_20261021 Positive hours\n贝利任务\nP2\n未开始\n项目: WEB_RECHECK_20261021 Project\n由 test_user1 分配\n10-10 18:00",
+          "passed": true,
+          "locator": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task",
+          "expected": "WEB_RECHECK_20261021 Positive hours"
+        },
+        {
+          "name": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\"):not(.beli-task):not(:has(.beli-task-badge))",
+          "step": 15,
+          "actual": "WEB_RECHECK_20261021 Positive hours\nP2\n未开始\n项目: WEB_RECHECK_20261021 Project\n由 test_user1 分配\n10-10 18:00",
+          "passed": true,
+          "locator": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\"):not(.beli-task):not(:has(.beli-task-badge))",
+          "expected": "WEB_RECHECK_20261021 Positive hours"
+        },
+        {
+          "name": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task .beli-task-badge",
+          "step": 20,
+          "actual": "贝利任务",
+          "passed": true,
+          "locator": ".todo-item:has-text(\"WEB_RECHECK_20261021 Positive hours\").beli-task .beli-task-badge",
+          "expected": "贝利任务"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/todo"
+    }
+  ]
+}

@@ -14,10 +14,14 @@ from app.services.generation_candidate_service import (
     safe_context,
     validate_candidate,
 )
+from app.services.web_case_secret_service import WebCaseSecretService
+from app.services.web_input_policy_service import (
+    bind_input_steps,
+    normalize_parameters,
+    public_version,
+)
 from app.services.web_page_management_service import WebPageManagementService
 from app.services.web_page_service import WebPageResourceService
-from app.services.web_input_policy_service import bind_input_steps, normalize_parameters, public_version
-from app.services.web_case_secret_service import WebCaseSecretService
 
 VERSIONS = "web_function_versions"
 
@@ -266,6 +270,8 @@ class WebFeatureTestingService:
         return CaseDraftService("WEB", self.repository).accept(draft_id)
 
     def run(self, feature_id, payload):
+        from web_automation.outcomes import verification_error
+
         feature = self.feature(feature_id)
         if feature.get("status") != "active":
             raise BusinessRuleError("功能已停用")
@@ -284,6 +290,8 @@ class WebFeatureTestingService:
                 raise BusinessRuleError('请编辑用例并填写密码，保存后再执行')
             candidate = {"name": case["name"], "steps": case.get("steps") or [], "input_info": case.get("data", {}).get("input_info") or {}}
             validate_candidate("WEB", candidate, feature)
+            if message := verification_error(candidate["steps"]):
+                raise BusinessRuleError(f"{case['name']}：{message}")
             if has_side_effects(candidate) and not payload.get("approve_side_effects"):
                 raise BusinessRuleError("请确认允许用例中的点击、填写和提交操作")
         from app.services.agent_node_service import AgentNodeService
@@ -294,6 +302,8 @@ class WebFeatureTestingService:
         nd = (node or {}).get("data") or {}
         if any(c.get('data', {}).get('secret_inputs') for c in cases) and 'web_secret_inputs' not in nd.get('capabilities', []):
             raise BusinessRuleError('加密密码执行需要升级到 0.3.8 或更新的 Web Agent')
+        if any(c.get('data', {}).get('secret_inputs') for c in cases) and not nd.get('web_secret_inputs_ready'):
+            raise BusinessRuleError('执行节点与当前后端的密码通道未匹配，请将 Agent 连接到当前平台并重新注册；多后端部署须共享密码加密密钥')
         if any(s.get('action') == 'manual' for c in cases for s in c.get('steps') or []) and 'web_recording' not in nd.get('capabilities', []):
             raise BusinessRuleError('人工输入需要升级到 0.3.7 或更新的 Web Agent')
         try:
@@ -307,6 +317,10 @@ class WebFeatureTestingService:
             "skip_auth": feature.get('data', {}).get('feature_type') == 'login',
             "mode": "remote_node" if payload["headless"] else "local_headed",
             "config": {"engine": "playwright", "headless": payload["headless"], "record_video": payload.get("record_video", True), "max_ai_calls_per_case": 0}})
+        current = self.feature(feature_id)
+        data = dict(current.get('data') or {})
+        if task['id'] > int(data.get('last_agent_task_id') or 0):
+            self.repository.update('web_pages', feature_id, {'data': {**data, 'last_agent_task_id': task['id']}})
         return {"agent_task_id": task["id"], "status": task["status"]}
 
     def repair(self, feature_id, payload):
@@ -355,7 +369,8 @@ class WebFeatureTestingService:
             return
         snapshots = {c["id"]: c for c in data["payload"].get("cases", [])}
         for record in (data.get("result") or {}).get("records", []):
-            if record.get("status") != "success":
+            evidence = record.get("data") or {}
+            if record.get("status") != "success" or evidence.get("business_result") != "passed" or not evidence.get("assertion_count"):
                 continue
             snapshot = snapshots.get(record.get("data", {}).get("case_id")) or {}
             version_id = snapshot.get("data", {}).get("script_version")

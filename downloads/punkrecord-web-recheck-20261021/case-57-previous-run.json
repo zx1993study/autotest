@@ -1,0 +1,28 @@
+{
+  "case_id": 57,
+  "feature_id": 17805,
+  "name": "AUTH-003 错误密码拒绝登录",
+  "task_id": 21355,
+  "status": "success",
+  "records": [
+    {
+      "id": 21356,
+      "status": "success",
+      "error": null,
+      "step_count": 4,
+      "business_result": "passed",
+      "assertion_count": 1,
+      "assertion_results": [
+        {
+          "name": ".error-message:text-is(\"用户名或密码错误\")",
+          "step": 4,
+          "actual": "用户名或密码错误",
+          "passed": true,
+          "locator": ".error-message:text-is(\"用户名或密码错误\")",
+          "expected": "用户名或密码错误"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/login"
+    }
+  ]
+}

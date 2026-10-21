@@ -1,0 +1,302 @@
+{
+  "target": "http://14.103.229.153:15173",
+  "project_id": 17796,
+  "run_prefix": "CASE_20261019_160545",
+  "scenarios": [
+    {
+      "code": "BELI-PERM-EMPLOYEE-PAGE",
+      "title": "非L0仅看本人奖励，无审核和工作日历入口",
+      "case_points": [
+        "IAM-02",
+        "BELI-04"
+      ],
+      "status": "failed",
+      "evidence": [
+        {
+          "record_id": 20060,
+          "case_id": 95,
+          "status": "failed"
+        }
+      ],
+      "error": "[{'id': 20060, 'status': 'failed', 'error': 'Locator.wait_for: Timeout 8000ms exceeded.\\nCall log:\\n  - waiting for locator(\"h1:text-is(\\\\\"工作台\\\\\")\").first to be visible\\n'}]"
+    },
+    {
+      "code": "BELI-PERM-L0-PAGE",
+      "title": "固定L0账号能看到待审核奖励入口但不提交",
+      "case_points": [
+        "BELI-04"
+      ],
+      "status": "failed",
+      "evidence": [
+        {
+          "record_id": 20064,
+          "case_id": 96,
+          "status": "failed"
+        }
+      ],
+      "error": "[{'id': 20064, 'status': 'failed', 'error': 'Locator.wait_for: Timeout 8000ms exceeded.\\nCall log:\\n  - waiting for locator(\"h1:text-is(\\\\\"工作台\\\\\")\").first to be visible\\n'}]"
+    }
+  ],
+  "web_cases": [
+    {
+      "code": "BELI-PERM-EMPLOYEE-PAGE",
+      "case_id": 95,
+      "feature_id": 20057,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "name": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "require_unique": true,
+          "expected": "任务奖励"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "name": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "require_unique": true,
+          "expected": "CASE_20261019_144610 employee"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap tbody tr td:first-child:has-text(\"CASE_20261019_144610 employee\") >> nth=0",
+          "name": ".beli-table-wrap tbody tr td:first-child:has-text(\"CASE_20261019_144610 employee\") >> nth=0",
+          "require_unique": true,
+          "expected": "CASE_20261019_144610 employee"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap tbody:not(:has(tr:not(:has(td:first-child:has-text(\"CASE_20261019_144610 employee\")))))",
+          "name": ".beli-table-wrap tbody:not(:has(tr:not(:has(td:first-child:has-text(\"CASE_20261019_144610 employee\")))))",
+          "require_unique": true,
+          "expected": "CASE_20261019_144610 employee"
+        }
+      ],
+      "task_id": 20059,
+      "status": "failed",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20060,
+          "status": "failed",
+          "error": "Locator.wait_for: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\"h1:text-is(\\\"工作台\\\")\").first to be visible\n"
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-L0-PAGE",
+      "case_id": 96,
+      "feature_id": 20061,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs button:text-is(\"工作日历\")",
+          "name": ".beli-tabs button:text-is(\"工作日历\")",
+          "require_unique": true,
+          "expected": "工作日历"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap tr:has-text(\"CASE_20261019_160545 missing salary\") button:text-is(\"审核\")",
+          "name": ".beli-table-wrap tr:has-text(\"CASE_20261019_160545 missing salary\") button:text-is(\"审核\")",
+          "require_unique": true,
+          "expected": "审核"
+        }
+      ],
+      "task_id": 20063,
+      "status": "failed",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20064,
+          "status": "failed",
+          "error": "Locator.wait_for: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\"h1:text-is(\\\"工作台\\\")\").first to be visible\n"
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "type": "user",
+      "id": "8cf5d346-2a85-4ffc-ae03-a07e07e26e7c",
+      "name": "CASE_20261019_144610 manager",
+      "username": "case_20261019_144610_manager",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "23aec9cd-977d-448a-a716-22546cec2e9c",
+      "name": "CASE_20261019_144610 employee",
+      "username": "case_20261019_144610_employee",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "a6be1d21-7582-46d5-97c9-e6ecacb4b3ad",
+      "name": "CASE_20261019_144610 other",
+      "username": "case_20261019_144610_other",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "8cf5d346-2a85-4ffc-ae03-a07e07e26e7c",
+      "name": "CASE_20261019_144610 manager",
+      "username": "case_20261019_144610_manager",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "23aec9cd-977d-448a-a716-22546cec2e9c",
+      "name": "CASE_20261019_144610 employee",
+      "username": "case_20261019_144610_employee",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "a6be1d21-7582-46d5-97c9-e6ecacb4b3ad",
+      "name": "CASE_20261019_144610 other",
+      "username": "case_20261019_144610_other",
+      "reused": true,
+      "original_status": "inactive"
+    }
+  ],
+  "cleanup": [],
+  "finished_at": "2026-10-19T16:23:04.269255+08:00"
+}

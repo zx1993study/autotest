@@ -11,6 +11,7 @@ from app.schemas.execution_flow import (
 
 
 class ScenarioNode(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=200, pattern=r"\S")
     case_id: int | None = Field(default=None, gt=0)
     mode: Literal["always", "skip", "condition"] = "always"
     condition: FlowCondition | None = None

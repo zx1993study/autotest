@@ -10,7 +10,7 @@ from app.core.exceptions import BusinessRuleError
 from app.services.generation_candidate_service import validate_candidate
 from app.services.web_feature_testing_service import VERSIONS, WebFeatureTestingService
 from app.services.web_target_url_service import resolve_web_target_url
-from web_automation import dynamic_values
+from web_automation import dynamic_values, manual, outcomes
 
 RUNNER = r'''import argparse
 import asyncio
@@ -21,10 +21,14 @@ from getpass import getpass
 from playwright.async_api import async_playwright
 from web_automation.dynamic_values import DynamicValueContext
 from web_automation.engines.playwright import PlaywrightEngine
+from web_automation.manual import manual_input_locator
+from web_automation.outcomes import verification_error
 
 async def run(args):
     root = Path(__file__).resolve().parent
     candidate = json.loads((root / "steps.json").read_text(encoding="utf-8-sig"))
+    if error := verification_error(candidate["steps"]):
+        raise ValueError(error)
     inputs = json.loads(Path(args.inputs or root / "inputs.json").read_text(encoding="utf-8-sig"))
     manual = any(s["action"] == "manual" for s in candidate["steps"]) or args.login
     private = manual or any(s.get("sensitive") for s in candidate["steps"])
@@ -51,10 +55,9 @@ async def run(args):
                     raise RuntimeError("Browser left the target site")
                 step = dynamic.resolve(original)
                 if step["action"] == "manual":
-                    locator = engine._strict_locator(step)
-                    await locator.wait_for(state="visible")
-                    if await locator.count() != 1:
-                        raise ValueError("Manual locator is ambiguous")
+                    locator = await manual_input_locator(page, step)
+                    if locator is None:
+                        continue
                     await asyncio.to_thread(input, f"Fill {step.get('name', 'field')} in browser, then press Enter: ")
                     if not await locator.input_value():
                         raise ValueError("Manual field is empty")
@@ -101,6 +104,8 @@ class WebScriptExportService:
         files = {'run.py': RUNNER, 'steps.json': json.dumps(candidate, ensure_ascii=False, indent=2), 'inputs.json': json.dumps(inputs, ensure_ascii=False, indent=2),
                  'requirements.txt': 'playwright>=1.48,<2\n', 'web_automation/__init__.py': '', 'web_automation/engines/__init__.py': '',
                  'web_automation/dynamic_values.py': Path(dynamic_values.__file__).read_text(encoding='utf-8'),
+                 'web_automation/manual.py': Path(manual.__file__).read_text(encoding='utf-8'),
+                 'web_automation/outcomes.py': Path(outcomes.__file__).read_text(encoding='utf-8'),
                  'web_automation/engines/playwright.py': Path(playwright.__file__).read_text(encoding='utf-8'),
                  'README.txt': f'Script status: {status}. Export does not verify execution.\nInstall: python -m pip install -r requirements.txt\nBrowser: python -m playwright install chromium\nRun: python run.py [--headless] [--login] [--inputs inputs.json]\nInputs and steps are separate. Manual secrets must be entered only in the headed browser.\n'}
         buffer = io.BytesIO()

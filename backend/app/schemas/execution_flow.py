@@ -2,6 +2,7 @@
 
 from typing import Annotated, Any, Literal, TypedDict
 
+from jsonpointer import JsonPointer, JsonPointerException
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.schemas.common import ResourceCreate, ResourceUpdate
@@ -24,6 +25,23 @@ class FlowCondition(FlowValue):
     value: Any = None
 
 
+class FlowRowSelection(BaseModel):
+    path: str
+    non_empty: list[str] = Field(default_factory=list, max_length=100)
+    equals: dict[str, Any] = Field(default_factory=dict, max_length=100)
+
+    @model_validator(mode="after")
+    def validate_selection(self):
+        if not self.non_empty and not self.equals:
+            raise ValueError("Row selection needs an explicit filter")
+        try:
+            for path in [self.path, *self.non_empty, *self.equals]:
+                JsonPointer(path)
+        except JsonPointerException as exc:
+            raise ValueError("Invalid row selection JSON Pointer") from exc
+        return self
+
+
 class FlowExtract(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     source: Literal["body", "header", "status"] = "body"
@@ -32,9 +50,12 @@ class FlowExtract(BaseModel):
     paths: list[str] = Field(default_factory=list, max_length=100)
     required: bool = True
     sensitive: bool = False
+    selection: FlowRowSelection | None = None
 
     @model_validator(mode="after")
     def validate_paths(self):
+        if self.selection and self.source != "body":
+            raise ValueError("Row selection only supports response bodies")
         if self.mode == "array" and (self.source == "status" or not self.paths):
             raise ValueError("数组提取必须配置至少一条 Body 或 Header 精确路径")
         if self.mode == "array" and any(not path for path in self.paths):
@@ -43,7 +64,7 @@ class FlowExtract(BaseModel):
 
 
 class FlowBinding(FlowValue):
-    target: Literal["auto", "params", "headers", "query", "body"] = "params"
+    target: Literal["auto", "params", "headers", "query", "body", "variables"] = "params"
     path: str = ""
     target_name: str = Field(default="", max_length=200)
     prefix: str = ""

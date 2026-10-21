@@ -1,0 +1,798 @@
+{
+  "id": 17621,
+  "name": "[业务回归] 商品管理 - 10-17 05:57:31",
+  "project_id": 10,
+  "description": null,
+  "status": "success",
+  "data": {
+    "mode": "parallel",
+    "flow_id": 15793,
+    "results": [
+      {
+        "name": "条件查询 12100 - combined",
+        "path": [
+          "qs_12100",
+          "qq_12100"
+        ],
+        "nodes": [
+          {
+            "key": "create",
+            "name": "新增独立测试数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "locate",
+            "name": "列表查询并安全定位本次数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "detail",
+            "name": "详情查询与数据归属校验",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "edit",
+            "name": "编辑本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_edit",
+            "name": "再次查询并验证修改生效",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "delete",
+            "name": "删除本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_delete",
+            "name": "查询确认数据已删除",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "qs_12100",
+            "mode": "local_headless",
+            "name": "12100 筛选数据准备（只读）",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 425,
+            "outputs": {
+              "q_status": "0",
+              "q_productType": "巴马水",
+              "q_productBrand": "巴马丽琅矿泉水"
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/product/list?pageNum=1&pageSize=50",
+              "body": {},
+              "path": "/business/product/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 50
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 195,
+            "response_body": "{\"code\":200,\"msg\":\"操作成功\",\"rows\":[{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:56:23\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":411,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216581774_967477_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:56:23\",\"productCode\":\"SP202610170037\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:56:00\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":410,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216559016_815915_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:56:00\",\"productCode\":\"SP202610170036\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:55:37\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":409,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216536101_343745_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:55:37\",\"productCode\":\"SP202610170035\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:55:12\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":408,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216511180_614819_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:55:12\",\"productCode\":\"SP202610170034\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:50\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":407,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216488481_414392_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:50\",\"productCode\":\"SP202610170033\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:27\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":406,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216465535_044671_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:27\",\"productCode\":\"SP202610170032\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:14\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":405,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216452614_072707_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:14\",\"productCode\":\"SP202610170031\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:00\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":404,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216439553_547740_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:00\",\"productCode\":\"SP202610170030\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:47\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":403,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216425562_071206_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:47\",\"productCode\":\"SP202610170029\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:31\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":402,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216410428_459522_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:31\",\"productCode\":\"SP202610170028\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:18\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":401,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216397008_004963_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:18\",\"productCode\":\"SP202610170027\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:24\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":400,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216282908_819467_转换商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:51:24\",\"productCode\":\"SP202610170026\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*24\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:24\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*24\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":399,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216282908_819467_主商品\",\"unit\":\"件\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:51:24\",\"productCode\":\"SP202610170025\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:12\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":398,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216270540_024331_转换商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-1...<truncated>",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "product",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "商品管理测试_1792216652256_257735",
+                "updated_marker": "商品管理维护_1792216652256_257735"
+              },
+              "templates": {},
+              "generated_at_ms": 1792216652261
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:57:32 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "1796478337c3443780a5b3f23586116c",
+              "Content-Type": "application/json",
+              "Content-Length": "30594"
+            }
+          },
+          {
+            "key": "qq_12100",
+            "mode": "local_headless",
+            "name": "12100 条件查询验证",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 437,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/product/list?pageNum=1&pageSize=50&status=0&productBrand=%E5%B7%B4%E9%A9%AC%E4%B8%BD%E7%90%85%E7%9F%BF%E6%B3%89%E6%B0%B4&productType=%E5%B7%B4%E9%A9%AC%E6%B0%B4",
+              "body": {},
+              "path": "/business/product/list",
+              "query": {
+                "status": "0",
+                "pageNum": 1,
+                "pageSize": 50,
+                "productType": "巴马水",
+                "productBrand": "巴马丽琅矿泉水"
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 50,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [
+                    {
+                      "paths": [
+                        "/status"
+                      ],
+                      "expected": "0",
+                      "operator": "eq"
+                    },
+                    {
+                      "paths": [
+                        "/productBrand"
+                      ],
+                      "expected": "巴马丽琅矿泉水",
+                      "operator": "eq"
+                    },
+                    {
+                      "paths": [
+                        "/productType"
+                      ],
+                      "expected": "巴马水",
+                      "operator": "eq"
+                    }
+                  ],
+                  "min_items": 1
+                }
+              }
+            ],
+            "duration_ms": 183,
+            "response_body": "{\"code\":200,\"msg\":\"操作成功\",\"rows\":[{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:56:23\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":411,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216581774_967477_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:56:23\",\"productCode\":\"SP202610170037\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:56:00\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":410,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216559016_815915_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:56:00\",\"productCode\":\"SP202610170036\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:55:37\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":409,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216536101_343745_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:55:37\",\"productCode\":\"SP202610170035\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:55:12\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":408,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216511180_614819_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:55:12\",\"productCode\":\"SP202610170034\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:50\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":407,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216488481_414392_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:50\",\"productCode\":\"SP202610170033\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:27\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":406,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216465535_044671_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:27\",\"productCode\":\"SP202610170032\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:14\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":405,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216452614_072707_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:14\",\"productCode\":\"SP202610170031\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:54:00\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":404,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216439553_547740_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:54:00\",\"productCode\":\"SP202610170030\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:47\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":403,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216425562_071206_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:47\",\"productCode\":\"SP202610170029\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:31\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":402,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216410428_459522_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:31\",\"productCode\":\"SP202610170028\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:53:18\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":401,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216397008_004963_主商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:53:18\",\"productCode\":\"SP202610170027\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:24\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":400,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216282908_819467_转换商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:51:24\",\"productCode\":\"SP202610170026\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*24\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:24\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*24\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":399,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216282908_819467_主商品\",\"unit\":\"件\",\"weightUnit\":null,\"createTime\":\"2026-10-17 13:51:24\",\"productCode\":\"SP202610170025\",\"barcode\":null,\"length\":null},{\"productSpec\":\"500ML / 1*1\",\"productImage\":null,\"width\":null,\"updateBy\":\"admin\",\"costPrice\":0.0,\"height\":null,\"updateTime\":\"2026-10-17 13:51:12\",\"productSpecFirst\":\"500ML\",\"purchasePrice\":2.5,\"remark\":null,\"productSpecSecond\":\"1*1\",\"terminalWholesalePrice\":3.5,\"status\":\"0\",\"productId\":398,\"productType\":\"巴马水\",\"groupBuyPrice\":0.0,\"delFlag\":\"0\",\"productBrand\":\"巴马丽琅矿泉水\",\"weight\":null,\"createBy\":\"admin\",\"productName\":\"库存回归_1792216270540_024331_转换商品\",\"unit\":\"瓶\",\"weightUnit\":null,\"createTime\":\"2026-10-1...<truncated>",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "product",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "商品管理测试_1792216652256_257735",
+                "bound_q_status": "0",
+                "updated_marker": "商品管理维护_1792216652256_257735",
+                "bound_q_productType": "巴马水",
+                "bound_q_productBrand": "巴马丽琅矿泉水"
+              },
+              "templates": {
+                "$.assertions[2].rules[0].expected": "{{bound_q_status}}",
+                "$.assertions[2].rules[1].expected": "{{bound_q_productBrand}}",
+                "$.assertions[2].rules[2].expected": "{{bound_q_productType}}"
+              },
+              "generated_at_ms": 1792216652462
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:57:33 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "754656d81ae643eaac83002ff1119579",
+              "Content-Type": "application/json",
+              "Content-Length": "30640"
+            }
+          },
+          {
+            "key": "qs_12105",
+            "name": "12105 筛选数据准备（只读）",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "qq_12105",
+            "name": "12105 条件查询验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "qs_12106",
+            "name": "12106 筛选数据准备（只读）",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "qq_12106",
+            "name": "12106 条件查询验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          }
+        ],
+        "inputs": {
+          "module_key": "product",
+          "campaign_key": "waiqin-crud-20261015",
+          "record_marker": "商品管理测试_1792216652256_257735",
+          "updated_marker": "商品管理维护_1792216652256_257735"
+        },
+        "status": "success",
+        "snapshot": {
+          "flow": {
+            "id": 15793,
+            "data": {
+              "nodes": [
+                {
+                  "key": "create",
+                  "name": "新增独立测试数据",
+                  "next": "auto",
+                  "api_id": 12102,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 301,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "locate",
+                  "name": "列表查询并安全定位本次数据",
+                  "next": "auto",
+                  "api_id": 12100,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 302,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "owned_id",
+                      "path": "/rows/0/productId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "detail",
+                  "name": "详情查询与数据归属校验",
+                  "next": "auto",
+                  "api_id": 12107,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 303,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/product_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "edit",
+                  "name": "编辑本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12101,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 304,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/productId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_edit",
+                  "name": "再次查询并验证修改生效",
+                  "next": "auto",
+                  "api_id": 12107,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 305,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/product_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "delete",
+                  "name": "删除本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12103,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 306,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/product_ids",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_delete",
+                  "name": "查询确认数据已删除",
+                  "next": "auto",
+                  "api_id": 12107,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 307,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/product_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12100",
+                  "name": "12100 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12100,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 425,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12100",
+                  "name": "12100 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12100,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 426,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12105",
+                  "name": "12105 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12105,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 440,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12105",
+                  "name": "12105 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12105,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 441,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12106",
+                  "name": "12106 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12106,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 443,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12106",
+                  "name": "12106 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12106,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 444,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                }
+              ],
+              "inputs": {
+                "module_key": "product",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "商品管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+                "updated_marker": "商品管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+              },
+              "version": 2
+            },
+            "name": "[业务回归] 商品管理",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T10:44:16",
+            "project_id": 10,
+            "updated_at": "2026-10-15T11:43:58",
+            "description": "仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。"
+          },
+          "scenario": {
+            "id": 15852,
+            "data": {
+              "nodes": {
+                "edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "create": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "detail": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "locate": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12100": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": 437,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "q_status",
+                      "path": "/status",
+                      "prefix": "",
+                      "source": "qs_12100",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "q_productBrand",
+                      "path": "/productBrand",
+                      "prefix": "",
+                      "source": "qs_12100",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "q_productType",
+                      "path": "/productType",
+                      "prefix": "",
+                      "source": "qs_12100",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12105": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12106": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12100": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "q_status",
+                      "path": "/status",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/productBrand",
+                          "/productType",
+                          "/status"
+                        ]
+                      },
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "single",
+                      "name": "q_productBrand",
+                      "path": "/productBrand",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/productBrand",
+                          "/productType",
+                          "/status"
+                        ]
+                      },
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "single",
+                      "name": "q_productType",
+                      "path": "/productType",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/productBrand",
+                          "/productType",
+                          "/status"
+                        ]
+                      },
+                      "sensitive": false
+                    }
+                  ],
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12105": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12106": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                }
+              },
+              "inputs": {},
+              "flow_id": 15793,
+              "expected_end": "qq_12100",
+              "latest_run_id": 16977,
+              "latest_status": "success",
+              "failure_policy": "stop",
+              "template_version": 2
+            },
+            "name": "条件查询 12100 - combined",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T11:44:23",
+            "project_id": 10,
+            "updated_at": "2026-10-16T17:47:59",
+            "description": "逐行验证筛选结果；命中场景要求非空，不把空列表算作通过。"
+          }
+        },
+        "end_passed": true,
+        "duration_ms": 390,
+        "scenario_id": 15852,
+        "expected_end": "qq_12100",
+        "template_version": 2
+      }
+    ],
+    "concurrency": 4,
+    "template_version": 2
+  },
+  "created_at": "2026-10-17T13:57:32",
+  "updated_at": "2026-10-17T13:57:35",
+  "deleted": false
+}

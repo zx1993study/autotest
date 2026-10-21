@@ -1,11 +1,14 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from pydantic import ValidationError
 
 from app.api.dependencies import get_resource_repository
 from app.core.response import page_result, success
 from app.repositories.interfaces import ResourceRepository
+from app.schemas.api_request_file import MAX_API_FILE_SIZE
 from app.schemas.cases import ApiExecuteRequest, CaseListQuery, TestCaseCreate
 from app.schemas.common import BatchDeleteRequest
 from app.schemas.testing import ApiExecuteCasesRequest
+from app.services.api_request_file_service import ApiRequestFileService
 from app.services.case_execution_dispatcher import CaseExecutionDispatcher
 from app.services.test_case_service import TestCaseService
 
@@ -26,6 +29,24 @@ def run_cases(
     repository: ResourceRepository = Depends(get_resource_repository),
 ) -> dict[str, object]:
     return success(CaseExecutionDispatcher(repository).execute("API", payload.model_dump()))
+
+
+@router.post("/files")
+async def upload_request_file(
+    project_id: int = Form(..., ge=1),
+    file: UploadFile = File(...),
+    repository: ResourceRepository = Depends(get_resource_repository),
+) -> dict[str, object]:
+    content = await file.read(MAX_API_FILE_SIZE + 1)
+    if not content or len(content) > MAX_API_FILE_SIZE:
+        raise HTTPException(422, "请求文件不能为空且不能超过 10MB")
+    try:
+        reference = ApiRequestFileService(repository).save(
+            project_id, file.filename or "upload.bin", file.content_type or "application/octet-stream", content,
+        )
+    except ValidationError as exc:
+        raise HTTPException(422, "请求文件名称或类型无效") from exc
+    return success(reference)
 
 
 @router.get("")

@@ -1,0 +1,532 @@
+﻿import React, { useState, useEffect } from 'react';
+import { Plus, Edit2, X, Crown, Search, KeyRound, FileText, Upload, ChevronLeft, ChevronRight } from 'lucide-react';
+import iamApi from '@/api/iam';
+import client from '@/api/client';
+import ImagePasteUpload from '@/components/common/ImagePasteUpload';
+import './IAMPage.css';
+
+const STATUS_LABELS = { active: '在职', inactive: '停用' };
+
+function UserModal({ isOpen, onClose, onSubmit, initialData, users, jobTitles, departments, showNotification }) {
+    const [form, setForm] = useState({
+        display_name: '',
+        username: '',
+        email: '',
+        phone: '',
+        password: '',
+        is_shareholder: false,
+        manager_user_id: '',
+        job_title_id: '',
+        department_id: '',
+        status: 'active',
+        birthday: '',
+        id_number: '',
+        home_address: '',
+        graduation_school: '',
+        education_level: '',
+    });
+    const [loading, setLoading] = useState(false);
+    const [idCardBlobUrl, setIdCardBlobUrl] = useState(null);
+    const [resumeBlobUrl, setResumeBlobUrl] = useState(null);
+    const isEdit = !!initialData;
+
+    useEffect(() => {
+        let cancelled = false;
+        setIdCardBlobUrl(null);
+        setResumeBlobUrl(null);
+        if (isOpen && initialData?.id_card_image) {
+            iamApi.downloadUserFile(initialData.id, initialData.id_card_image).then(blob => {
+                if (!cancelled) setIdCardBlobUrl(URL.createObjectURL(blob));
+            }).catch(() => {});
+        }
+        if (isOpen && initialData?.resume_file) {
+            iamApi.downloadUserFile(initialData.id, initialData.resume_file).then(blob => {
+                if (!cancelled) setResumeBlobUrl(URL.createObjectURL(new Blob([blob], { type: 'application/pdf' })));
+            }).catch(() => {});
+        }
+        return () => {
+            cancelled = true;
+            if (idCardBlobUrl) URL.revokeObjectURL(idCardBlobUrl);
+            if (resumeBlobUrl) URL.revokeObjectURL(resumeBlobUrl);
+        };
+    }, [isOpen, initialData?.id, initialData?.id_card_image, initialData?.resume_file]);
+
+    useEffect(() => {
+        if (initialData) {
+            setForm({
+                display_name: initialData.display_name || '',
+                username: initialData.username || '',
+                email: initialData.email || '',
+                phone: initialData.phone || '',
+                password: '',
+                is_shareholder: initialData.is_shareholder || false,
+                manager_user_id: initialData.manager_user_id || '',
+                job_title_id: initialData.job_title_id || '',
+                department_id: initialData.department_id || '',
+                status: initialData.status || 'active',
+                birthday: initialData.birthday || '',
+                id_number: initialData.id_number || '',
+                home_address: initialData.home_address || '',
+                graduation_school: initialData.graduation_school || '',
+                education_level: initialData.education_level || '',
+            });
+        } else {
+            setForm({
+                display_name: '',
+                username: '',
+                email: '',
+                phone: '',
+                password: '',
+                is_shareholder: false,
+                manager_user_id: '',
+                job_title_id: '',
+                department_id: '',
+                status: 'active',
+                birthday: '',
+                id_number: '',
+                home_address: '',
+                graduation_school: '',
+                education_level: '',
+            });
+        }
+    }, [initialData, isOpen]);
+
+    const flattenDepts = (depts, prefix = '') => {
+        let result = [];
+        for (const d of depts) {
+            result.push({ id: d.id, name: prefix + d.name });
+            if (d.children?.length) result = result.concat(flattenDepts(d.children, `${prefix}${d.name} / `));
+        }
+        return result;
+    };
+    const flatDepts = flattenDepts(departments);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const data = {
+                display_name: form.display_name,
+                username: form.username || null,
+                email: form.email || null,
+                phone: form.phone || null,
+                is_shareholder: form.is_shareholder,
+                manager_user_id: form.manager_user_id || null,
+                job_title_id: form.job_title_id || null,
+                department_id: form.department_id || null,
+                birthday: form.birthday || null,
+                id_number: form.id_number || null,
+                home_address: form.home_address || null,
+                graduation_school: form.graduation_school || null,
+                education_level: form.education_level || null,
+            };
+            if (!isEdit) data.password = form.password;
+            if (isEdit) data.status = form.status;
+
+            await onSubmit(data);
+            onClose();
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleIdCardUpload = async (file, successText) => {
+        if (!file || !initialData?.id) return;
+        try {
+            await iamApi.uploadIdCardImage(initialData.id, file);
+            showNotification(successText);
+            onClose();
+        } catch {
+            showNotification('上传失败', 'error');
+        }
+    };
+
+    if (!isOpen) return null;
+    return (
+        <div className="iam-modal-overlay" onClick={onClose}>
+            <div className="iam-modal iam-modal-lg" onClick={e => e.stopPropagation()}>
+                <div className="iam-modal-header">
+                    <h3>{isEdit ? '编辑员工' : '新建员工'}</h3>
+                    <button onClick={onClose}><X size={18} /></button>
+                </div>
+                <form onSubmit={handleSubmit} className="iam-modal-body">
+                    <div className="iam-form-row">
+                        <div className="iam-form-group">
+                            <label>姓名 *</label>
+                            <input value={form.display_name} onChange={e => setForm(p => ({ ...p, display_name: e.target.value }))} required />
+                        </div>
+                        <div className="iam-form-group">
+                            <label>用户名</label>
+                            <input value={form.username} onChange={e => setForm(p => ({ ...p, username: e.target.value }))} />
+                        </div>
+                    </div>
+                    <div className="iam-form-row">
+                        <div className="iam-form-group">
+                            <label>邮箱</label>
+                            <input type="email" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} />
+                        </div>
+                        <div className="iam-form-group">
+                            <label>手机号</label>
+                            <input value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} />
+                        </div>
+                    </div>
+
+                    {!isEdit && (
+                        <div className="iam-form-group">
+                            <label>密码 *</label>
+                            <input type="password" value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} required />
+                        </div>
+                    )}
+
+                    <div className="iam-form-row">
+                        <div className="iam-form-group">
+                            <label>部门</label>
+                            <select value={form.department_id} onChange={e => setForm(p => ({ ...p, department_id: e.target.value }))}>
+                                <option value="">未选择</option>
+                                {flatDepts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                            </select>
+                        </div>
+                        <div className="iam-form-group">
+                            <label>职位</label>
+                            <select value={form.job_title_id} onChange={e => setForm(p => ({ ...p, job_title_id: e.target.value }))}>
+                                <option value="">未选择</option>
+                                {jobTitles.map(jt => <option key={jt.id} value={jt.id}>{jt.name}</option>)}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="iam-form-row">
+                        <div className="iam-form-group">
+                            <label>直属上级</label>
+                            <select value={form.manager_user_id} onChange={e => setForm(p => ({ ...p, manager_user_id: e.target.value }))}>
+                                <option value="">无</option>
+                                {users.filter(u => u.id !== initialData?.id).map(u => (
+                                    <option key={u.id} value={u.id}>{u.display_name}{u.job_title_name ? ` (${u.job_title_name})` : ''}</option>
+                                ))}
+                            </select>
+                        </div>
+                        {isEdit && (
+                            <div className="iam-form-group">
+                                <label>状态</label>
+                                <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}>
+                                    <option value="active">在职</option>
+                                    <option value="inactive">停用</option>
+                                </select>
+                            </div>
+                        )}
+                    </div>
+
+                    {isEdit && (
+                        <>
+                            <div style={{ borderTop: '1px solid #e5e7eb', margin: '8px 0', paddingTop: '8px' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 600, color: '#374151', marginBottom: '8px' }}>个人档案</div>
+                            </div>
+                            <div className="iam-form-row">
+                                <div className="iam-form-group">
+                                    <label>生日</label>
+                                    <input type="date" value={form.birthday} onChange={e => setForm(p => ({ ...p, birthday: e.target.value }))} />
+                                </div>
+                                <div className="iam-form-group">
+                                    <label>学历</label>
+                                    <select value={form.education_level} onChange={e => setForm(p => ({ ...p, education_level: e.target.value }))}>
+                                        <option value="">未选择</option>
+                                        <option value="high_school">高中/中专</option>
+                                        <option value="associate">大专</option>
+                                        <option value="bachelor">本科</option>
+                                        <option value="master">硕士</option>
+                                        <option value="doctorate">博士</option>
+                                        <option value="other">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="iam-form-group">
+                                <label>身份证号</label>
+                                <input value={form.id_number} onChange={e => setForm(p => ({ ...p, id_number: e.target.value }))} placeholder="18位身份证号码" />
+                            </div>
+                            <div className="iam-form-group">
+                                <label>家庭住址</label>
+                                <input value={form.home_address} onChange={e => setForm(p => ({ ...p, home_address: e.target.value }))} placeholder="详细家庭住址" />
+                            </div>
+                            <div className="iam-form-group">
+                                <label>毕业学校</label>
+                                <input value={form.graduation_school} onChange={e => setForm(p => ({ ...p, graduation_school: e.target.value }))} placeholder="最高学历毕业院校" />
+                            </div>
+                            <div className="iam-form-row">
+                                <div className="iam-form-group">
+                                    <label>身份证照片</label>
+                                    {initialData?.id_card_image ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            {idCardBlobUrl ? (
+                                                <a href={idCardBlobUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+                                                    <img src={idCardBlobUrl} alt="身份证" style={{ maxWidth: '100%', maxHeight: '120px', borderRadius: '6px', border: '1px solid #e2e8f0', objectFit: 'cover' }} />
+                                                </a>
+                                            ) : (
+                                                <span style={{ fontSize: '12px', color: '#94a3b8' }}>加载中...</span>
+                                            )}
+                                            <ImagePasteUpload
+                                                compact
+                                                label="重新上传"
+                                                onFiles={(files) => handleIdCardUpload(files[0], '身份证图片已更新')}
+                                                maxSizeMB={10}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <ImagePasteUpload
+                                            label="上传身份证图片"
+                                            onFiles={(files) => handleIdCardUpload(files[0], '身份证图片已上传')}
+                                            multiple={false}
+                                            maxSizeMB={10}
+                                        />
+                                    )}
+                                </div>
+                                <div className="iam-form-group">
+                                    <label>简历</label>
+                                    {initialData?.resume_file ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            {resumeBlobUrl ? (
+                                                <a href={resumeBlobUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#3b82f6', fontSize: '13px', textDecoration: 'none' }}>
+                                                    <FileText size={16} />
+                                                    <span>查看简历 PDF</span>
+                                                </a>
+                                            ) : (
+                                                <span style={{ fontSize: '12px', color: '#94a3b8' }}>加载中...</span>
+                                            )}
+                                            <label style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: '#3b82f6', cursor: 'pointer' }}>
+                                                <Upload size={12} /> 重新上传
+                                                <input type="file" accept=".pdf" hidden onChange={async (e) => {
+                                                    if (e.target.files[0]) {
+                                                        try { await iamApi.uploadResume(initialData.id, e.target.files[0]); showNotification('简历已更新'); onClose(); } catch { showNotification('上传失败', 'error'); }
+                                                    }
+                                                }} />
+                                            </label>
+                                        </div>
+                                    ) : (
+                                        <label style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', border: '1px dashed #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', color: '#64748b' }}>
+                                            <Upload size={14} /> 上传简历 PDF
+                                            <input type="file" accept=".pdf" hidden onChange={async (e) => {
+                                                if (e.target.files[0]) {
+                                                    try { await iamApi.uploadResume(initialData.id, e.target.files[0]); showNotification('简历已上传'); onClose(); } catch { showNotification('上传失败', 'error'); }
+                                                }
+                                            }} />
+                                        </label>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    <div className="iam-form-group">
+                        <label className="iam-checkbox-label">
+                            <input type="checkbox" checked={form.is_shareholder} onChange={e => setForm(p => ({ ...p, is_shareholder: e.target.checked }))} />
+                            <Crown size={14} style={{ color: 'var(--warning-color)' }} /> 股东账号
+                        </label>
+                    </div>
+
+                    <div className="iam-modal-footer">
+                        <button type="button" onClick={onClose} className="btn-secondary" disabled={loading}>取消</button>
+                        <button type="submit" className="btn-primary" disabled={loading}>{loading ? '保存中...' : '保存'}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+export default function UserListPage() {
+    const [canManageSalary, setCanManageSalary] = useState(false);
+    const [salaryTarget, setSalaryTarget] = useState(null);
+    const [salary, setSalary] = useState('');
+    const [salaryBusy, setSalaryBusy] = useState(false);
+    const [salaryError, setSalaryError] = useState('');
+    useEffect(() => { client.get('/iam/compensation-access').then(res => setCanManageSalary(res.data.allowed)).catch(() => {}); }, []);
+    const openSalary = async employee => {
+        setSalaryError('');
+        try { const res = await client.get(`/iam/users/${employee.id}/salary`); setSalary(res.data.basic_salary ?? ''); setSalaryTarget(employee); }
+        catch (err) { showNotification(err.response?.data?.message || err.message, 'error'); }
+    };
+    const [users, setUsers] = useState([]);
+    const [jobTitles, setJobTitles] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editTarget, setEditTarget] = useState(null);
+    const [notification, setNotification] = useState(null);
+    const [search, setSearch] = useState('');
+    const [currentUserLevel, setCurrentUserLevel] = useState(null);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const pageSize = 20;
+
+    const showNotification = (msg, type = 'success') => {
+        setNotification({ msg, type });
+        setTimeout(() => setNotification(null), 3000);
+    };
+
+    const load = async () => {
+        setLoading(true);
+        try {
+            const [usersRes, jtRes, deptRes] = await Promise.all([
+                iamApi.listUsers({ page, page_size: pageSize }),
+                iamApi.listJobTitles(),
+                iamApi.listDepartments(),
+            ]);
+            const list = usersRes.data?.items || [];
+            setUsers(list);
+            setTotal(usersRes.data?.total || 0);
+            const currentUserId = JSON.parse(localStorage.getItem('user') || '{}')?.id;
+            const me = list.find(u => u.id === currentUserId);
+            setCurrentUserLevel(me?.level ?? null);
+            setJobTitles(jtRes.data || []);
+            setDepartments(deptRes.data || []);
+        } catch {
+            showNotification('获取员工列表失败', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => { load(); }, [page]);
+
+    const handleCreate = async (data) => {
+        await iamApi.createUser(data);
+        showNotification('员工创建成功');
+        load();
+    };
+
+    const handleEdit = async (data) => {
+        await iamApi.updateUser(editTarget.id, data);
+        showNotification('员工更新成功');
+        load();
+    };
+
+    const handleResetPassword = async (user) => {
+        if (!confirm(`确认重置「${user.display_name}」的密码为默认密码？`)) return;
+        try {
+            const res = await iamApi.resetUserPassword(user.id);
+            showNotification(res.data?.message || '密码已重置');
+        } catch (err) {
+            showNotification(err.response?.data?.detail || '重置失败', 'error');
+        }
+    };
+
+    const filtered = users.filter(u =>
+        u.display_name.includes(search)
+        || (u.username || '').includes(search)
+        || (u.department_name || '').includes(search)
+        || (u.job_title_name || '').includes(search)
+    );
+
+    return (
+        <div className="iam-page">
+            {salaryTarget && <div className="iam-modal-overlay" onClick={() => { if (!salaryBusy) setSalaryTarget(null); }}><form className="iam-modal" style={{ padding: 24, maxWidth: 420 }} onClick={e => e.stopPropagation()} onSubmit={async e => {
+                e.preventDefault(); setSalaryBusy(true); setSalaryError('');
+                try { await client.put(`/iam/users/${salaryTarget.id}/salary`, { basic_salary: salary }); setSalaryTarget(null); showNotification('基本工资已保存'); }
+                catch (err) { setSalaryError(err.response?.data?.message || err.message); }
+                finally { setSalaryBusy(false); }
+            }}><h3>{salaryTarget.display_name} · 基本工资</h3><label className="iam-form-group">基本月工资（元） *<input type="number" min="0.01" step="0.01" required value={salary} onChange={e => setSalary(e.target.value)} /></label>{salaryError && <p role="alert">{salaryError}</p>}<div className="iam-modal-footer"><button type="button" disabled={salaryBusy} onClick={() => setSalaryTarget(null)}>取消</button><button type="submit" disabled={salaryBusy}>保存</button></div></form></div>}
+            {notification && (
+                <div className={`iam-notification ${notification.type}`}>{notification.msg}</div>
+            )}
+            <div className="iam-page-header">
+                <h2>员工管理</h2>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <div className="iam-search">
+                        <Search size={14} />
+                        <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="搜索姓名/用户名/部门/职位" />
+                    </div>
+                    <button className="btn-primary" onClick={() => { setEditTarget(null); setModalOpen(true); }}>
+                        <Plus size={16} /> 新建员工
+                    </button>
+
+                </div>
+            </div>
+
+            {loading ? (
+                <div className="iam-loading">加载中...</div>
+            ) : (
+                <div className="data-table-container">
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>用户名</th>
+                                <th>部门</th>
+                                <th>职位</th>
+                                <th>直属上级</th>
+                                <th>层级</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filtered.length === 0 ? (
+                                <tr><td colSpan="8" style={{ textAlign: 'center', padding: '2rem' }}>暂无员工</td></tr>
+                            ) : filtered.map(user => (
+                                <tr key={user.id}>
+                                    <td>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            {user.is_shareholder && <Crown size={14} style={{ color: 'var(--warning-color)' }} />}
+                                            <strong>{user.display_name}</strong>
+                                        </div>
+                                    </td>
+                                    <td style={{ color: 'var(--text-secondary)' }}>{user.username || '-'}</td>
+                                    <td>{user.department_name ? <span className="badge">{user.department_name}</span> : '-'}</td>
+                                    <td>{user.job_title_name || '-'}</td>
+                                    <td style={{ color: 'var(--text-secondary)' }}>{user.manager_name || '-'}</td>
+                                    <td>
+                                        <span className="badge" style={{ background: 'rgba(138,173,244,0.15)', color: 'var(--primary-color)' }}>L{user.level ?? 0}</span>
+                                    </td>
+                                    <td>
+                                        <span className={`status-badge ${user.status}`}>
+                                            {STATUS_LABELS[user.status] || user.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                            <button className="btn-link" onClick={() => { setEditTarget(user); setModalOpen(true); }}>
+                                                <Edit2 size={14} /> 编辑
+                                            </button>
+                                            {canManageSalary && user.status === 'active' && <button className="btn-link" onClick={() => openSalary(user)}><Edit2 size={14} />基本工资</button>}
+                                            {currentUserLevel === 0 && (
+                                                <button className="btn-link" style={{ color: 'var(--warning-color)' }} onClick={() => handleResetPassword(user)}>
+                                                    <KeyRound size={14} /> 重置密码
+                                                </button>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {total > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', marginTop: '8px' }}>
+                    <span style={{ fontSize: '13px', color: '#64748b' }}>共 {total} 条记录</span>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <button className="btn btn-sm btn-outline-secondary" disabled={page <= 1} onClick={() => setPage(p => p - 1)} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <ChevronLeft size={16} /> 上一页
+                        </button>
+                        <span style={{ fontSize: '13px', color: '#475569' }}>{page} / {Math.ceil(total / pageSize)}</span>
+                        <button className="btn btn-sm btn-outline-secondary" disabled={page >= Math.ceil(total / pageSize)} onClick={() => setPage(p => p + 1)} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            下一页 <ChevronRight size={16} />
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <UserModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onSubmit={editTarget ? handleEdit : handleCreate}
+                initialData={editTarget}
+                users={users}
+                jobTitles={jobTitles}
+                departments={departments}
+                showNotification={showNotification}
+            />
+
+        </div>
+    );
+}

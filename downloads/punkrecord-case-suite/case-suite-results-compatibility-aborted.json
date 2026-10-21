@@ -1,0 +1,2861 @@
+{
+  "target": "http://14.103.229.153:15173",
+  "project_id": 17796,
+  "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+  "run_prefix": "CASE_20261019_140326",
+  "started_at": "2026-10-19T14:03:26.918938+08:00",
+  "catalog": [
+    {
+      "id": "TODO-01",
+      "section": "任务与 Bug",
+      "scenario": "普通待办、项目详情、开发任务、Bug、批量生成、同步、MCP 创建",
+      "expected": "截止日期必填；工时省略或0均成功且默认0；拒绝负数、显式null、超过两位小数和非有限值",
+      "source": ".agent/test/cases.md",
+      "line": 7,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_mcp_todo_tools.py",
+      "existing_test_filter": "task_creation; generate_development; sync_feature; mcp_creates",
+      "remote_gap": "跨创建来源的真实 HTTP 参数边界",
+      "remote_status": "partial",
+      "evidence": [
+        "TODO01-custom-omitted",
+        "TODO01-custom-0",
+        "TODO01-custom-1_25",
+        "TODO01-custom--1",
+        "TODO01-custom-None",
+        "TODO01-custom-0_001",
+        "TODO01-custom-NaN",
+        "TODO01-custom-Infinity",
+        "TODO01-custom-date",
+        "TODO01-project-omitted",
+        "TODO01-project-0",
+        "TODO01-project-1_25",
+        "TODO01-project--1",
+        "TODO01-project-None",
+        "TODO01-project-0_001",
+        "TODO01-project-NaN",
+        "TODO01-project-Infinity",
+        "TODO01-project-date",
+        "TODO01-bug-omitted",
+        "TODO01-bug-0",
+        "TODO01-bug-1_25",
+        "TODO01-bug--1",
+        "TODO01-bug-None",
+        "TODO01-bug-0_001",
+        "TODO01-bug-NaN",
+        "TODO01-bug-Infinity",
+        "TODO01-bug-date",
+        "TODO01-03-batch"
+      ]
+    },
+    {
+      "id": "TODO-02",
+      "section": "任务与 Bug",
+      "scenario": "修改项目任务后打开待办，反向修改后打开项目",
+      "expected": "ID和计划字段一致，图片与状态不丢失",
+      "source": ".agent/test/cases.md",
+      "line": 8,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_project_workflow.py",
+      "existing_test_filter": "project_todo_plan",
+      "remote_gap": "同一任务双向编辑、真实图片与状态持久化",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-03",
+      "section": "任务与 Bug",
+      "scenario": "重复同步功能清单、重复生成同一功能任务",
+      "expected": "不重建任务、不重置审核与附件、不复制Bug",
+      "source": ".agent/test/cases.md",
+      "line": 9,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "sync_preserves_identity",
+      "remote_gap": "重复生成/同步后身份、审核和附件不丢失",
+      "remote_status": "partial",
+      "evidence": [
+        "TODO01-03-batch"
+      ]
+    },
+    {
+      "id": "TODO-04",
+      "section": "任务与 Bug",
+      "scenario": "历史任务缺少日期或工时",
+      "expected": "日期提交前补齐；空工时按未设置显示0，不阻止验收、不参与奖励；不覆盖历史数据",
+      "source": ".agent/test/cases.md",
+      "line": 10,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_completed; mandatory_backfill",
+      "remote_gap": "历史缺失字段需隔离历史夹具，不能修改存量业务记录",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-05",
+      "section": "任务与 Bug",
+      "scenario": "退回重提、审核延迟、时区跨日",
+      "expected": "保留最终通过版本的提交时间；按上海自然日计算延期",
+      "source": ".agent/test/cases.md",
+      "line": 11,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "task_required_fields; timezone",
+      "remote_gap": "退回重提、最终提交时间及上海自然日结算",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-07",
+      "section": "任务与 Bug",
+      "scenario": "历史待验收缺少提交时间",
+      "expected": "明确拒绝直接验收，允许撤回重提后正常验收；不伪造时间",
+      "source": ".agent/test/cases.md",
+      "line": 12,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_pending_review",
+      "remote_gap": "缺少提交时间的历史夹具与撤回重提",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-06",
+      "section": "任务与 Bug",
+      "scenario": "完成任务展开、加载更多",
+      "expected": "按完成时间排序，每次10项；不回归原有行为",
+      "source": ".agent/test/cases.md",
+      "line": 13,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_todo_ordering.py",
+      "existing_test_filter": "done_todos",
+      "remote_gap": "分页大小10、展开/加载更多及跨页排序",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-08",
+      "section": "任务与 Bug",
+      "scenario": "正数/0/空工时的待办卡片，编辑工时；看板/列表、我的/团队、已完成与暗色",
+      "expected": "正数显示绿色与“贝利任务”标识，其余普通样式；归零后恢复，恢复正数后重新显示；手机文字不溢出，不改变优先级/状态语义",
+      "source": ".agent/test/cases.md",
+      "line": 14,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "scripts/test-planning-ui.cjs",
+      "existing_test_filter": "beli-task",
+      "remote_gap": "远程桌面/手机、明暗色、看板/列表/团队完整组合",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-01",
+      "section": "任务与 Bug",
+      "scenario": "同项目跨端标题搜索、空查询、无结果、分页",
+      "expected": "大小写不敏感的子串查询；百分号和下划线按字面查询",
+      "source": ".agent/test/cases.md",
+      "line": 15,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_mcp_todo_tools.py",
+      "existing_test_filter": "bug_title; search_project_bugs",
+      "remote_gap": "真实字面量百分号/下划线、大小写和分页断言",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-02",
+      "section": "任务与 Bug",
+      "scenario": "筛选后刷新、翻页、浏览器前进后退",
+      "expected": "URL保留搜索与筛选条件，结果和地址一致",
+      "source": ".agent/test/cases.md",
+      "line": 16,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "scripts/test-planning-ui.cjs",
+      "existing_test_filter": "Bug状态",
+      "remote_gap": "远程刷新、翻页、浏览器历史和URL一致",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-03",
+      "section": "任务与 Bug",
+      "scenario": "独立页创建、编辑、补图、预览、验收、重开",
+      "expected": "仍操作同一条待办；桌面/手机无页面级横向溢出",
+      "source": ".agent/test/cases.md",
+      "line": 17,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_project_workflow.py; scripts/test-planning-ui.cjs",
+      "existing_test_filter": "reassign_bug",
+      "remote_gap": "独立页完整生命周期、图片、390视口",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-01",
+      "section": "请假与权限",
+      "scenario": "创建、批准、拒绝请假",
+      "expected": "不创建、不改动Todo；批准时仅扣对应假期并留流水",
+      "source": ".agent/test/cases.md",
+      "line": 25,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "leave_decoupled",
+      "remote_gap": "新员工独立请假批准/驳回与Todo数量不变",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-02",
+      "section": "请假与权限",
+      "scenario": "查看、开始、提交、验收、退回、取消历史请假待办",
+      "expected": "不进入普通待办和奖励队列；禁止旧状态写操作，历史记录保留",
+      "source": ".agent/test/cases.md",
+      "line": 26,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "legacy_leave",
+      "remote_gap": "只允许隔离历史请假待办，远程存量不造假",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-03",
+      "section": "请假与权限",
+      "scenario": "工作日日历、半天请假、周末调休",
+      "expected": "按日历计算天数，半天0.5；纯休息日不可申请",
+      "source": ".agent/test/cases.md",
+      "line": 27,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "calendar_leave",
+      "remote_gap": "真实半天和休息日；不改全局调休日历",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-04",
+      "section": "请假与权限",
+      "scenario": "微信编号、引用、批量审批",
+      "expected": "明确区分请假单和任务，直接调用对应审批，不级联Todo",
+      "source": ".agent/test/cases.md",
+      "line": 28,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_wechat_inbound.py",
+      "existing_test_filter": "typed_leave; pending_reviews",
+      "remote_gap": "真实微信通道、编号和批量消息需专用绑定",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-05",
+      "section": "请假与权限",
+      "scenario": "MCP请假待审批、批准和驳回",
+      "expected": "使用独立请假接口，不调用普通任务审批",
+      "source": ".agent/test/cases.md",
+      "line": 29,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_mcp_todo_tools.py",
+      "existing_test_filter": "independent_leave_review",
+      "remote_gap": "MCP实际RPC调用而非mock转发",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "IAM-01",
+      "section": "请假与权限",
+      "scenario": "管理员维护工资；普通员工和非管理员L0读取工资",
+      "expected": "管理员可维护；其他人403；公开用户、贝利和MCP响应不出现工资与换算参数",
+      "source": ".agent/test/cases.md",
+      "line": 30,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "salary_admin",
+      "remote_gap": "管理员、非管理员L0、普通员工三身份与敏感字段检查",
+      "remote_status": "has_failure",
+      "evidence": [
+        "IAM01-salary"
+      ]
+    },
+    {
+      "id": "IAM-02",
+      "section": "请假与权限",
+      "scenario": "非L0查别人账户、流水或调整余额",
+      "expected": "拒绝越权；前后端均限制",
+      "source": ".agent/test/cases.md",
+      "line": 31,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "unauthorized_read",
+      "remote_gap": "普通员工跨账户/流水/调整拒绝",
+      "remote_status": "partial",
+      "evidence": [
+        "IAM02-cross-user"
+      ]
+    },
+    {
+      "id": "IAM-03",
+      "section": "请假与权限",
+      "scenario": "用户管理旧调整与重置入口",
+      "expected": "不再显示；旧写接口不可绕过独立贝利流水",
+      "source": ".agent/test/cases.md",
+      "line": 32,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "legacy_writes",
+      "remote_gap": "旧写接口拒绝和用户页面入口移除",
+      "remote_status": "partial",
+      "evidence": [
+        "IAM03-legacy"
+      ]
+    },
+    {
+      "id": "BELI-01",
+      "section": "贝利奖励与考勤",
+      "scenario": "工资12000、8小时、按时P2",
+      "expected": "独立审核通过后240贝利；仅任务完成不发放",
+      "source": ".agent/test/cases.md",
+      "line": 38,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "self_created_task; formula",
+      "remote_gap": "真实完成后未发奖、独立审核后240",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-02",
+      "section": "贝利奖励与考勤",
+      "scenario": "P0/P1/P2/P3与延期0/1/2/3/4/5/8天组合",
+      "expected": "系数分别1.2/1/1/0.8，时效1/.95/.9/.8/.6/.5/.5",
+      "source": ".agent/test/cases.md",
+      "line": 39,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "reward_formula",
+      "remote_gap": "4重要级×7延期日的28个真实结算组合",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-03",
+      "section": "贝利奖励与考勤",
+      "scenario": "L0审核改工时、截止日期、重要级",
+      "expected": "同步原任务，保留旧值和结算快照；页面不展示工资换算",
+      "source": ".agent/test/cases.md",
+      "line": 40,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "independent_review_edits",
+      "remote_gap": "审核修改计划同步、敏感字段不公开；内部快照只静态覆盖",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-04",
+      "section": "贝利奖励与考勤",
+      "scenario": "工资缺失、任务未验收、非L0审核",
+      "expected": "不发放；驳回奖励不改变任务完成状态",
+      "source": ".agent/test/cases.md",
+      "line": 41,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "requires_completion; reject_reward",
+      "remote_gap": "工资缺失/未验收/非L0及驳回后任务仍完成",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-05",
+      "section": "贝利奖励与考勤",
+      "scenario": "重复审批、重开、再次验收、再次审批",
+      "expected": "每轮只发一次；重开冲销；历史流水不可删除",
+      "source": ".agent/test/cases.md",
+      "line": 42,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_beli_mysql.py",
+      "existing_test_filter": "independent_review; concurrent_reward",
+      "remote_gap": "重复审批、重开冲销、再次结算和流水唯一性",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-06",
+      "section": "贝利奖励与考勤",
+      "scenario": "手工加减贝利/假期，重复请求",
+      "expected": "原因必填，流水可追溯；重复请求不重复扣加，同键异参拒绝",
+      "source": ".agent/test/cases.md",
+      "line": 43,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "adjustments_are_audited",
+      "remote_gap": "金额/假期防重、同键异参、原因必填",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-07",
+      "section": "贝利奖励与考勤",
+      "scenario": "0工时任务普通/自建任务完成，随后补录正数",
+      "expected": "完成不入队；规则生效后完成且有可靠提交时间的任务补录后自动入队；重复保存只一条奖励、不直接发钱",
+      "source": ".agent/test/cases.md",
+      "line": 44,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "zero_hours_completion",
+      "remote_gap": "0工时完成后补录、重复保存不直接发奖",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-08",
+      "section": "贝利奖励与考勤",
+      "scenario": "待审核/已驳回奖励的工时归零，再恢复正数",
+      "expected": "退出为excluded，保留原审核；不再可审核，伪造带正数工时的审核请求也拒绝；恢复为pending且只保留一条奖励",
+      "source": ".agent/test/cases.md",
+      "line": 45,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "zero_hours_excludes",
+      "remote_gap": "pending/rejected归零退出，伪造审核拒绝，恢复唯一",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-09",
+      "section": "贝利奖励与考勤",
+      "scenario": "生效前完成任务、缺少提交时间、策略未初始化",
+      "expected": "补录工时不自动入队；不因普通编辑追溯旧任务；已有合法审核记录不丢失",
+      "source": ".agent/test/cases.md",
+      "line": 46,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_completed; no_policy",
+      "remote_gap": "需隔离策略和历史时间夹具，禁止改远程策略",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-10",
+      "section": "贝利奖励与考勤",
+      "scenario": "已发奖改0工时、归零与发奖并发",
+      "expected": "已发奖必须先重开冲销；并发按任务锁串行，只能发奖或归零其一成功，不能零工时发奖",
+      "source": ".agent/test/cases.md",
+      "line": 47,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_beli_mysql.py",
+      "existing_test_filter": "zero_hours_and_reward; zero_hours_completion",
+      "remote_gap": "已发奖保护可远程测；真实锁并发需隔离MySQL",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-01",
+      "section": "贝利奖励与考勤",
+      "scenario": "启用日前会议、无记录、非工作日、L0",
+      "expected": "不扣款",
+      "source": ".agent/test/cases.md",
+      "line": 48,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "activation; no_record",
+      "remote_gap": "启用日前/无记录/非工作日/L0四分支",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-02",
+      "section": "贝利奖励与考勤",
+      "scenario": "工作日早会缺席、余额不足、同日多份会议",
+      "expected": "非L0缺席扣500，可为负；同日名单取并集，只扣一次",
+      "source": ".agent/test/cases.md",
+      "line": 49,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "automatic_once; same_day_union",
+      "remote_gap": "不能在共享环境造早会触发全员扣款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-03",
+      "section": "贝利奖励与考勤",
+      "scenario": "姓名未匹配、重名、未发言",
+      "expected": "不做模糊匹配；未匹配者按缺席处理，管理端明确提示",
+      "source": ".agent/test/cases.md",
+      "line": 50,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "duplicate_names",
+      "remote_gap": "同名、未匹配、未发言名单，不影响现有员工",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-04",
+      "section": "贝利奖励与考勤",
+      "scenario": "上午已批请假、仅下午请假、事后补批",
+      "expected": "上午请假豁免；仅下午仍应到；补批自动冲正",
+      "source": ".agent/test/cases.md",
+      "line": 51,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "afternoon_leave; late_approval",
+      "remote_gap": "上午/下午/事后补批引发全局考勤重算",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-05",
+      "section": "贝利奖励与考勤",
+      "scenario": "补录参会人、删除会议、日历调整、L0作废",
+      "expected": "差额更正；L0原因必填；重复重算不恢复已作废扣款",
+      "source": ".agent/test/cases.md",
+      "line": 52,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "correction_and_waiver",
+      "remote_gap": "补参会人/删早会/改日历会影响现有余额",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-06",
+      "section": "贝利奖励与考勤",
+      "scenario": "服务中断、未来日期会议到期",
+      "expected": "定期任务补结算，重复运行不重复扣款",
+      "source": ".agent/test/cases.md",
+      "line": 53,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "automatic_once",
+      "remote_gap": "后台跨日中断恢复缺少独立时钟和服务沙箱",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-07",
+      "section": "贝利奖励与考勤",
+      "scenario": "历史员工更名、停用或升为L0",
+      "expected": "既有姓名快照和应到身份保持不变，不重扣已出席者、不返还原缺席扣款",
+      "source": ".agent/test/cases.md",
+      "line": 54,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_roster",
+      "remote_gap": "历史员工快照需专属隔离数据集",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-01",
+      "section": "商城",
+      "scenario": "L0创建、编辑、上下架、粘贴/上传商品图",
+      "expected": "员工只见已上架商品，图片可查看",
+      "source": ".agent/test/cases.md",
+      "line": 60,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; scripts/test-planning-ui.cjs",
+      "existing_test_filter": "product_image",
+      "remote_gap": "商品上下架、认证图片与员工可见性",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-02",
+      "section": "商城",
+      "scenario": "余额不足、库存不足、并发最后一件商品",
+      "expected": "拒绝超额兑换；数据库行锁防超卖",
+      "source": ".agent/test/cases.md",
+      "line": 61,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_mysql.py; test_beli_workflow.py",
+      "existing_test_filter": "oversell; overspend",
+      "remote_gap": "金额/库存不足可远程；行锁并发只在隔离MySQL",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-03",
+      "section": "商城",
+      "scenario": "申请兑换、重复点击",
+      "expected": "仅冻结贝利和库存，重复请求不重复冻结",
+      "source": ".agent/test/cases.md",
+      "line": 62,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "store_freeze",
+      "remote_gap": "重复申请只冻结一次，余额与库存精确断言",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-04",
+      "section": "商城",
+      "scenario": "L0批准假期兑换",
+      "expected": "扣款、解冻、增加对应假期在同一事务内完成；最小0.5天",
+      "source": ".agent/test/cases.md",
+      "line": 63,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "approval_leave",
+      "remote_gap": "批准扣款解冻并增假期，0.5天边界",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-05",
+      "section": "商城",
+      "scenario": "拒绝、申请人取消、L0取消未发货实物",
+      "expected": "释放冻结/退款、恢复库存；重复操作不重复退款",
+      "source": ".agent/test/cases.md",
+      "line": 64,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "store_release",
+      "remote_gap": "拒绝、本人取消、L0取消及重复退款保护",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-06",
+      "section": "商城",
+      "scenario": "实物批准、发货、已发货再取消",
+      "expected": "批准后待发货，填写发货记录；已发货不可走普通取消退款",
+      "source": ".agent/test/cases.md",
+      "line": 65,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "shipped_cannot_refund",
+      "remote_gap": "实物发货后禁止普通退款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-07",
+      "section": "商城",
+      "scenario": "申请后早会扣款导致余额不足",
+      "expected": "不可凭旧冻结额度绕过不足余额完成审批",
+      "source": ".agent/test/cases.md",
+      "line": 66,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "balance_loss",
+      "remote_gap": "用新员工手工扣款验证余额保护；不伪造真实早会扣款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "DOC-01",
+      "section": "通用回归",
+      "scenario": "MCP 实际注册工具与工作流文档清单",
+      "expected": "`backend-api.md` 中工具总数及名称集合与注册结果完全一致，新增/移除工具必须同步文档",
+      "source": ".agent/test/cases.md",
+      "line": 74,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_mcp_todo_tools.py",
+      "existing_test_filter": "documented_inventory",
+      "remote_gap": "远程mcp-info工具名称和总数与最新文档逐项一致",
+      "remote_status": "not_run",
+      "evidence": []
+    }
+  ],
+  "scenarios": [
+    {
+      "code": "IAM01-salary",
+      "title": "工资仅管理员可读写，普通员工和非管理员L0拒绝",
+      "case_points": [
+        "IAM-01"
+      ],
+      "status": "failed",
+      "evidence": [
+        {
+          "case_id": 1312,
+          "record_id": 18193,
+          "status": "success",
+          "method": "PUT",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "admin"
+        },
+        {
+          "case_id": 1313,
+          "record_id": 18195,
+          "status": "success",
+          "method": "GET",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": 12000.0,
+              "passed": true,
+              "expected": 12000
+            }
+          ],
+          "actor": "admin"
+        },
+        {
+          "case_id": 1314,
+          "record_id": 18196,
+          "status": "success",
+          "method": "GET",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+          "http_status": 403,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 403,
+              "passed": true,
+              "expected": 403
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1315,
+          "record_id": 18197,
+          "status": "success",
+          "method": "GET",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+          "http_status": 403,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 403,
+              "passed": true,
+              "expected": 403
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1316,
+          "record_id": 18199,
+          "status": "failed",
+          "method": "GET",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_pointer_exists",
+              "passed": false,
+              "message": "不支持的断言类型"
+            },
+            {
+              "type": "json_pointer_exists",
+              "passed": false,
+              "message": "不支持的断言类型"
+            }
+          ],
+          "actor": "admin"
+        }
+      ],
+      "error": "record 18199: [{'type': 'json_pointer_exists', 'passed': False, 'message': '不支持的断言类型'}, {'type': 'json_pointer_exists', 'passed': False, 'message': '不支持的断言类型'}]; {'code': 0, 'message': 'success', 'data': {'id': '787ae684-00eb-4f7e-99e1-2c76449ed189', 'display_name': 'CASE_20261019_140326 employee', 'username': 'case_20261019_140326_employee', 'email': None, 'phone': None, 'status': 'active', 'is_shareholder': False, 'level': 1, 'manager_user_id': '0906e2b9-b00a-402f-8831-d0ad4e2b8dc7', 'manager_name': 'CASE",
+      "failure_category": "script_compatibility"
+    },
+    {
+      "code": "IAM02-cross-user",
+      "title": "员工跨账户流水及余额调整拒绝",
+      "case_points": [
+        "IAM-02"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1317,
+          "record_id": 18201,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/ledger?user_id=6f0a080b-11ff-41b5-859c-84b65b4571ed",
+          "http_status": 404,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 404,
+              "passed": true,
+              "expected": 404
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1318,
+          "record_id": 18203,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/accounts/6f0a080b-11ff-41b5-859c-84b65b4571ed/adjust",
+          "http_status": 403,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 403,
+              "passed": true,
+              "expected": 403
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1319,
+          "record_id": 18205,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "787ae684-00eb-4f7e-99e1-2c76449ed189",
+              "passed": true,
+              "expected": "787ae684-00eb-4f7e-99e1-2c76449ed189"
+            }
+          ],
+          "actor": "employee"
+        }
+      ]
+    },
+    {
+      "code": "IAM03-legacy",
+      "title": "旧余额调整与假期重置写接口不可绕过",
+      "case_points": [
+        "IAM-03"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1320,
+          "record_id": 18207,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "admin"
+        },
+        {
+          "case_id": 1321,
+          "record_id": 18209,
+          "status": "success",
+          "method": "POST",
+          "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/reset-leave-balances",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "admin"
+        }
+      ],
+      "coverage_limit": "用户管理页面入口另行有头验证"
+    },
+    {
+      "code": "TODO01-custom-omitted",
+      "title": "custom 工时=omitted",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1322,
+          "record_id": 18212,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-0",
+      "title": "custom 工时=0",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1323,
+          "record_id": 18213,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-1_25",
+      "title": "custom 工时=1.25",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1324,
+          "record_id": 18214,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom--1",
+      "title": "custom 工时=-1",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1325,
+          "record_id": 18215,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-None",
+      "title": "custom 工时=None",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1326,
+          "record_id": 18216,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-0_001",
+      "title": "custom 工时=0.001",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1327,
+          "record_id": 18217,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-NaN",
+      "title": "custom 工时=NaN",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1328,
+          "record_id": 18218,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-Infinity",
+      "title": "custom 工时=Infinity",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1329,
+          "record_id": 18219,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-custom-date",
+      "title": "custom 缺少截止日拒绝",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1330,
+          "record_id": 18220,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-omitted",
+      "title": "project 工时=omitted",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1331,
+          "record_id": 18221,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-0",
+      "title": "project 工时=0",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1332,
+          "record_id": 18222,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-1_25",
+      "title": "project 工时=1.25",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1333,
+          "record_id": 18223,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project--1",
+      "title": "project 工时=-1",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1334,
+          "record_id": 18224,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-None",
+      "title": "project 工时=None",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1335,
+          "record_id": 18225,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-0_001",
+      "title": "project 工时=0.001",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1336,
+          "record_id": 18226,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-NaN",
+      "title": "project 工时=NaN",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1337,
+          "record_id": 18227,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-Infinity",
+      "title": "project 工时=Infinity",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1338,
+          "record_id": 18228,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-project-date",
+      "title": "project 缺少截止日拒绝",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1339,
+          "record_id": 18229,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-omitted",
+      "title": "bug 工时=omitted",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1340,
+          "record_id": 18230,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-0",
+      "title": "bug 工时=0",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1341,
+          "record_id": 18231,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-1_25",
+      "title": "bug 工时=1.25",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1342,
+          "record_id": 18232,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug--1",
+      "title": "bug 工时=-1",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1343,
+          "record_id": 18233,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-None",
+      "title": "bug 工时=None",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1344,
+          "record_id": 18234,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-0_001",
+      "title": "bug 工时=0.001",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1345,
+          "record_id": 18235,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-NaN",
+      "title": "bug 工时=NaN",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1346,
+          "record_id": 18236,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-Infinity",
+      "title": "bug 工时=Infinity",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1347,
+          "record_id": 18237,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-bug-date",
+      "title": "bug 缺少截止日拒绝",
+      "case_points": [
+        "TODO-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1348,
+          "record_id": 18238,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ]
+    },
+    {
+      "code": "TODO01-03-batch",
+      "title": "批量生成默认0工时、边界与重复身份",
+      "case_points": [
+        "TODO-01",
+        "TODO-03"
+      ],
+      "status": "interrupted",
+      "evidence": [
+        {
+          "case_id": 1349,
+          "record_id": 18240,
+          "status": "success",
+          "method": "POST",
+          "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1350,
+          "record_id": 18242,
+          "status": "success",
+          "method": "GET",
+          "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/todos",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1351,
+          "record_id": 18244,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/3492ccc4-61e6-448d-8f05-c8cb8120fcbb",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1352,
+          "record_id": 18245,
+          "status": "success",
+          "method": "POST",
+          "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1353,
+          "record_id": 18246,
+          "status": "success",
+          "method": "GET",
+          "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/todos",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1354,
+          "record_id": 18247,
+          "status": "success",
+          "method": "POST",
+          "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "coverage_limit": "审核附件保留另需带真实图片的完整回归；MCP入口尚未执行",
+      "error": "Stopped to fix deployed executor assertion compatibility; not a business failure"
+    }
+  ],
+  "api_cases": [
+    {
+      "code": "IAM01-salary.01",
+      "case_id": 1312,
+      "record_id": 18193,
+      "status": "success",
+      "method": "PUT",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "admin"
+    },
+    {
+      "code": "IAM01-salary.02",
+      "case_id": 1313,
+      "record_id": 18195,
+      "status": "success",
+      "method": "GET",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": 12000.0,
+          "passed": true,
+          "expected": 12000
+        }
+      ],
+      "actor": "admin"
+    },
+    {
+      "code": "IAM01-salary.03",
+      "case_id": 1314,
+      "record_id": 18196,
+      "status": "success",
+      "method": "GET",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+      "http_status": 403,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 403,
+          "passed": true,
+          "expected": 403
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "IAM01-salary.04",
+      "case_id": 1315,
+      "record_id": 18197,
+      "status": "success",
+      "method": "GET",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/salary",
+      "http_status": 403,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 403,
+          "passed": true,
+          "expected": 403
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "IAM01-salary.05",
+      "case_id": 1316,
+      "record_id": 18199,
+      "status": "failed",
+      "method": "GET",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_pointer_exists",
+          "passed": false,
+          "message": "不支持的断言类型"
+        },
+        {
+          "type": "json_pointer_exists",
+          "passed": false,
+          "message": "不支持的断言类型"
+        }
+      ],
+      "actor": "admin"
+    },
+    {
+      "code": "IAM02-cross-user.01",
+      "case_id": 1317,
+      "record_id": 18201,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/ledger?user_id=6f0a080b-11ff-41b5-859c-84b65b4571ed",
+      "http_status": 404,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 404,
+          "passed": true,
+          "expected": 404
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "IAM02-cross-user.02",
+      "case_id": 1318,
+      "record_id": 18203,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/accounts/6f0a080b-11ff-41b5-859c-84b65b4571ed/adjust",
+      "http_status": 403,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 403,
+          "passed": true,
+          "expected": 403
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "IAM02-cross-user.03",
+      "case_id": 1319,
+      "record_id": 18205,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "787ae684-00eb-4f7e-99e1-2c76449ed189",
+          "passed": true,
+          "expected": "787ae684-00eb-4f7e-99e1-2c76449ed189"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "IAM03-legacy.01",
+      "case_id": 1320,
+      "record_id": 18207,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "admin"
+    },
+    {
+      "code": "IAM03-legacy.02",
+      "case_id": 1321,
+      "record_id": 18209,
+      "status": "success",
+      "method": "POST",
+      "path": "/iam/users/787ae684-00eb-4f7e-99e1-2c76449ed189/reset-leave-balances",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "admin"
+    },
+    {
+      "code": "TODO01-custom-omitted.01",
+      "case_id": 1322,
+      "record_id": 18212,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-0.01",
+      "case_id": 1323,
+      "record_id": 18213,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-1_25.01",
+      "case_id": 1324,
+      "record_id": 18214,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom--1.01",
+      "case_id": 1325,
+      "record_id": 18215,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-None.01",
+      "case_id": 1326,
+      "record_id": 18216,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-0_001.01",
+      "case_id": 1327,
+      "record_id": 18217,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-NaN.01",
+      "case_id": 1328,
+      "record_id": 18218,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-Infinity.01",
+      "case_id": 1329,
+      "record_id": 18219,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-custom-date.01",
+      "case_id": 1330,
+      "record_id": 18220,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-omitted.01",
+      "case_id": 1331,
+      "record_id": 18221,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-0.01",
+      "case_id": 1332,
+      "record_id": 18222,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-1_25.01",
+      "case_id": 1333,
+      "record_id": 18223,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project--1.01",
+      "case_id": 1334,
+      "record_id": 18224,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-None.01",
+      "case_id": 1335,
+      "record_id": 18225,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-0_001.01",
+      "case_id": 1336,
+      "record_id": 18226,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-NaN.01",
+      "case_id": 1337,
+      "record_id": 18227,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-Infinity.01",
+      "case_id": 1338,
+      "record_id": 18228,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-project-date.01",
+      "case_id": 1339,
+      "record_id": 18229,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-omitted.01",
+      "case_id": 1340,
+      "record_id": 18230,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-0.01",
+      "case_id": 1341,
+      "record_id": 18231,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-1_25.01",
+      "case_id": 1342,
+      "record_id": 18232,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug--1.01",
+      "case_id": 1343,
+      "record_id": 18233,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-None.01",
+      "case_id": 1344,
+      "record_id": 18234,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-0_001.01",
+      "case_id": 1345,
+      "record_id": 18235,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-NaN.01",
+      "case_id": 1346,
+      "record_id": 18236,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-Infinity.01",
+      "case_id": 1347,
+      "record_id": 18237,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-bug-date.01",
+      "case_id": 1348,
+      "record_id": 18238,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.01",
+      "case_id": 1349,
+      "record_id": 18240,
+      "status": "success",
+      "method": "POST",
+      "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.02",
+      "case_id": 1350,
+      "record_id": 18242,
+      "status": "success",
+      "method": "GET",
+      "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/todos",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.03",
+      "case_id": 1351,
+      "record_id": 18244,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/3492ccc4-61e6-448d-8f05-c8cb8120fcbb",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.04",
+      "case_id": 1352,
+      "record_id": 18245,
+      "status": "success",
+      "method": "POST",
+      "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.05",
+      "case_id": 1353,
+      "record_id": 18246,
+      "status": "success",
+      "method": "GET",
+      "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/todos",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "TODO01-03-batch.06",
+      "case_id": 1354,
+      "record_id": 18247,
+      "status": "success",
+      "method": "POST",
+      "path": "/project/projects/6db81573-c844-4481-8c19-3ba758b7e312/generate-dev-tasks",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    }
+  ],
+  "web_cases": [],
+  "fixtures": [
+    {
+      "type": "job_title",
+      "id": "5d9bffc3-622a-4031-b587-91f0473a423b",
+      "name": "CASE_20261019_140326 TestRole"
+    },
+    {
+      "type": "user",
+      "id": "0906e2b9-b00a-402f-8831-d0ad4e2b8dc7",
+      "name": "CASE_20261019_140326 manager",
+      "username": "case_20261019_140326_manager"
+    },
+    {
+      "type": "user",
+      "id": "787ae684-00eb-4f7e-99e1-2c76449ed189",
+      "name": "CASE_20261019_140326 employee",
+      "username": "case_20261019_140326_employee"
+    },
+    {
+      "type": "user",
+      "id": "6f0a080b-11ff-41b5-859c-84b65b4571ed",
+      "name": "CASE_20261019_140326 other",
+      "username": "case_20261019_140326_other"
+    },
+    {
+      "type": "project",
+      "id": "6db81573-c844-4481-8c19-3ba758b7e312",
+      "name": "CASE_20261019_140326 Project"
+    },
+    {
+      "type": "custom_todo",
+      "id": "d16a6902-09f4-4588-9820-0ff028bdef45",
+      "name": "CASE_20261019_140326 custom hours omitted"
+    },
+    {
+      "type": "custom_todo",
+      "id": "6273a7a3-5a57-42b6-a0da-b47bbdf44197",
+      "name": "CASE_20261019_140326 custom hours 0"
+    },
+    {
+      "type": "custom_todo",
+      "id": "3e17e4ff-98b9-46b7-b8b6-98d99180562a",
+      "name": "CASE_20261019_140326 custom hours 1.25"
+    }
+  ],
+  "cleanup": [
+    {
+      "type": "custom_todo",
+      "id": "3e17e4ff-98b9-46b7-b8b6-98d99180562a",
+      "status": "success",
+      "action": "dismissed (no delete endpoint)"
+    },
+    {
+      "type": "custom_todo",
+      "id": "6273a7a3-5a57-42b6-a0da-b47bbdf44197",
+      "status": "success",
+      "action": "dismissed (no delete endpoint)"
+    },
+    {
+      "type": "custom_todo",
+      "id": "d16a6902-09f4-4588-9820-0ff028bdef45",
+      "status": "success",
+      "action": "dismissed (no delete endpoint)"
+    },
+    {
+      "type": "project",
+      "id": "6db81573-c844-4481-8c19-3ba758b7e312",
+      "status": "success",
+      "action": "deleted"
+    },
+    {
+      "type": "user",
+      "id": "6f0a080b-11ff-41b5-859c-84b65b4571ed",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "user",
+      "id": "787ae684-00eb-4f7e-99e1-2c76449ed189",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "user",
+      "id": "0906e2b9-b00a-402f-8831-d0ad4e2b8dc7",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "job_title",
+      "id": "5d9bffc3-622a-4031-b587-91f0473a423b",
+      "status": "success",
+      "action": "audit retained (no delete endpoint)"
+    }
+  ],
+  "finished_at": "2026-10-19T14:05:23.744582+08:00",
+  "knowledge_ids": [
+    18249,
+    18250,
+    18251
+  ]
+}

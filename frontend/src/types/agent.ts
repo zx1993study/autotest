@@ -15,6 +15,7 @@ export interface AgentNodeData {
   current_task_id?: number | string | null
   default_local_headed?: boolean
   has_agent_token?: boolean
+  web_secret_inputs_ready?: boolean
   token_issued_at?: string
   token_last4?: string
   [key: string]: unknown

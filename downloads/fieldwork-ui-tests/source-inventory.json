@@ -1,0 +1,6590 @@
+{
+  "metadata": {
+    "schema_version": 1,
+    "project_name": "外勤小星",
+    "project_id": 10,
+    "source": {
+      "repository": "https://github.com/dpush-io/FieldNovaMini",
+      "revision": "9c44251c78f7c865c8d28272f6340bbad47942cf",
+      "route_config_sha256": "3b7a05174a591257f2941fee939226b5a1f88e2ebccc0c3371df23fc0f01a7fb"
+    },
+    "execution_status": "generated_not_executed",
+    "coverage": {
+      "miniapp": "source-derived",
+      "h5": "FieldNovaMini H5, not management admin",
+      "admin": "pending_repository_access",
+      "service": "pending_repository_access"
+    },
+    "pages": 82,
+    "cases": 244,
+    "scripted_cases": 86,
+    "manual_cases": 158
+  },
+  "pages": [
+    {
+      "route": "pages/workbench/index",
+      "title": "工作台",
+      "source": "src/pages/workbench/index.vue",
+      "sha256": "1c723028acdc868ed4deb95b305fd707374985891ce57f69a7adea5a04147a8a",
+      "selector": ".workbench-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [
+        {
+          "text": "登录状态已过期，请重新登录",
+          "line": 260
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/login/index",
+      "title": "登录",
+      "source": "src/pages/login/index.vue",
+      "sha256": "7f43e801105a80912028a7eec081544607fe4d608a67367aaadb4fbfd422f6ad",
+      "selector": ".login-container",
+      "elements": [
+        {
+          "tag": "input",
+          "classes": [
+            "input-field"
+          ],
+          "id": "username",
+          "placeholder": "请输入账号",
+          "model": "form.username",
+          "repeated": false,
+          "line": 22
+        },
+        {
+          "tag": "input",
+          "classes": [
+            "input-field"
+          ],
+          "id": "password",
+          "placeholder": "请输入密码",
+          "model": "form.password",
+          "repeated": false,
+          "line": 33
+        },
+        {
+          "tag": "input",
+          "classes": [
+            "input-field",
+            "captcha-input"
+          ],
+          "id": "code",
+          "placeholder": "请输入验证码",
+          "model": "form.code",
+          "repeated": false,
+          "line": 48
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/login"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/data/index",
+      "title": "数据统计",
+      "source": "src/pages/data/index.vue",
+      "sha256": "4d32a0db4e8c9c018c87f7723218ecd584469810e8743cf377da2497aa4085f5",
+      "selector": ".data-container",
+      "elements": [
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showUserActionSheet",
+          "repeated": false,
+          "line": 64
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/request"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/profile/index",
+      "title": "我的",
+      "source": "src/pages/profile/index.vue",
+      "sha256": "c8388691f82af403db7ad1623ac7c2d627603cbaa1cd4b83f1f0e75aefc453c7",
+      "selector": ".profile-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/profile/personal-info",
+      "title": "个人信息",
+      "source": "src/pages/profile/personal-info.vue",
+      "sha256": "e3da7aa1c6c926dd99db00a683401c3cdc4f9b47083bfa58931de5df14da5b0d",
+      "selector": ".personal-info-container",
+      "elements": [
+        {
+          "tag": "input",
+          "classes": [
+            "info-input"
+          ],
+          "placeholder": "请输入姓名",
+          "model": "editUserInfo.name",
+          "repeated": false,
+          "line": 29
+        },
+        {
+          "tag": "input",
+          "classes": [
+            "info-input"
+          ],
+          "placeholder": "请输入手机号",
+          "model": "editUserInfo.phone",
+          "repeated": false,
+          "line": 35
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/common"
+      ],
+      "messages": [
+        {
+          "text": "请输入姓名",
+          "line": 169
+        },
+        {
+          "text": "请输入正确的手机号或座机号",
+          "line": 177
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/profile/organization",
+      "title": "我的组织",
+      "source": "src/pages/profile/organization.vue",
+      "sha256": "198481dc56788175103f6821671ebd8506a329b6fd87e44851c5c7ef891122a4",
+      "selector": ".organization-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/profile/employee-details",
+      "title": "员工详情",
+      "source": "src/pages/profile/employee-details.vue",
+      "sha256": "d9c3b35629e601f5d88691336b8643a8da5867bec89b43d7e7417b09c1536e3c",
+      "selector": ".employee-details-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/common/map",
+      "title": "选择位置",
+      "source": "src/pages/subpages/common/map.vue",
+      "sha256": "18798323e47ad90a0c8d5380d7db245f52a4fe2bcddced30f9d38d707457381e",
+      "selector": ".map-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/common/watermark-camera",
+      "title": "水印相机",
+      "source": "src/pages/subpages/common/watermark-camera.vue",
+      "sha256": "c24ce700379eeaa8762159e3c9b11631c3e19fdc9747b649f0fb8d24ade3115c",
+      "selector": ".camera-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "latitude",
+        "longitude",
+        "uniqueId",
+        "customerName",
+        "hideCustomerName",
+        "useReportLocation",
+        "reportLocation"
+      ],
+      "apiImports": [
+        "@/api/common"
+      ],
+      "messages": [
+        {
+          "text": "请先选择上报位置",
+          "line": 223
+        },
+        {
+          "text": "水印地址解析中，请稍候",
+          "line": 360
+        },
+        {
+          "text": "准备水印失败，请重试",
+          "line": 373
+        },
+        {
+          "text": "拍照失败，请重试",
+          "line": 393
+        },
+        {
+          "text": "生成图片失败，请重试",
+          "line": 465
+        },
+        {
+          "text": "处理照片失败，请重试",
+          "line": 476
+        },
+        {
+          "text": "上传失败，请重试",
+          "line": 554
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activityApply/scheme/list",
+      "title": "活动方案",
+      "source": "src/pages/subpages/activityApply/scheme/list.vue",
+      "sha256": "0a5309c66376a8d4039794c9ee5b40ea62e69bf0dad89941b27c6f4ac0e66ba8",
+      "selector": ".scheme-list-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activityApply"
+      ],
+      "messages": [
+        {
+          "text": "当前活动不可申请",
+          "line": 201
+        }
+      ],
+      "searchConfig": "ActivityScheme",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "活动方案筛选",
+        "subtitle": "按活动类型、可申请日期和付费信息筛选",
+        "keyword": {
+          "queryKey": "activityName",
+          "placeholder": "搜索活动名称"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "canApply": ""
+            }
+          },
+          {
+            "label": "可申请",
+            "params": {
+              "canApply": "1"
+            }
+          },
+          {
+            "label": "暂不可申请",
+            "params": {
+              "canApply": "0"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "activityType",
+            "label": "活动类型",
+            "type": "select",
+            "optionsKey": "activityTypeOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索活动类型..."
+          },
+          {
+            "key": "applyBeginTime",
+            "label": "可申请日期",
+            "type": "date",
+            "queryKey": "applyBeginTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "activityId",
+            "label": "活动ID",
+            "type": "input",
+            "placeholder": "请输入活动ID"
+          },
+          {
+            "key": "paidItems",
+            "label": "付费项目",
+            "type": "multi-select",
+            "optionsKey": "activityPaidItemOptions"
+          },
+          {
+            "key": "paymentType",
+            "label": "兑付方式",
+            "type": "select",
+            "optionsKey": "activityPaymentTypeOptions"
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/activityApply/scheme/detail",
+      "title": "活动方案审批",
+      "source": "src/pages/subpages/activityApply/scheme/detail.vue",
+      "sha256": "47971899f13d8afd970d06fb8fe1f6a50859dd4dc605c873f5ad99e23f9ffd8d",
+      "selector": ".scheme-detail",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id",
+        "instanceId",
+        "auditMode"
+      ],
+      "apiImports": [
+        "@/api/activityApply",
+        "@/api/notification",
+        "@/api/product",
+        "@/api/request"
+      ],
+      "messages": [
+        {
+          "text": "发起审核申请",
+          "line": 212
+        },
+        {
+          "text": "审批",
+          "line": 220
+        },
+        {
+          "text": "发起审核申请",
+          "line": 229
+        },
+        {
+          "text": "审批",
+          "line": 230
+        },
+        {
+          "text": "审批",
+          "line": 231
+        },
+        {
+          "text": "审批",
+          "line": 232
+        },
+        {
+          "text": "活动方案审批通过后才能申请",
+          "line": 240
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 256
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 272
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 284
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 301
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activityApply/apply/form",
+      "title": "活动申请",
+      "source": "src/pages/subpages/activityApply/apply/form.vue",
+      "sha256": "b5f9e341d101127acb4d0ed7ed0257fb77ac6297e93902c044cc17159a94f9ab",
+      "selector": ".apply-form",
+      "elements": [
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "--",
+          "repeated": false,
+          "line": 25
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择日期",
+          "repeated": false,
+          "line": 30
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择日期",
+          "repeated": false,
+          "line": 36
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入人数",
+          "model": "model.expectedParticipants",
+          "repeated": false,
+          "line": 42
+        },
+        {
+          "tag": "up-switch",
+          "classes": [],
+          "model": "ourStaffBool",
+          "repeated": false,
+          "line": 46
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入地点",
+          "model": "model.executionLocation",
+          "repeated": false,
+          "line": 50
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入金额",
+          "model": "model.estimatedMealFee",
+          "repeated": false,
+          "line": 54
+        },
+        {
+          "tag": "CustomerSelect",
+          "classes": [],
+          "model": "model.customers",
+          "repeated": false,
+          "line": 61
+        },
+        {
+          "tag": "ProductQtyPicker",
+          "classes": [],
+          "model": "usedProducts",
+          "repeated": false,
+          "line": 66
+        },
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入内容",
+          "model": "model.remark",
+          "repeated": false,
+          "line": 73
+        },
+        {
+          "tag": "up-datetime-picker",
+          "classes": [],
+          "model": "dateValue",
+          "repeated": false,
+          "line": 99
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "activityId",
+        "activityType",
+        "activityName"
+      ],
+      "apiImports": [
+        "@/api/activityApply",
+        "@/api/product",
+        "@/api/request"
+      ],
+      "messages": [
+        {
+          "text": "请添加参与客户",
+          "line": 371
+        },
+        {
+          "text": "请选择活动执行时间",
+          "line": 372
+        },
+        {
+          "text": "执行结束时间不能早于开始时间",
+          "line": 376
+        },
+        {
+          "text": "活动执行时间需在可申请周期内",
+          "line": 380
+        },
+        {
+          "text": "请输入预计参与人数",
+          "line": 385
+        },
+        {
+          "text": "请输入活动执行地点",
+          "line": 387
+        },
+        {
+          "text": "请输入预计使用餐费",
+          "line": 389
+        },
+        {
+          "text": "请输入备注",
+          "line": 393
+        },
+        {
+          "text": "申请成功",
+          "line": 416
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activityApply/apply/list",
+      "title": "活动申请",
+      "source": "src/pages/subpages/activityApply/apply/list.vue",
+      "sha256": "b4f8a8fc050101e7fafd9a8e9ce3edbaae0433dfb8e5b36ab0ce4cf6676d767f",
+      "selector": ".apply-list-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activityApply"
+      ],
+      "messages": [],
+      "searchConfig": "ActivityApply",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "活动申请筛选",
+        "subtitle": "按审批状态、活动类型和执行时间筛选",
+        "keyword": {
+          "queryKey": "activityName",
+          "placeholder": "搜索活动名称"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "activityType",
+            "label": "活动类型",
+            "type": "select",
+            "optionsKey": "activityTypeOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索活动类型..."
+          },
+          {
+            "key": "executeTime",
+            "label": "执行时间",
+            "type": "date-range",
+            "beginKey": "executeBeginTime",
+            "endKey": "executeEndTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "customerName",
+            "label": "参与客户",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "activityId",
+            "label": "活动ID",
+            "type": "input",
+            "placeholder": "请输入活动ID"
+          },
+          {
+            "key": "createByName",
+            "label": "营销代表",
+            "type": "input",
+            "placeholder": "请输入营销代表"
+          },
+          {
+            "key": "executionLocation",
+            "label": "执行地点",
+            "type": "input",
+            "placeholder": "请输入执行地点"
+          },
+          {
+            "key": "hasOurStaff",
+            "label": "我方人员参加",
+            "type": "select",
+            "options": [
+              {
+                "label": "是",
+                "value": "1"
+              },
+              {
+                "label": "否",
+                "value": "0"
+              }
+            ]
+          },
+          {
+            "key": "executionStatus",
+            "label": "执行完成度",
+            "type": "select",
+            "options": [
+              {
+                "label": "已完成",
+                "value": "已完成"
+              },
+              {
+                "label": "未完成",
+                "value": "未完成"
+              },
+              {
+                "label": "无任务",
+                "value": "-"
+              }
+            ]
+          },
+          {
+            "key": "paymentStatus",
+            "label": "兑付完成度",
+            "type": "select",
+            "options": [
+              {
+                "label": "已完成",
+                "value": "已完成"
+              },
+              {
+                "label": "未完成",
+                "value": "未完成"
+              },
+              {
+                "label": "无需兑付",
+                "value": "/"
+              },
+              {
+                "label": "无任务",
+                "value": "-"
+              }
+            ]
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime"
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/activityApply/apply/detail",
+      "title": "申请详情",
+      "source": "src/pages/subpages/activityApply/apply/detail.vue",
+      "sha256": "493ade526653ca4551fea0725f892abc82b795b9af3d8dbe241b51d06db0821c",
+      "selector": ".apply-detail",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "applyId",
+        "instanceId",
+        "auditMode"
+      ],
+      "apiImports": [
+        "@/api/activityApply",
+        "@/api/notification",
+        "@/api/product"
+      ],
+      "messages": [
+        {
+          "text": "发起审核申请",
+          "line": 202
+        },
+        {
+          "text": "审批",
+          "line": 210
+        },
+        {
+          "text": "发起审核申请",
+          "line": 219
+        },
+        {
+          "text": "审批",
+          "line": 220
+        },
+        {
+          "text": "审批",
+          "line": 221
+        },
+        {
+          "text": "审批",
+          "line": 222
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 271
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 287
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 299
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 316
+        },
+        {
+          "text": "确定要撤销当前审批吗？",
+          "line": 324
+        },
+        {
+          "text": "未找到审批实例",
+          "line": 329
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activityApply/execute/list",
+      "title": "活动执行",
+      "source": "src/pages/subpages/activityApply/execute/list.vue",
+      "sha256": "abd97955b44ee3537e029a63ab6f8e23fa8d56f2f879092b0b6c446c8b4dd299",
+      "selector": ".task-list-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activityApply"
+      ],
+      "messages": [],
+      "searchConfig": "ActivityExecute",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "活动执行筛选",
+        "subtitle": "按任务状态、执行月份和活动类型筛选",
+        "keyword": {
+          "queryKey": "activityName",
+          "placeholder": "搜索活动名称"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "待办",
+            "params": {
+              "status": "pending"
+            }
+          },
+          {
+            "label": "已完成",
+            "params": {
+              "status": "1"
+            }
+          },
+          {
+            "label": "逾期",
+            "params": {
+              "status": "2"
+            }
+          },
+          {
+            "label": "未开始",
+            "params": {
+              "status": "3"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "periodMonth",
+            "label": "执行月份",
+            "type": "month",
+            "defaultVisible": true
+          },
+          {
+            "key": "activityType",
+            "label": "活动类型",
+            "type": "select",
+            "optionsKey": "activityTypeOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索活动类型..."
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "activityId",
+            "label": "活动ID",
+            "type": "input",
+            "placeholder": "请输入活动ID"
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "createByName",
+            "label": "营销代表",
+            "type": "input",
+            "placeholder": "请输入营销代表"
+          },
+          {
+            "key": "executeTime",
+            "label": "执行时间",
+            "type": "date-range",
+            "beginKey": "executeBeginTime",
+            "endKey": "executeEndTime"
+          },
+          {
+            "key": "reportTime",
+            "label": "完成时间",
+            "type": "date-range",
+            "beginKey": "reportBeginTime",
+            "endKey": "reportEndTime"
+          },
+          {
+            "key": "executionLocation",
+            "label": "执行地点",
+            "type": "input",
+            "placeholder": "请输入执行地点"
+          },
+          {
+            "key": "reportLocation",
+            "label": "上报位置",
+            "type": "input",
+            "placeholder": "请输入上报位置"
+          },
+          {
+            "key": "hasOurStaff",
+            "label": "我方人员参加",
+            "type": "select",
+            "options": [
+              {
+                "label": "是",
+                "value": "1"
+              },
+              {
+                "label": "否",
+                "value": "0"
+              }
+            ]
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/activityApply/execute/report",
+      "title": "活动执行上报",
+      "source": "src/pages/subpages/activityApply/execute/report.vue",
+      "sha256": "bfea39761e9d67c416476c2993c42b8e9bbc1d156be83e64572c81cf66903959",
+      "selector": ".exec-report",
+      "elements": [
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "form.sitePhotos",
+          "repeated": false,
+          "line": 52
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "paymentScreenshot",
+          "repeated": false,
+          "line": 84
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入人数",
+          "model": "form.actualParticipants",
+          "repeated": false,
+          "line": 94
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入金额",
+          "model": "actualMealFee",
+          "repeated": false,
+          "line": 98
+        },
+        {
+          "tag": "ProductQtyPicker",
+          "classes": [],
+          "model": "actualProducts",
+          "repeated": false,
+          "line": 105
+        },
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入内容",
+          "model": "form.remark",
+          "repeated": false,
+          "line": 113
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "mode",
+        "taskId"
+      ],
+      "apiImports": [
+        "@/api/activityApply",
+        "@/api/product"
+      ],
+      "messages": [
+        {
+          "text": "请选择上报位置",
+          "line": 484
+        },
+        {
+          "text": "请输入实际参与人数",
+          "line": 494
+        },
+        {
+          "text": "请输入实际使用餐费",
+          "line": 496
+        },
+        {
+          "text": "请选择实际使用商品",
+          "line": 498
+        },
+        {
+          "text": "请输入备注",
+          "line": 500
+        },
+        {
+          "text": "提交失败，请稍后重试",
+          "line": 531
+        },
+        {
+          "text": "保存失败，请稍后重试",
+          "line": 531
+        },
+        {
+          "text": "任务信息丢失，请返回重试",
+          "line": 554
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activityApply/payment/list",
+      "title": "活动兑付",
+      "source": "src/pages/subpages/activityApply/payment/list.vue",
+      "sha256": "129ffd6ae749e89fa0bde57be0b3dcc442f5c74be4d718672146c573844a4b8a",
+      "selector": ".task-list-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activityApply"
+      ],
+      "messages": [],
+      "searchConfig": "ActivityPayment",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "活动兑付筛选",
+        "subtitle": "按兑付状态、兑付月份和活动类型筛选",
+        "keyword": {
+          "queryKey": "activityName",
+          "placeholder": "搜索活动名称"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "待兑付",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已完成",
+            "params": {
+              "status": "1"
+            }
+          },
+          {
+            "label": "逾期",
+            "params": {
+              "status": "5"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "paymentMonth",
+            "label": "兑付月份",
+            "type": "month",
+            "defaultVisible": true
+          },
+          {
+            "key": "activityType",
+            "label": "活动类型",
+            "type": "select",
+            "optionsKey": "activityTypeOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索活动类型..."
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "activityId",
+            "label": "活动ID",
+            "type": "input",
+            "placeholder": "请输入活动ID"
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "createByName",
+            "label": "营销代表",
+            "type": "input",
+            "placeholder": "请输入营销代表"
+          },
+          {
+            "key": "executeTime",
+            "label": "执行时间",
+            "type": "date-range",
+            "beginKey": "executeBeginTime",
+            "endKey": "executeEndTime"
+          },
+          {
+            "key": "reportTime",
+            "label": "完成时间",
+            "type": "date-range",
+            "beginKey": "reportBeginTime",
+            "endKey": "reportEndTime"
+          },
+          {
+            "key": "executionLocation",
+            "label": "执行地点",
+            "type": "input",
+            "placeholder": "请输入执行地点"
+          },
+          {
+            "key": "hasOurStaff",
+            "label": "我方人员参加",
+            "type": "select",
+            "options": [
+              {
+                "label": "是",
+                "value": "1"
+              },
+              {
+                "label": "否",
+                "value": "0"
+              }
+            ]
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/activityApply/payment/report",
+      "title": "活动兑付上报",
+      "source": "src/pages/subpages/activityApply/payment/report.vue",
+      "sha256": "9c2f29c6eec5c32c18dedd418a874e5e5b56ef9a9ca8ff996db8ecd79b0b7d1e",
+      "selector": ".pay-report",
+      "elements": [
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "form.paymentPhotos",
+          "repeated": false,
+          "line": 35
+        },
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入内容",
+          "model": "form.remark",
+          "repeated": false,
+          "line": 43
+        },
+        {
+          "tag": "sin-signature",
+          "classes": [],
+          "model": "form.signaturePhoto",
+          "repeated": false,
+          "line": 50
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "mode",
+        "taskId"
+      ],
+      "apiImports": [
+        "@/api/activityApply",
+        "@/api/product"
+      ],
+      "messages": [
+        {
+          "text": "请上传兑付照片",
+          "line": 187
+        },
+        {
+          "text": "请完成兑付签字",
+          "line": 189
+        },
+        {
+          "text": "请输入备注",
+          "line": 191
+        },
+        {
+          "text": "任务信息丢失，请返回重试",
+          "line": 230
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/activityReport",
+      "title": "活动上报",
+      "source": "src/pages/subpages/activity/activityReport.vue",
+      "sha256": "ad24265c2a19dfe914deb81dd95b565528fd56f8e74b2cb44b64b18518e240dd",
+      "selector": ".activity-report-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "participantId"
+      ],
+      "apiImports": [
+        "@/api/activity"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/displayReport",
+      "title": "陈列上报",
+      "source": "src/pages/subpages/activity/displayReport.vue",
+      "sha256": "fd9af4138e4307024a300da6f07067c6247f304a11f0e8669b53c97c3675dc6c",
+      "selector": ".display-report-container",
+      "elements": [
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "displayImages",
+          "repeated": false,
+          "line": 28
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "storeImages",
+          "repeated": false,
+          "line": 41
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "mode",
+        "reportId",
+        "participantId"
+      ],
+      "apiImports": [
+        "@/api/activity"
+      ],
+      "messages": [
+        {
+          "text": "请上传活动陈列照片",
+          "line": 176
+        },
+        {
+          "text": "请上传门店定位拍照",
+          "line": 184
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/paymentReport",
+      "title": "兑付上报",
+      "source": "src/pages/subpages/activity/paymentReport.vue",
+      "sha256": "03442a2eee12304f2b344664683ae8f2d3d200d8ffada2264b4bc88c11ad66d9",
+      "selector": ".payment-report-container",
+      "elements": [
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "displayPhoto",
+          "repeated": false,
+          "line": 28
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "locationPhoto",
+          "repeated": false,
+          "line": 33
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "paymentPhoto",
+          "repeated": false,
+          "line": 46
+        },
+        {
+          "tag": "sin-signature",
+          "classes": [],
+          "model": "signaturePhoto",
+          "repeated": false,
+          "line": 54
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "mode",
+        "reportId"
+      ],
+      "apiImports": [
+        "@/api/activity"
+      ],
+      "messages": [
+        {
+          "text": "请上传活动兑付照片",
+          "line": 192
+        },
+        {
+          "text": "请获取客户签字确认",
+          "line": 200
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/list",
+      "title": "活动中心",
+      "source": "src/pages/subpages/activity/list.vue",
+      "sha256": "0da45cd1bb36793b01df8ec3ac628dc43fb8f3baaf3bbcd16db56ce29d50b938",
+      "selector": null,
+      "elements": [],
+      "rules": [],
+      "parameters": [],
+      "apiImports": [],
+      "messages": [
+        {
+          "text": "活动中心已迁移，请从活动方案进入",
+          "line": 13
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/activityReportList",
+      "title": "活动记录",
+      "source": "src/pages/subpages/activity/activityReportList.vue",
+      "sha256": "658017abdd64c7c24c7c22324dd1ede191bf261dfa431c88adbefe261b4dd619",
+      "selector": ".activity-report-list-container",
+      "elements": [
+        {
+          "tag": "up-search",
+          "classes": [],
+          "placeholder": "搜索客户名称查询",
+          "model": "query.customerName",
+          "repeated": false,
+          "line": 7
+        },
+        {
+          "tag": "up-popup",
+          "classes": [],
+          "model": "show",
+          "repeated": false,
+          "line": 46
+        },
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showActionSheet",
+          "repeated": false,
+          "line": 57
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activity"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/applyActivity",
+      "title": "申请活动",
+      "source": "src/pages/subpages/activity/applyActivity.vue",
+      "sha256": "fc048eeab48326e993ded0d94f4229f4d2d0d748746c40534f16649bac731e0a",
+      "selector": ".apply-activity-container",
+      "elements": [
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "选择参与的活动",
+          "prop": "activityId",
+          "repeated": false,
+          "line": 6
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.activityId",
+          "repeated": false,
+          "line": 7
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户",
+          "prop": "customerId",
+          "repeated": true,
+          "line": 35
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "开始时间",
+          "prop": "startTime",
+          "repeated": true,
+          "line": 47
+        },
+        {
+          "tag": "DatetimePicker",
+          "classes": [],
+          "model": "form.startTime",
+          "repeated": true,
+          "line": 48
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "结束时间",
+          "prop": "endTime",
+          "repeated": true,
+          "line": 60
+        },
+        {
+          "tag": "DatetimePicker",
+          "classes": [],
+          "model": "form.endTime",
+          "repeated": true,
+          "line": 61
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activity",
+        "@/api/customer"
+      ],
+      "messages": [
+        {
+          "text": "请选择客户",
+          "line": 141
+        },
+        {
+          "text": "请选择开始时间",
+          "line": 142
+        },
+        {
+          "text": "请选择结束时间",
+          "line": 143
+        },
+        {
+          "text": "请先选择活动",
+          "line": 225
+        },
+        {
+          "text": "活动申请数据:",
+          "line": 282
+        },
+        {
+          "text": "申请提交成功",
+          "line": 292
+        },
+        {
+          "text": "申请提交失败",
+          "line": 303
+        },
+        {
+          "text": "提交申请失败:",
+          "line": 308
+        },
+        {
+          "text": "请先选择活动",
+          "line": 317
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/activity/participantList",
+      "title": "参与客户",
+      "source": "src/pages/subpages/activity/participantList.vue",
+      "sha256": "9f91772e8a64b07835c69041544e09aaf7fc91c60d9f8d9036b0fa5a1cff9f88",
+      "selector": ".participant-list-container",
+      "elements": [
+        {
+          "tag": "up-search",
+          "classes": [],
+          "placeholder": "搜索客户名称",
+          "model": "searchText",
+          "repeated": false,
+          "line": 7
+        },
+        {
+          "tag": "up-popup",
+          "classes": [],
+          "model": "show",
+          "repeated": false,
+          "line": 67
+        },
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showActionSheet",
+          "repeated": false,
+          "line": 80
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/activity"
+      ],
+      "messages": [
+        {
+          "text": "审批中",
+          "line": 127
+        },
+        {
+          "text": "待审批",
+          "line": 158
+        },
+        {
+          "text": "待审批",
+          "line": 207
+        },
+        {
+          "text": "审批拒绝",
+          "line": 210
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/business/index",
+      "title": "前端客户",
+      "source": "src/pages/subpages/customer/business/index.vue",
+      "sha256": "4b9de4df80f35bd3c53d064cb3e5522eb2d2e536911a5d1337addfde51978d45",
+      "selector": ".customer-business-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "CustomerBusiness",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "筛选条件",
+        "subtitle": "精准锁定您的目标客户",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索客户名称、客户ID..."
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "未审批",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已审批",
+            "params": {
+              "status": "1"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "managerId",
+            "label": "客户经理",
+            "type": "select",
+            "optionsKey": "managerOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索客户经理..."
+          },
+          {
+            "key": "phone",
+            "label": "客户手机号",
+            "type": "input",
+            "placeholder": "请输入客户手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "contactPhone",
+            "label": "客户联系人手机号",
+            "type": "input",
+            "placeholder": "请输入客户联系人手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "consigneePhone",
+            "label": "收货人手机号",
+            "type": "input",
+            "placeholder": "请输入收货人手机号"
+          },
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "status",
+            "label": "状态",
+            "type": "multi-select",
+            "optionsKey": "customerStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "salesArea",
+            "label": "销售区域",
+            "type": "select",
+            "optionsKey": "salesAreaOptions",
+            "searchable": true
+          },
+          {
+            "key": "visitFrequency",
+            "label": "拜访频率",
+            "type": "select",
+            "optionsKey": "visitFrequencyOptions"
+          },
+          {
+            "key": "terminalType",
+            "label": "客户类型",
+            "type": "multi-select",
+            "optionsKey": "terminalTypeOptions"
+          },
+          {
+            "key": "terminalTags",
+            "label": "客户标签",
+            "type": "multi-select",
+            "optionsKey": "terminalTagsOptions"
+          },
+          {
+            "key": "productType",
+            "label": "产品名称",
+            "type": "multi-select",
+            "optionsKey": "productTypeOptions"
+          },
+          {
+            "key": "customerLevel",
+            "label": "客户等级",
+            "type": "select",
+            "optionsKey": "customerLevelOptions"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/customer/business/form",
+      "title": "新增客户",
+      "source": "src/pages/subpages/customer/business/form.vue",
+      "sha256": "c2b1880ed81b1ce3bb4de3615d5008f475f2f2567178f6cc644bf7872717df8c",
+      "selector": ".customer-form-container",
+      "elements": [
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户名称",
+          "prop": "customerName",
+          "repeated": false,
+          "line": 9
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入客户名称",
+          "model": "formData.customerName",
+          "repeated": false,
+          "line": 10
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "门头照",
+          "prop": "storefrontPhoto",
+          "repeated": false,
+          "line": 14
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "formData.storefrontPhoto",
+          "repeated": false,
+          "line": 15
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户经理",
+          "prop": "managerIds",
+          "repeated": false,
+          "line": 19
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户经理",
+          "model": "customerManagerText",
+          "repeated": false,
+          "line": 20
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户编码",
+          "prop": "customerId",
+          "repeated": false,
+          "line": 45
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "自动生成",
+          "model": "formData.customerId",
+          "repeated": false,
+          "line": 46
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户类型",
+          "prop": "terminalType",
+          "repeated": false,
+          "line": 50
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户类型",
+          "model": "terminalTypeText",
+          "repeated": false,
+          "line": 51
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "产品类型",
+          "prop": "productType",
+          "repeated": false,
+          "line": 67
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择产品类型",
+          "model": "productTypeText",
+          "repeated": false,
+          "line": 68
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户标签",
+          "prop": "terminalTags",
+          "repeated": false,
+          "line": 98
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户标签",
+          "model": "terminalTagsText",
+          "repeated": false,
+          "line": 99
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "合作状态",
+          "prop": "cooperationStatus",
+          "repeated": false,
+          "line": 115
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择合作状态",
+          "model": "cooperationStatusText",
+          "repeated": false,
+          "line": 116
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户手机号",
+          "prop": "phone",
+          "repeated": false,
+          "line": 132
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.phone",
+          "repeated": false,
+          "line": 133
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "备注",
+          "prop": "remark",
+          "repeated": false,
+          "line": 137
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.remark",
+          "repeated": false,
+          "line": 138
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "标注位置",
+          "prop": "latitude",
+          "repeated": false,
+          "line": 154
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "点击标注位置",
+          "repeated": false,
+          "line": 155
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "省、市、区街道/乡镇",
+          "prop": "province",
+          "repeated": false,
+          "line": 162
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.province",
+          "repeated": false,
+          "line": 163
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "detailedAddress",
+          "repeated": false,
+          "line": 167
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.detailedAddress",
+          "repeated": false,
+          "line": 168
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "营业执照",
+          "prop": "businessLicensePhoto",
+          "repeated": false,
+          "line": 177
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "formData.businessLicensePhoto",
+          "repeated": false,
+          "line": 178
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "营业执照名称",
+          "prop": "businessLicenseName",
+          "repeated": false,
+          "line": 182
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.businessLicenseName",
+          "repeated": false,
+          "line": 183
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "工商注册号",
+          "prop": "businessRegistrationNumber",
+          "repeated": false,
+          "line": 187
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.businessRegistrationNumber",
+          "repeated": false,
+          "line": 188
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "注册日期",
+          "prop": "registrationDate",
+          "repeated": false,
+          "line": 192
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择",
+          "model": "formData.registrationDate",
+          "repeated": false,
+          "line": 193
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "经营者",
+          "prop": "operatorName",
+          "repeated": false,
+          "line": 201
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.operatorName",
+          "repeated": false,
+          "line": 202
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人姓名",
+          "prop": "consigneeName",
+          "repeated": false,
+          "line": 211
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneeName",
+          "repeated": false,
+          "line": 212
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人手机",
+          "prop": "consigneePhone",
+          "repeated": false,
+          "line": 216
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneePhone",
+          "repeated": false,
+          "line": 217
+        },
+        {
+          "tag": "region-selector",
+          "classes": [],
+          "model": "formData.shippingProvince",
+          "repeated": false,
+          "line": 222
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "shippingAddress",
+          "repeated": false,
+          "line": 234
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.shippingAddress",
+          "repeated": false,
+          "line": 235
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户联系人姓名",
+          "prop": "contactName",
+          "repeated": false,
+          "line": 244
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactName",
+          "repeated": false,
+          "line": 245
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户联系人手机",
+          "prop": "contactPhone",
+          "repeated": false,
+          "line": 249
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactPhone",
+          "repeated": false,
+          "line": 250
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "备注",
+          "prop": "contactRemark",
+          "repeated": false,
+          "line": 254
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactRemark",
+          "repeated": false,
+          "line": 255
+        }
+      ],
+      "rootLine": 2,
+      "rules": [
+        {
+          "field": "customerName",
+          "message": "请输入客户名称",
+          "required": true,
+          "custom": false,
+          "line": 580
+        },
+        {
+          "field": "managerIds",
+          "message": "请选择客户经理",
+          "required": false,
+          "custom": true,
+          "line": 583
+        },
+        {
+          "field": "terminalType",
+          "message": "请选择终端类型",
+          "required": false,
+          "custom": true,
+          "line": 593
+        },
+        {
+          "field": "productType",
+          "message": "请选择产品类型",
+          "required": true,
+          "custom": false,
+          "line": 603
+        },
+        {
+          "field": "salesArea",
+          "message": "请选择销售区域",
+          "required": true,
+          "custom": false,
+          "line": 606
+        },
+        {
+          "field": "customerLevel",
+          "message": "请选择客户级别",
+          "required": true,
+          "custom": false,
+          "line": 609
+        },
+        {
+          "field": "contactName",
+          "message": "请输入联系人名称",
+          "required": true,
+          "custom": false,
+          "line": 612
+        },
+        {
+          "field": "contactName",
+          "message": "联系人姓名不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 613
+        },
+        {
+          "field": "contactPhone",
+          "message": "请输入联系人手机号",
+          "required": true,
+          "custom": false,
+          "line": 616
+        },
+        {
+          "field": "contactPhone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 617
+        },
+        {
+          "field": "latitude",
+          "message": "请标注位置",
+          "required": false,
+          "custom": true,
+          "line": 629
+        },
+        {
+          "field": "phone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 642
+        },
+        {
+          "field": "terminalTags",
+          "message": "请选择客户标签",
+          "required": true,
+          "custom": false,
+          "line": 654
+        },
+        {
+          "field": "cooperationStatus",
+          "message": "请选择合作状态",
+          "required": false,
+          "custom": true,
+          "line": 657
+        },
+        {
+          "field": "businessRegistrationNumber",
+          "message": "工商注册号不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 665
+        },
+        {
+          "field": "operatorName",
+          "message": "经营者姓名不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 669
+        },
+        {
+          "field": "consigneeName",
+          "message": "收货人姓名不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 673
+        },
+        {
+          "field": "consigneePhone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 677
+        }
+      ],
+      "parameters": [
+        "id",
+        "status"
+      ],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [
+        {
+          "text": "请输入客户名称",
+          "line": 580
+        },
+        {
+          "text": "请选择客户经理",
+          "line": 588
+        },
+        {
+          "text": "请选择终端类型",
+          "line": 598
+        },
+        {
+          "text": "请选择产品类型",
+          "line": 603
+        },
+        {
+          "text": "请选择销售区域",
+          "line": 606
+        },
+        {
+          "text": "请选择客户级别",
+          "line": 609
+        },
+        {
+          "text": "请输入联系人名称",
+          "line": 612
+        },
+        {
+          "text": "联系人姓名不能超过30个字符",
+          "line": 613
+        },
+        {
+          "text": "请输入联系人手机号",
+          "line": 616
+        },
+        {
+          "text": "请标注位置",
+          "line": 636
+        },
+        {
+          "text": "请选择客户标签",
+          "line": 654
+        },
+        {
+          "text": "请选择合作状态",
+          "line": 659
+        },
+        {
+          "text": "工商注册号不能超过30个字符",
+          "line": 665
+        },
+        {
+          "text": "经营者姓名不能超过30个字符",
+          "line": 669
+        },
+        {
+          "text": "收货人姓名不能超过30个字符",
+          "line": 673
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/business/info",
+      "title": "客户详情",
+      "source": "src/pages/subpages/customer/business/info.vue",
+      "sha256": "7b4c1da5fa1e8fcf7676e4d0831c657a514686e680aade3fc4e188f476c6226e",
+      "selector": ".customer-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id",
+        "auditMode",
+        "instanceId"
+      ],
+      "apiImports": [
+        "@/api/customer",
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "上报库存",
+          "line": 361
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 491
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 494
+        },
+        {
+          "text": "发起审核申请",
+          "line": 509
+        },
+        {
+          "text": "未知申请人",
+          "line": 510
+        },
+        {
+          "text": "审批",
+          "line": 521
+        },
+        {
+          "text": "未知审批人",
+          "line": 522
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 538
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 563
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 576
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 602
+        },
+        {
+          "text": "确定要撤销当前审批吗？",
+          "line": 610
+        },
+        {
+          "text": "待审批状态不可编辑",
+          "line": 637
+        },
+        {
+          "text": "只有审批通过的数据才能更新定位",
+          "line": 655
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/directly/index",
+      "title": "直营客户",
+      "source": "src/pages/subpages/customer/directly/index.vue",
+      "sha256": "c939578c0c3f3f30f27cc50bde35718a0eafed2ea7473fb8d8bc4e76fbaf379c",
+      "selector": ".customer-directly-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "CustomerDirect",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "筛选条件",
+        "subtitle": "精准锁定您的目标客户",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索客户名称、客户ID..."
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "未审批",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已审批",
+            "params": {
+              "status": "1"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "managerId",
+            "label": "客户经理",
+            "type": "select",
+            "optionsKey": "managerOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索客户经理..."
+          },
+          {
+            "key": "phone",
+            "label": "客户手机号",
+            "type": "input",
+            "placeholder": "请输入客户手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "contactPhone",
+            "label": "客户联系人手机号",
+            "type": "input",
+            "placeholder": "请输入客户联系人手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "consigneePhone",
+            "label": "收货人手机号",
+            "type": "input",
+            "placeholder": "请输入收货人手机号"
+          },
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "status",
+            "label": "状态",
+            "type": "multi-select",
+            "optionsKey": "customerStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "salesArea",
+            "label": "销售区域",
+            "type": "select",
+            "optionsKey": "salesAreaOptions",
+            "searchable": true
+          },
+          {
+            "key": "visitFrequency",
+            "label": "拜访频率",
+            "type": "select",
+            "optionsKey": "visitFrequencyOptions"
+          },
+          {
+            "key": "directCustomerType",
+            "label": "客户类型",
+            "type": "multi-select",
+            "optionsKey": "directCustomerTypeOptions"
+          },
+          {
+            "key": "directProductType",
+            "label": "产品名称",
+            "type": "multi-select",
+            "optionsKey": "directProductTypeOptions"
+          },
+          {
+            "key": "directCustomerLevel",
+            "label": "客户等级",
+            "type": "select",
+            "optionsKey": "directCustomerLevelOptions"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/customer/directly/form",
+      "title": "新增直营客户",
+      "source": "src/pages/subpages/customer/directly/form.vue",
+      "sha256": "38ad0fade95b78701b31fc37148253311df14f051b5ea78a7aeba421c7fffe58",
+      "selector": ".customer-form-container",
+      "elements": [
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "直营商名称",
+          "prop": "customerName",
+          "repeated": false,
+          "line": 9
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入直营商客户名称",
+          "model": "formData.customerName",
+          "repeated": false,
+          "line": 10
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "门头照",
+          "prop": "storefrontPhoto",
+          "repeated": false,
+          "line": 14
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "formData.storefrontPhoto",
+          "repeated": false,
+          "line": 15
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户经理",
+          "prop": "managerIds",
+          "repeated": false,
+          "line": 19
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户经理",
+          "model": "customerManagerText",
+          "repeated": false,
+          "line": 20
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户编码",
+          "prop": "customerId",
+          "repeated": false,
+          "line": 44
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "自动生成",
+          "model": "formData.customerId",
+          "repeated": false,
+          "line": 45
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户手机号",
+          "prop": "phone",
+          "repeated": false,
+          "line": 49
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.phone",
+          "repeated": false,
+          "line": 50
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "产品类型",
+          "prop": "directProductType",
+          "repeated": false,
+          "line": 71
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择产品类型",
+          "model": "productTypeText",
+          "repeated": false,
+          "line": 72
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "合作状态",
+          "prop": "cooperationStatus",
+          "repeated": false,
+          "line": 109
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择合作状态",
+          "model": "cooperationStatusText",
+          "repeated": false,
+          "line": 110
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "备注",
+          "prop": "remark",
+          "repeated": false,
+          "line": 126
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.remark",
+          "repeated": false,
+          "line": 127
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "标注位置",
+          "prop": "latitude",
+          "repeated": false,
+          "line": 143
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "点击标注位置",
+          "repeated": false,
+          "line": 144
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "省、市、区街道/乡镇",
+          "prop": "province",
+          "repeated": false,
+          "line": 151
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.province",
+          "repeated": false,
+          "line": 152
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "detailedAddress",
+          "repeated": false,
+          "line": 156
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.detailedAddress",
+          "repeated": false,
+          "line": 157
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "营业执照",
+          "prop": "businessLicensePhoto",
+          "repeated": false,
+          "line": 166
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "formData.businessLicensePhoto",
+          "repeated": false,
+          "line": 167
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "营业执照名称",
+          "prop": "businessLicenseName",
+          "repeated": false,
+          "line": 171
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.businessLicenseName",
+          "repeated": false,
+          "line": 172
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "工商注册号",
+          "prop": "businessRegistrationNumber",
+          "repeated": false,
+          "line": 176
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.businessRegistrationNumber",
+          "repeated": false,
+          "line": 177
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "注册日期",
+          "prop": "registrationDate",
+          "repeated": false,
+          "line": 181
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择",
+          "model": "formData.registrationDate",
+          "repeated": false,
+          "line": 182
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "经营者",
+          "prop": "operatorName",
+          "repeated": false,
+          "line": 190
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.operatorName",
+          "repeated": false,
+          "line": 191
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人姓名",
+          "prop": "consigneeName",
+          "repeated": false,
+          "line": 200
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneeName",
+          "repeated": false,
+          "line": 201
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人手机",
+          "prop": "consigneePhone",
+          "repeated": false,
+          "line": 205
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneePhone",
+          "repeated": false,
+          "line": 206
+        },
+        {
+          "tag": "region-selector",
+          "classes": [],
+          "model": "formData.shippingProvince",
+          "repeated": false,
+          "line": 211
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "shippingAddress",
+          "repeated": false,
+          "line": 223
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.shippingAddress",
+          "repeated": false,
+          "line": 224
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户联系人姓名",
+          "prop": "contactName",
+          "repeated": false,
+          "line": 233
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactName",
+          "repeated": false,
+          "line": 234
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户联系人手机",
+          "prop": "contactPhone",
+          "repeated": false,
+          "line": 238
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactPhone",
+          "repeated": false,
+          "line": 239
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "备注",
+          "prop": "contactRemark",
+          "repeated": false,
+          "line": 243
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.contactRemark",
+          "repeated": false,
+          "line": 244
+        }
+      ],
+      "rootLine": 2,
+      "rules": [
+        {
+          "field": "customerName",
+          "message": "请输入客户名称",
+          "required": true,
+          "custom": false,
+          "line": 541
+        },
+        {
+          "field": "managerIds",
+          "message": "请选择客户经理",
+          "required": false,
+          "custom": true,
+          "line": 544
+        },
+        {
+          "field": "directCustomerType",
+          "message": "请选择客户类型",
+          "required": true,
+          "custom": false,
+          "line": 554
+        },
+        {
+          "field": "directCustomerLevel",
+          "message": "请选择客户级别",
+          "required": true,
+          "custom": false,
+          "line": 557
+        },
+        {
+          "field": "directProductType",
+          "message": "请选择产品类型",
+          "required": true,
+          "custom": false,
+          "line": 560
+        },
+        {
+          "field": "salesArea",
+          "message": "请选择销售区域",
+          "required": true,
+          "custom": false,
+          "line": 563
+        },
+        {
+          "field": "cooperationStatus",
+          "message": "请选择合作状态",
+          "required": false,
+          "custom": true,
+          "line": 566
+        },
+        {
+          "field": "latitude",
+          "message": "请标注位置",
+          "required": false,
+          "custom": true,
+          "line": 573
+        },
+        {
+          "field": "phone",
+          "message": "请输入客户手机号",
+          "required": true,
+          "custom": false,
+          "line": 586
+        },
+        {
+          "field": "phone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 587
+        },
+        {
+          "field": "contactPhone",
+          "message": "请输入客户联系人手机",
+          "required": true,
+          "custom": false,
+          "line": 600
+        },
+        {
+          "field": "contactPhone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 601
+        },
+        {
+          "field": "consigneePhone",
+          "message": "手机号或座机号不正确",
+          "required": false,
+          "custom": true,
+          "line": 614
+        },
+        {
+          "field": "businessLicenseName",
+          "message": "请输入营业执照名称",
+          "required": true,
+          "custom": false,
+          "line": 627
+        }
+      ],
+      "parameters": [
+        "id",
+        "status"
+      ],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [
+        {
+          "text": "请输入客户名称",
+          "line": 541
+        },
+        {
+          "text": "请选择客户经理",
+          "line": 549
+        },
+        {
+          "text": "请选择客户类型",
+          "line": 554
+        },
+        {
+          "text": "请选择客户级别",
+          "line": 557
+        },
+        {
+          "text": "请选择产品类型",
+          "line": 560
+        },
+        {
+          "text": "请选择销售区域",
+          "line": 563
+        },
+        {
+          "text": "请选择合作状态",
+          "line": 568
+        },
+        {
+          "text": "请标注位置",
+          "line": 580
+        },
+        {
+          "text": "请输入客户手机号",
+          "line": 586
+        },
+        {
+          "text": "请输入客户联系人手机",
+          "line": 600
+        },
+        {
+          "text": "请输入营业执照名称",
+          "line": 627
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/directly/info",
+      "title": "直营客户详情",
+      "source": "src/pages/subpages/customer/directly/info.vue",
+      "sha256": "0ed21e0a8d3adef37b6c54dbe38da1d2826c8e68bdaec7e962ce8a0414f46ce9",
+      "selector": ".customer-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "auditMode",
+        "id",
+        "instanceId"
+      ],
+      "apiImports": [
+        "@/api/customer",
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 398
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 423
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 436
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 462
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 560
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 563
+        },
+        {
+          "text": "发起审核申请",
+          "line": 578
+        },
+        {
+          "text": "未知申请人",
+          "line": 579
+        },
+        {
+          "text": "审批",
+          "line": 590
+        },
+        {
+          "text": "未知审批人",
+          "line": 591
+        },
+        {
+          "text": "确定要撤销当前审批吗？",
+          "line": 605
+        },
+        {
+          "text": "只有审批通过的数据才能更新定位",
+          "line": 646
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/kol/index",
+      "title": "KOL客户",
+      "source": "src/pages/subpages/customer/kol/index.vue",
+      "sha256": "48668be9ca6ce7a70ba04ae7e66288fd87c16532c98aa9ad0b5b795183acd619",
+      "selector": ".customer-kol-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "CustomerKol",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "筛选条件",
+        "subtitle": "精准锁定您的目标客户",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索客户名称、客户ID..."
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "未审批",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已审批",
+            "params": {
+              "status": "1"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "managerId",
+            "label": "客户经理",
+            "type": "select",
+            "optionsKey": "managerOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索客户经理..."
+          },
+          {
+            "key": "phone",
+            "label": "客户手机号",
+            "type": "input",
+            "placeholder": "请输入客户手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "contactPhone",
+            "label": "客户联系人手机号",
+            "type": "input",
+            "placeholder": "请输入客户联系人手机号",
+            "defaultVisible": true
+          },
+          {
+            "key": "consigneePhone",
+            "label": "收货人手机号",
+            "type": "input",
+            "placeholder": "请输入收货人手机号"
+          },
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "status",
+            "label": "状态",
+            "type": "multi-select",
+            "optionsKey": "customerStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "salesArea",
+            "label": "销售区域",
+            "type": "select",
+            "optionsKey": "salesAreaOptions",
+            "searchable": true
+          },
+          {
+            "key": "visitFrequency",
+            "label": "拜访频率",
+            "type": "select",
+            "optionsKey": "visitFrequencyOptions"
+          },
+          {
+            "key": "kolType",
+            "label": "客户类型",
+            "type": "multi-select",
+            "optionsKey": "kolTypeOptions"
+          },
+          {
+            "key": "kolProductType",
+            "label": "产品名称",
+            "type": "multi-select",
+            "optionsKey": "productTypeOptions"
+          },
+          {
+            "key": "companyName",
+            "label": "公司名称",
+            "type": "input",
+            "placeholder": "请输入公司名称"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/customer/kol/form",
+      "title": "新增KOL客户",
+      "source": "src/pages/subpages/customer/kol/form.vue",
+      "sha256": "fe9d30211fb6a260cfff033f6c07fcb5bfad527affcd09191236a56e7cb3535b",
+      "selector": ".customer-form-container",
+      "elements": [
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户姓名",
+          "prop": "customerName",
+          "repeated": false,
+          "line": 9
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.customerName",
+          "repeated": false,
+          "line": 10
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户手机",
+          "prop": "phone",
+          "repeated": false,
+          "line": 14
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.phone",
+          "repeated": false,
+          "line": 15
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "公司名称",
+          "prop": "companyName",
+          "repeated": false,
+          "line": 19
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入公司名称",
+          "model": "formData.companyName",
+          "repeated": false,
+          "line": 20
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户经理",
+          "prop": "managerIds",
+          "repeated": false,
+          "line": 24
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户经理",
+          "model": "customerManagerText",
+          "repeated": false,
+          "line": 25
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户编码",
+          "prop": "customerId",
+          "repeated": false,
+          "line": 49
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "自动生成",
+          "model": "formData.customerId",
+          "repeated": false,
+          "line": 50
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "客户类型",
+          "prop": "kolType",
+          "repeated": false,
+          "line": 54
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择客户类型",
+          "model": "kolTypeText",
+          "repeated": false,
+          "line": 55
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "产品类型",
+          "prop": "kolProductType",
+          "repeated": false,
+          "line": 83
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择产品类型",
+          "model": "productTypeText",
+          "repeated": false,
+          "line": 84
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "合作状态",
+          "prop": "cooperationStatus",
+          "repeated": false,
+          "line": 100
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择合作状态",
+          "model": "cooperationStatusText",
+          "repeated": false,
+          "line": 101
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "备注",
+          "prop": "remark",
+          "repeated": false,
+          "line": 117
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.remark",
+          "repeated": false,
+          "line": 118
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "年龄段",
+          "prop": "ageRange",
+          "repeated": false,
+          "line": 122
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.ageRange",
+          "repeated": false,
+          "line": 123
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "生日",
+          "prop": "birthday",
+          "repeated": false,
+          "line": 136
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请选择",
+          "model": "formData.birthday",
+          "repeated": false,
+          "line": 137
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "所在地",
+          "prop": "salesArea",
+          "repeated": false,
+          "line": 145
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.salesArea",
+          "repeated": false,
+          "line": 146
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "工作单位",
+          "prop": "workUnit",
+          "repeated": false,
+          "line": 152
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.workUnit",
+          "repeated": false,
+          "line": 153
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "职业",
+          "prop": "occupation",
+          "repeated": false,
+          "line": 157
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.occupation",
+          "repeated": false,
+          "line": 158
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "用酒频率",
+          "prop": "drinkingFrequency",
+          "repeated": false,
+          "line": 162
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.drinkingFrequency",
+          "repeated": false,
+          "line": 163
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "用酒场景",
+          "prop": "drinkingScene",
+          "repeated": false,
+          "line": 169
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.drinkingScene",
+          "repeated": false,
+          "line": 170
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "标注位置",
+          "prop": "latitude",
+          "repeated": false,
+          "line": 181
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "点击标注位置",
+          "repeated": false,
+          "line": 182
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "省、市、区街道/乡镇",
+          "prop": "province",
+          "repeated": false,
+          "line": 189
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.province",
+          "repeated": false,
+          "line": 190
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "detailedAddress",
+          "repeated": false,
+          "line": 194
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.detailedAddress",
+          "repeated": false,
+          "line": 195
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人姓名",
+          "prop": "consigneeName",
+          "repeated": false,
+          "line": 204
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneeName",
+          "repeated": false,
+          "line": 205
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "收货人手机",
+          "prop": "consigneePhone",
+          "repeated": false,
+          "line": 209
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.consigneePhone",
+          "repeated": false,
+          "line": 210
+        },
+        {
+          "tag": "region-selector",
+          "classes": [],
+          "model": "formData.shippingProvince",
+          "repeated": false,
+          "line": 215
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "详细地址",
+          "prop": "shippingAddress",
+          "repeated": false,
+          "line": 227
+        },
+        {
+          "tag": "up-input",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "formData.shippingAddress",
+          "repeated": false,
+          "line": 228
+        }
+      ],
+      "rootLine": 2,
+      "rules": [
+        {
+          "field": "companyName",
+          "message": "请输入公司名称",
+          "required": false,
+          "custom": true,
+          "line": 548
+        },
+        {
+          "field": "companyName",
+          "message": "公司名称不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 556
+        },
+        {
+          "field": "managerIds",
+          "message": "请选择客户经理",
+          "required": false,
+          "custom": true,
+          "line": 559
+        },
+        {
+          "field": "kolType",
+          "message": "请选择客户类型",
+          "required": true,
+          "custom": false,
+          "line": 569
+        },
+        {
+          "field": "cooperationStatus",
+          "message": "请选择合作状态",
+          "required": false,
+          "custom": true,
+          "line": 572
+        },
+        {
+          "field": "kolProductType",
+          "message": "请选择产品类型",
+          "required": false,
+          "custom": true,
+          "line": 579
+        },
+        {
+          "field": "gender",
+          "message": "请选择性别",
+          "required": true,
+          "custom": false,
+          "line": 589
+        },
+        {
+          "field": "phone",
+          "message": "请输入客户手机号",
+          "required": true,
+          "custom": false,
+          "line": 592
+        },
+        {
+          "field": "phone",
+          "message": "请输入正确的手机号或座机号格式",
+          "required": false,
+          "custom": true,
+          "line": 593
+        },
+        {
+          "field": "latitude",
+          "message": "请标注位置",
+          "required": false,
+          "custom": true,
+          "line": 605
+        },
+        {
+          "field": "consigneePhone",
+          "message": "请输入正确的手机号或座机号格式",
+          "required": false,
+          "custom": true,
+          "line": 618
+        },
+        {
+          "field": "customerName",
+          "message": "请输入联系人名称",
+          "required": true,
+          "custom": false,
+          "line": 630
+        },
+        {
+          "field": "customerName",
+          "message": "联系人姓名不能超过30个字符",
+          "required": false,
+          "max": 30,
+          "custom": false,
+          "line": 631
+        }
+      ],
+      "parameters": [
+        "id",
+        "status"
+      ],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [
+        {
+          "text": "请输入公司名称",
+          "line": 553
+        },
+        {
+          "text": "公司名称不能超过30个字符",
+          "line": 556
+        },
+        {
+          "text": "请选择客户经理",
+          "line": 564
+        },
+        {
+          "text": "请选择客户类型",
+          "line": 569
+        },
+        {
+          "text": "请选择合作状态",
+          "line": 574
+        },
+        {
+          "text": "请选择产品类型",
+          "line": 584
+        },
+        {
+          "text": "请选择性别",
+          "line": 589
+        },
+        {
+          "text": "请输入客户手机号",
+          "line": 592
+        },
+        {
+          "text": "请输入正确的手机号或座机号格式",
+          "line": 600
+        },
+        {
+          "text": "请标注位置",
+          "line": 612
+        },
+        {
+          "text": "请输入正确的手机号或座机号格式",
+          "line": 625
+        },
+        {
+          "text": "请输入联系人名称",
+          "line": 630
+        },
+        {
+          "text": "联系人姓名不能超过30个字符",
+          "line": 631
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/kol/info",
+      "title": "KOL客户详情",
+      "source": "src/pages/subpages/customer/kol/info.vue",
+      "sha256": "ba2bbdd1cb91ab9f419c180332f995f491887fdeea8bc12c17933e1809653bc3",
+      "selector": ".customer-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "auditMode",
+        "id",
+        "instanceId"
+      ],
+      "apiImports": [
+        "@/api/customer",
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 388
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 413
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 426
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 452
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 566
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 569
+        },
+        {
+          "text": "发起审核申请",
+          "line": 586
+        },
+        {
+          "text": "未知申请人",
+          "line": 587
+        },
+        {
+          "text": "审批",
+          "line": 599
+        },
+        {
+          "text": "未知审批人",
+          "line": 600
+        },
+        {
+          "text": "确定要撤销当前审批吗？",
+          "line": 614
+        },
+        {
+          "text": "只有审批通过的数据才能更新定位",
+          "line": 655
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/customer/selectCustomer",
+      "title": "选择客户",
+      "source": "src/pages/subpages/customer/selectCustomer.vue",
+      "sha256": "e40694c084b7cd1f8db7e1a321eefeefb6f39fe42b4d28ef32d7b51796192700",
+      "selector": ".customer-select-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "customerType",
+        "needLocationSort"
+      ],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "CustomerSelect",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "选择客户筛选",
+        "subtitle": "按合作状态、区域等筛选正常客户",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索客户名称/客户ID"
+        },
+        "fields": [
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "salesArea",
+            "label": "销售区域",
+            "type": "select",
+            "optionsKey": "salesAreaOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "customerLevel",
+            "label": "客户等级",
+            "type": "select",
+            "optionsKey": "customerLevelOptions"
+          },
+          {
+            "key": "visitFrequency",
+            "label": "拜访频率",
+            "type": "select",
+            "optionsKey": "visitFrequencyOptions"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/customer/selectCustomersMulti",
+      "title": "选择客户",
+      "source": "src/pages/subpages/customer/selectCustomersMulti.vue",
+      "sha256": "c2d60f2079df202feae31d709eb7942f325fe46c1aa07ba12dffc7eb2a541ba6",
+      "selector": ".multi-select-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "customerType",
+        "preselected"
+      ],
+      "apiImports": [
+        "@/api/customer",
+        "@/api/activityApply"
+      ],
+      "messages": [],
+      "searchConfig": "CustomerMultiSelect",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "选择客户",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索客户名称/客户ID"
+        },
+        "fields": []
+      }
+    },
+    {
+      "route": "pages/subpages/visitPlan/index",
+      "title": "拜访计划",
+      "source": "src/pages/subpages/visitPlan/index.vue",
+      "sha256": "2091bfdfe638d308f492d455db4ae9564fee661c62a6f9b0a3e693bf3750e803",
+      "selector": ".visit-plan-index-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/visitPlan",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "VisitPlan",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "计划拜访筛选",
+        "subtitle": "按拜访日期、责任人和计划类型筛选",
+        "keyword": {
+          "queryKey": "customerName",
+          "placeholder": "搜索客户名称..."
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "displayVisitStatus": ""
+            }
+          },
+          {
+            "label": "待拜访",
+            "params": {
+              "displayVisitStatus": "待拜访"
+            }
+          },
+          {
+            "label": "拜访中",
+            "params": {
+              "displayVisitStatus": "拜访中"
+            }
+          },
+          {
+            "label": "已拜访",
+            "params": {
+              "displayVisitStatus": "已拜访"
+            }
+          },
+          {
+            "label": "已逾期",
+            "params": {
+              "displayVisitStatus": "已逾期"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "visitDate",
+            "label": "拜访日期",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "visitorUserId",
+            "label": "责任人",
+            "type": "select",
+            "optionsKey": "visitorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索责任人..."
+          },
+          {
+            "key": "templateId",
+            "label": "拜访路线",
+            "type": "select",
+            "optionsKey": "templateOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "placeholder": "搜索拜访路线..."
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions"
+          },
+          {
+            "key": "terminalTags",
+            "label": "客户标签",
+            "type": "multi-select",
+            "optionsKey": "terminalTagsOptions",
+            "searchable": true
+          },
+          {
+            "key": "customerAddress",
+            "label": "客户地址",
+            "type": "input",
+            "placeholder": "请输入客户地址"
+          },
+          {
+            "key": "productType",
+            "label": "产品名称",
+            "type": "input",
+            "placeholder": "请输入产品名称"
+          },
+          {
+            "key": "isTemporary",
+            "label": "计划类型",
+            "type": "select",
+            "options": [
+              {
+                "label": "计划拜访",
+                "value": "0"
+              },
+              {
+                "label": "计划外拜访",
+                "value": "1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/visitPlan/addPlan",
+      "title": "新增计划",
+      "source": "src/pages/subpages/visitPlan/addPlan.vue",
+      "sha256": "98680b11378a5ab95d1e16b333156138da9f4624eea3c8e0f57d369b3b0962c6",
+      "selector": ".add-plan-container",
+      "elements": [
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "拜访人",
+          "prop": "visitorUserId",
+          "repeated": false,
+          "line": 7
+        },
+        {
+          "tag": "form-picker-data",
+          "classes": [],
+          "model": "formData.visitorUserId",
+          "repeated": false,
+          "line": 8
+        },
+        {
+          "tag": "up-datetime-picker",
+          "classes": [],
+          "model": "item.visitDate",
+          "repeated": true,
+          "line": 58
+        },
+        {
+          "tag": "up-form-item",
+          "classes": [],
+          "label": "拜访内容",
+          "prop": "visitContent",
+          "repeated": true,
+          "line": 64
+        },
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入",
+          "model": "item.visitContent",
+          "repeated": true,
+          "line": 65
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/customer",
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "请选择拜访人",
+          "line": 114
+        },
+        {
+          "text": "请选择客户类型",
+          "line": 115
+        },
+        {
+          "text": "请选择拜访客户",
+          "line": 116
+        },
+        {
+          "text": "请选择拜访日期",
+          "line": 117
+        },
+        {
+          "text": "请选择客户类型",
+          "line": 197
+        },
+        {
+          "text": "请选择拜访客户",
+          "line": 198
+        },
+        {
+          "text": "请选择拜访日期",
+          "line": 199
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/info",
+      "title": "拜访计划详情",
+      "source": "src/pages/subpages/visitPlan/info.vue",
+      "sha256": "991ec6c3dfb1f49047056c2bdf7ac6c759129e2b49cdc9fbe217fc4c3443615c",
+      "selector": ".visit-plan-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "auditMode",
+        "id",
+        "instanceId"
+      ],
+      "apiImports": [
+        "@/api/notification",
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 193
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 218
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 231
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 257
+        },
+        {
+          "text": "未获取到审批流程数据",
+          "line": 377
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 380
+        },
+        {
+          "text": "发起审核申请",
+          "line": 396
+        },
+        {
+          "text": "未知申请人",
+          "line": 397
+        },
+        {
+          "text": "审批",
+          "line": 408
+        },
+        {
+          "text": "未知审批人",
+          "line": 409
+        },
+        {
+          "text": "确定要撤销当前审批吗？",
+          "line": 423
+        },
+        {
+          "text": "缺少审批实例ID",
+          "line": 442
+        },
+        {
+          "text": "撤销申请失败:",
+          "line": 445
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport",
+      "title": "拜访上报",
+      "source": "src/pages/subpages/visitPlan/visitReport.vue",
+      "sha256": "35753fad9625c704a9a35fa9b5fdd4870d40fba8b5b99489edb6fc6b21293d13",
+      "selector": ".visit-report-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "库存上报",
+          "line": 160
+        },
+        {
+          "text": "库存上报",
+          "line": 167
+        },
+        {
+          "text": "库存上报",
+          "line": 340
+        },
+        {
+          "text": "请先完成签到",
+          "line": 404
+        },
+        {
+          "text": "请先完成签到",
+          "line": 424
+        },
+        {
+          "text": "请先完成签到",
+          "line": 444
+        },
+        {
+          "text": "请先完成签到",
+          "line": 464
+        },
+        {
+          "text": "请先完成签到",
+          "line": 484
+        },
+        {
+          "text": "客户位置信息不可用，请联系管理员",
+          "line": 517
+        },
+        {
+          "text": "请先完成必填项",
+          "line": 647
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport/inventory",
+      "title": "库存上报",
+      "source": "src/pages/subpages/visitPlan/visitReport/inventory.vue",
+      "sha256": "a869a2bac48fc866c02360d8bb7a84a5159a58f44070b9f36b6c8b86bea093bc",
+      "selector": ".inventory-report-container",
+      "elements": [
+        {
+          "tag": "up-number-box",
+          "classes": [
+            "number-box"
+          ],
+          "model": "product.inventoryQuantity",
+          "repeated": true,
+          "line": 28
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "uploadedImages",
+          "repeated": false,
+          "line": 46
+        },
+        {
+          "tag": "textarea",
+          "classes": [
+            "remark-input"
+          ],
+          "placeholder": "点击输入",
+          "model": "remark",
+          "repeated": false,
+          "line": 59
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "customerName",
+        "visitPlanId",
+        "reportType",
+        "mode",
+        "latitude",
+        "longitude",
+        "reportData"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "请添加至少一个商品",
+          "line": 244
+        },
+        {
+          "text": "请上传库存照片",
+          "line": 252
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport/display",
+      "title": "陈列上报",
+      "source": "src/pages/subpages/visitPlan/visitReport/display.vue",
+      "sha256": "432b71ac2cc6e768778c0164528cf1f6089c2a11b405e2beba7a4cb26b28979b",
+      "selector": ".display-report-container",
+      "elements": [
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "uploadedImages",
+          "repeated": false,
+          "line": 35
+        },
+        {
+          "tag": "textarea",
+          "classes": [
+            "remark-input"
+          ],
+          "placeholder": "点击输入",
+          "model": "remark",
+          "repeated": false,
+          "line": 54
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "customerName",
+        "visitPlanId",
+        "reportType",
+        "mode",
+        "latitude",
+        "longitude",
+        "reportData"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "请添加至少一个商品",
+          "line": 222
+        },
+        {
+          "text": "请上传陈列照片",
+          "line": 230
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport/other",
+      "title": "其他上报",
+      "source": "src/pages/subpages/visitPlan/visitReport/other.vue",
+      "sha256": "6dc893d3db033bce38d97f93bfe5af86cb0fd280b4441f9ad7f69b79ec3c53d7",
+      "selector": ".other-report-container",
+      "elements": [
+        {
+          "tag": "textarea",
+          "classes": [
+            "description-input"
+          ],
+          "placeholder": "点击输入",
+          "model": "description",
+          "repeated": false,
+          "line": 7
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "uploadedImages",
+          "repeated": false,
+          "line": 14
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "visitPlanId",
+        "reportType",
+        "mode",
+        "title",
+        "latitude",
+        "longitude",
+        "customerName",
+        "reportData"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "请输入上报描述",
+          "line": 122
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport/abnormalCheckOut",
+      "title": "异常签退",
+      "source": "src/pages/subpages/visitPlan/visitReport/abnormalCheckOut.vue",
+      "sha256": "d40adcb37bc23c4d8939b2931147e2477b3642db4a42f869c4d5645eb794e5ec",
+      "selector": ".abnormal-checkout-container",
+      "elements": [
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "checkOutImages",
+          "repeated": false,
+          "line": 16
+        },
+        {
+          "tag": "textarea",
+          "classes": [
+            "description-input"
+          ],
+          "model": "remark",
+          "repeated": false,
+          "line": 35
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "visitPlanId",
+        "address",
+        "distance",
+        "maxDistance",
+        "latitude",
+        "longitude",
+        "customerName",
+        "mode",
+        "checkOutImages",
+        "remark"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "请上传签退留证照片",
+          "line": 112
+        },
+        {
+          "text": "请填写签退说明",
+          "line": 120
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitRecords",
+      "title": "拜访记录",
+      "source": "src/pages/subpages/visitPlan/visitRecords.vue",
+      "sha256": "03a5f203a91db22a94a595b8d86963ec6700f7054e27303da9b68d2fe154cccb",
+      "selector": ".visit-records-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "VisitReport",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "拜访记录筛选",
+        "subtitle": "按上报时间、拜访人和拜访类型筛选",
+        "keyword": {
+          "queryKey": "customerName",
+          "placeholder": "搜索客户名称..."
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "isTemporary": ""
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "reportTime",
+            "label": "上报时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "visitorUserName",
+            "label": "拜访人",
+            "type": "select",
+            "optionsKey": "visitorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索拜访人..."
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "reportType",
+            "label": "上报任务",
+            "type": "select",
+            "options": [
+              {
+                "label": "签到",
+                "value": "check_in"
+              },
+              {
+                "label": "库存上报",
+                "value": "inventory"
+              },
+              {
+                "label": "陈列上报",
+                "value": "display"
+              },
+              {
+                "label": "价格上报",
+                "value": "price"
+              },
+              {
+                "label": "氛围上报",
+                "value": "atmosphere"
+              },
+              {
+                "label": "其他上报",
+                "value": "other"
+              },
+              {
+                "label": "签退",
+                "value": "check_out"
+              },
+              {
+                "label": "临时拜访",
+                "value": "temporary"
+              }
+            ]
+          },
+          {
+            "key": "visitDate",
+            "label": "计划拜访日期",
+            "type": "date-range",
+            "beginKey": "visitBeginTime",
+            "endKey": "visitEndTime"
+          },
+          {
+            "key": "cooperationStatus",
+            "label": "合作状态",
+            "type": "multi-select",
+            "optionsKey": "cooperationStatusOptions"
+          },
+          {
+            "key": "terminalTags",
+            "label": "客户标签",
+            "type": "multi-select",
+            "optionsKey": "terminalTagsOptions",
+            "searchable": true
+          },
+          {
+            "key": "address",
+            "label": "上报地址",
+            "type": "input",
+            "placeholder": "请输入上报地址"
+          },
+          {
+            "key": "remark",
+            "label": "上报备注",
+            "type": "input",
+            "placeholder": "请输入上报备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/visitPlan/addTempVisitPlan",
+      "title": "新增计划外拜访",
+      "source": "src/pages/subpages/visitPlan/addTempVisitPlan.vue",
+      "sha256": "7bd98e28882b975c28f305990081e4cf4be9918e558cbcda0c6c842fe1d0d54d",
+      "selector": ".add-temp-plan-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/template/index",
+      "title": "拜访路线",
+      "source": "src/pages/subpages/visitPlan/template/index.vue",
+      "sha256": "8055c309bd8d2911eabe706643bdaadc9c8e18d115c1d55326ec426f3d170330",
+      "selector": ".visit-template-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/visitPlan",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "VisitTemplate",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "拜访线路筛选",
+        "subtitle": "按责任人和创建时间筛选路线",
+        "keyword": {
+          "queryKey": "templateName",
+          "placeholder": "搜索线路名称"
+        },
+        "fields": [
+          {
+            "key": "userId",
+            "label": "责任人",
+            "type": "select",
+            "optionsKey": "visitorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索责任人..."
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime"
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/visitPlan/template/detail",
+      "title": "拜访详情",
+      "source": "src/pages/subpages/visitPlan/template/detail.vue",
+      "sha256": "1b71711c9d0cc2c22cdb95fb994a161be91562ff2de1b52b54ceb3e98808c02b",
+      "selector": ".visit-template-detail-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id"
+      ],
+      "apiImports": [
+        "@/api/visitPlan"
+      ],
+      "messages": [
+        {
+          "text": "不发起请求的原因:",
+          "line": 125
+        },
+        {
+          "text": "开始请求模板详情...",
+          "line": 131
+        },
+        {
+          "text": "请求结果:",
+          "line": 133
+        },
+        {
+          "text": "请求成功但数据格式不符合预期:",
+          "line": 142
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/visitPlan/visitReport/tempVisit",
+      "title": "临时拜访",
+      "source": "src/pages/subpages/visitPlan/visitReport/tempVisit.vue",
+      "sha256": "ed7c145b51caee0164b7dd83c61259bb2a19b1d80ed5925f76aef43dfd68a587",
+      "selector": ".temp-visit-container",
+      "elements": [
+        {
+          "tag": "input",
+          "classes": [
+            "info-input"
+          ],
+          "placeholder": "请输入客户名称",
+          "model": "customerName",
+          "repeated": false,
+          "line": 38
+        },
+        {
+          "tag": "camera-upload",
+          "classes": [],
+          "model": "photoUrlsString",
+          "repeated": false,
+          "line": 57
+        },
+        {
+          "tag": "textarea",
+          "classes": [
+            "description-input"
+          ],
+          "placeholder": "点击输入",
+          "model": "remark",
+          "repeated": false,
+          "line": 93
+        },
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showCustomerTypeSheet",
+          "repeated": false,
+          "line": 98
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "请输入客户名称",
+          "line": 248
+        },
+        {
+          "text": "请选择客户类型",
+          "line": 256
+        },
+        {
+          "text": "请拍摄现场照片",
+          "line": 264
+        },
+        {
+          "text": "请选择拜访地址",
+          "line": 272
+        },
+        {
+          "text": "提交失败，请重试",
+          "line": 313
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/product/index",
+      "title": "选择商品",
+      "source": "src/pages/subpages/product/index.vue",
+      "sha256": "6e7af20b2703fa559999dbb070708a056366af6e47022e4ddecc26258081824c",
+      "selector": ".product-page",
+      "elements": [
+        {
+          "tag": "up-search",
+          "classes": [],
+          "placeholder": "输入商品名称查找商品",
+          "model": "searchKeyword",
+          "repeated": false,
+          "line": 6
+        },
+        {
+          "tag": "up-number-box",
+          "classes": [],
+          "model": "selectedProducts[product.productId]",
+          "repeated": true,
+          "line": 48
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "type",
+        "selectionType",
+        "warehouseId",
+        "singleSelect",
+        "disableNon1x1",
+        "recentType",
+        "selectedProducts",
+        "scope",
+        "scopeIds"
+      ],
+      "apiImports": [
+        "@/api/product",
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "请选择商品",
+          "line": 493
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/salesOrder/index",
+      "title": "销售订单",
+      "source": "src/pages/subpages/business/salesOrder/index.vue",
+      "sha256": "5e8ad502a5de126827346972c9ea27cd622f06799bcfef793a39367e24c54ebf",
+      "selector": ".sales-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "SalesOrder",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "销售订单筛选",
+        "subtitle": "按审批状态、仓库和下单时间筛选",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索订单号/客户名称"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "审批中",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已通过",
+            "params": {
+              "status": "1"
+            }
+          },
+          {
+            "label": "已拒绝",
+            "params": {
+              "status": "2"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "warehouseId",
+            "label": "仓库",
+            "type": "select",
+            "optionsKey": "warehouseOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索仓库名称..."
+          },
+          {
+            "key": "createBy",
+            "label": "销售人员",
+            "type": "select",
+            "optionsKey": "creatorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索销售人员..."
+          },
+          {
+            "key": "createTime",
+            "label": "下单时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "inboundStatus",
+            "label": "出入库状态",
+            "type": "select",
+            "options": [
+              {
+                "label": "未出库",
+                "value": "0"
+              },
+              {
+                "label": "已入库",
+                "value": "1"
+              },
+              {
+                "label": "已出库",
+                "value": "2"
+              }
+            ]
+          },
+          {
+            "key": "orderNo",
+            "label": "订单编号",
+            "type": "input",
+            "placeholder": "请输入订单编号"
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "salesType",
+            "label": "销售类型",
+            "type": "select",
+            "optionsKey": "salesTypeOptions"
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/business/salesOrder/form",
+      "title": "新增销售订单",
+      "source": "src/pages/subpages/business/salesOrder/form.vue",
+      "sha256": "9322afeb33e23ca1f3c58db674923d143dbbb8c159439a323b80ecc2caa80cfb",
+      "selector": ".sales-order-form",
+      "elements": [
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入备注信息",
+          "model": "remark",
+          "repeated": false,
+          "line": 82
+        },
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showActionSheet",
+          "repeated": false,
+          "line": 101
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "请先选择仓库",
+          "line": 179
+        },
+        {
+          "text": "请先选择仓库",
+          "line": 200
+        },
+        {
+          "text": "请选择客户",
+          "line": 232
+        },
+        {
+          "text": "请选择仓库",
+          "line": 240
+        },
+        {
+          "text": "请选择销售类型",
+          "line": 248
+        },
+        {
+          "text": "请添加商品",
+          "line": 256
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/salesOrder/select",
+      "title": "选择销售订单",
+      "source": "src/pages/subpages/business/salesOrder/select.vue",
+      "sha256": "0220a035ec17b3cf750f6ab4e8c3d7e47896e90be546edc4db7bff6161856095",
+      "selector": ".sales-order-select-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "该订单已退货，不能选择",
+          "line": 197
+        }
+      ],
+      "searchConfig": "SalesOrderSelect",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "选择销售订单",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索订单号/客户名称"
+        },
+        "fields": []
+      }
+    },
+    {
+      "route": "pages/subpages/business/salesOrder/info",
+      "title": "销售订单详情",
+      "source": "src/pages/subpages/business/salesOrder/info.vue",
+      "sha256": "9eae3c6c419751625111f9e3ae690f28caa20d949101b9695221ecfabf33f9e8",
+      "selector": ".order-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "auditMode",
+        "id",
+        "instanceId"
+      ],
+      "apiImports": [
+        "@/api/business",
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 217
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 242
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 255
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 281
+        },
+        {
+          "text": "发起审核申请",
+          "line": 321
+        },
+        {
+          "text": "未知申请人",
+          "line": 322
+        },
+        {
+          "text": "审批",
+          "line": 333
+        },
+        {
+          "text": "未知审批人",
+          "line": 334
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 398
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 401
+        },
+        {
+          "text": "撤销失败，请重试",
+          "line": 431
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/returnOrder/index",
+      "title": "退货订单",
+      "source": "src/pages/subpages/business/returnOrder/index.vue",
+      "sha256": "a7828816b2848bbf83e767efcdb3f95e6bbda266afb3bbd0910c88271086c0f3",
+      "selector": ".sales-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "ReturnOrder",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "退货订单筛选",
+        "subtitle": "按审批状态、退货类型和退货日期筛选",
+        "keyword": {
+          "queryKey": "returnNo",
+          "placeholder": "搜索退货单号"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "status": ""
+            }
+          },
+          {
+            "label": "审批中",
+            "params": {
+              "status": "0"
+            }
+          },
+          {
+            "label": "已通过",
+            "params": {
+              "status": "1"
+            }
+          },
+          {
+            "label": "已拒绝",
+            "params": {
+              "status": "2"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "returnOrderType",
+            "label": "退货类型",
+            "type": "select",
+            "optionsKey": "returnOrderTypeOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createBy",
+            "label": "销售人员",
+            "type": "select",
+            "optionsKey": "creatorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索销售人员..."
+          },
+          {
+            "key": "createTime",
+            "label": "退货日期",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "salesOrderNo",
+            "label": "原销售订单号",
+            "type": "input",
+            "placeholder": "请输入原销售订单号"
+          },
+          {
+            "key": "warehouseId",
+            "label": "退货仓库",
+            "type": "select",
+            "optionsKey": "warehouseOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "placeholder": "搜索仓库名称..."
+          },
+          {
+            "key": "inboundStatus",
+            "label": "入库状态",
+            "type": "select",
+            "options": [
+              {
+                "label": "待入库",
+                "value": "0"
+              },
+              {
+                "label": "已入库",
+                "value": "1"
+              },
+              {
+                "label": "已出库",
+                "value": "2"
+              }
+            ]
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "remark",
+            "label": "备注",
+            "type": "input",
+            "placeholder": "请输入备注"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/business/returnOrder/form",
+      "title": "新增退货订单",
+      "source": "src/pages/subpages/business/returnOrder/form.vue",
+      "sha256": "f5512196d35312305186b0793f84dec76b22807d16518067414da144a2199e50",
+      "selector": ".return-order-form",
+      "elements": [
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showReturnTypeSheet",
+          "repeated": false,
+          "line": 13
+        },
+        {
+          "tag": "up-number-box",
+          "classes": [
+            "quantity-selector"
+          ],
+          "model": "item.quantity",
+          "repeated": true,
+          "line": 66
+        },
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入备注信息",
+          "model": "remark",
+          "repeated": false,
+          "line": 76
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "请先选择仓库",
+          "line": 202
+        },
+        {
+          "text": "请选择客户",
+          "line": 227
+        },
+        {
+          "text": "请选择关联订单",
+          "line": 233
+        },
+        {
+          "text": "请添加退货商品",
+          "line": 239
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/returnOrder/info",
+      "title": "退货订单详情",
+      "source": "src/pages/subpages/business/returnOrder/info.vue",
+      "sha256": "ff705fd0c831949bcdcb3dc5cfbbfd17a287f23a0d7440b65bcd2318790e272b",
+      "selector": ".order-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id",
+        "instanceId",
+        "auditMode"
+      ],
+      "apiImports": [
+        "@/api/business",
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 186
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 211
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 224
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 250
+        },
+        {
+          "text": "发起审核申请",
+          "line": 294
+        },
+        {
+          "text": "未知申请人",
+          "line": 295
+        },
+        {
+          "text": "审批",
+          "line": 306
+        },
+        {
+          "text": "未知审批人",
+          "line": 307
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 375
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 378
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/stockInOrder/index",
+      "title": "入库确认",
+      "source": "src/pages/subpages/business/stockInOrder/index.vue",
+      "sha256": "1df5bdd8bce867856506c35f514b79fa0a750207b34e93ceca48cc8eab989207",
+      "selector": ".stock-in-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": "StockInOrder",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "入库确认筛选",
+        "subtitle": "按入库状态、来源类型和创建时间筛选",
+        "keyword": {
+          "queryKey": "orderNo",
+          "placeholder": "搜索销售订单号"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "inboundStatus": ""
+            }
+          },
+          {
+            "label": "待入库",
+            "params": {
+              "inboundStatus": "0"
+            }
+          },
+          {
+            "label": "已入库",
+            "params": {
+              "inboundStatus": "1"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "sourceType",
+            "label": "来源类型",
+            "type": "select",
+            "optionsKey": "orderSourceTypeOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "inboundNo",
+            "label": "入库单号",
+            "type": "input",
+            "placeholder": "请输入入库单号"
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "warehouseName",
+            "label": "出库仓库",
+            "type": "input",
+            "placeholder": "请输入出库仓库"
+          },
+          {
+            "key": "targetWarehouseName",
+            "label": "入库仓库",
+            "type": "input",
+            "placeholder": "请输入入库仓库"
+          },
+          {
+            "key": "inboundTime",
+            "label": "入库时间",
+            "type": "date-range",
+            "beginKey": "inboundBeginTime",
+            "endKey": "inboundEndTime"
+          },
+          {
+            "key": "inboundBy",
+            "label": "入库确认人",
+            "type": "input",
+            "placeholder": "请输入确认人账号/姓名"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/business/stockInOrder/info",
+      "title": "入库订单详情",
+      "source": "src/pages/subpages/business/stockInOrder/info.vue",
+      "sha256": "96d4c8abccfb83f9dd8302b7bcbd43f0e49b30f21b098ae8d3682c974269ca1d",
+      "selector": ".order-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id"
+      ],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "确定要确认入库吗？",
+          "line": 194
+        },
+        {
+          "text": "确认入库成功",
+          "line": 205
+        },
+        {
+          "text": "确认入库失败",
+          "line": 232
+        },
+        {
+          "text": "确认入库失败:",
+          "line": 237
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/stockOutOrder/index",
+      "title": "出库信息",
+      "source": "src/pages/subpages/business/stockOutOrder/index.vue",
+      "sha256": "f1df319c06340d1e9936646409ce7b3a7a0dae26e5c0082acb656c4456007856",
+      "selector": ".stock-out-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": "StockOutOrder",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "出库信息筛选",
+        "subtitle": "按出库状态、订单类型和创建时间筛选",
+        "keyword": {
+          "queryKey": "orderNo",
+          "placeholder": "搜索订单号"
+        },
+        "quickFilters": [
+          {
+            "label": "全部",
+            "params": {
+              "inboundStatus": ""
+            }
+          },
+          {
+            "label": "待出库",
+            "params": {
+              "inboundStatus": "0"
+            }
+          },
+          {
+            "label": "已出库",
+            "params": {
+              "inboundStatus": "2"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "key": "sourceType",
+            "label": "订单类型",
+            "type": "select",
+            "optionsKey": "orderSourceTypeOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "inboundNo",
+            "label": "出库单号",
+            "type": "input",
+            "placeholder": "请输入出库单号"
+          },
+          {
+            "key": "customerName",
+            "label": "客户名称",
+            "type": "input",
+            "placeholder": "请输入客户名称"
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          },
+          {
+            "key": "warehouseName",
+            "label": "出库仓库",
+            "type": "input",
+            "placeholder": "请输入出库仓库"
+          },
+          {
+            "key": "inboundTime",
+            "label": "出库时间",
+            "type": "date-range",
+            "beginKey": "inboundBeginTime",
+            "endKey": "inboundEndTime"
+          },
+          {
+            "key": "inboundBy",
+            "label": "出库确认人",
+            "type": "input",
+            "placeholder": "请输入确认人账号/姓名"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/business/stockOutOrder/info",
+      "title": "出库订单详情",
+      "source": "src/pages/subpages/business/stockOutOrder/info.vue",
+      "sha256": "7580646981ca296faa99401a44fafe8e00dc3da460f3442b191e97c0125ba7ba",
+      "selector": ".order-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "id"
+      ],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/purchaseOrder/index",
+      "title": "采购入库",
+      "source": "src/pages/subpages/business/purchaseOrder/index.vue",
+      "sha256": "e50bcee0458f89f753e3b3155fd772c9f2bdc01b6f03853af78f35a033a1802e",
+      "selector": ".purchase-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": "PurchaseInOrder",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "采购入库筛选",
+        "subtitle": "按入库仓库、审批状态和创建时间筛选",
+        "keyword": {
+          "queryKey": "orderNo",
+          "placeholder": "搜索采购入库单号"
+        },
+        "fields": [
+          {
+            "key": "warehouseId",
+            "label": "入库仓库",
+            "type": "select",
+            "optionsKey": "warehouseOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索仓库名称..."
+          },
+          {
+            "key": "status",
+            "label": "审批状态",
+            "type": "multi-select",
+            "optionsKey": "approvalNodeStatusOptions",
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/business/purchaseOrder/info",
+      "title": "采购入库详情",
+      "source": "src/pages/subpages/business/purchaseOrder/info.vue",
+      "sha256": "2f5567a95c0c06a6211b13677b8b69fa821c763dd2a3e54fd08048da8495e019",
+      "selector": ".order-info-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "orderId",
+        "id",
+        "instanceId",
+        "auditMode"
+      ],
+      "apiImports": [
+        "@/api/notification",
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "未找到待审批的节点",
+          "line": 220
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 239
+        },
+        {
+          "text": "未找到待审批的节点",
+          "line": 252
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 278
+        },
+        {
+          "text": "发起审核申请",
+          "line": 368
+        },
+        {
+          "text": "未知申请人",
+          "line": 369
+        },
+        {
+          "text": "审批",
+          "line": 380
+        },
+        {
+          "text": "未知审批人",
+          "line": 381
+        },
+        {
+          "text": "获取审批流程数据失败",
+          "line": 402
+        },
+        {
+          "text": "获取审批流程数据失败:",
+          "line": 407
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/business/purchaseOrder/form",
+      "title": "新增采购入库",
+      "source": "src/pages/subpages/business/purchaseOrder/form.vue",
+      "sha256": "689d84afca2666425adc016d27ced76e85579872a92005fe9b44b928b600dcc9",
+      "selector": ".purchase-order-form-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/common"
+      ],
+      "messages": [
+        {
+          "text": "上传失败，请重试",
+          "line": 189
+        },
+        {
+          "text": "请选择仓库",
+          "line": 217
+        },
+        {
+          "text": "请添加商品",
+          "line": 225
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/warehouse/productList",
+      "title": "仓库信息",
+      "source": "src/pages/subpages/warehouse/productList.vue",
+      "sha256": "0f80330cdc1e4b71830fe02868408d8663cc278375d6930b9e28f8739e2421e8",
+      "selector": ".warehouse-product-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "warehouseType",
+        "warehouseId",
+        "keyword",
+        "productBrand"
+      ],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [
+        {
+          "text": "请先选择仓库",
+          "line": 382
+        }
+      ],
+      "searchConfig": "WarehouseProductInventory",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "库存商品筛选",
+        "subtitle": "按仓库和商品品牌筛选库存",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "搜索商品名称或编码"
+        },
+        "fields": [
+          {
+            "key": "warehouseId",
+            "label": "仓库名称",
+            "type": "select",
+            "optionsKey": "warehouseOptions",
+            "searchable": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索仓库名称..."
+          },
+          {
+            "key": "productBrand",
+            "label": "商品品牌",
+            "type": "select",
+            "optionsKey": "productBrandOptions",
+            "searchable": true,
+            "defaultVisible": true,
+            "placeholder": "搜索商品品牌..."
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/warehouse/inventoryConvert",
+      "title": "拆箱补件",
+      "source": "src/pages/subpages/warehouse/inventoryConvert.vue",
+      "sha256": "3cdcbad5f814f2bf277f81691208fd373372e6fe9a24f097bf20fd39c3b0d9d2",
+      "selector": ".convert-container",
+      "elements": [
+        {
+          "tag": "up-number-box",
+          "classes": [],
+          "model": "unpackQuantity",
+          "repeated": false,
+          "line": 37
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "warehouseId",
+        "warehouseName"
+      ],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/warehouse/productDetail",
+      "title": "商品详情",
+      "source": "src/pages/subpages/warehouse/productDetail.vue",
+      "sha256": "744088c7cd94ece9d0c036745f240a4d37f54687ec9c7a3e0aa22e1ade92d367",
+      "selector": ".product-detail-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": true,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/warehouse/select",
+      "title": "选择仓库",
+      "source": "src/pages/subpages/warehouse/select.vue",
+      "sha256": "fb375f1aa490e25c46ca61a75e5394a1bc8d99206c5d61b35e032870d1cb66de",
+      "selector": ".warehouse-select-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "showMoreFilter",
+        "currentUserOnly",
+        "warehouseType"
+      ],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": "WarehouseSelect",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "选择仓库筛选",
+        "subtitle": "按仓库类型筛选可选仓库",
+        "keyword": {
+          "queryKey": "warehouseName",
+          "placeholder": "搜索仓库名称/编码"
+        },
+        "fields": [
+          {
+            "key": "warehouseType",
+            "label": "仓库类型",
+            "type": "select",
+            "optionsKey": "warehouseTypeOptions",
+            "defaultVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/messageCenter/index",
+      "title": "消息通知",
+      "source": "src/pages/subpages/messageCenter/index.vue",
+      "sha256": "09ca0c51de428876af5dbfb88ca19d2b6de0d419b782f9f27539f3420c003883",
+      "selector": ".message-center",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/messageCenter/todo",
+      "title": "待办理",
+      "source": "src/pages/subpages/messageCenter/todo.vue",
+      "sha256": "5b93a9406a6a176dd5d0b574b1dded5e6b607ab107823cb6bf7d32174d3431e7",
+      "selector": ".todo-page-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "../../../api/business",
+        "@/api/activityApply"
+      ],
+      "messages": [
+        {
+          "text": "入库确认",
+          "line": 125
+        },
+        {
+          "text": "待确认",
+          "line": 246
+        },
+        {
+          "text": "确认入库:",
+          "line": 274
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/messageCenter/approval",
+      "title": "待审批",
+      "source": "src/pages/subpages/messageCenter/approval.vue",
+      "sha256": "f090b8e430fc55bed8b2681129e07a644635f5a3c4a61de62a5bdda4050aa773",
+      "selector": ".approval-page-container",
+      "elements": [
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showStatusPicker",
+          "repeated": false,
+          "line": 90
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "客户审批",
+          "line": 173
+        },
+        {
+          "text": "订单审批",
+          "line": 174
+        },
+        {
+          "text": "采购审批",
+          "line": 175
+        },
+        {
+          "text": "活动审批",
+          "line": 176
+        },
+        {
+          "text": "客户审批",
+          "line": 239
+        },
+        {
+          "text": "订单审批",
+          "line": 240
+        },
+        {
+          "text": "采购审批",
+          "line": 241
+        },
+        {
+          "text": "申请活动",
+          "line": 243
+        },
+        {
+          "text": "未知审批类型",
+          "line": 244
+        },
+        {
+          "text": "获取审批列表失败:",
+          "line": 338
+        },
+        {
+          "text": "同意审批失败:",
+          "line": 475
+        },
+        {
+          "text": "驳回审批失败:",
+          "line": 499
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/messageCenter/myApproval",
+      "title": "我的审批",
+      "source": "src/pages/subpages/messageCenter/myApproval.vue",
+      "sha256": "687ba23b77fd99b2ce5413ffe703da8196fb7191d6a0f4d276f4732aea6134c4",
+      "selector": ".approval-page-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/notification"
+      ],
+      "messages": [
+        {
+          "text": "客户审批",
+          "line": 129
+        },
+        {
+          "text": "订单审批",
+          "line": 130
+        },
+        {
+          "text": "采购审批",
+          "line": 131
+        },
+        {
+          "text": "活动审批",
+          "line": 132
+        },
+        {
+          "text": "客户审批",
+          "line": 186
+        },
+        {
+          "text": "订单审批",
+          "line": 187
+        },
+        {
+          "text": "采购审批",
+          "line": 188
+        },
+        {
+          "text": "申请活动",
+          "line": 190
+        },
+        {
+          "text": "未知审批类型",
+          "line": 191
+        },
+        {
+          "text": "获取我的审批列表失败:",
+          "line": 309
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/onlineVisit/index",
+      "title": "线上拜访",
+      "source": "src/pages/subpages/onlineVisit/index.vue",
+      "sha256": "896879400adb9953f97e7645d7613152f0147390963f6f1e12b5ae51167c3f3b",
+      "selector": ".online-visit-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/onlineVisit",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": "OnlineVisit",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "线上拜访筛选",
+        "subtitle": "按拜访类型、拜访人和拜访时间筛选",
+        "keyword": {
+          "queryKey": "keyword",
+          "placeholder": "查询客户名称/ID"
+        },
+        "fields": [
+          {
+            "key": "visitMethod",
+            "label": "拜访类型",
+            "type": "select",
+            "options": [
+              {
+                "label": "电话拜访",
+                "value": "phone"
+              },
+              {
+                "label": "微信拜访",
+                "value": "wechat"
+              }
+            ],
+            "defaultVisible": true
+          },
+          {
+            "key": "visitorUserId",
+            "label": "拜访人",
+            "type": "select",
+            "optionsKey": "visitorOptions",
+            "searchable": true,
+            "remoteSearch": true,
+            "optionLimit": 5,
+            "defaultVisible": true,
+            "placeholder": "搜索拜访人..."
+          },
+          {
+            "key": "visitTime",
+            "label": "拜访时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime",
+            "defaultVisible": true
+          },
+          {
+            "key": "customerType",
+            "label": "客户类型",
+            "type": "select",
+            "optionsKey": "customerTypeOptions"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/onlineVisit/form",
+      "title": "新增线上拜访",
+      "source": "src/pages/subpages/onlineVisit/form.vue",
+      "sha256": "49c774571c0b64c51b72bcdab551cf449190b1d7ebaf14104a54b6f2d56c54aa",
+      "selector": ".online-visit-form",
+      "elements": [
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入备注信息",
+          "model": "form.visitContent",
+          "repeated": false,
+          "line": 22
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "form.voucherImages",
+          "repeated": false,
+          "line": 34
+        },
+        {
+          "tag": "up-action-sheet",
+          "classes": [],
+          "model": "showMethodSheet",
+          "repeated": false,
+          "line": 52
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/onlineVisit"
+      ],
+      "messages": [
+        {
+          "text": "请选择客户",
+          "line": 122
+        },
+        {
+          "text": "请选择线上拜访方式",
+          "line": 123
+        },
+        {
+          "text": "请输入拜访内容",
+          "line": 124
+        },
+        {
+          "text": "请上传拜访凭证",
+          "line": 125
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/supervision/list",
+      "title": "任务清单",
+      "source": "src/pages/subpages/supervision/list.vue",
+      "sha256": "758a25e183ed0a7de959e1f84be8fc0d15c8238326e55456d87a460974c81e7d",
+      "selector": ".list-page",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/supervision"
+      ],
+      "messages": [],
+      "searchConfig": "Supervision",
+      "navigationContextRequired": false,
+      "search": {
+        "title": "督办任务筛选",
+        "subtitle": "按任务状态和创建时间筛选",
+        "keyword": {
+          "queryKey": "customerName",
+          "placeholder": "搜索客户名称"
+        },
+        "fields": [
+          {
+            "key": "status",
+            "label": "任务状态",
+            "type": "select",
+            "options": [
+              {
+                "label": "待处理",
+                "value": "0"
+              },
+              {
+                "label": "已超时",
+                "value": "3"
+              },
+              {
+                "label": "已完成",
+                "value": "1"
+              },
+              {
+                "label": "已取消",
+                "value": "2"
+              }
+            ],
+            "defaultVisible": true
+          },
+          {
+            "key": "createTime",
+            "label": "创建时间",
+            "type": "date-range",
+            "beginKey": "beginTime",
+            "endKey": "endTime"
+          }
+        ]
+      }
+    },
+    {
+      "route": "pages/subpages/supervision/create",
+      "title": "发布任务",
+      "source": "src/pages/subpages/supervision/create.vue",
+      "sha256": "fdf8d9989bf8aebaaa4547b9d05bac8cd4d6facdd9615ac887fcc6e92e76238a",
+      "selector": ".create-page",
+      "elements": [
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入内容",
+          "model": "form.taskContent",
+          "repeated": false,
+          "line": 60
+        },
+        {
+          "tag": "ImageUpload",
+          "classes": [],
+          "model": "form.photoAttachments",
+          "repeated": false,
+          "line": 65
+        },
+        {
+          "tag": "up-datetime-picker",
+          "classes": [],
+          "model": "dateValue",
+          "repeated": false,
+          "line": 73
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/supervision"
+      ],
+      "messages": [
+        {
+          "text": "请选择客户名称",
+          "line": 179
+        },
+        {
+          "text": "请选择责任人",
+          "line": 180
+        },
+        {
+          "text": "请选择要求完成时间",
+          "line": 181
+        },
+        {
+          "text": "请输入任务内容",
+          "line": 182
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/supervision/detail",
+      "title": "任务详情",
+      "source": "src/pages/subpages/supervision/detail.vue",
+      "sha256": "0b9015f915c69cf7676aed2bdeae2a81960471e692d1f37d8e63bc3f9feae34c",
+      "selector": ".detail-page",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "taskId",
+        "id"
+      ],
+      "apiImports": [
+        "@/api/supervision"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/supervision/report",
+      "title": "上报工作",
+      "source": "src/pages/subpages/supervision/report.vue",
+      "sha256": "d2d9d613231b346345ee3ee012a89aaadd76cf5743ab5c5b5bf12fba8c2cc314",
+      "selector": ".report-page",
+      "elements": [
+        {
+          "tag": "up-textarea",
+          "classes": [],
+          "placeholder": "请输入处理结果",
+          "repeated": false,
+          "line": 5
+        },
+        {
+          "tag": "CameraUpload",
+          "classes": [],
+          "model": "form.processPhotos",
+          "repeated": false,
+          "line": 17
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "taskId"
+      ],
+      "apiImports": [
+        "@/api/supervision"
+      ],
+      "messages": [
+        {
+          "text": "请输入处理结果",
+          "line": 56
+        }
+      ],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/supervision/selectUsers",
+      "title": "选择员工",
+      "source": "src/pages/subpages/supervision/selectUsers.vue",
+      "sha256": "32f834eebb3187c6f2672d9a56f541814599167381e7f1c44b13fda465360614",
+      "selector": ".user-select",
+      "elements": [
+        {
+          "tag": "up-search",
+          "classes": [],
+          "model": "keyword",
+          "repeated": false,
+          "line": 5
+        }
+      ],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [
+        "mode",
+        "multiple",
+        "eventName",
+        "preselected"
+      ],
+      "apiImports": [
+        "@/api/supervision"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/data/customerList",
+      "title": "客户列表",
+      "source": "src/pages/subpages/data/customerList.vue",
+      "sha256": "18736c66fa7071a5d851952eccb5c9b5fb1628ae1ae9bed6b6879a57e85769de",
+      "selector": ".customer-summary-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/data/salesOrderList",
+      "title": "销售订单",
+      "source": "src/pages/subpages/data/salesOrderList.vue",
+      "sha256": "01a184cd048f1c08da67b13450ed6ccb5e9cadf3293d72d421a75a66172c723b",
+      "selector": ".sales-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    },
+    {
+      "route": "pages/subpages/data/returnOrderList",
+      "title": "退货订单",
+      "source": "src/pages/subpages/data/returnOrderList.vue",
+      "sha256": "a87c402e02adac4457e7d17c86a4324b0f0e6e51d6c318655340641d1a84c156",
+      "selector": ".sales-order-container",
+      "elements": [],
+      "rootLine": 2,
+      "rules": [],
+      "parameters": [],
+      "apiImports": [
+        "@/api/business",
+        "@/api/customer"
+      ],
+      "messages": [],
+      "searchConfig": null,
+      "navigationContextRequired": false,
+      "search": null
+    }
+  ],
+  "orphanPages": [
+    "src/pages/subpages/visitPlan/list.vue",
+    "src/pages/subpages/warehouse/list.vue"
+  ],
+  "routeConfigSha256": "3b7a05174a591257f2941fee939226b5a1f88e2ebccc0c3371df23fc0f01a7fb"
+}

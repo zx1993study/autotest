@@ -10,6 +10,10 @@ class ApiFlowSnapshotRepository:
     def get(self, table, item_id):
         return deepcopy(next((row for row in self.tables.get(table, []) if row["id"] == item_id), None))
 
+    def get_many(self, table, item_ids):
+        ids = set(item_ids)
+        return deepcopy([row for row in self.tables.get(table, []) if row["id"] in ids])
+
     def list(self, table, keyword=None, project_id=None, page=1, page_size=20, data_filters=None):
         rows = self.tables.get(table, [])
         if project_id is not None:

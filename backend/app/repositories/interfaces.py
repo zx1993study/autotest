@@ -9,12 +9,20 @@ from app.models.execution_plan import (
     ExecutionPlanRun,
     ExecutionPlanRunItem,
 )
+from app.schemas.api_report import ApiReportQuery
 from app.schemas.execution_flow import ExecutionFlowSummary
 from app.schemas.list_summaries import AppFeatureSummary, WebFeatureCounts
 from app.schemas.report_statistics import ReportStatisticsAggregate
+from app.schemas.web_execution_summary import WebExecutionSnapshot, WebExecutionSummaryQuery
 
 
 class ResourceRepository(Protocol):
+    def web_execution_snapshots(self, query: WebExecutionSummaryQuery) -> list[WebExecutionSnapshot]:
+        ...
+
+    def api_report_rows(self, query: ApiReportQuery) -> tuple[list[dict[str, Any]], int]:
+        ...
+
     def list(
         self,
         table: str,
@@ -30,6 +38,9 @@ class ResourceRepository(Protocol):
         ...
 
     def get_many(self, table: str, item_ids: list[int]) -> list[dict[str, Any]]:
+        ...
+
+    def get_related(self, table: str, parent_key: str, parent_ids: list[int], statuses: list[str] | None = None) -> list[dict[str, Any]]:
         ...
 
     def app_feature_summaries(self, feature_ids: list[int]) -> dict[int, AppFeatureSummary]:
@@ -73,6 +84,9 @@ class ResourceRepository(Protocol):
         ...
 
     def batch_delete(self, table: str, ids: list[int]) -> int:
+        ...
+
+    def batch_delete_with_children(self, table: str, ids: list[int], child_table: str, parent_key: str) -> int:
         ...
 
     def delete_by_project(self, table: str, project_id: int) -> int:

@@ -1,0 +1,60 @@
+{
+  "case_id": 99,
+  "feature_id": 20178,
+  "name": "CASE BELI-PERM-OTHER-PAGE test_requset_leave非L0仅看本人奖励，无审核和工作日历入口",
+  "task_id": 21419,
+  "status": "success",
+  "records": [
+    {
+      "id": 21420,
+      "status": "success",
+      "error": null,
+      "step_count": 11,
+      "business_result": "passed",
+      "assertion_count": 5,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": "h1:text-is(\"贝利\")",
+          "step": 6,
+          "actual": "贝利",
+          "passed": true,
+          "locator": "h1:text-is(\"贝利\")",
+          "expected": "贝利"
+        },
+        {
+          "name": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "step": 9,
+          "actual": "贝利与假期\n任务奖励\n早会考勤\n贝利商城\n兑换记录",
+          "passed": true,
+          "locator": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "expected": "任务奖励"
+        },
+        {
+          "name": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "step": 10,
+          "actual": "员工 / 任务\t预计工时\t截止日期\t重要级\t状态\t奖励贝利\t操作 / 审核意见\ntest_requset_leave\n任务已删除\t0 小时\t待补录\t\t已取消\t0.00\tno salary\ntest_requset_leave\n回归-1792557294004 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\n回归-1792556870659 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\n任务已删除\t0 小时\t待补录\t\t已取消\t0.00\tno salary\ntest_requset_leave\n回归-1792556229781 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\nCASE_20261019_171500 FOUR other supervisor acceptance\t1 小时\t2026-10-20\tP2\t待审核\t0.00\t\ntest_requset_leave\nCASE_20261019_165921 missing salary\t1 小时\t2026-10-19\tP2\t已驳回\t0.00\tno salary",
+          "passed": true,
+          "locator": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "expected": "员工 / 任务"
+        },
+        {
+          "name": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_requset_leave\")))))",
+          "step": 11,
+          "actual": "员工 / 任务\t预计工时\t截止日期\t重要级\t状态\t奖励贝利\t操作 / 审核意见\ntest_requset_leave\n任务已删除\t0 小时\t待补录\t\t已取消\t0.00\tno salary\ntest_requset_leave\n回归-1792557294004 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\n回归-1792556870659 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\n任务已删除\t0 小时\t待补录\t\t已取消\t0.00\tno salary\ntest_requset_leave\n回归-1792556229781 FOUR other supervisor acceptance\t1 小时\t2026-10-21\tP2\t待审核\t0.00\t\ntest_requset_leave\nCASE_20261019_171500 FOUR other supervisor acceptance\t1 小时\t2026-10-20\tP2\t待审核\t0.00\t\ntest_requset_leave\nCASE_20261019_165921 missing salary\t1 小时\t2026-10-19\tP2\t已驳回\t0.00\tno salary",
+          "passed": true,
+          "locator": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_requset_leave\")))))",
+          "expected": "员工 / 任务"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/beli"
+    }
+  ]
+}

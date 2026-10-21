@@ -1,0 +1,568 @@
+{
+  "project_id": 17796,
+  "configuration_only": true,
+  "business_requests": 0,
+  "groups": [
+    {
+      "key": "project",
+      "id": 21062,
+      "name": "项目任务生成与同步",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21063,
+          "name": "TODO01-03-batch 批量生成默认0工时、边界与重复身份",
+          "source_flow_id": 19072,
+          "source_scene_id": 19833
+        },
+        {
+          "id": 21064,
+          "name": "TODO03-sync 重复同步不重建任务或复制Bug",
+          "source_flow_id": 19073,
+          "source_scene_id": 19835
+        },
+        {
+          "id": 21065,
+          "name": "TODO02-identity 项目与待办双向编辑保持同一ID和工时",
+          "source_flow_id": 19074,
+          "source_scene_id": 19837
+        }
+      ]
+    },
+    {
+      "key": "task",
+      "id": 21066,
+      "name": "任务提交与验收",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21067,
+          "name": "TODO05-resubmit 退回重提以最终提交时间验收",
+          "source_flow_id": 19075,
+          "source_scene_id": 19839
+        },
+        {
+          "id": 21068,
+          "name": "FOUR-TASK-ACCEPT-EMPLOYEE 本人及同级不能验收，L1主管可验收test_user3任务，验收不自动发奖",
+          "source_flow_id": 20309,
+          "source_scene_id": 20310
+        },
+        {
+          "id": 21069,
+          "name": "FOUR-TASK-ACCEPT-OTHER 本人及同级不能验收，L1主管可验收test_user4任务，验收不自动发奖",
+          "source_flow_id": 20312,
+          "source_scene_id": 20313
+        }
+      ]
+    },
+    {
+      "key": "bug",
+      "id": 21070,
+      "name": "Bug创建与检索",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21071,
+          "name": "BUG01-search Bug大小写、字面百分号/下划线和分页",
+          "source_flow_id": 19077,
+          "source_scene_id": 19843
+        }
+      ]
+    },
+    {
+      "key": "reward",
+      "id": 21072,
+      "name": "获取贝利",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21073,
+          "name": "BELI02-p0-0 工资12000、8小时、p0、延期0天",
+          "source_flow_id": 19078,
+          "source_scene_id": 19845
+        },
+        {
+          "id": 21074,
+          "name": "BELI02-p0-1 工资12000、8小时、p0、延期1天",
+          "source_flow_id": 19079,
+          "source_scene_id": 19847
+        },
+        {
+          "id": 21075,
+          "name": "BELI02-p0-2 工资12000、8小时、p0、延期2天",
+          "source_flow_id": 19080,
+          "source_scene_id": 19849
+        },
+        {
+          "id": 21076,
+          "name": "BELI02-p0-3 工资12000、8小时、p0、延期3天",
+          "source_flow_id": 19081,
+          "source_scene_id": 19851
+        },
+        {
+          "id": 21077,
+          "name": "BELI02-p0-4 工资12000、8小时、p0、延期4天",
+          "source_flow_id": 19082,
+          "source_scene_id": 19873
+        },
+        {
+          "id": 21078,
+          "name": "BELI02-p0-5 工资12000、8小时、p0、延期5天",
+          "source_flow_id": 19083,
+          "source_scene_id": 19878
+        },
+        {
+          "id": 21079,
+          "name": "BELI02-p0-8 工资12000、8小时、p0、延期8天",
+          "source_flow_id": 19084,
+          "source_scene_id": 19883
+        },
+        {
+          "id": 21080,
+          "name": "BELI02-p1-0 工资12000、8小时、p1、延期0天",
+          "source_flow_id": 19085,
+          "source_scene_id": 19888
+        },
+        {
+          "id": 21081,
+          "name": "BELI02-p1-1 工资12000、8小时、p1、延期1天",
+          "source_flow_id": 19086,
+          "source_scene_id": 19893
+        },
+        {
+          "id": 21082,
+          "name": "BELI02-p1-2 工资12000、8小时、p1、延期2天",
+          "source_flow_id": 19087,
+          "source_scene_id": 19898
+        },
+        {
+          "id": 21083,
+          "name": "BELI02-p1-3 工资12000、8小时、p1、延期3天",
+          "source_flow_id": 19088,
+          "source_scene_id": 19903
+        },
+        {
+          "id": 21084,
+          "name": "BELI02-p1-4 工资12000、8小时、p1、延期4天",
+          "source_flow_id": 19089,
+          "source_scene_id": 19908
+        },
+        {
+          "id": 21085,
+          "name": "BELI02-p1-5 工资12000、8小时、p1、延期5天",
+          "source_flow_id": 19090,
+          "source_scene_id": 19913
+        },
+        {
+          "id": 21086,
+          "name": "BELI02-p1-8 工资12000、8小时、p1、延期8天",
+          "source_flow_id": 19091,
+          "source_scene_id": 19918
+        },
+        {
+          "id": 21087,
+          "name": "BELI02-p2-0 工资12000、8小时、p2、延期0天",
+          "source_flow_id": 19092,
+          "source_scene_id": 19923
+        },
+        {
+          "id": 21088,
+          "name": "BELI02-p2-1 工资12000、8小时、p2、延期1天",
+          "source_flow_id": 19093,
+          "source_scene_id": 19928
+        },
+        {
+          "id": 21089,
+          "name": "BELI02-p2-2 工资12000、8小时、p2、延期2天",
+          "source_flow_id": 19094,
+          "source_scene_id": 19933
+        },
+        {
+          "id": 21090,
+          "name": "BELI02-p2-3 工资12000、8小时、p2、延期3天",
+          "source_flow_id": 19095,
+          "source_scene_id": 19938
+        },
+        {
+          "id": 21091,
+          "name": "BELI02-p2-4 工资12000、8小时、p2、延期4天",
+          "source_flow_id": 19096,
+          "source_scene_id": 19943
+        },
+        {
+          "id": 21092,
+          "name": "BELI02-p2-5 工资12000、8小时、p2、延期5天",
+          "source_flow_id": 19097,
+          "source_scene_id": 19948
+        },
+        {
+          "id": 21093,
+          "name": "BELI02-p2-8 工资12000、8小时、p2、延期8天",
+          "source_flow_id": 19098,
+          "source_scene_id": 19953
+        },
+        {
+          "id": 21094,
+          "name": "BELI02-p3-0 工资12000、8小时、p3、延期0天",
+          "source_flow_id": 19099,
+          "source_scene_id": 19958
+        },
+        {
+          "id": 21095,
+          "name": "BELI02-p3-1 工资12000、8小时、p3、延期1天",
+          "source_flow_id": 19100,
+          "source_scene_id": 19963
+        },
+        {
+          "id": 21096,
+          "name": "BELI02-p3-2 工资12000、8小时、p3、延期2天",
+          "source_flow_id": 19101,
+          "source_scene_id": 19968
+        },
+        {
+          "id": 21097,
+          "name": "BELI02-p3-3 工资12000、8小时、p3、延期3天",
+          "source_flow_id": 19102,
+          "source_scene_id": 19973
+        },
+        {
+          "id": 21098,
+          "name": "BELI02-p3-4 工资12000、8小时、p3、延期4天",
+          "source_flow_id": 19103,
+          "source_scene_id": 19978
+        },
+        {
+          "id": 21099,
+          "name": "BELI02-p3-5 工资12000、8小时、p3、延期5天",
+          "source_flow_id": 19104,
+          "source_scene_id": 19983
+        },
+        {
+          "id": 21100,
+          "name": "BELI02-p3-8 工资12000、8小时、p3、延期8天",
+          "source_flow_id": 19105,
+          "source_scene_id": 19988
+        },
+        {
+          "id": 21101,
+          "name": "BELI05-10-idempotency 重复审核只发一次、已发奖归零拒绝、重开冲销后再结算",
+          "source_flow_id": 19106,
+          "source_scene_id": 19995
+        },
+        {
+          "id": 21102,
+          "name": "BELI03-edits 独立审核修改工时重要级同步原任务且不泄露快照",
+          "source_flow_id": 19107,
+          "source_scene_id": 20001
+        },
+        {
+          "id": 21103,
+          "name": "BELI04-guards 未验收/工资缺失/非L0不发奖，驳回奖励不改变完成态",
+          "source_flow_id": 19108,
+          "source_scene_id": 20007
+        },
+        {
+          "id": 21104,
+          "name": "BELI07-backfill 0工时完成不入队，补录和重复保存只生成待审核不发钱",
+          "source_flow_id": 19110,
+          "source_scene_id": 20015
+        },
+        {
+          "id": 21105,
+          "name": "BELI08-pending pending归零退出且不能伪造工时审核，恢复唯一待审核",
+          "source_flow_id": 19111,
+          "source_scene_id": 20021
+        },
+        {
+          "id": 21106,
+          "name": "BELI08-rejected rejected归零退出且不能伪造工时审核，恢复唯一待审核",
+          "source_flow_id": 19112,
+          "source_scene_id": 20027
+        }
+      ]
+    },
+    {
+      "key": "adjust",
+      "id": 21107,
+      "name": "贝利调整与防重",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21108,
+          "name": "BELI06-adjust 新员工余额调整防重、同键异参和原因校验",
+          "source_flow_id": 19109,
+          "source_scene_id": 20009
+        }
+      ]
+    },
+    {
+      "key": "leave",
+      "id": 21109,
+      "name": "请假申请与审核",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21110,
+          "name": "LEAVE01-03-approve 未来工作日上午半天请假批准只扣0.5天、不创建Todo",
+          "source_flow_id": 19113,
+          "source_scene_id": 20030
+        },
+        {
+          "id": 21111,
+          "name": "LEAVE01-reject 独立请假驳回不扣假期、不创建Todo",
+          "source_flow_id": 19114,
+          "source_scene_id": 20033
+        },
+        {
+          "id": 21112,
+          "name": "FOUR-LEAVE-CHAIN-APPROVE test_user4请假：同级和本人拒绝、L1直属主管通过只扣半天一次",
+          "source_flow_id": 20336,
+          "source_scene_id": 20337
+        },
+        {
+          "id": 21113,
+          "name": "FOUR-LEAVE-CHAIN-REJECT test_user4请假：同级和本人拒绝、L0跨级主管可驳回且不扣假",
+          "source_flow_id": 20340,
+          "source_scene_id": 20341
+        }
+      ]
+    },
+    {
+      "key": "product",
+      "id": 21114,
+      "name": "商城商品上架与下架",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21115,
+          "name": "SHOP01-publish L0建商品上下架，员工不能维护或看到下架商品",
+          "source_flow_id": 19115,
+          "source_scene_id": 20036
+        }
+      ]
+    },
+    {
+      "key": "shop",
+      "id": 21116,
+      "name": "商城下单与审核",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21117,
+          "name": "SHOP03-05-repeat 重复兑换只冻结一次，申请人重复取消不重复解冻",
+          "source_flow_id": 19117,
+          "source_scene_id": 20282
+        },
+        {
+          "id": 21118,
+          "name": "SHOP05-reject L0 reject 重复操作不重复退款",
+          "source_flow_id": 19118,
+          "source_scene_id": 20041
+        },
+        {
+          "id": 21119,
+          "name": "SHOP05-approved_cancel L0 approved_cancel 重复操作不重复退款",
+          "source_flow_id": 19119,
+          "source_scene_id": 20044
+        },
+        {
+          "id": 21120,
+          "name": "SHOP06-shipping 实物批准发货后不可普通取消退款",
+          "source_flow_id": 19120,
+          "source_scene_id": 20047
+        },
+        {
+          "id": 21121,
+          "name": "SHOP04-leave 假期兑换最小0.5天，批准时扣款解冻并增假期",
+          "source_flow_id": 19121,
+          "source_scene_id": 20050
+        },
+        {
+          "id": 21122,
+          "name": "SHOP07-balance 冻结后新员工余额下降，不得绕过余额不足完成审批",
+          "source_flow_id": 19122,
+          "source_scene_id": 20053
+        },
+        {
+          "id": 21123,
+          "name": "SHOPPLUS-NORMAL-DEFAULT 正常兑换数量默认1，取消后恢复",
+          "source_flow_id": 20397,
+          "source_scene_id": 20398
+        },
+        {
+          "id": 21124,
+          "name": "SHOPPLUS-NORMAL-MIN 正常兑换数量1，取消后恢复",
+          "source_flow_id": 20400,
+          "source_scene_id": 20401
+        },
+        {
+          "id": 21125,
+          "name": "SHOPPLUS-NORMAL-MULTIPLE 正常兑换数量2，取消后恢复",
+          "source_flow_id": 20403,
+          "source_scene_id": 20404
+        },
+        {
+          "id": 21126,
+          "name": "SHOPPLUS-NORMAL-MAX 正常兑换数量100，取消后恢复",
+          "source_flow_id": 20406,
+          "source_scene_id": 20407
+        },
+        {
+          "id": 21127,
+          "name": "SHOPPLUS-NORMAL-EXACT-STOCK 正常兑换数量3，取消后恢复",
+          "source_flow_id": 20409,
+          "source_scene_id": 20410
+        },
+        {
+          "id": 21128,
+          "name": "SHOPPLUS-STOCK-ZERO 库存为0拒绝兑换",
+          "source_flow_id": 20445,
+          "source_scene_id": 20446
+        },
+        {
+          "id": 21129,
+          "name": "SHOPPLUS-STOCK-OVER 库存3件购买4件拒绝",
+          "source_flow_id": 20448,
+          "source_scene_id": 20449
+        },
+        {
+          "id": 21130,
+          "name": "SHOPPLUS-INACTIVE 已下架商品拒绝兑换",
+          "source_flow_id": 20451,
+          "source_scene_id": 20452
+        },
+        {
+          "id": 21131,
+          "name": "SHOPPLUS-AMOUNT-LARGE 超出可用余额的大额总价拒绝",
+          "source_flow_id": 20454,
+          "source_scene_id": 20455
+        },
+        {
+          "id": 21132,
+          "name": "SHOPPLUS-L0-FORBIDDEN L0不属于商城兑换员工范围",
+          "source_flow_id": 20457,
+          "source_scene_id": 20458
+        },
+        {
+          "id": 21133,
+          "name": "SHOPPLUS-OTHER-INSUFFICIENT 固定另一员工余额不足拒绝兑换",
+          "source_flow_id": 20460,
+          "source_scene_id": 20461
+        },
+        {
+          "id": 21134,
+          "name": "SHOPPLUS-IDEMPOTENCY 同键重放只建一单；变更数量、配送、商品均拒绝",
+          "source_flow_id": 20463,
+          "source_scene_id": 20464
+        },
+        {
+          "id": 21135,
+          "name": "SHOPPLUS-ACTION-GUARDS 他人取消、员工审批、未批准发货、无效操作及不存在订单",
+          "source_flow_id": 20466,
+          "source_scene_id": 20467
+        },
+        {
+          "id": 21136,
+          "name": "SHOPPLUS-EXACT-BALANCE 可用余额恰好等于总价可兑换，冻结后不能再透支",
+          "source_flow_id": 20469,
+          "source_scene_id": 20470
+        },
+        {
+          "id": 21137,
+          "name": "SHOPPLUS-LEAVE-MULTIPLE 兑换2份半天假期：只扣款一次、增加1天，履约后不可取消发货",
+          "source_flow_id": 20472,
+          "source_scene_id": 20473
+        }
+      ]
+    },
+    {
+      "key": "attendance",
+      "id": 21138,
+      "name": "扣除贝利（早会考勤）",
+      "status": "disabled",
+      "scenarios": [
+        {
+          "id": 21139,
+          "name": "ATT-CURRENT-ABSENT 当天早会：原员工出席，三测试账号缺席各扣500，余额可为负",
+          "source_flow_id": 20477,
+          "source_scene_id": 20478
+        },
+        {
+          "id": 21140,
+          "name": "ATT-REPEAT-DEDUCTION 重复结算不重复扣款，L0不生成应到考勤",
+          "source_flow_id": 20480,
+          "source_scene_id": 20481
+        }
+      ]
+    }
+  ],
+  "base_cases": {
+    "(('POST', '/project/projects/{id}/generate-dev-tasks'), 20373)": 4510,
+    "(('GET', '/project/projects/{id}/todos'), 20373)": 4511,
+    "(('PATCH', '/todo/{id}'), 20373)": 4512,
+    "(('GET', '/project/projects/{id}/stages'), 20373)": 4513,
+    "(('PATCH', '/project/projects/{id}/stages/{id}'), 20373)": 4514,
+    "(('POST', '/project/projects/{id}/sync-dev-tasks'), 20373)": 4515,
+    "(('POST', '/todo'), 20373)": 4516,
+    "(('POST', '/project/projects/{id}/todos/{id}/plan'), 20373)": 4517,
+    "(('GET', '/todo/{id}'), 20375)": 4518,
+    "(('POST', '/todo/{id}/submit'), 20375)": 4519,
+    "(('POST', '/todo/{id}/reject'), 20373)": 4520,
+    "(('POST', '/todo/{id}/approve'), 20373)": 4521,
+    "(('POST', '/todo'), 20375)": 4522,
+    "(('POST', '/todo/{id}/approve'), 20375)": 4523,
+    "(('POST', '/todo/{id}/approve'), 20376)": 4524,
+    "(('POST', '/todo/{id}/approve'), 20374)": 4525,
+    "(('GET', '/beli/accounts'), 20375)": 4526,
+    "(('GET', '/beli/rewards'), 20375)": 4527,
+    "(('POST', '/todo'), 20376)": 4528,
+    "(('POST', '/todo/{id}/submit'), 20376)": 4529,
+    "(('GET', '/beli/accounts'), 20376)": 4530,
+    "(('GET', '/beli/rewards'), 20376)": 4531,
+    "(('GET', '/project/projects/{id}/bugs'), 20373)": 4532,
+    "(('POST', '/beli/rewards/{id}/review'), 20373)": 4533,
+    "(('POST', '/todo/{id}/status'), 20373)": 4534,
+    "(('POST', '/beli/rewards/{id}/review'), 20375)": 4535,
+    "(('GET', '/todo/{id}'), 20376)": 4536,
+    "(('POST', '/beli/accounts/{id}/adjust'), 20373)": 4537,
+    "(('GET', '/todo/my'), 20375)": 4538,
+    "(('POST', '/todo/leaves'), 20375)": 4539,
+    "(('POST', '/todo/leaves/{id}/approve'), 20373)": 4540,
+    "(('POST', '/todo/leaves/{id}/reject'), 20373)": 4541,
+    "(('POST', '/todo/leaves'), 20376)": 4542,
+    "(('GET', '/todo/leaves/team/pending'), 20374)": 4543,
+    "(('GET', '/todo/leaves/team/pending'), 20373)": 4544,
+    "(('POST', '/todo/leaves/{id}/approve'), 20375)": 4545,
+    "(('POST', '/todo/leaves/{id}/approve'), 20376)": 4546,
+    "(('POST', '/todo/leaves/{id}/approve'), 20374)": 4547,
+    "(('POST', '/todo/leaves/{id}/reject'), 20375)": 4548,
+    "(('POST', '/todo/leaves/{id}/reject'), 20376)": 4549,
+    "(('POST', '/beli/products'), 20373)": 4550,
+    "(('POST', '/beli/products'), 20375)": 4551,
+    "(('PUT', '/beli/products/{id}'), 20373)": 4552,
+    "(('GET', '/beli/products'), 20375)": 4553,
+    "(('POST', '/beli/orders'), 20375)": 4554,
+    "(('POST', '/beli/orders/{id}/action'), 20375)": 4555,
+    "(('POST', '/beli/orders/{id}/action'), 20373)": 4556,
+    "(('GET', '/beli/products'), 20373)": 4557,
+    "(('GET', '/beli/orders'), 20375)": 4558,
+    "(('POST', '/beli/orders'), 20373)": 4559,
+    "(('POST', '/beli/orders'), 20376)": 4560,
+    "(('GET', '/beli/orders'), 20376)": 4561,
+    "(('POST', '/beli/orders/{id}/action'), 20376)": 4562,
+    "(('POST', '/meeting/records'), 20373)": 4563,
+    "(('PATCH', '/meeting/records/{id}/attendees'), 20373)": 4564,
+    "(('GET', '/beli/attendance'), 20373)": 4565,
+    "(('GET', '/beli/accounts'), 20374)": 4566,
+    "(('GET', '/beli/attendance'), 20374)": 4567,
+    "(('GET', '/beli/attendance'), 20375)": 4568,
+    "(('GET', '/beli/attendance'), 20376)": 4569
+  },
+  "old_flows_removed": 138,
+  "api_only_flows": 68,
+  "workflows": 9,
+  "scenarios": 70,
+  "preserved_runs": 274,
+  "preserved_api_cases": 537,
+  "applied_at": "2026-10-21T10:54:54.519124+08:00"
+}

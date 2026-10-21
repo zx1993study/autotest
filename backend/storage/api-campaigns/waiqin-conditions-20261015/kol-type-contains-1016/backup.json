@@ -1,0 +1,44 @@
+{
+  "case_id": 822,
+  "assertions": [
+    {
+      "type": "status",
+      "expected": 200
+    },
+    {
+      "path": "/code",
+      "type": "json_pointer",
+      "expected": 200
+    },
+    {
+      "path": "/rows",
+      "type": "json_query_result",
+      "rules": [
+        {
+          "paths": [
+            "/kolType"
+          ],
+          "expected": "{{bound_q_kolType}}",
+          "operator": "eq"
+        },
+        {
+          "paths": [
+            "/customerType"
+          ],
+          "expected": "3",
+          "operator": "eq"
+        }
+      ],
+      "min_items": 1
+    }
+  ],
+  "data_digest": "aecb7c56df3a469aa3c363c2ac2f50aecbcf2ed756c6f902da2f2a46b79b404b",
+  "flow_version": 4,
+  "scene_id": 16530,
+  "historical_runs": {
+    "16529": "252ca7a1250159a32aef512efca51b0a4bffb59238ddf38ddb20ea336120ed64",
+    "16287": "d854ebefea478747007b317d0437f243214bdb224ac56a4aef68461999d13c56",
+    "16285": "1d57745f131ad4c2d6368305b467b3103478a60a9e9b9ad83a7fc550d411e5c2",
+    "16268": "0519b94288535631d7c8d0daedb3cffc064a3a558fe6228f9fd58697a04aa127"
+  }
+}

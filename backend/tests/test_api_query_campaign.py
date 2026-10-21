@@ -117,5 +117,29 @@ class QueryCampaignTest(CrudCampaignTest):
                                        {"params": {}, "body": {"data": {"todoList": [
                                            {"todoType": "stock_in_order", "extraData": {"warehouseName": "配送仓"}}]}}})
         scene = next(scene for scene in spec["scenes"] if scene["key"] == "warehouseName")
-        self.assertEqual(scene["params"]["todoType"], "stock_in_order")
-        self.assertEqual(scene["rules"][-1]["expected"], "stock_in_order")
+        self.assertNotIn("todoType", scene["params"])
+        self.assertEqual(scene["rules"][-1]["expected"], "{{bound_q_todoType}}")
+        self.assertEqual(scene["extracts"][-1]["path"], "/data/todoList/0/todoType")
+        self.assertEqual(scene["bindings"][-1]["source"], scene["bindings"][0]["source"])
+        self.assertEqual(scene["bindings"][-1]["name"], "q_todoType")
+
+    def test_customer_multiselect_filters_use_tokens_for_single_and_combined_queries(self):
+        builder = importlib.import_module("waiqin_query_builder")
+        for name, value, kind in (("cooperationStatus", "正在合作", "1"), ("kolType", "个人用户", "3")):
+            with self.subTest(field=name):
+                fields = [{"name": field} for field in (name, "customerType")]
+                spec = builder.build_query_spec({"api": {"id": 12083}, "module": "客户管理", "fields": fields,
+                                                "query_fields": [field["name"] for field in fields]},
+                                               {"params": {}, "body": {"rows": [{name: value, "customerType": kind}]}})
+                for key in (name, "combined"):
+                    scene = next(scene for scene in spec["scenes"] if scene["key"] == key)
+                    rule = next(rule for rule in scene["rules"] if rule["paths"] == ["/" + name])
+                    self.assertEqual(rule["operator"], "tokens")
+                    self.assertEqual(rule["expected"], "{{bound_q_" + name + "}}")
+                    self.assertTrue(all(rule["operator"] == "eq" for rule in scene["rules"]
+                                        if rule["paths"] == ["/customerType"]))
+        fields = [{"name": "warehouseType"}]
+        spec = builder.build_query_spec({"api": {"id": 12184}, "module": "仓库管理", "fields": fields,
+                                        "query_fields": ["warehouseType"]},
+                                       {"params": {}, "body": {"rows": [{"warehouseType": "1"}]}})
+        self.assertEqual(spec["scenes"][0]["rules"][0]["operator"], "eq")

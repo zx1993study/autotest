@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from typing import Any
+import time
+from urllib.error import HTTPError, URLError
 
-from agent_app.api.client import AgentApiClient
+from agent_app.api.client import AgentApiClient, AgentApiError
 from agent_app.config import AgentConfig
 
 
@@ -60,7 +62,15 @@ class AgentTaskApi:
         return self.client.post(f"/agent/runtime/tasks/{task_id}/vision/cancel", {"node_key": self.config.node_key, "lease_token": lease_token})
 
     def web_state(self, task_id, lease_token, data=None):
-        return self.client.post(f'/agent/runtime/tasks/{task_id}/web-state', {'node_key': self.config.node_key, 'lease_token': lease_token, **(data or {})})
+        for attempt in range(3):
+            try:
+                return self.client.post(f'/agent/runtime/tasks/{task_id}/web-state', {'node_key': self.config.node_key, 'lease_token': lease_token, **(data or {})})
+            except (ConnectionError, TimeoutError, AgentApiError) as exc:
+                transport_failure = not isinstance(exc, AgentApiError) or (isinstance(exc.__cause__, URLError) and not isinstance(exc.__cause__, HTTPError))
+                # Retry only read-only status polling, never a write or a rejected lease.
+                if data is not None or not transport_failure or attempt == 2:
+                    raise
+                time.sleep(0.25 * (attempt + 1))
 
     def case_inputs(self, task_id, lease_token):
         return self.client.post(f'/agent/runtime/tasks/{task_id}/case-inputs', {'node_key':self.config.node_key, 'lease_token':lease_token})

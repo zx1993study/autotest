@@ -1,0 +1,3087 @@
+{
+  "rows": [
+    {
+      "feature": "职位 新增",
+      "source_id": 20551,
+      "case_id": 4244,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20775,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "职位 新增",
+      "source_id": 20551,
+      "case_id": 4245,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20776,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469885497_600443  ",
+          "passed": false,
+          "expected": "STR3_1792469885497_600443"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469885497_600443  ",
+        "description": "  STR3_1792469885497_600443  "
+      }
+    },
+    {
+      "feature": "职位 编辑",
+      "source_id": 20555,
+      "case_id": 4247,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20778,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "职位 编辑",
+      "source_id": 20555,
+      "case_id": 4248,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20779,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469890276_552783  ",
+          "passed": false,
+          "expected": "STR3_1792469890276_552783"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469890276_552783  ",
+        "description": "  STR3_1792469890276_552783  "
+      }
+    },
+    {
+      "feature": "部门 新增",
+      "source_id": 20560,
+      "case_id": 4250,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20781,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "部门 新增",
+      "source_id": 20560,
+      "case_id": 4251,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20782,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469895506_451007  ",
+          "passed": false,
+          "expected": "STR3_1792469895506_451007"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469895506_451007  ",
+        "description": "  STR3_1792469895506_451007  "
+      }
+    },
+    {
+      "feature": "部门 编辑",
+      "source_id": 20564,
+      "case_id": 4253,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20784,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "部门 编辑",
+      "source_id": 20564,
+      "case_id": 4254,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20785,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469901893_546822  ",
+          "passed": false,
+          "expected": "STR3_1792469901893_546822"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469901893_546822  ",
+        "description": "  STR3_1792469901893_546822  "
+      }
+    },
+    {
+      "feature": "停用贝利规则 新增",
+      "source_id": 20569,
+      "case_id": 4256,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "note"
+      ],
+      "record_id": 20787,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "passed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "note": "   "
+      }
+    },
+    {
+      "feature": "停用贝利规则 新增",
+      "source_id": 20569,
+      "case_id": 4257,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "note"
+      ],
+      "record_id": 20788,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "STR3_1792469907297_123537",
+          "passed": true,
+          "expected": "STR3_1792469907297_123537"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469907297_123537  ",
+          "passed": false,
+          "expected": "STR3_1792469907297_123537"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "STR3_1792469907297_123537",
+          "passed": true,
+          "expected": "STR3_1792469907297_123537"
+        },
+        {
+          "path": "data.note",
+          "type": "json_equals",
+          "actual": "  STR3_1792469907297_123537  ",
+          "passed": false,
+          "expected": "STR3_1792469907297_123537"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "note"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "STR3_1792469907297_123537",
+          "passed": true,
+          "expected": "STR3_1792469907297_123537"
+        },
+        {
+          "path": "note",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469907297_123537  ",
+          "passed": false,
+          "expected": "STR3_1792469907297_123537"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469907297_123537  ",
+        "note": "  STR3_1792469907297_123537  "
+      }
+    },
+    {
+      "feature": "停用贝利规则 编辑",
+      "source_id": 20573,
+      "case_id": 4259,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "note"
+      ],
+      "record_id": 20790,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "passed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "note": "   "
+      }
+    },
+    {
+      "feature": "停用贝利规则 编辑",
+      "source_id": 20573,
+      "case_id": 4260,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "note"
+      ],
+      "record_id": 20791,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "STR3_1792469912075_700775",
+          "passed": true,
+          "expected": "STR3_1792469912075_700775"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469912075_700775  ",
+          "passed": false,
+          "expected": "STR3_1792469912075_700775"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "STR3_1792469912075_700775",
+          "passed": true,
+          "expected": "STR3_1792469912075_700775"
+        },
+        {
+          "path": "data.note",
+          "type": "json_equals",
+          "actual": "  STR3_1792469912075_700775  ",
+          "passed": false,
+          "expected": "STR3_1792469912075_700775"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "note"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "STR3_1792469912075_700775",
+          "passed": true,
+          "expected": "STR3_1792469912075_700775"
+        },
+        {
+          "path": "note",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469912075_700775  ",
+          "passed": false,
+          "expected": "STR3_1792469912075_700775"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469912075_700775  ",
+        "note": "  STR3_1792469912075_700775  "
+      }
+    },
+    {
+      "feature": "交易方 新增",
+      "source_id": 20583,
+      "case_id": 4265,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "address",
+        "bank_name"
+      ],
+      "record_id": 20793,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "address": "   ",
+        "bank_name": "   "
+      }
+    },
+    {
+      "feature": "交易方 新增",
+      "source_id": 20583,
+      "case_id": 4266,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "address",
+        "bank_name"
+      ],
+      "record_id": 20794,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "path": "data.address",
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "path": "data.bank_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "address",
+        "bank_name",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "path": "address",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        },
+        {
+          "path": "bank_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469918204_684551  ",
+          "passed": false,
+          "expected": "STR3_1792469918204_684551"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469918204_684551  ",
+        "address": "  STR3_1792469918204_684551  ",
+        "bank_name": "  STR3_1792469918204_684551  "
+      }
+    },
+    {
+      "feature": "交易方 编辑",
+      "source_id": 20587,
+      "case_id": 4268,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "address",
+        "bank_name"
+      ],
+      "record_id": 20796,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "address": "   ",
+        "bank_name": "   "
+      }
+    },
+    {
+      "feature": "交易方 编辑",
+      "source_id": 20587,
+      "case_id": 4269,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "address",
+        "bank_name"
+      ],
+      "record_id": 20797,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "path": "data.address",
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "path": "data.bank_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "address",
+        "bank_name",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "path": "address",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        },
+        {
+          "path": "bank_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469924269_327150  ",
+          "passed": false,
+          "expected": "STR3_1792469924269_327150"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469924269_327150  ",
+        "address": "  STR3_1792469924269_327150  ",
+        "bank_name": "  STR3_1792469924269_327150  "
+      }
+    },
+    {
+      "feature": "任务 新增",
+      "source_id": 17917,
+      "case_id": 4271,
+      "variant": "spaces",
+      "fields": [
+        "title",
+        "description",
+        "notes"
+      ],
+      "record_id": 20799,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "notes": "   ",
+        "title": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "任务 新增",
+      "source_id": 17917,
+      "case_id": 4272,
+      "variant": "trim",
+      "fields": [
+        "title",
+        "description",
+        "notes"
+      ],
+      "record_id": 20800,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "path": "data.notes",
+          "type": "json_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "notes",
+        "title"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "notes",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469931249_213936  ",
+          "passed": false,
+          "expected": "STR3_1792469931249_213936"
+        }
+      ],
+      "input_values": {
+        "notes": "  STR3_1792469931249_213936  ",
+        "title": "  STR3_1792469931249_213936  ",
+        "description": "  STR3_1792469931249_213936  "
+      }
+    },
+    {
+      "feature": "任务 编辑",
+      "source_id": 17919,
+      "case_id": 4274,
+      "variant": "spaces",
+      "fields": [
+        "title",
+        "description",
+        "notes"
+      ],
+      "record_id": 20802,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "notes": "   ",
+        "title": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "任务 编辑",
+      "source_id": 17919,
+      "case_id": 4275,
+      "variant": "trim",
+      "fields": [
+        "title",
+        "description",
+        "notes"
+      ],
+      "record_id": 20803,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "path": "data.notes",
+          "type": "json_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "notes",
+        "title"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "notes",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469937241_886098  ",
+          "passed": false,
+          "expected": "STR3_1792469937241_886098"
+        }
+      ],
+      "input_values": {
+        "notes": "  STR3_1792469937241_886098  ",
+        "title": "  STR3_1792469937241_886098  ",
+        "description": "  STR3_1792469937241_886098  "
+      }
+    },
+    {
+      "feature": "项目 新增",
+      "source_id": 17911,
+      "case_id": 4277,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20805,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "项目 新增",
+      "source_id": 17911,
+      "case_id": 4278,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20806,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469945169_347413  ",
+          "passed": false,
+          "expected": "STR3_1792469945169_347413"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469945169_347413  ",
+        "description": "  STR3_1792469945169_347413  "
+      }
+    },
+    {
+      "feature": "项目 编辑",
+      "source_id": 17932,
+      "case_id": 4280,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20808,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "项目 编辑",
+      "source_id": 17932,
+      "case_id": 4281,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20809,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469951225_967394  ",
+          "passed": false,
+          "expected": "STR3_1792469951225_967394"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469951225_967394  ",
+        "description": "  STR3_1792469951225_967394  "
+      }
+    },
+    {
+      "feature": "下架商品 新增",
+      "source_id": 18714,
+      "case_id": 4283,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20811,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "下架商品 新增",
+      "source_id": 18714,
+      "case_id": 4284,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20812,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469960758_231860  ",
+          "passed": false,
+          "expected": "STR3_1792469960758_231860"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469960758_231860  ",
+        "description": "  STR3_1792469960758_231860  "
+      }
+    },
+    {
+      "feature": "下架商品 编辑",
+      "source_id": 18717,
+      "case_id": 4286,
+      "variant": "spaces",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20814,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "下架商品 编辑",
+      "source_id": 18717,
+      "case_id": 4287,
+      "variant": "trim",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "record_id": 20815,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description",
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469967191_753675  ",
+          "passed": false,
+          "expected": "STR3_1792469967191_753675"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792469967191_753675  ",
+        "description": "  STR3_1792469967191_753675  "
+      }
+    },
+    {
+      "feature": "更新日志 新增",
+      "source_id": 20610,
+      "case_id": 4289,
+      "variant": "spaces",
+      "fields": [
+        "version",
+        "title",
+        "content"
+      ],
+      "record_id": 20817,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "title": "   ",
+        "content": "   ",
+        "version": "   "
+      }
+    },
+    {
+      "feature": "更新日志 新增",
+      "source_id": 20610,
+      "case_id": 4290,
+      "variant": "trim",
+      "fields": [
+        "version",
+        "title",
+        "content"
+      ],
+      "record_id": 20818,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.version",
+          "type": "json_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "content",
+        "title",
+        "version"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        },
+        {
+          "path": "content",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        },
+        {
+          "path": "version",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469974262_594374  ",
+          "passed": false,
+          "expected": "STR3_1792469974262_594374"
+        }
+      ],
+      "input_values": {
+        "title": "  STR3_1792469974262_594374  ",
+        "content": "  STR3_1792469974262_594374  ",
+        "version": "  STR3_1792469974262_594374  "
+      }
+    },
+    {
+      "feature": "更新日志 编辑",
+      "source_id": 20614,
+      "case_id": 4292,
+      "variant": "spaces",
+      "fields": [
+        "version",
+        "title",
+        "content"
+      ],
+      "record_id": 20820,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "title": "   ",
+        "content": "   ",
+        "version": "   "
+      }
+    },
+    {
+      "feature": "更新日志 编辑",
+      "source_id": 20614,
+      "case_id": 4293,
+      "variant": "trim",
+      "fields": [
+        "version",
+        "title",
+        "content"
+      ],
+      "record_id": 20821,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.version",
+          "type": "json_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "content",
+        "title",
+        "version"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        },
+        {
+          "path": "content",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        },
+        {
+          "path": "version",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469980137_879913  ",
+          "passed": false,
+          "expected": "STR3_1792469980137_879913"
+        }
+      ],
+      "input_values": {
+        "title": "  STR3_1792469980137_879913  ",
+        "content": "  STR3_1792469980137_879913  ",
+        "version": "  STR3_1792469980137_879913  "
+      }
+    },
+    {
+      "feature": "非业务会议 新增",
+      "source_id": 17983,
+      "case_id": 4295,
+      "variant": "spaces",
+      "fields": [
+        "title"
+      ],
+      "record_id": 20823,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "title": "   "
+      }
+    },
+    {
+      "feature": "非业务会议 新增",
+      "source_id": 17983,
+      "case_id": 4296,
+      "variant": "trim",
+      "fields": [
+        "title"
+      ],
+      "record_id": 20824,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469986088_649231  ",
+          "passed": false,
+          "expected": "STR3_1792469986088_649231"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "  STR3_1792469986088_649231  ",
+          "passed": false,
+          "expected": "STR3_1792469986088_649231"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "title"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469986088_649231  ",
+          "passed": false,
+          "expected": "STR3_1792469986088_649231"
+        }
+      ],
+      "input_values": {
+        "title": "  STR3_1792469986088_649231  "
+      }
+    },
+    {
+      "feature": "独立财务账户 新增",
+      "source_id": 20629,
+      "case_id": 4301,
+      "variant": "spaces",
+      "fields": [
+        "account_name",
+        "bank_name",
+        "bank_branch"
+      ],
+      "record_id": 20826,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "bank_name": "   ",
+        "bank_branch": "   ",
+        "account_name": "   "
+      }
+    },
+    {
+      "feature": "独立财务账户 新增",
+      "source_id": 20629,
+      "case_id": 4302,
+      "variant": "trim",
+      "fields": [
+        "account_name",
+        "bank_name",
+        "bank_branch"
+      ],
+      "record_id": 20827,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.account_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "path": "data.bank_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "path": "data.bank_branch",
+          "type": "json_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "account_name",
+        "bank_branch",
+        "bank_name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "bank_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "path": "bank_branch",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        },
+        {
+          "path": "account_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469991412_205069  ",
+          "passed": false,
+          "expected": "STR3_1792469991412_205069"
+        }
+      ],
+      "input_values": {
+        "bank_name": "  STR3_1792469991412_205069  ",
+        "bank_branch": "  STR3_1792469991412_205069  ",
+        "account_name": "  STR3_1792469991412_205069  "
+      }
+    },
+    {
+      "feature": "独立财务账户 编辑",
+      "source_id": 20633,
+      "case_id": 4304,
+      "variant": "spaces",
+      "fields": [
+        "account_name",
+        "bank_name",
+        "bank_branch"
+      ],
+      "record_id": 20829,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "bank_name": "   ",
+        "bank_branch": "   ",
+        "account_name": "   "
+      }
+    },
+    {
+      "feature": "独立财务账户 编辑",
+      "source_id": 20633,
+      "case_id": 4305,
+      "variant": "trim",
+      "fields": [
+        "account_name",
+        "bank_name",
+        "bank_branch"
+      ],
+      "record_id": 20830,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.account_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "path": "data.bank_name",
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "path": "data.bank_branch",
+          "type": "json_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "account_name",
+        "bank_branch",
+        "bank_name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "bank_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "path": "bank_branch",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        },
+        {
+          "path": "account_name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792469997430_800351  ",
+          "passed": false,
+          "expected": "STR3_1792469997430_800351"
+        }
+      ],
+      "input_values": {
+        "bank_name": "  STR3_1792469997430_800351  ",
+        "bank_branch": "  STR3_1792469997430_800351  ",
+        "account_name": "  STR3_1792469997430_800351  "
+      }
+    },
+    {
+      "feature": "未对账测试交易 新增",
+      "source_id": 20648,
+      "case_id": 4310,
+      "variant": "spaces",
+      "fields": [
+        "purpose"
+      ],
+      "record_id": 20832,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "purpose": "   "
+      }
+    },
+    {
+      "feature": "未对账测试交易 新增",
+      "source_id": 20648,
+      "case_id": 4311,
+      "variant": "trim",
+      "fields": [
+        "purpose"
+      ],
+      "record_id": 20833,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470002974_111608  ",
+          "passed": false,
+          "expected": "STR3_1792470002974_111608"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.purpose",
+          "type": "json_equals",
+          "actual": "  STR3_1792470002974_111608  ",
+          "passed": false,
+          "expected": "STR3_1792470002974_111608"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "purpose"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "purpose",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470002974_111608  ",
+          "passed": false,
+          "expected": "STR3_1792470002974_111608"
+        }
+      ],
+      "input_values": {
+        "purpose": "  STR3_1792470002974_111608  "
+      }
+    },
+    {
+      "feature": "未对账测试交易 编辑",
+      "source_id": 20652,
+      "case_id": 4313,
+      "variant": "spaces",
+      "fields": [
+        "purpose"
+      ],
+      "record_id": 20835,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "purpose": "   "
+      }
+    },
+    {
+      "feature": "未对账测试交易 编辑",
+      "source_id": 20652,
+      "case_id": 4314,
+      "variant": "trim",
+      "fields": [
+        "purpose"
+      ],
+      "record_id": 20836,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470008797_497577  ",
+          "passed": false,
+          "expected": "STR3_1792470008797_497577"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.purpose",
+          "type": "json_equals",
+          "actual": "  STR3_1792470008797_497577  ",
+          "passed": false,
+          "expected": "STR3_1792470008797_497577"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "purpose"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "purpose",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470008797_497577  ",
+          "passed": false,
+          "expected": "STR3_1792470008797_497577"
+        }
+      ],
+      "input_values": {
+        "purpose": "  STR3_1792470008797_497577  "
+      }
+    },
+    {
+      "feature": "草稿合同 新增",
+      "source_id": 20624,
+      "case_id": 4316,
+      "variant": "spaces",
+      "fields": [
+        "name"
+      ],
+      "record_id": 20838,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   "
+      }
+    },
+    {
+      "feature": "草稿合同 新增",
+      "source_id": 20624,
+      "case_id": 4317,
+      "variant": "trim",
+      "fields": [
+        "name"
+      ],
+      "record_id": 20839,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470013646_827504  ",
+          "passed": false,
+          "expected": "STR3_1792470013646_827504"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792470013646_827504  ",
+          "passed": false,
+          "expected": "STR3_1792470013646_827504"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470013646_827504  ",
+          "passed": false,
+          "expected": "STR3_1792470013646_827504"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792470013646_827504  "
+      }
+    },
+    {
+      "feature": "草稿合同 编辑",
+      "source_id": 20660,
+      "case_id": 4319,
+      "variant": "spaces",
+      "fields": [
+        "name"
+      ],
+      "record_id": 20841,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "name": "   "
+      }
+    },
+    {
+      "feature": "草稿合同 编辑",
+      "source_id": 20660,
+      "case_id": 4320,
+      "variant": "trim",
+      "fields": [
+        "name"
+      ],
+      "record_id": 20842,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470019728_652056  ",
+          "passed": false,
+          "expected": "STR3_1792470019728_652056"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.name",
+          "type": "json_equals",
+          "actual": "  STR3_1792470019728_652056  ",
+          "passed": false,
+          "expected": "STR3_1792470019728_652056"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "name"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "name",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470019728_652056  ",
+          "passed": false,
+          "expected": "STR3_1792470019728_652056"
+        }
+      ],
+      "input_values": {
+        "name": "  STR3_1792470019728_652056  "
+      }
+    },
+    {
+      "feature": "待批请假（有效额度重测） 新增",
+      "source_id": 18819,
+      "case_id": 4322,
+      "variant": "spaces",
+      "fields": [
+        "reason"
+      ],
+      "record_id": 20844,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "reason": "   "
+      }
+    },
+    {
+      "feature": "待批请假（有效额度重测） 新增",
+      "source_id": 18819,
+      "case_id": 4323,
+      "variant": "trim",
+      "fields": [
+        "reason"
+      ],
+      "record_id": 20845,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470024561_846979  ",
+          "passed": false,
+          "expected": "STR3_1792470024561_846979"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.reason",
+          "type": "json_equals",
+          "actual": "  STR3_1792470024561_846979  ",
+          "passed": false,
+          "expected": "STR3_1792470024561_846979"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "reason"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "reason",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470024561_846979  ",
+          "passed": false,
+          "expected": "STR3_1792470024561_846979"
+        }
+      ],
+      "input_values": {
+        "reason": "  STR3_1792470024561_846979  "
+      }
+    },
+    {
+      "feature": "项目阶段 编辑",
+      "source_id": 18317,
+      "case_id": 4325,
+      "variant": "spaces",
+      "fields": [
+        "deliverables"
+      ],
+      "record_id": 20847,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 200,
+          "passed": false,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "deliverables": "   "
+      }
+    },
+    {
+      "feature": "项目阶段 编辑",
+      "source_id": 18317,
+      "case_id": 4326,
+      "variant": "trim",
+      "fields": [
+        "deliverables"
+      ],
+      "record_id": 20848,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470031036_333691  ",
+          "passed": false,
+          "expected": "STR3_1792470031036_333691"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.deliverables",
+          "type": "json_equals",
+          "actual": "  STR3_1792470031036_333691  ",
+          "passed": false,
+          "expected": "STR3_1792470031036_333691"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "deliverables"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "deliverables",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470031036_333691  ",
+          "passed": false,
+          "expected": "STR3_1792470031036_333691"
+        }
+      ],
+      "input_values": {
+        "deliverables": "  STR3_1792470031036_333691  "
+      }
+    },
+    {
+      "feature": "项目任务计划 编辑",
+      "source_id": 18328,
+      "case_id": 4328,
+      "variant": "spaces",
+      "fields": [
+        "title",
+        "description"
+      ],
+      "record_id": 20853,
+      "assertions": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status_in",
+          "actual": 400,
+          "passed": true,
+          "expected": [
+            400,
+            422
+          ]
+        }
+      ],
+      "final_status": "passed",
+      "failed_fields": [],
+      "storage_assertion_details": [],
+      "input_values": {
+        "title": "   ",
+        "description": "   "
+      }
+    },
+    {
+      "feature": "项目任务计划 编辑",
+      "source_id": 18328,
+      "case_id": 4329,
+      "variant": "trim",
+      "fields": [
+        "title",
+        "description"
+      ],
+      "record_id": 20854,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": "STR3_1792470161000_214033",
+          "passed": true,
+          "expected": "STR3_1792470161000_214033"
+        },
+        {
+          "type": "json_equals",
+          "actual": "  STR3_1792470161000_214033  ",
+          "passed": false,
+          "expected": "STR3_1792470161000_214033"
+        }
+      ],
+      "assertion_details": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "path": "data.title",
+          "type": "json_equals",
+          "actual": "STR3_1792470161000_214033",
+          "passed": true,
+          "expected": "STR3_1792470161000_214033"
+        },
+        {
+          "path": "data.description",
+          "type": "json_equals",
+          "actual": "  STR3_1792470161000_214033  ",
+          "passed": false,
+          "expected": "STR3_1792470161000_214033"
+        }
+      ],
+      "final_status": "failed",
+      "failed_fields": [
+        "description"
+      ],
+      "storage_assertion_details": [
+        {
+          "path": "title",
+          "type": "stored_field_equals",
+          "actual": "STR3_1792470161000_214033",
+          "passed": true,
+          "expected": "STR3_1792470161000_214033"
+        },
+        {
+          "path": "description",
+          "type": "stored_field_equals",
+          "actual": "  STR3_1792470161000_214033  ",
+          "passed": false,
+          "expected": "STR3_1792470161000_214033"
+        }
+      ],
+      "input_values": {
+        "title": "  STR3_1792470161000_214033  ",
+        "description": "  STR3_1792470161000_214033  "
+      }
+    }
+  ],
+  "summary": {
+    "failed": 49,
+    "passed": 29,
+    "planned": 78,
+    "executed": 78,
+    "by_variant": {
+      "trim": {
+        "failed": 26
+      },
+      "middle": {
+        "passed": 26
+      },
+      "spaces": {
+        "failed": 23,
+        "passed": 3
+      }
+    },
+    "unverified": 0
+  }
+}

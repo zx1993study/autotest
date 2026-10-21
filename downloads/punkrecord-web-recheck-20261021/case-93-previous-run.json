@@ -1,0 +1,36 @@
+{
+  "case_id": 93,
+  "feature_id": 19133,
+  "name": "CASE TODO08-team-replay 团队审核人下拉缺项有头慢速复现",
+  "task_id": 21407,
+  "status": "failed",
+  "records": [
+    {
+      "id": 21408,
+      "status": "failed",
+      "error": "Locator.wait_for: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\"[role='option']:visible, [role='treeitem']:visible, .el-select-dropdown__item:visible, .el-cascader-node:visible, .el-tree-node__content:visible, .ant-select-item-option:visible, .ant-select-tree-node:visible, .vxe-select-option:visible\").filter(has_text=re.compile(r\"^\\s*test_user2\\s*$\")).first to be visible\n",
+      "step_count": 12,
+      "business_result": "not_run",
+      "assertion_count": 3,
+      "assertion_results": [
+        {
+          "name": "确认工作台已加载",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": "确认团队任务标题",
+          "step": 9,
+          "actual": "团队任务",
+          "passed": true,
+          "locator": "h1:text-is(\"团队任务\")",
+          "expected": "团队任务"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/todo"
+    }
+  ]
+}

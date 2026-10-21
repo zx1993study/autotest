@@ -19,88 +19,50 @@
       </div>
     </dl>
 
-    <section v-if="showExecution" class="execution-record-card">
-      <header class="execution-record-header">
-        <div>
-          <h4>最近执行结果</h4>
-          <p>{{ latestRecord?.name || '暂无执行记录' }}</p>
-        </div>
-        <span class="status-pill" :class="recordStatusClass">{{ recordStatusText }}</span>
-      </header>
-      <dl class="execution-meta">
-        <div>
-          <dt>记录 ID</dt>
-          <dd>{{ latestRecord ? `#${latestRecord.id}` : '-' }}</dd>
-        </div>
-        <div>
-          <dt>HTTP 状态</dt>
-          <dd>{{ formatValue(recordData.response_status) }}</dd>
-        </div>
-        <div>
-          <dt>耗时</dt>
-          <dd>{{ formatDuration(recordData.duration_ms) }}</dd>
-        </div>
-        <div>
-          <dt>错误</dt>
-          <dd>{{ formatValue(recordData.error) }}</dd>
-        </div>
-      </dl>
-    </section>
-
-    <DynamicValueEvidence v-if="showExecution" :snapshot="recordData.dynamic_values" />
-    <details v-if="showExecution" open class="result-detail">
-      <summary>响应体</summary>
-      <pre class="json-response">{{ responseBodyText }}</pre>
-    </details>
-
-    <details class="result-detail">
-      <summary>请求信息</summary>
-      <pre>{{ stringifyJson(requestInfo) }}</pre>
-    </details>
-
-    <details v-if="showExecution" class="result-detail">
-      <summary>响应头</summary>
-      <pre>{{ stringifyJson(recordData.response_headers || {}) }}</pre>
-    </details>
-
-    <details class="result-detail">
-      <summary>断言结果</summary>
-      <pre>{{ stringifyJson(assertionRows) }}</pre>
-    </details>
+    <h4 v-if="showExecution" class="recent-title">最近执行结果</h4>
+    <p v-if="loading" class="load-state" role="status">加载最近执行结果...</p>
+    <div v-else-if="error" class="load-error" role="alert"><span>加载最近执行结果失败：{{ evidenceText(error) }}</span><button type="button" @click="loadLatestRecord"><RefreshCw :size="14" />重试</button></div>
+    <ExecutionRecordEvidence v-if="!loading && !error" :record="latestRecord" :show-execution="showExecution" :fallback-request="caseDefinition" :fallback-assertions="item?.assertions || itemData.assertions" />
+    <DynamicValueEvidence v-if="showExecution && latestRecord && !loading" :snapshot="safeDynamicValues" />
 
     <details class="result-detail">
       <summary>策略信息</summary>
-      <pre>{{ stringifyJson(strategyRows) }}</pre>
+      <pre>{{ evidenceText(strategyRows) }}</pre>
     </details>
 
     <details class="result-detail">
       <summary>用例定义</summary>
-      <pre>{{ stringifyJson(caseDefinition) }}</pre>
+      <pre>{{ evidenceText(caseDefinition) }}</pre>
     </details>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { RefreshCw } from 'lucide-vue-next'
 import DynamicValueEvidence from '../common/DynamicValueEvidence.vue'
+import ExecutionRecordEvidence from '../reports/ExecutionRecordEvidence.vue'
+import { useLatestRequest } from '../../composables/useLatestRequest'
 import { getResource, listResources } from '../../services/resource.service'
 import type { ResourceItem } from '../../types/resource'
-import { formatJsonLikeText } from '../../utils/jsonFormatter'
+import { evidenceText } from '../../utils/executionEvidence'
+import { isEvidenceObject as isRecord, redactEvidence } from '../../utils/evidencePrivacy'
 
 const props = withDefaults(defineProps<{ item: ResourceItem | null; showExecution?: boolean }>(), {
   showExecution: true
 })
 
 const sourceInterface = ref<ResourceItem | null>(null)
-const executionRecords = ref<ResourceItem[]>([])
-let executionRecordLoadSequence = 0
+const latestRecord = ref<ResourceItem | null>(null)
+const { loading, error, run, cancel } = useLatestRequest('加载最近执行结果失败')
+const sourceRequest = useLatestRequest()
 
 const itemData = computed(() => props.item && isRecord(props.item.data) ? props.item.data : {})
-const latestRecord = computed(() => executionRecords.value[0] || null)
 const recordData = computed<Record<string, unknown>>(() => {
   const data = latestRecord.value?.data
   return isRecord(data) ? data : {}
 })
+const safeDynamicValues = computed(() => redactEvidence(recordData.value.dynamic_values))
 const requestInfo = computed(() => {
   const latestRequest = recordData.value.request
   return isRecord(latestRequest) ? latestRequest : caseDefinition.value
@@ -139,17 +101,6 @@ const contentType = computed(() => formatValue(readFirst([
   requestInfo.value.headers && isRecord(requestInfo.value.headers) ? headerValue(requestInfo.value.headers, 'content-type') : '',
   sourceInterface.value?.data?.content_type
 ])))
-const responseBodyText = computed(() => {
-  return formatJsonLikeText(recordData.value.response_body)
-})
-const assertionRows = computed(() => {
-  const runtimeAssertions = recordData.value.assertions
-  if (Array.isArray(runtimeAssertions) && runtimeAssertions.length) {
-    return runtimeAssertions.filter(isRecord)
-  }
-  const assertions = props.item?.assertions
-  return Array.isArray(assertions) ? assertions.filter(isRecord) : []
-})
 const strategyRows = computed(() => {
   const strategies = props.item?.strategies
   if (Array.isArray(strategies) && strategies.length) {
@@ -161,69 +112,35 @@ const strategyRows = computed(() => {
   }
   return itemData.value.strategies || itemData.value.strategy_ids || []
 })
-const recordStatusText = computed(() => {
-  const status = String(latestRecord.value?.status || '')
-  const labels: Record<string, string> = {
-    success: '成功',
-    failed: '失败',
-    queued: '排队中',
-    running: '执行中'
-  }
-  return status ? labels[status] || status : '未执行'
-})
-const recordStatusClass = computed(() => {
-  const status = String(latestRecord.value?.status || '')
-  if (status === 'success') return 'success'
-  if (status === 'failed') return 'failed'
-  return 'queued'
-})
 
 watch(
   () => props.item?.source_id,
-  async sourceId => {
+  sourceId => {
+    sourceRequest.cancel()
     sourceInterface.value = null
     const interfaceId = Number(sourceId)
     if (!Number.isFinite(interfaceId) || interfaceId <= 0) return
-    try {
-      sourceInterface.value = await getResource('/api-testing/interfaces', interfaceId)
-    } catch {
-      sourceInterface.value = null
-    }
+    void sourceRequest.run(signal => getResource('/api-testing/interfaces', interfaceId, signal), result => { sourceInterface.value = result })
   },
   { immediate: true }
 )
 
 watch(
   () => [props.item?.id, props.item?.project_id, props.showExecution] as const,
-  async ([caseId, projectId, showExecution]) => {
-    executionRecords.value = []
-    if (!showExecution) return
-    const normalizedCaseId = Number(caseId)
-    if (!Number.isFinite(normalizedCaseId) || normalizedCaseId <= 0) return
-    const sequence = ++executionRecordLoadSequence
-    const params: Record<string, unknown> = {
-      case_id: normalizedCaseId,
-      case_type: 'API',
-      page: 1,
-      pageSize: 5
-    }
-    const normalizedProjectId = Number(projectId)
-    if (Number.isFinite(normalizedProjectId) && normalizedProjectId > 0) {
-      params.project_id = normalizedProjectId
-    }
-    try {
-      const records = await listResources('/reports/records', params)
-      if (sequence === executionRecordLoadSequence) {
-        executionRecords.value = records.items
-      }
-    } catch {
-      if (sequence === executionRecordLoadSequence) {
-        executionRecords.value = []
-      }
-    }
-  },
+  loadLatestRecord,
   { immediate: true }
 )
+
+function loadLatestRecord() {
+  cancel()
+  latestRecord.value = null
+  const caseId = Number(props.item?.id)
+  if (!props.showExecution || !Number.isFinite(caseId) || caseId <= 0) return
+  const params: Record<string, unknown> = { case_id: caseId, case_type: 'API', page: 1, pageSize: 1 }
+  const projectId = Number(props.item?.project_id)
+  if (Number.isFinite(projectId) && projectId > 0) params.project_id = projectId
+  return run(signal => listResources('/reports/records', params, signal), result => { latestRecord.value = result.items[0] || null })
+}
 
 function headerValue(headers: Record<string, unknown>, name: string): unknown {
   const target = name.toLowerCase()
@@ -235,24 +152,10 @@ function readFirst(values: unknown[]): unknown {
   return values.find(value => value != null && value !== '')
 }
 
-function formatDuration(value: unknown): string {
-  const duration = Number(value)
-  return Number.isFinite(duration) ? `${duration} ms` : '-'
-}
-
-function stringifyJson(value: unknown): string {
-  return JSON.stringify(value ?? {}, null, 2)
-}
-
 function formatValue(value: unknown): string {
   if (value == null || value === '') return '-'
   if (typeof value === 'boolean') return value ? '是' : '否'
-  if (typeof value === 'object') return JSON.stringify(value)
-  return String(value)
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+  return evidenceText(value)
 }
 </script>
 
@@ -260,21 +163,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 .api-detail-panel {
   display: grid;
   gap: 12px;
+  min-width: 0;
 }
 
-.execution-record-card {
-  display: grid;
-  gap: 12px;
-  border: 1px solid #edf1f7;
-  border-radius: 8px;
-  background: #fff;
-  padding: 12px;
-}
-
-.json-response {
-  tab-size: 2;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
+.recent-title { margin: 4px 0 0; font-size: 14px; }
+.load-state { color: #738095; font-size: 13px; }
+.load-error { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: #b42318; font-size: 13px; overflow-wrap: anywhere; }
+.load-error button { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 720px) { .execution-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>

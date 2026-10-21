@@ -1,0 +1,140 @@
+{
+  "project_id": 17796,
+  "repaired_case_ids": [
+    2277,
+    1316
+  ],
+  "deleted_case_ids": [
+    1687,
+    1763,
+    1818
+  ],
+  "deletion": "soft_delete",
+  "preserved_history_records": 11,
+  "definitions": {
+    "execution_flows": {
+      "count": 9,
+      "unchanged": true
+    },
+    "api_flow_scenarios": {
+      "count": 87,
+      "unchanged": true
+    },
+    "execution_plans": {
+      "count": 0,
+      "unchanged": true
+    }
+  },
+  "replacement": {
+    "flow_id": 21116,
+    "scenario_id": 21117,
+    "preserved": true
+  },
+  "execution": {
+    "total": 2,
+    "success_count": 2,
+    "failed_count": 0,
+    "records": [
+      {
+        "id": 21611,
+        "case_id": 2277,
+        "status": "success",
+        "description": "执行通过",
+        "http_status": 200,
+        "business_code": 0,
+        "duration_ms": 308,
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          },
+          {
+            "path": "/data/items",
+            "type": "json_query_result",
+            "actual": {
+              "count": 1,
+              "mismatched_indices": []
+            },
+            "passed": true,
+            "expected": {
+              "rules": [
+                {
+                  "paths": [
+                    "/user_id"
+                  ],
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                  "operator": "eq"
+                }
+              ],
+              "max_items": 1,
+              "min_items": 1
+            }
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": 21612,
+        "case_id": 1316,
+        "status": "success",
+        "description": "执行通过",
+        "http_status": 200,
+        "business_code": 0,
+        "duration_ms": 238,
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_pointer_exists",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_pointer_exists",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          }
+        ],
+        "error": null
+      }
+    ]
+  }
+}

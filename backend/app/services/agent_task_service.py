@@ -143,15 +143,17 @@ class AgentTaskService:
             AgentDeviceDiscoveryService(self.repository).finish(task)
             return task
         result = self._prepare_execution_result(payload.result)
+        completion_error = self._validate_web_completion(task, result)
+        status = "failed" if completion_error and payload.status.code == "success" else payload.status.code
         self._apply_web_cache_updates(result)
         data = {
             **self._data(task),
             "reported_by": payload.node_key,
             "finished_at": self._now(),
             "result": result,
-            "error": payload.error or "",
+            "error": payload.error or completion_error or "",
         }
-        updated = self.repository.complete_agent_task(task_id, payload.node_key, payload.status.code, data, [item for item in result.get("records", []) if isinstance(item, dict)])
+        updated = self.repository.complete_agent_task(task_id, payload.node_key, status, data, [item for item in result.get("records", []) if isinstance(item, dict)])
         if updated:
             from app.services.web_feature_testing_service import WebFeatureTestingService
 
@@ -503,6 +505,29 @@ class AgentTaskService:
             if isinstance(record, dict):
                 self._prepare_record_screenshots(record)
         return prepared
+
+    def _validate_web_completion(self, task: dict[str, Any], result: dict[str, Any]) -> str | None:
+        payload = self._data(task).get("payload") or {}
+        if self._data(task).get("task_type") != "case_execution" or payload.get("case_type") != "WEB":
+            return None
+        cases = {c["id"] for c in payload.get("cases", [])}
+        if not cases:
+            return None
+        records = [r for r in result.get("records", []) if isinstance(r, dict)]
+        error = None
+        if {r.get("data", {}).get("case_id") for r in records} != cases or len(records) != len(cases):
+            error = "Agent 回传的用例结果不完整，不能判定执行成功"
+        for record in records:
+            data = record.get("data") or {}
+            if record.get("status") == "success" and (data.get("business_result") != "passed" or not data.get("assertion_count")):
+                error = "Agent 未提供通过的业务结果验证，不能将操作完成判定为功能成功"
+                record.update(status="failed", description=error)
+                record["data"] = {**data, "error": error, "result_label": "业务结果未验证"}
+        result.update(total=len(cases), success_count=sum(r.get("status") == "success" for r in records),
+                      failed_count=sum(r.get("status") == "failed" for r in records))
+        if any(r.get("status") != "success" for r in records):
+            error = error or "存在未通过的页面功能用例"
+        return error
 
     def _prepare_record_screenshots(self, record: dict[str, Any]) -> None:
         data = record.get("data")

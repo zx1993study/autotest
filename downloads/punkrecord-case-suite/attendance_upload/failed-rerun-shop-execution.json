@@ -1,0 +1,2712 @@
+{
+  "project_id": 17796,
+  "scene_id": 21117,
+  "batch_id": 21605,
+  "status": "success",
+  "result": {
+    "name": "SHOP03-05-repeat 重复兑换只冻结一次，申请人重复取消不重复解冻",
+    "path": [
+      "review_node_01",
+      "review_node_02",
+      "review_node_03",
+      "review_node_05",
+      "review_node_06",
+      "review_node_07",
+      "review_node_11",
+      "review_node_12",
+      "review_node_14",
+      "review_node_17",
+      "review_node_19"
+    ],
+    "nodes": [
+      {
+        "key": "review_node_01",
+        "mode": "local_headless",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/accounts",
+          "field_name": "",
+          "test_point": "业务链路共享节点 GET /beli/accounts / 20375"
+        },
+        "status": "success",
+        "case_id": 4526,
+        "outputs": {
+          "annual": 6.0,
+          "frozen": 0.0,
+          "balance": 4969.54,
+          "available": 4969.54
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/accounts",
+          "body": {},
+          "path": "/beli/accounts",
+          "query": {},
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_pointer",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_pointer",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          }
+        ],
+        "duration_ms": 124,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"is_l0\": false, \"items\": [{\"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"name\": \"test_user3\", \"status\": \"active\", \"balance\": 4969.54, \"frozen\": 0.0, \"available\": 4969.54, \"leave\": {\"annual\": 6.0, \"maternity\": 15.0, \"marriage\": 3.0, \"personal\": 3.0, \"sick\": 3.0}}]}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "56999270",
+            "run_uuid_tail": "999873156956",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "08005282",
+            "request_uuid_1_tail": "248299312218",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {},
+          "generated_at_ms": 1792566211041
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "284"
+        }
+      },
+      {
+        "key": "review_node_02",
+        "mode": "local_headless",
+        "name": "创建测试商品",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/products",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/products / 20373"
+        },
+        "status": "success",
+        "case_id": 4550,
+        "outputs": {
+          "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b"
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/products",
+          "body": {
+            "kind": "physical",
+            "name": "商城链路测试商品-1792566211167-1",
+            "price": 100,
+            "stock": 20,
+            "active": true
+          },
+          "path": "/beli/products",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          }
+        ],
+        "duration_ms": 95,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"created_at\": \"2026-10-21T15:03:32\", \"name\": \"商城链路测试商品-1792566211167-1\", \"kind\": \"physical\", \"stock\": 20, \"image_name\": null, \"leave_days\": null, \"description\": \"\", \"updated_at\": \"2026-10-21T15:03:32\", \"id\": \"798ebb0d-7c62-49cb-a37f-5ac582ce326b\", \"price\": \"100.00\", \"active\": true, \"leave_type\": null}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "timestamp_ms": "1792566211167",
+            "run_uuid_head": "15543547",
+            "run_uuid_tail": "318403970905",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "48045751",
+            "request_uuid_1_tail": "228422011107",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.body.name": "商城链路测试商品-{{timestamp_ms}}-1"
+          },
+          "generated_at_ms": 1792566211167
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "334"
+        }
+      },
+      {
+        "key": "review_node_03",
+        "mode": "local_headless",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/accounts",
+          "field_name": "",
+          "test_point": "业务链路共享节点 GET /beli/accounts / 20375"
+        },
+        "status": "success",
+        "case_id": 4526,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "is_l0": false,
+              "items": [
+                {
+                  "name": "test_user3",
+                  "leave": {
+                    "sick": 3.0,
+                    "annual": 6.0,
+                    "marriage": 3.0,
+                    "personal": 3.0,
+                    "maternity": 15.0
+                  },
+                  "frozen": 0.0,
+                  "status": "active",
+                  "balance": 4969.54,
+                  "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                  "available": 4969.54
+                }
+              ]
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/accounts",
+          "body": {},
+          "path": "/beli/accounts",
+          "query": {},
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          }
+        ],
+        "duration_ms": 104,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"is_l0\": false, \"items\": [{\"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"name\": \"test_user3\", \"status\": \"active\", \"balance\": 4969.54, \"frozen\": 0.0, \"available\": 4969.54, \"leave\": {\"annual\": 6.0, \"maternity\": 15.0, \"marriage\": 3.0, \"personal\": 3.0, \"sick\": 3.0}}]}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "75591232",
+            "run_uuid_tail": "987200685580",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "90708116",
+            "request_uuid_1_tail": "900487040941",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {},
+          "generated_at_ms": 1792566211263
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "284"
+        }
+      },
+      {
+        "key": "review_node_04",
+        "name": "创建测试商品",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_05",
+        "mode": "local_headless",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/accounts",
+          "field_name": "",
+          "test_point": "业务链路共享节点 GET /beli/accounts / 20375"
+        },
+        "status": "success",
+        "case_id": 4526,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "is_l0": false,
+              "items": [
+                {
+                  "name": "test_user3",
+                  "leave": {
+                    "sick": 3.0,
+                    "annual": 6.0,
+                    "marriage": 3.0,
+                    "personal": 3.0,
+                    "maternity": 15.0
+                  },
+                  "frozen": 0.0,
+                  "status": "active",
+                  "balance": 4969.54,
+                  "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                  "available": 4969.54
+                }
+              ]
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/accounts",
+          "body": {},
+          "path": "/beli/accounts",
+          "query": {},
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          }
+        ],
+        "duration_ms": 83,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"is_l0\": false, \"items\": [{\"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"name\": \"test_user3\", \"status\": \"active\", \"balance\": 4969.54, \"frozen\": 0.0, \"available\": 4969.54, \"leave\": {\"annual\": 6.0, \"maternity\": 15.0, \"marriage\": 3.0, \"personal\": 3.0, \"sick\": 3.0}}]}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "05313597",
+            "run_uuid_tail": "974573805006",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "34093594",
+            "request_uuid_1_tail": "170555485821",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {},
+          "generated_at_ms": 1792566211369
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "284"
+        }
+      },
+      {
+        "key": "review_node_06",
+        "mode": "local_headless",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/orders",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/orders / 20375"
+        },
+        "status": "success",
+        "case_id": 4554,
+        "outputs": {
+          "id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+          "response": {
+            "code": 0,
+            "data": {
+              "id": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+              "amount": "100.00",
+              "status": "pending",
+              "comment": "",
+              "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "delivery": "test",
+              "quantity": 1,
+              "tracking": "",
+              "created_at": "2026-10-21T15:03:32",
+              "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+              "updated_at": "2026-10-21T15:03:32",
+              "request_key": "640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610",
+              "reviewer_id": null,
+              "product_snapshot": {
+                "kind": "physical",
+                "name": "商城链路测试商品-1792566211167-1",
+                "price": "100.00",
+                "leave_days": "None",
+                "leave_type": null
+              }
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/orders",
+          "body": {
+            "delivery": "test",
+            "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+            "request_key": "87406734-0000-4000-8000-368204526610"
+          },
+          "path": "/beli/orders",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": "pending",
+            "passed": true,
+            "expected": "pending"
+          },
+          {
+            "type": "json_equals",
+            "actual": "100.00",
+            "passed": true,
+            "expected": "100.00"
+          }
+        ],
+        "duration_ms": 155,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"id\": \"c8ac24a4-1286-4fc4-856a-6cb7123b8670\", \"product_id\": \"798ebb0d-7c62-49cb-a37f-5ac582ce326b\", \"updated_at\": \"2026-10-21T15:03:32\", \"quantity\": 1, \"status\": \"pending\", \"delivery\": \"test\", \"comment\": \"\", \"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"created_at\": \"2026-10-21T15:03:32\", \"request_key\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610\", \"amount\": \"100.00\", \"product_snapshot\": {\"kind\": \"physical\", \"name\": \"商城链路测试商品-1792566211167-1\", \"price\": \"100.00\", \"leave_days\": \"None\", \"leave_type\": null}, \"tracking\": \"\", \"reviewer_id\": null}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "29947261",
+            "run_uuid_tail": "025594304729",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "bound_product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+            "request_uuid_1_head": "17107907",
+            "request_uuid_1_tail": "043895356475",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.body.request_key": "{{request_uuid_1}}"
+          },
+          "generated_at_ms": 1792566211454
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "602"
+        }
+      },
+      {
+        "key": "review_node_07",
+        "mode": "local_headless",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/orders",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/orders / 20375"
+        },
+        "status": "success",
+        "case_id": 4554,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "id": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+              "amount": "100.00",
+              "status": "pending",
+              "comment": "",
+              "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "delivery": "test",
+              "quantity": 1,
+              "tracking": "",
+              "created_at": "2026-10-21T15:03:32",
+              "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+              "updated_at": "2026-10-21T15:03:32",
+              "request_key": "640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610",
+              "reviewer_id": null,
+              "product_snapshot": {
+                "kind": "physical",
+                "name": "商城链路测试商品-1792566211167-1",
+                "price": "100.00",
+                "leave_days": "None",
+                "leave_type": null
+              }
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/orders",
+          "body": {
+            "delivery": "test",
+            "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+            "request_key": "87406734-0000-4000-8000-368204526610"
+          },
+          "path": "/beli/orders",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_pointer_exists",
+            "actual": true,
+            "passed": true,
+            "expected": true
+          }
+        ],
+        "duration_ms": 111,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"id\": \"c8ac24a4-1286-4fc4-856a-6cb7123b8670\", \"product_id\": \"798ebb0d-7c62-49cb-a37f-5ac582ce326b\", \"updated_at\": \"2026-10-21T15:03:32\", \"quantity\": 1, \"status\": \"pending\", \"delivery\": \"test\", \"comment\": \"\", \"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"created_at\": \"2026-10-21T15:03:32\", \"request_key\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610\", \"amount\": \"100.00\", \"product_snapshot\": {\"kind\": \"physical\", \"name\": \"商城链路测试商品-1792566211167-1\", \"price\": \"100.00\", \"leave_days\": \"None\", \"leave_type\": null}, \"tracking\": \"\", \"reviewer_id\": null}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "10595610",
+            "run_uuid_tail": "456329128890",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "bound_product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+            "request_uuid_1_head": "42982852",
+            "request_uuid_1_tail": "621570719867",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.body.request_key": "{{request_uuid_1}}"
+          },
+          "generated_at_ms": 1792566211612
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "602"
+        }
+      },
+      {
+        "key": "review_node_08",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_09",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_10",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_11",
+        "mode": "local_headless",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/accounts",
+          "field_name": "",
+          "test_point": "业务链路共享节点 GET /beli/accounts / 20375"
+        },
+        "status": "success",
+        "case_id": 4526,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "is_l0": false,
+              "items": [
+                {
+                  "name": "test_user3",
+                  "leave": {
+                    "sick": 3.0,
+                    "annual": 6.0,
+                    "marriage": 3.0,
+                    "personal": 3.0,
+                    "maternity": 15.0
+                  },
+                  "frozen": 100.0,
+                  "status": "active",
+                  "balance": 4969.54,
+                  "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                  "available": 4869.54
+                }
+              ]
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/accounts",
+          "body": {},
+          "path": "/beli/accounts",
+          "query": {},
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          },
+          {
+            "path": "/data/items/0/balance",
+            "type": "json_number_delta",
+            "actual": "0.00",
+            "passed": true,
+            "baseline": 4969.54,
+            "expected": 0.0
+          },
+          {
+            "path": "/data/items/0/frozen",
+            "type": "json_number_delta",
+            "actual": "100.0",
+            "passed": true,
+            "baseline": 0.0,
+            "expected": 100.0
+          }
+        ],
+        "duration_ms": 115,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"is_l0\": false, \"items\": [{\"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"name\": \"test_user3\", \"status\": \"active\", \"balance\": 4969.54, \"frozen\": 100.0, \"available\": 4869.54, \"leave\": {\"annual\": 6.0, \"maternity\": 15.0, \"marriage\": 3.0, \"personal\": 3.0, \"sick\": 3.0}}]}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "frozen": 0.0,
+            "balance": 4969.54,
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "bound_frozen": 0.0,
+            "bound_balance": 4969.54,
+            "run_uuid_head": "42772908",
+            "run_uuid_tail": "585885796075",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "71924340",
+            "request_uuid_1_tail": "521763665588",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.assertions[4].baseline": "{{bound_balance}}",
+            "$.assertions[5].baseline": "{{bound_frozen}}"
+          },
+          "generated_at_ms": 1792566211729
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "286"
+        }
+      },
+      {
+        "key": "review_node_12",
+        "mode": "local_headless",
+        "name": "审核订单：员工（test_user3）取消订单",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/orders/{id}/action / 20375"
+        },
+        "status": "success",
+        "case_id": 4555,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "id": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+              "amount": "100.00",
+              "status": "cancelled",
+              "comment": "",
+              "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "delivery": "test",
+              "quantity": 1,
+              "tracking": "",
+              "created_at": "2026-10-21T15:03:32",
+              "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+              "updated_at": "2026-10-21T15:03:32",
+              "request_key": "640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610",
+              "reviewer_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "product_snapshot": {
+                "kind": "physical",
+                "name": "商城链路测试商品-1792566211167-1",
+                "price": "100.00",
+                "leave_days": "None",
+                "leave_type": null
+              }
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "body": {
+            "action": "cancel"
+          },
+          "path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": "cancelled",
+            "passed": true,
+            "expected": "cancelled"
+          }
+        ],
+        "duration_ms": 138,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"id\": \"c8ac24a4-1286-4fc4-856a-6cb7123b8670\", \"product_id\": \"798ebb0d-7c62-49cb-a37f-5ac582ce326b\", \"updated_at\": \"2026-10-21T15:03:32\", \"quantity\": 1, \"status\": \"cancelled\", \"delivery\": \"test\", \"comment\": \"\", \"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"created_at\": \"2026-10-21T15:03:32\", \"request_key\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610\", \"amount\": \"100.00\", \"product_snapshot\": {\"kind\": \"physical\", \"name\": \"商城链路测试商品-1792566211167-1\", \"price\": \"100.00\", \"leave_days\": \"None\", \"leave_type\": null}, \"tracking\": \"\", \"reviewer_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\"}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "bound_id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "88454767",
+            "run_uuid_tail": "497656187391",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "45705723",
+            "request_uuid_1_tail": "619324378166",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.path": "/beli/orders/{{bound_id_1}}/action"
+          },
+          "generated_at_ms": 1792566211849
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:31 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "638"
+        }
+      },
+      {
+        "key": "review_node_13",
+        "name": "调整测试账号贝利或假期额度",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_14",
+        "mode": "local_headless",
+        "name": "审核订单：L0管理员（test_user1）取消订单",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/orders/{id}/action / 20373"
+        },
+        "status": "success",
+        "case_id": 4556,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "id": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+              "amount": "100.00",
+              "status": "cancelled",
+              "comment": "",
+              "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "delivery": "test",
+              "quantity": 1,
+              "tracking": "",
+              "created_at": "2026-10-21T15:03:32",
+              "product_id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+              "updated_at": "2026-10-21T15:03:32",
+              "request_key": "640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610",
+              "reviewer_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "product_snapshot": {
+                "kind": "physical",
+                "name": "商城链路测试商品-1792566211167-1",
+                "price": "100.00",
+                "leave_days": "None",
+                "leave_type": null
+              }
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "body": {
+            "action": "cancel"
+          },
+          "path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": "cancelled",
+            "passed": true,
+            "expected": "cancelled"
+          }
+        ],
+        "duration_ms": 93,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"id\": \"c8ac24a4-1286-4fc4-856a-6cb7123b8670\", \"product_id\": \"798ebb0d-7c62-49cb-a37f-5ac582ce326b\", \"updated_at\": \"2026-10-21T15:03:32\", \"quantity\": 1, \"status\": \"cancelled\", \"delivery\": \"test\", \"comment\": \"\", \"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"created_at\": \"2026-10-21T15:03:32\", \"request_key\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413:87406734-0000-4000-8000-368204526610\", \"amount\": \"100.00\", \"product_snapshot\": {\"kind\": \"physical\", \"name\": \"商城链路测试商品-1792566211167-1\", \"price\": \"100.00\", \"leave_days\": \"None\", \"leave_type\": null}, \"tracking\": \"\", \"reviewer_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\"}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "bound_id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "60878304",
+            "run_uuid_tail": "094684541205",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "30822942",
+            "request_uuid_1_tail": "910769112520",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.path": "/beli/orders/{{bound_id_1}}/action"
+          },
+          "generated_at_ms": 1792566211994
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:32 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "638"
+        }
+      },
+      {
+        "key": "review_node_15",
+        "name": "查询商品及库存",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_16",
+        "name": "查询商城订单及审批状态",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_17",
+        "mode": "local_headless",
+        "name": "审核订单：员工（test_user3）取消订单",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "field_name": "",
+          "test_point": "业务链路共享节点 POST /beli/orders/{id}/action / 20375"
+        },
+        "status": "success",
+        "case_id": 4555,
+        "outputs": {
+          "response": {
+            "code": 403,
+            "errors": null,
+            "message": "仅 L0 可执行此操作"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "body": {
+            "action": "cancel"
+          },
+          "path": "/beli/orders/c8ac24a4-1286-4fc4-856a-6cb7123b8670/action",
+          "query": {},
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 403,
+            "passed": true,
+            "expected": 403
+          },
+          {
+            "type": "json_pointer",
+            "actual": 403,
+            "passed": true,
+            "expected": 403
+          },
+          {
+            "type": "json_pointer",
+            "actual": "仅 L0 可执行此操作",
+            "passed": true,
+            "expected": "仅 L0 可执行此操作"
+          }
+        ],
+        "duration_ms": 100,
+        "response_body": "{\"code\": 403, \"message\": \"仅 L0 可执行此操作\", \"errors\": null}",
+        "response_code": 403,
+        "dynamic_values": {
+          "values": {
+            "id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "bound_id_1": "c8ac24a4-1286-4fc4-856a-6cb7123b8670",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": "00857320",
+            "run_uuid_tail": "322953200129",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "52594888",
+            "request_uuid_1_tail": "059173672004",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.data.path": "/beli/orders/{{bound_id_1}}/action"
+          },
+          "generated_at_ms": 1792566212091
+        },
+        "response_status": 403,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:32 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "64"
+        }
+      },
+      {
+        "key": "review_node_18",
+        "name": "审核或处理商城订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_19",
+        "mode": "local_headless",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "error": null,
+        "report": {
+          "api_path": "/beli/accounts",
+          "field_name": "",
+          "test_point": "业务链路共享节点 GET /beli/accounts / 20375"
+        },
+        "status": "success",
+        "case_id": 4526,
+        "outputs": {
+          "response": {
+            "code": 0,
+            "data": {
+              "is_l0": false,
+              "items": [
+                {
+                  "name": "test_user3",
+                  "leave": {
+                    "sick": 3.0,
+                    "annual": 6.0,
+                    "marriage": 3.0,
+                    "personal": 3.0,
+                    "maternity": 15.0
+                  },
+                  "frozen": 0.0,
+                  "status": "active",
+                  "balance": 4969.54,
+                  "user_id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+                  "available": 4969.54
+                }
+              ]
+            },
+            "message": "success"
+          }
+        },
+        "request": {
+          "url": "http://14.103.229.153:15173/api/v1/beli/accounts",
+          "body": {},
+          "path": "/beli/accounts",
+          "query": {},
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "***"
+          },
+          "timeout": 15,
+          "base_url": "http://14.103.229.153:15173/",
+          "api_base_path": "/api/v1"
+        },
+        "case_type": "API",
+        "assertions": [
+          {
+            "type": "status",
+            "actual": 200,
+            "passed": true,
+            "expected": 200
+          },
+          {
+            "type": "json_equals",
+            "actual": 0,
+            "passed": true,
+            "expected": 0
+          },
+          {
+            "type": "json_equals",
+            "actual": false,
+            "passed": true,
+            "expected": false
+          },
+          {
+            "type": "json_equals",
+            "actual": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+            "passed": true,
+            "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+          },
+          {
+            "path": "/data/items/0/balance",
+            "type": "json_number_delta",
+            "actual": "0.00",
+            "passed": true,
+            "baseline": 4969.54,
+            "expected": 0.0
+          },
+          {
+            "path": "/data/items/0/frozen",
+            "type": "json_number_delta",
+            "actual": "0.0",
+            "passed": true,
+            "baseline": 0.0,
+            "expected": 0.0
+          }
+        ],
+        "duration_ms": 91,
+        "response_body": "{\"code\": 0, \"message\": \"success\", \"data\": {\"is_l0\": false, \"items\": [{\"user_id\": \"640d1a5c-bff5-4df0-9e02-cb42f8b46413\", \"name\": \"test_user3\", \"status\": \"active\", \"balance\": 4969.54, \"frozen\": 0.0, \"available\": 4969.54, \"leave\": {\"annual\": 6.0, \"maternity\": 15.0, \"marriage\": 3.0, \"personal\": 3.0, \"sick\": 3.0}}]}}",
+        "response_code": 0,
+        "dynamic_values": {
+          "values": {
+            "frozen": 0.0,
+            "balance": 4969.54,
+            "run_tag": "回归-1792566211038",
+            "run_uuid": "51969836-0000-4000-8000-545780585390",
+            "leave_end": "2027-02-01T12:00:00+08:00",
+            "exact_price": "4969.54",
+            "leave_start": "2027-02-01T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "bound_frozen": 0.0,
+            "bound_balance": 4969.54,
+            "run_uuid_head": "97966164",
+            "run_uuid_tail": "984491098356",
+            "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+            "restore_amount": "4889.54",
+            "decrease_amount": "-4889.54",
+            "request_uuid_1_head": "46478331",
+            "request_uuid_1_tail": "802551549554",
+            "negative_exact_price": "-4969.54"
+          },
+          "templates": {
+            "$.assertions[4].baseline": "{{bound_balance}}",
+            "$.assertions[5].baseline": "{{bound_frozen}}"
+          },
+          "generated_at_ms": 1792566212197
+        },
+        "response_status": 200,
+        "response_headers": {
+          "Vary": "Origin",
+          "date": "Wed, 21 Oct 2026 07:03:32 GMT",
+          "server": "uvicorn",
+          "connection": "close",
+          "content-type": "application/json",
+          "content-length": "284"
+        }
+      },
+      {
+        "key": "review_node_20",
+        "name": "审核或处理商城订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_21",
+        "name": "购买商品并创建兑换订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_22",
+        "name": "审核或处理商城订单",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_23",
+        "name": "查询贝利余额及假期额度",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_24",
+        "name": "调整测试账号贝利或假期额度",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      },
+      {
+        "key": "review_node_25",
+        "name": "查询商品及库存",
+        "next": "auto",
+        "reason": "场景配置为跳过",
+        "status": "skipped"
+      }
+    ],
+    "inputs": {
+      "run_tag": "回归-1792566211038",
+      "run_uuid": "51969836-0000-4000-8000-545780585390",
+      "leave_end": "2027-02-01T12:00:00+08:00",
+      "exact_price": "4969.54",
+      "leave_start": "2027-02-01T09:00:00+08:00",
+      "task_due_at": "2026-10-21T18:00:00+08:00",
+      "run_uuid_head": {
+        "length": 8,
+        "generator": "random_digits"
+      },
+      "run_uuid_tail": {
+        "length": 12,
+        "generator": "random_digits"
+      },
+      "request_uuid_1": "87406734-0000-4000-8000-368204526610",
+      "restore_amount": "4889.54",
+      "decrease_amount": "-4889.54",
+      "request_uuid_1_head": {
+        "length": 8,
+        "generator": "random_digits"
+      },
+      "request_uuid_1_tail": {
+        "length": 12,
+        "generator": "random_digits"
+      },
+      "negative_exact_price": "-4969.54"
+    },
+    "status": "success",
+    "snapshot": {
+      "flow": {
+        "id": 21116,
+        "data": {
+          "nodes": [
+            {
+              "key": "review_node_01",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_02",
+              "name": "创建测试商品",
+              "next": "auto",
+              "api_id": 18714,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_03",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_04",
+              "name": "创建测试商品",
+              "next": "auto",
+              "api_id": 18714,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_05",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_06",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_07",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_08",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_09",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_10",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_11",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_12",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_13",
+              "name": "调整测试账号贝利或假期额度",
+              "next": "auto",
+              "api_id": 18202,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_14",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_15",
+              "name": "查询商品及库存",
+              "next": "auto",
+              "api_id": 18719,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_16",
+              "name": "查询商城订单及审批状态",
+              "next": "auto",
+              "api_id": 20348,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_17",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_18",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_19",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_20",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_21",
+              "name": "购买商品并创建兑换订单",
+              "next": "auto",
+              "api_id": 18722,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_22",
+              "name": "审核或处理商城订单",
+              "next": "auto",
+              "api_id": 18729,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_23",
+              "name": "查询贝利余额及假期额度",
+              "next": "auto",
+              "api_id": 18204,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_24",
+              "name": "调整测试账号贝利或假期额度",
+              "next": "auto",
+              "api_id": 18202,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            },
+            {
+              "key": "review_node_25",
+              "name": "查询商品及库存",
+              "next": "auto",
+              "api_id": 18719,
+              "params": {},
+              "routes": [],
+              "auth_id": null,
+              "case_id": null,
+              "request": {},
+              "bindings": [],
+              "extracts": [],
+              "request_removals": []
+            }
+          ],
+          "inputs": {},
+          "version": 3
+        },
+        "name": "商城下单与审核",
+        "status": "active",
+        "deleted": false,
+        "created_at": "2026-10-21T10:54:47",
+        "project_id": 17796,
+        "updated_at": "2026-10-21T14:05:00",
+        "description": "按业务状态分支回归；新建隔离夹具、动态余额差额断言；串行执行，保留历史运行记录"
+      },
+      "scenario": {
+        "id": 21117,
+        "data": {
+          "nodes": {
+            "review_node_01": {
+              "mode": "always",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": 4526,
+              "request": {
+                "body": {},
+                "path": "/beli/accounts",
+                "query": {},
+                "method": "GET",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "balance",
+                  "path": "/data/items/0/balance",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                },
+                {
+                  "mode": "single",
+                  "name": "available",
+                  "path": "/data/items/0/available",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                },
+                {
+                  "mode": "single",
+                  "name": "frozen",
+                  "path": "/data/items/0/frozen",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                },
+                {
+                  "mode": "single",
+                  "name": "annual",
+                  "path": "/data/items/0/leave/annual",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "/code",
+                  "type": "json_pointer",
+                  "expected": 0
+                },
+                {
+                  "path": "/data/items/0/user_id",
+                  "type": "json_pointer",
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_02": {
+              "mode": "always",
+              "name": "创建测试商品",
+              "params": {},
+              "case_id": 4550,
+              "request": {
+                "body": {
+                  "kind": "physical",
+                  "name": "商城链路测试商品-{{timestamp_ms}}-1",
+                  "price": 100,
+                  "stock": 20,
+                  "active": true
+                },
+                "path": "/beli/products",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20373,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "product_id",
+                  "path": "/data/id",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_03": {
+              "mode": "always",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": 4526,
+              "request": {
+                "body": {},
+                "path": "/beli/accounts",
+                "query": {},
+                "method": "GET",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.is_l0",
+                  "type": "json_equals",
+                  "expected": false
+                },
+                {
+                  "path": "data.items.0.user_id",
+                  "type": "json_equals",
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_04": {
+              "mode": "skip",
+              "name": "创建测试商品",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_05": {
+              "mode": "always",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": 4526,
+              "request": {
+                "body": {},
+                "path": "/beli/accounts",
+                "query": {},
+                "method": "GET",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.is_l0",
+                  "type": "json_equals",
+                  "expected": false
+                },
+                {
+                  "path": "data.items.0.user_id",
+                  "type": "json_equals",
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_06": {
+              "mode": "always",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": 4554,
+              "request": {
+                "body": {
+                  "delivery": "test",
+                  "product_id": "8dac0801-13cd-4e21-88ce-3b6d0e2be458",
+                  "request_key": "{{request_uuid_1}}"
+                },
+                "path": "/beli/orders",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "product_id",
+                  "path": "/product_id",
+                  "prefix": "",
+                  "source": "review_node_02",
+                  "target": "body",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                },
+                {
+                  "mode": "single",
+                  "name": "id_1",
+                  "path": "/data/id",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.status",
+                  "type": "json_equals",
+                  "expected": "pending"
+                },
+                {
+                  "path": "data.amount",
+                  "type": "json_equals",
+                  "expected": "100.00"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_07": {
+              "mode": "always",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": 4554,
+              "request": {
+                "body": {
+                  "delivery": "test",
+                  "product_id": "8dac0801-13cd-4e21-88ce-3b6d0e2be458",
+                  "request_key": "{{request_uuid_1}}"
+                },
+                "path": "/beli/orders",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "product_id",
+                  "path": "/product_id",
+                  "prefix": "",
+                  "source": "review_node_02",
+                  "target": "body",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "/data/id",
+                  "type": "json_pointer_exists",
+                  "expected": true
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_08": {
+              "mode": "skip",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_09": {
+              "mode": "skip",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_10": {
+              "mode": "skip",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_11": {
+              "mode": "always",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": 4526,
+              "request": {
+                "body": {},
+                "path": "/beli/accounts",
+                "query": {},
+                "method": "GET",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "balance",
+                  "path": "/balance",
+                  "prefix": "",
+                  "source": "review_node_01",
+                  "target": "variables",
+                  "target_name": ""
+                },
+                {
+                  "name": "frozen",
+                  "path": "/frozen",
+                  "prefix": "",
+                  "source": "review_node_01",
+                  "target": "variables",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.is_l0",
+                  "type": "json_equals",
+                  "expected": false
+                },
+                {
+                  "path": "data.items.0.user_id",
+                  "type": "json_equals",
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+                },
+                {
+                  "path": "/data/items/0/balance",
+                  "type": "json_number_delta",
+                  "baseline": "{{bound_balance}}",
+                  "expected": 0.0
+                },
+                {
+                  "path": "/data/items/0/frozen",
+                  "type": "json_number_delta",
+                  "baseline": "{{bound_frozen}}",
+                  "expected": 100.0
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_12": {
+              "mode": "always",
+              "name": "审核订单：员工（test_user3）取消订单",
+              "params": {},
+              "case_id": 4555,
+              "request": {
+                "body": {
+                  "action": "cancel"
+                },
+                "path": "/beli/orders/{{bound_id_1}}/action",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "id_1",
+                  "path": "/id_1",
+                  "prefix": "",
+                  "source": "review_node_06",
+                  "target": "variables",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.status",
+                  "type": "json_equals",
+                  "expected": "cancelled"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_13": {
+              "mode": "skip",
+              "name": "调整测试账号贝利或假期额度",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_14": {
+              "mode": "always",
+              "name": "审核订单：L0管理员（test_user1）取消订单",
+              "params": {},
+              "case_id": 4556,
+              "request": {
+                "body": {
+                  "action": "cancel"
+                },
+                "path": "/beli/orders/{{bound_id_1}}/action",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20373,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "id_1",
+                  "path": "/id_1",
+                  "prefix": "",
+                  "source": "review_node_06",
+                  "target": "variables",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.status",
+                  "type": "json_equals",
+                  "expected": "cancelled"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_15": {
+              "mode": "skip",
+              "name": "查询商品及库存",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_16": {
+              "mode": "skip",
+              "name": "查询商城订单及审批状态",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_17": {
+              "mode": "always",
+              "name": "审核订单：员工（test_user3）取消订单",
+              "params": {},
+              "case_id": 4555,
+              "request": {
+                "body": {
+                  "action": "cancel"
+                },
+                "path": "/beli/orders/{{bound_id_1}}/action",
+                "query": {},
+                "method": "POST",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "id_1",
+                  "path": "/id_1",
+                  "prefix": "",
+                  "source": "review_node_06",
+                  "target": "variables",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 403
+                },
+                {
+                  "path": "/code",
+                  "type": "json_pointer",
+                  "expected": 403
+                },
+                {
+                  "path": "/message",
+                  "type": "json_pointer",
+                  "expected": "仅 L0 可执行此操作"
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_18": {
+              "mode": "skip",
+              "name": "审核或处理商城订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_19": {
+              "mode": "always",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": 4526,
+              "request": {
+                "body": {},
+                "path": "/beli/accounts",
+                "query": {},
+                "method": "GET",
+                "params": {},
+                "auth_id": 20375,
+                "content_type": "application/json",
+                "api_base_path": "/api/v1"
+              },
+              "bindings": [
+                {
+                  "name": "balance",
+                  "path": "/balance",
+                  "prefix": "",
+                  "source": "review_node_01",
+                  "target": "variables",
+                  "target_name": ""
+                },
+                {
+                  "name": "frozen",
+                  "path": "/frozen",
+                  "prefix": "",
+                  "source": "review_node_01",
+                  "target": "variables",
+                  "target_name": ""
+                }
+              ],
+              "extracts": [
+                {
+                  "mode": "single",
+                  "name": "response",
+                  "path": "",
+                  "paths": [],
+                  "source": "body",
+                  "required": true,
+                  "selection": null,
+                  "sensitive": false
+                }
+              ],
+              "condition": null,
+              "assertions": [
+                {
+                  "type": "status",
+                  "expected": 200
+                },
+                {
+                  "path": "code",
+                  "type": "json_equals",
+                  "expected": 0
+                },
+                {
+                  "path": "data.is_l0",
+                  "type": "json_equals",
+                  "expected": false
+                },
+                {
+                  "path": "data.items.0.user_id",
+                  "type": "json_equals",
+                  "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+                },
+                {
+                  "path": "/data/items/0/balance",
+                  "type": "json_number_delta",
+                  "baseline": "{{bound_balance}}",
+                  "expected": 0.0
+                },
+                {
+                  "path": "/data/items/0/frozen",
+                  "type": "json_number_delta",
+                  "baseline": "{{bound_frozen}}",
+                  "expected": 0.0
+                }
+              ],
+              "request_removals": []
+            },
+            "review_node_20": {
+              "mode": "skip",
+              "name": "审核或处理商城订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_21": {
+              "mode": "skip",
+              "name": "购买商品并创建兑换订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_22": {
+              "mode": "skip",
+              "name": "审核或处理商城订单",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_23": {
+              "mode": "skip",
+              "name": "查询贝利余额及假期额度",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_24": {
+              "mode": "skip",
+              "name": "调整测试账号贝利或假期额度",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            },
+            "review_node_25": {
+              "mode": "skip",
+              "name": "查询商品及库存",
+              "params": {},
+              "case_id": null,
+              "request": {},
+              "bindings": null,
+              "extracts": null,
+              "condition": null,
+              "assertions": null,
+              "request_removals": []
+            }
+          },
+          "inputs": {
+            "run_tag": "回归-{{timestamp_ms}}",
+            "run_uuid": "{{run_uuid_head}}-0000-4000-8000-{{run_uuid_tail}}",
+            "leave_end": "2028-01-24T12:00:00+08:00",
+            "exact_price": "5199.94",
+            "leave_start": "2028-01-24T09:00:00+08:00",
+            "task_due_at": "2026-10-21T18:00:00+08:00",
+            "run_uuid_head": {
+              "length": 8,
+              "generator": "random_digits"
+            },
+            "run_uuid_tail": {
+              "length": 12,
+              "generator": "random_digits"
+            },
+            "request_uuid_1": "{{request_uuid_1_head}}-0000-4000-8000-{{request_uuid_1_tail}}",
+            "restore_amount": "5119.94",
+            "decrease_amount": "-5119.94",
+            "request_uuid_1_head": {
+              "length": 8,
+              "generator": "random_digits"
+            },
+            "request_uuid_1_tail": {
+              "length": 12,
+              "generator": "random_digits"
+            },
+            "negative_exact_price": "-5199.94"
+          },
+          "flow_id": 21116,
+          "expected_end": "review_node_19",
+          "latest_run_id": 21294,
+          "latest_status": "success",
+          "failure_policy": "stop",
+          "template_version": 3
+        },
+        "name": "SHOP03-05-repeat 重复兑换只冻结一次，申请人重复取消不重复解冻",
+        "status": "active",
+        "deleted": false,
+        "created_at": "2026-10-21T10:54:48",
+        "project_id": 17796,
+        "updated_at": "2026-10-21T14:05:15",
+        "description": "独立业务链路；只使用本轮新建业务ID；执行前记录余额，执行后清理；新增/拒绝/状态及数值断言均保留"
+      }
+    },
+    "end_passed": true,
+    "test_point": "独立业务链路；只使用本轮新建业务ID；执行前记录余额，执行后清理；新增/拒绝/状态及数值断言均保留",
+    "duration_ms": 1251,
+    "scenario_id": 21117,
+    "expected_end": "review_node_19",
+    "template_version": 3
+  },
+  "cleanup": [
+    {
+      "method": "PUT",
+      "path": "/beli/products/798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+      "request": {
+        "name": "商城链路测试商品-1792566211167-1",
+        "description": "",
+        "kind": "physical",
+        "price": "100.00",
+        "stock": 20,
+        "leave_type": null,
+        "leave_days": null,
+        "active": false
+      },
+      "http_status": 200,
+      "response": {
+        "code": 0,
+        "message": "success",
+        "data": {
+          "created_at": "2026-10-21T15:03:32",
+          "name": "商城链路测试商品-1792566211167-1",
+          "kind": "physical",
+          "stock": 20,
+          "image_name": null,
+          "leave_days": null,
+          "description": "",
+          "updated_at": "2026-10-21T15:03:32",
+          "id": "798ebb0d-7c62-49cb-a37f-5ac582ce326b",
+          "price": "100.00",
+          "active": false,
+          "leave_type": null
+        }
+      }
+    }
+  ],
+  "balances_restored": true
+}

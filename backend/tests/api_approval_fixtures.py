@@ -85,9 +85,10 @@ class ApprovalHTTP:
         result, spec = body["approveResult"], entry["spec"]
         entry["instance"]["processStatus"] = result
         entry["nodeInstances"][0].update(nodeStatus=result, approveResult=result)
-        entry["record"][spec.status] = spec.passed if result == "1" else spec.rejected
+        rejected = "2" if spec.key in {"terminal", "direct", "kol"} else spec.rejected
+        entry["record"][spec.status] = spec.passed if result == "1" else rejected
         if self.fault == "wrong_final_status":
-            entry["record"][spec.status] = "2"
+            entry["record"][spec.status] = "3"
         return {"code": 200}
 
     def workflow(self, api, body, query, tail):

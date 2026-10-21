@@ -22,6 +22,9 @@ class MemoryRepository:
     def get(self, table, item_id):
         return deepcopy(self.tables.get(table, {}).get(item_id))
 
+    def get_many(self, table, item_ids):
+        return [self.get(table, item_id) for item_id in set(item_ids) if item_id in self.tables.get(table, {})]
+
     def list(self, table, keyword=None, project_id=None, page=1, page_size=20, data_filters=None):
         rows = list(self.tables.get(table, {}).values())
         rows = [row for row in rows if project_id is None or row.get("project_id") == project_id]
@@ -128,6 +131,20 @@ class ApiFlowsTest(unittest.TestCase):
         self.assertEqual(result["status"], "success")
         self.assertEqual(result["path"], ["login"])
         self.assertEqual(result["nodes"][1]["status"], "skipped")
+
+    def test_scene_node_names_apply_to_progress_failure_and_skipped_without_changing_template(self):
+        snapshot = self.snapshot({"nodes": {"login": {"name": "Supervisor rejects order", "params": {"password": "wrong"}},
+                                             "create": {"name": "Create meeting - weekly"}}})
+        progress = []
+        result = ApiFlowRunner(snapshot, Event(), progress.append).run()
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["nodes"][0]["name"], "Supervisor rejects order")
+        self.assertEqual(result["nodes"][1]["name"], "Create meeting - weekly")
+        self.assertEqual(result["nodes"][1]["status"], "skipped")
+        self.assertEqual(snapshot["flow"]["data"]["nodes"][0]["name"], "Login")
+        self.assertEqual(result["nodes"][2]["name"], "Delete")
+        ApiFlowRunner(self.snapshot({"nodes": {"login": {"name": "Supervisor approves order"}}}), Event(), progress.append).run()
+        self.assertEqual(progress[-1]["nodes"][0]["name"], "Supervisor approves order")
 
     def test_condition_skip_and_missing_dependency_failure(self):
         result = ApiFlowRunner(self.snapshot({"nodes": {"delete": {"mode": "condition", "condition": {"source": "global", "name": "cleanup", "value": True}}}}), Event()).run()

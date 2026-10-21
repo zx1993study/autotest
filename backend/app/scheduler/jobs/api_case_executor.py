@@ -7,13 +7,16 @@ from urllib.error import HTTPError
 from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
-from jsonpointer import JsonPointerException, resolve_pointer
+from jsonpointer import JsonPointer, JsonPointerException, resolve_pointer
 
 from app.repositories.interfaces import ResourceRepository
 from app.scheduler.jobs.case_execution_base import CaseExecutionBase
 from app.services.project_auth_service import ProjectAuthService
 from app.utils.api_query_assertion import assert_query_result
+from app.utils.api_multipart import multipart_bytes, request_files
+from app.utils.api_number_delta import assert_number_delta
 from app.utils.api_rejection import assert_api_rejection
+from app.utils.api_report_metadata import case_report_metadata
 from app.utils.api_response import extract_response_code
 
 
@@ -24,7 +27,8 @@ class ApiCaseExecutor(CaseExecutionBase):
         super().__init__("API", repository)
 
     def execute(self, case: dict[str, Any], payload: dict[str, Any], *,
-                response_capture: dict[str, Any] | None = None, persist_record: bool = True) -> dict[str, Any]:
+                response_capture: dict[str, Any] | None = None, persist_record: bool = True,
+                flow_context: bool = False) -> dict[str, Any]:
         started_at = time.perf_counter()
         request_info: dict[str, Any] = {}
         response_status: int | None = None
@@ -34,6 +38,8 @@ class ApiCaseExecutor(CaseExecutionBase):
         error_message: str | None = None
 
         try:
+            if self.case_data(case).get("requires_flow") and not flow_context:
+                raise ValueError("此用例依赖隔离前置，请从所属功能场景执行")
             case, payload = self.prepare_execution(case, payload)
             request_info = self._build_api_request(case, payload)
             response_status, response_headers, response_body = self._send_http_request(request_info)
@@ -64,6 +70,7 @@ class ApiCaseExecutor(CaseExecutionBase):
                 "data": {
                     "case_id": case["id"],
                     "case_type": self.case_type,
+                    "report": case_report_metadata(case, request_info),
                     "mode": payload.get("mode", "local_headless"),
                     "request": request_info,
                     "response_status": response_status,
@@ -152,6 +159,8 @@ class ApiCaseExecutor(CaseExecutionBase):
             "headers": headers,
             "query": query,
             "body": body,
+            **({"files": request_files(request_spec["files"]), "project_id": project_id}
+               if request_spec.get("files") else {}),
             "timeout": int(payload.get("config", {}).get("timeout", 15))
             if isinstance(payload.get("config"), dict)
             else 15,
@@ -177,8 +186,9 @@ class ApiCaseExecutor(CaseExecutionBase):
             value = config.get(key)
             if isinstance(value, dict):
                 request_spec[key] = value
-        if "body" in config:
-            request_spec["body"] = config.get("body")
+        for key in ("body", "files"):
+            if key in config:
+                request_spec[key] = config.get(key)
 
     def _validate_dynamic_params(self, case: dict[str, Any], request_spec: dict[str, Any]) -> None:
         snapshot = case.get("_dynamic_values") or {}
@@ -261,7 +271,8 @@ class ApiCaseExecutor(CaseExecutionBase):
         method = str(request_info["method"]).upper()
         headers = dict(request_info.get("headers") or {})
         body = request_info.get("body")
-        data = self._body_bytes(method, headers, body)
+        data = (multipart_bytes(self.repository, request_info, headers) if request_info.get("files")
+                else self._body_bytes(method, headers, body))
         request_info["headers"] = headers
         request = Request(str(request_info["url"]), data=data, headers=headers, method=method)
         try:
@@ -314,6 +325,8 @@ class ApiCaseExecutor(CaseExecutionBase):
                                                     assertion.get("allowed_business_errors")))
             elif assertion_type == "json_query_result":
                 results.append(assert_query_result(response_body, assertion))
+            elif assertion_type == "json_number_delta":
+                results.append(assert_number_delta(response_body, assertion))
             elif assertion_type == "status":
                 expected = self.to_int(assertion.get("expected"))
                 passed = response_status == expected
@@ -337,6 +350,21 @@ class ApiCaseExecutor(CaseExecutionBase):
                 expected = str(assertion.get("expected") or "")
                 passed = expected in response_body
                 results.append({"type": assertion_type, "passed": passed, "expected": expected})
+            elif assertion_type == "json_pointer_exists":
+                expected, exists, valid = assertion.get("expected"), False, False
+                try:
+                    body = json.loads(response_body)
+                    pointer = JsonPointer(str(assertion.get("path") or ""))
+                    valid = isinstance(expected, bool)
+                    try:
+                        pointer.resolve(body)
+                        exists = True
+                    except JsonPointerException:
+                        pass
+                except (ValueError, TypeError, JsonPointerException):
+                    pass
+                results.append({"type": assertion_type, "passed": valid and exists is expected,
+                                "actual": exists, "expected": expected})
             elif assertion_type in {"json_equals", "json_pointer"}:
                 expected, actual, passed = assertion.get("expected"), None, False
                 try:

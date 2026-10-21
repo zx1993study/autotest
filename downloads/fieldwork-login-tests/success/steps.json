@@ -1,0 +1,92 @@
+{
+  "url": "https://test.waiqin.yios.cn/login",
+  "name": "登录页 - 正常登录",
+  "steps": [
+    {
+      "name": "填写账号",
+      "value": "{{username}}",
+      "action": "fill",
+      "locator": "请输入您的账号",
+      "input_key": "username",
+      "sort_order": 1,
+      "locator_type": "placeholder",
+      "frame_selector": "",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "填写密码",
+      "value": "{{password}}",
+      "action": "fill",
+      "locator": "请输入您的密码",
+      "input_key": "password",
+      "sensitive": true,
+      "sort_order": 2,
+      "locator_type": "placeholder",
+      "frame_selector": "",
+      "require_unique": true,
+      "take_screenshot": false
+    },
+    {
+      "name": "验证码出现时人工填写",
+      "action": "manual",
+      "locator": "请输入验证码",
+      "optional": true,
+      "input_key": "code",
+      "sort_order": 3,
+      "locator_type": "placeholder",
+      "frame_selector": "",
+      "require_unique": true,
+      "take_screenshot": false
+    },
+    {
+      "name": "提交登录表单",
+      "action": "click",
+      "locator": ".login-form .login-btn",
+      "sort_order": 4,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "展开登录用户菜单",
+      "action": "hover",
+      "locator": ".navbar .avatar-container",
+      "sort_order": 5,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "进入登录后的首页",
+      "action": "assert",
+      "locator": "#breadcrumb-container:has-text(\"首页\")",
+      "expected": "首页",
+      "sort_order": 6,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "验证已登录菜单",
+      "action": "assert",
+      "locator": ".el-dropdown-menu:visible",
+      "expected": "退出登录",
+      "sort_order": 7,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    }
+  ],
+  "case_type": "WEB",
+  "source_id": 10013,
+  "variables": {},
+  "source_evidence": {
+    "commit": "250b6bc4d4e56f1e5136f701e1344590fd24e849",
+    "sha256": "5fa0aea39a228401b85c9086b9fd9e74e92fca594eb1fad387a3b8d7f6647b20",
+    "outcome": "success",
+    "revision": "fieldwork-login-v1",
+    "source_file": "src/views/login.vue",
+    "navbar_sha256": "a2b9f980370d41b8ead5557660568ddfa259fc38fe8427da3888f8b95b6e9ad2"
+  }
+}

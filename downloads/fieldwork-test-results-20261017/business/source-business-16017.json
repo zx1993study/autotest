@@ -1,0 +1,803 @@
+{
+  "id": 17622,
+  "name": "[业务回归] 仓库管理 - 10-17 05:57:39",
+  "project_id": 10,
+  "description": null,
+  "status": "failed",
+  "data": {
+    "mode": "parallel",
+    "flow_id": 15791,
+    "results": [
+      {
+        "name": "条件查询 12184 - combined",
+        "path": [
+          "qs_12184",
+          "qq_12184"
+        ],
+        "nodes": [
+          {
+            "key": "create",
+            "name": "新增独立测试数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "locate",
+            "name": "列表查询并安全定位本次数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "detail",
+            "name": "详情查询与数据归属校验",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "edit",
+            "name": "编辑本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_edit",
+            "name": "再次查询并验证修改生效",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "delete",
+            "name": "删除本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_delete",
+            "name": "查询确认数据已删除",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "qs_12184",
+            "mode": "local_headless",
+            "name": "12184 筛选数据准备（只读）",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 593,
+            "outputs": {
+              "q_delFlag": "0",
+              "q_updateBy": "1",
+              "q_updateTime": "2026-10-17 13:47:02"
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/list?pageNum=1&pageSize=50",
+              "body": {},
+              "path": "/business/warehouse/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 50
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 188,
+            "response_body": "{\"code\":200,\"msg\":\"操作成功\",\"rows\":[{\"warehouseName\":\"直营网点补货订单_1792216019214_025372仓库\",\"customerId\":1120,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171347024361120\",\"warehouseId\":270,\"warehouseType\":\"2\",\"customerName\":\"直营网点补货订单_1792216019214_025372\",\"managerName\":\"直营网点补货订单_1792216019214_025372\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1120）\",\"createTime\":\"2026-10-17 13:47:02\",\"updateTime\":\"2026-10-17 13:47:02\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"直营网点补货订单_1792216006995_352869仓库\",\"customerId\":1119,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171346504951119\",\"warehouseId\":269,\"warehouseType\":\"2\",\"customerName\":\"直营网点补货订单_1792216006995_352869\",\"managerName\":\"直营网点补货订单_1792216006995_352869\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1119）\",\"createTime\":\"2026-10-17 13:46:50\",\"updateTime\":\"2026-10-17 13:46:50\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"江城商贸直营网点_1792215953427_175849仓库\",\"customerId\":1113,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171345547401113\",\"warehouseId\":268,\"warehouseType\":\"2\",\"customerName\":\"江城商贸直营网点_1792215953427_175849\",\"managerName\":\"江城商贸直营网点_1792215953427_175849\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1113）\",\"createTime\":\"2026-10-17 13:45:54\",\"updateTime\":\"2026-10-17 13:45:54\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"旧用例隔离_1792145250841_812375_直营仓\",\"customerId\":1109,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE20261016180733603\",\"warehouseId\":267,\"warehouseType\":\"2\",\"customerName\":\"旧用例隔离_1792145250841_812375\",\"managerName\":null,\"adminUserId\":1,\"remark\":null,\"createTime\":\"2026-10-16 18:07:34\",\"updateTime\":\"2026-10-16 18:07:34\",\"adminUserName\":\"超级管理员\",\"bindUserNames\":null},{\"warehouseName\":\"旧用例隔离_1792145199980_170624\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016180642415\",\"warehouseId\":266,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":1,\"remark\":null,\"createTime\":\"2026-10-16 18:06:42\",\"updateTime\":\"2026-10-16 18:06:43\",\"adminUserName\":\"超级管理员\",\"bindUserNames\":null},{\"warehouseName\":\"旧用例隔离_1792144903852_412546\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016180146237\",\"warehouseId\":265,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 18:01:46\",\"updateTime\":\"2026-10-16 18:01:46\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"江城商贸直营网点_1792136510783_542875仓库\",\"customerId\":1101,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610161541535431101\",\"warehouseId\":264,\"warehouseType\":\"2\",\"customerName\":\"江城商贸直营网点_1792136510783_542875\",\"managerName\":\"江城商贸直营网点_1792136510783_542875\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1101）\",\"createTime\":\"2026-10-16 15:41:53\",\"updateTime\":\"2026-10-16 15:41:53\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818532\",\"warehouseId\":262,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818509\",\"warehouseId\":261,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"x\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818508\",\"warehouseId\":260,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091114_9b1443\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151813277\",\"warehouseId\":258,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091078_61ad42\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151813256\",\"warehouseId\":257,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091292_58c67f\",\"customerId\":891,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE20261016151813400\",\"warehouseId\":259,\"warehouseType\":\"2\",\"customerName\":\"CE\",\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"测试\",\"customerId\":null,\"address\":\"测试1\",\"managerPhone\":\"test\",\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151809731\",\"warehouseId\":256,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":\"test\",\"adminUserId\":244,\"remark\":null,\"createTime\":\"2026-10-16 15:18:10\",\"updateTime\":\"2026-10-16 15:18:10\",\"adminUserName\":\"a3直营02\",\"bindUserNames\":\"超级管理员, 娃哈哈, 直营商001, 沃尔玛, 汉口A4直营端客户02, 小程序直营商002, 小程序直营商003, test1, test2025, 测试, 洪山, 洪山a1, 洪山a2, 洪山a3, 洪山a4, 洪山a1直营端2, 洪山a1直营端4, 洪山a1直营端0, 洪山a1直营端5, 洪山a1直营端3, 测试导入, 直营商, 直营121, 水水水水, JIANG, 0129导入, a3直营01, a3直营02, a3直营03, a3直营04, a3直营05, 0211测试直营商, 直营端测试距离01, 洪山a5\"},{\"warehouseName\":\"♾️仓库\",\"customerId\":1075,\"address\":\"你\",\"managerPhone\":\"3368888888\",\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610161104090941075\",\"warehouseId\":255,\"warehouseType\":\"2\",\"customerName\":\"♾️\",\"managerName\":\"我\",\"adminUserId\":253,\"remark\":\"审批通过自动创建（客户ID：1075）\",\"createTime\":\"2026-10-16 11:04:09\",\"updateTime\":\"2026-10-16 11:04:09\",\"adminUserName\":\"♾️\",\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"洪山配送仓_1791974819104_61ad42\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261014184700690\",\"warehouseId\":253,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-14 18:47:01\",\"updateTime\":\"2026-10-14 18:47:01\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1791974332119_449464\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261014183853639\",\"warehouseId\":252,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-14 18:38:54\",\"updateTime\":\"2026-10-14 18:38:54\",\"adminUserName\":null,\"bin...<truncated>",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "warehouse",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "仓库管理测试_1792216659690_185361",
+                "updated_marker": "仓库管理维护_1792216659690_185361"
+              },
+              "templates": {},
+              "generated_at_ms": 1792216659697
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:57:40 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "3eb6445c4f9747dfaf2c183f78670dec",
+              "Content-Type": "application/json",
+              "Content-Length": "26932"
+            }
+          },
+          {
+            "key": "qq_12184",
+            "mode": "local_headless",
+            "name": "12184 条件查询验证",
+            "error": null,
+            "status": "failed",
+            "case_id": 616,
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/warehouse/list?pageNum=1&pageSize=50&delFlag=0&updateTime=2026-10-17+13%3A47%3A02&updateBy=1",
+              "body": {},
+              "path": "/business/warehouse/list",
+              "query": {
+                "delFlag": "0",
+                "pageNum": 1,
+                "pageSize": 50,
+                "updateBy": "1",
+                "updateTime": "2026-10-17 13:47:02"
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 50,
+                  "mismatched_indices": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ]
+                },
+                "passed": false,
+                "expected": {
+                  "rules": [
+                    {
+                      "paths": [
+                        "/delFlag"
+                      ],
+                      "expected": "0",
+                      "operator": "eq"
+                    },
+                    {
+                      "paths": [
+                        "/updateTime"
+                      ],
+                      "expected": "2026-10-17 13:47:02",
+                      "operator": "eq"
+                    },
+                    {
+                      "paths": [
+                        "/updateBy"
+                      ],
+                      "expected": "1",
+                      "operator": "eq"
+                    }
+                  ],
+                  "min_items": 1
+                }
+              }
+            ],
+            "duration_ms": 182,
+            "response_body": "{\"code\":200,\"msg\":\"操作成功\",\"rows\":[{\"warehouseName\":\"直营网点补货订单_1792216019214_025372仓库\",\"customerId\":1120,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171347024361120\",\"warehouseId\":270,\"warehouseType\":\"2\",\"customerName\":\"直营网点补货订单_1792216019214_025372\",\"managerName\":\"直营网点补货订单_1792216019214_025372\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1120）\",\"createTime\":\"2026-10-17 13:47:02\",\"updateTime\":\"2026-10-17 13:47:02\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"直营网点补货订单_1792216006995_352869仓库\",\"customerId\":1119,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171346504951119\",\"warehouseId\":269,\"warehouseType\":\"2\",\"customerName\":\"直营网点补货订单_1792216006995_352869\",\"managerName\":\"直营网点补货订单_1792216006995_352869\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1119）\",\"createTime\":\"2026-10-17 13:46:50\",\"updateTime\":\"2026-10-17 13:46:50\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"江城商贸直营网点_1792215953427_175849仓库\",\"customerId\":1113,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610171345547401113\",\"warehouseId\":268,\"warehouseType\":\"2\",\"customerName\":\"江城商贸直营网点_1792215953427_175849\",\"managerName\":\"江城商贸直营网点_1792215953427_175849\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1113）\",\"createTime\":\"2026-10-17 13:45:54\",\"updateTime\":\"2026-10-17 13:45:54\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"旧用例隔离_1792145250841_812375_直营仓\",\"customerId\":1109,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE20261016180733603\",\"warehouseId\":267,\"warehouseType\":\"2\",\"customerName\":\"旧用例隔离_1792145250841_812375\",\"managerName\":null,\"adminUserId\":1,\"remark\":null,\"createTime\":\"2026-10-16 18:07:34\",\"updateTime\":\"2026-10-16 18:07:34\",\"adminUserName\":\"超级管理员\",\"bindUserNames\":null},{\"warehouseName\":\"旧用例隔离_1792145199980_170624\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016180642415\",\"warehouseId\":266,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":1,\"remark\":null,\"createTime\":\"2026-10-16 18:06:42\",\"updateTime\":\"2026-10-16 18:06:43\",\"adminUserName\":\"超级管理员\",\"bindUserNames\":null},{\"warehouseName\":\"旧用例隔离_1792144903852_412546\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016180146237\",\"warehouseId\":265,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 18:01:46\",\"updateTime\":\"2026-10-16 18:01:46\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"江城商贸直营网点_1792136510783_542875仓库\",\"customerId\":1101,\"address\":null,\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610161541535431101\",\"warehouseId\":264,\"warehouseType\":\"2\",\"customerName\":\"江城商贸直营网点_1792136510783_542875\",\"managerName\":\"江城商贸直营网点_1792136510783_542875\",\"adminUserId\":null,\"remark\":\"审批通过自动创建（客户ID：1101）\",\"createTime\":\"2026-10-16 15:41:53\",\"updateTime\":\"2026-10-16 15:41:53\",\"adminUserName\":null,\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818532\",\"warehouseId\":262,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818509\",\"warehouseId\":261,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"x\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151818508\",\"warehouseId\":260,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:19\",\"updateTime\":\"2026-10-16 15:18:19\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091114_9b1443\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151813277\",\"warehouseId\":258,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091078_61ad42\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151813256\",\"warehouseId\":257,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1792135091292_58c67f\",\"customerId\":891,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE20261016151813400\",\"warehouseId\":259,\"warehouseType\":\"2\",\"customerName\":\"CE\",\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-16 15:18:13\",\"updateTime\":\"2026-10-16 15:18:13\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"测试\",\"customerId\":null,\"address\":\"测试1\",\"managerPhone\":\"test\",\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261016151809731\",\"warehouseId\":256,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":\"test\",\"adminUserId\":244,\"remark\":null,\"createTime\":\"2026-10-16 15:18:10\",\"updateTime\":\"2026-10-16 15:18:10\",\"adminUserName\":\"a3直营02\",\"bindUserNames\":\"超级管理员, 娃哈哈, 直营商001, 沃尔玛, 汉口A4直营端客户02, 小程序直营商002, 小程序直营商003, test1, test2025, 测试, 洪山, 洪山a1, 洪山a2, 洪山a3, 洪山a4, 洪山a1直营端2, 洪山a1直营端4, 洪山a1直营端0, 洪山a1直营端5, 洪山a1直营端3, 测试导入, 直营商, 直营121, 水水水水, JIANG, 0129导入, a3直营01, a3直营02, a3直营03, a3直营04, a3直营05, 0211测试直营商, 直营端测试距离01, 洪山a5\"},{\"warehouseName\":\"♾️仓库\",\"customerId\":1075,\"address\":\"你\",\"managerPhone\":\"3368888888\",\"status\":\"0\",\"createBy\":\"1\",\"updateBy\":\"1\",\"delFlag\":\"0\",\"warehouseCode\":\"ZYSTORE202610161104090941075\",\"warehouseId\":255,\"warehouseType\":\"2\",\"customerName\":\"♾️\",\"managerName\":\"我\",\"adminUserId\":253,\"remark\":\"审批通过自动创建（客户ID：1075）\",\"createTime\":\"2026-10-16 11:04:09\",\"updateTime\":\"2026-10-16 11:04:09\",\"adminUserName\":\"♾️\",\"bindUserNames\":\"超级管理员\"},{\"warehouseName\":\"洪山配送仓_1791974819104_61ad42\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261014184700690\",\"warehouseId\":253,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-14 18:47:01\",\"updateTime\":\"2026-10-14 18:47:01\",\"adminUserName\":null,\"bindUserNames\":null},{\"warehouseName\":\"洪山配送仓_1791974332119_449464\",\"customerId\":null,\"address\":\"武汉市洪山区配送中心\",\"managerPhone\":null,\"status\":\"0\",\"createBy\":\"admin\",\"updateBy\":\"admin\",\"delFlag\":\"0\",\"warehouseCode\":\"ZCSTORE20261014183853639\",\"warehouseId\":252,\"warehouseType\":\"1\",\"customerName\":null,\"managerName\":null,\"adminUserId\":null,\"remark\":null,\"createTime\":\"2026-10-14 18:38:54\",\"updateTime\":\"2026-10-14 18:38:54\",\"adminUserName\":null,\"bin...<truncated>",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "warehouse",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "仓库管理测试_1792216659690_185361",
+                "updated_marker": "仓库管理维护_1792216659690_185361",
+                "bound_q_delFlag": "0",
+                "bound_q_updateBy": "1",
+                "bound_q_updateTime": "2026-10-17 13:47:02"
+              },
+              "templates": {
+                "$.assertions[2].rules[0].expected": "{{bound_q_delFlag}}",
+                "$.assertions[2].rules[1].expected": "{{bound_q_updateTime}}",
+                "$.assertions[2].rules[2].expected": "{{bound_q_updateBy}}"
+              },
+              "generated_at_ms": 1792216659891
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:57:40 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "4124779a75b54f20b494e5efb3f18cc0",
+              "Content-Type": "application/json",
+              "Content-Length": "26932"
+            }
+          },
+          {
+            "key": "qs_12188",
+            "name": "12188 筛选数据准备（只读）",
+            "reason": "流程已结束或前置节点失败",
+            "status": "skipped"
+          },
+          {
+            "key": "qq_12188",
+            "name": "12188 条件查询验证",
+            "reason": "流程已结束或前置节点失败",
+            "status": "skipped"
+          },
+          {
+            "key": "qs_12192",
+            "name": "12192 筛选数据准备（只读）",
+            "reason": "流程已结束或前置节点失败",
+            "status": "skipped"
+          },
+          {
+            "key": "qq_12192",
+            "name": "12192 条件查询验证",
+            "reason": "流程已结束或前置节点失败",
+            "status": "skipped"
+          }
+        ],
+        "inputs": {
+          "module_key": "warehouse",
+          "campaign_key": "waiqin-crud-20261015",
+          "record_marker": "仓库管理测试_1792216659690_185361",
+          "updated_marker": "仓库管理维护_1792216659690_185361"
+        },
+        "status": "failed",
+        "snapshot": {
+          "flow": {
+            "id": 15791,
+            "data": {
+              "nodes": [
+                {
+                  "key": "create",
+                  "name": "新增独立测试数据",
+                  "next": "auto",
+                  "api_id": 12186,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 294,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "locate",
+                  "name": "列表查询并安全定位本次数据",
+                  "next": "auto",
+                  "api_id": 12184,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 295,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "owned_id",
+                      "path": "/rows/0/warehouseId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "detail",
+                  "name": "详情查询与数据归属校验",
+                  "next": "auto",
+                  "api_id": 12191,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 296,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/warehouse_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "edit",
+                  "name": "编辑本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12185,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 297,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/warehouseId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_edit",
+                  "name": "再次查询并验证修改生效",
+                  "next": "auto",
+                  "api_id": 12191,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 298,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/warehouse_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "delete",
+                  "name": "删除本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12190,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 299,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/warehouse_ids",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_delete",
+                  "name": "查询确认数据已删除",
+                  "next": "auto",
+                  "api_id": 12191,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 300,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/warehouse_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12184",
+                  "name": "12184 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12184,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 593,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12184",
+                  "name": "12184 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12184,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 594,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12188",
+                  "name": "12188 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12188,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 619,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12188",
+                  "name": "12188 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12188,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 620,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qs_12192",
+                  "name": "12192 筛选数据准备（只读）",
+                  "next": "auto",
+                  "api_id": 12192,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 622,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "qq_12192",
+                  "name": "12192 条件查询验证",
+                  "next": "auto",
+                  "api_id": 12192,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 623,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                }
+              ],
+              "inputs": {
+                "module_key": "warehouse",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "仓库管理测试_{{timestamp_ms}}_{{random_digits:6}}",
+                "updated_marker": "仓库管理维护_{{timestamp_ms}}_{{random_digits:6}}"
+              },
+              "version": 2
+            },
+            "name": "[业务回归] 仓库管理",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T10:44:12",
+            "project_id": 10,
+            "updated_at": "2026-10-15T11:47:26",
+            "description": "仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。"
+          },
+          "scenario": {
+            "id": 16017,
+            "data": {
+              "nodes": {
+                "edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "create": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "detail": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "locate": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12184": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": 616,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "q_delFlag",
+                      "path": "/delFlag",
+                      "prefix": "",
+                      "source": "qs_12184",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "q_updateTime",
+                      "path": "/updateTime",
+                      "prefix": "",
+                      "source": "qs_12184",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "q_updateBy",
+                      "path": "/updateBy",
+                      "prefix": "",
+                      "source": "qs_12184",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12188": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qq_12192": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12184": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "q_delFlag",
+                      "path": "/delFlag",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/delFlag",
+                          "/updateBy",
+                          "/updateTime"
+                        ]
+                      },
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "single",
+                      "name": "q_updateTime",
+                      "path": "/updateTime",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/delFlag",
+                          "/updateBy",
+                          "/updateTime"
+                        ]
+                      },
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "single",
+                      "name": "q_updateBy",
+                      "path": "/updateBy",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": {
+                        "path": "/rows",
+                        "equals": {},
+                        "non_empty": [
+                          "/delFlag",
+                          "/updateBy",
+                          "/updateTime"
+                        ]
+                      },
+                      "sensitive": false
+                    }
+                  ],
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12188": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "qs_12192": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                }
+              },
+              "inputs": {},
+              "flow_id": 15791,
+              "expected_end": "qq_12184",
+              "latest_run_id": 16976,
+              "latest_status": "failed",
+              "failure_policy": "stop",
+              "template_version": 2
+            },
+            "name": "条件查询 12184 - combined",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T11:47:31",
+            "project_id": 10,
+            "updated_at": "2026-10-16T17:47:23",
+            "description": "逐行验证筛选结果；命中场景要求非空，不把空列表算作通过。"
+          }
+        },
+        "end_passed": true,
+        "duration_ms": 378,
+        "scenario_id": 16017,
+        "expected_end": "qq_12184",
+        "template_version": 2
+      }
+    ],
+    "concurrency": 4,
+    "template_version": 2
+  },
+  "created_at": "2026-10-17T13:57:39",
+  "updated_at": "2026-10-17T13:57:41",
+  "deleted": false
+}

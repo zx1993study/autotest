@@ -1,0 +1,199 @@
+{
+  "applied_at": "2026-10-16T05:34:18.532067+00:00",
+  "business_mutations": false,
+  "flow_version": 3,
+  "changes": [
+    {
+      "scene_id": 16206,
+      "case_id": 819,
+      "before": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "/code",
+          "type": "json_pointer",
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/cooperationStatus"
+              ],
+              "expected": "{{bound_q_cooperationStatus}}",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            }
+          ],
+          "min_items": 1
+        }
+      ],
+      "after": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "/code",
+          "type": "json_pointer",
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/cooperationStatus"
+              ],
+              "expected": "{{bound_q_cooperationStatus}}",
+              "operator": "tokens"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            }
+          ],
+          "min_items": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 16227,
+      "case_id": 840,
+      "before": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "/code",
+          "type": "json_pointer",
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/managerIds"
+              ],
+              "expected": "{{bound_q_managerId}}",
+              "operator": "tokens"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/createBy"
+              ],
+              "expected": "{{bound_q_createBy}}",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/cooperationStatus"
+              ],
+              "expected": "{{bound_q_cooperationStatus}}",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            }
+          ],
+          "min_items": 1
+        }
+      ],
+      "after": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "/code",
+          "type": "json_pointer",
+          "expected": 200
+        },
+        {
+          "path": "/rows",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/managerIds"
+              ],
+              "expected": "{{bound_q_managerId}}",
+              "operator": "tokens"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/createBy"
+              ],
+              "expected": "{{bound_q_createBy}}",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/cooperationStatus"
+              ],
+              "expected": "{{bound_q_cooperationStatus}}",
+              "operator": "tokens"
+            },
+            {
+              "paths": [
+                "/customerType"
+              ],
+              "expected": "1",
+              "operator": "eq"
+            }
+          ],
+          "min_items": 1
+        }
+      ]
+    }
+  ]
+}

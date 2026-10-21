@@ -1,5 +1,5 @@
-import { computed, onBeforeUnmount, ref } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import * as api from '../services/api-flow.service'
 import { listRemoteOptions } from '../services/resource.service'
 import { cloneFlowValue } from '../types/api-flow'
@@ -28,13 +28,34 @@ export function useApiFlowWorkspace(flowId: number) {
   let timer: ReturnType<typeof setTimeout> | undefined
   let pollGeneration = 0
   let disposed = false
+  let scenesRequest: AbortController | undefined
 
   async function action(work: () => Promise<void>) {
     busy.value = true; error.value = ''; message.value = ''
     try { await work() } catch (err) { error.value = err instanceof Error ? err.message : '操作失败' }
     finally { busy.value = false }
   }
-  async function refreshScenes() { scenes.value = await api.listFlowScenarios(flowId) }
+  async function refreshScenes() {
+    scenesRequest?.abort()
+    const controller = scenesRequest = new AbortController()
+    const rows = await api.listFlowScenarios(flowId, controller.signal)
+    if (flow.value && rows.some(scene => scene.data.template_version > flow.value!.data.version) && !dirty.value) {
+      const record = await api.getApiFlow(flowId)
+      if (!disposed && scenesRequest === controller && !dirty.value && !editingScene.value) {
+        flow.value = record; definition.value = cloneFlowValue(record.data)
+      }
+    }
+    if (!disposed && scenesRequest === controller) scenes.value = rows
+  }
+  function refreshVisibleScenes() {
+    if (document.visibilityState !== 'visible' || busy.value || loading.value || dirty.value
+      || editingScene.value || showRunDialog.value || tab.value !== 'scenes') return
+    void action(refreshScenes)
+  }
+  function selectTab(value: string) {
+    tab.value = value
+    if (value === 'scenes') refreshVisibleScenes()
+  }
   async function refreshRuns() { runs.value = await api.listFlowRuns(flowId) }
   async function load() {
     loading.value = true
@@ -91,6 +112,7 @@ export function useApiFlowWorkspace(flowId: number) {
     clearTimeout(timer); pollGeneration++
     await action(async () => { currentRun.value = await api.getFlowRun(flowId, id); poll() })
   }
+  function closeRun() { clearTimeout(timer); pollGeneration++; currentRun.value = null }
   async function cancelRun(id: number) { await action(async () => { const result = await api.cancelFlowRun(flowId, id); message.value = result.message; poll() }) }
   function poll() {
     clearTimeout(timer)
@@ -104,15 +126,26 @@ export function useApiFlowWorkspace(flowId: number) {
         if (generation !== pollGeneration || currentRun.value?.id !== runId || disposed) return
         currentRun.value = record
         await refreshRuns()
+        if (generation !== pollGeneration || currentRun.value?.id !== runId || disposed) return
         if (!['queued', 'running'].includes(currentRun.value.status)) await refreshScenes()
         poll()
       } catch (err) { error.value = err instanceof Error ? err.message : '运行状态获取失败' }
     }, 1500)
   }
-  onBeforeRouteLeave(() => !dirty.value || window.confirm('放弃未保存的流程模板修改？'))
-  onBeforeUnmount(() => { disposed = true; clearTimeout(timer) })
+  const confirmNavigation = () => !dirty.value || window.confirm('放弃未保存的流程模板修改？')
+  onBeforeRouteLeave(confirmNavigation)
+  onBeforeRouteUpdate((to, from) => to.params.flowId === from.params.flowId || confirmNavigation())
+  onMounted(() => {
+    window.addEventListener('focus', refreshVisibleScenes)
+    document.addEventListener('visibilitychange', refreshVisibleScenes)
+  })
+  onBeforeUnmount(() => {
+    disposed = true; clearTimeout(timer); scenesRequest?.abort()
+    window.removeEventListener('focus', refreshVisibleScenes)
+    document.removeEventListener('visibilitychange', refreshVisibleScenes)
+  })
   return {flow, definition, scenes, runs, currentRun, apis, auths, selected, tab, busy, loading, error, message,
     editingScene, runScenes, showRunDialog, dirty, load, saveTemplate, createScene, editScene, saveScene,
-    copyScene, toggleScene, deleteScene, syncScene, openRun, startRun, selectRun, cancelRun,
-    refreshRuns: () => action(refreshRuns)}
+    copyScene, toggleScene, deleteScene, syncScene, openRun, startRun, selectRun, cancelRun, closeRun,
+    selectTab, refreshRuns: () => action(refreshRuns)}
 }

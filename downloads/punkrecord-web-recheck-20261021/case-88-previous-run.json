@@ -1,0 +1,60 @@
+{
+  "case_id": 88,
+  "feature_id": 19011,
+  "name": "CASE BUG02-filter-refresh 独立Bug页面标题搜索、状态筛选和刷新保持",
+  "task_id": 21397,
+  "status": "success",
+  "records": [
+    {
+      "id": 21398,
+      "status": "success",
+      "error": null,
+      "step_count": 15,
+      "business_result": "passed",
+      "assertion_count": 5,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":text-is(\"第 1 页 · 共 1 项\")",
+          "step": 9,
+          "actual": "第 1 页 · 共 1 项",
+          "passed": true,
+          "locator": ":text-is(\"第 1 页 · 共 1 项\")",
+          "expected": "共 1 项"
+        },
+        {
+          "name": ":text-is(\"第 1 页 · 共 0 项\")",
+          "step": 11,
+          "actual": "第 1 页 · 共 0 项",
+          "passed": true,
+          "locator": ":text-is(\"第 1 页 · 共 0 项\")",
+          "expected": "共 0 项"
+        },
+        {
+          "name": ":text-is(\"第 1 页 · 共 0 项\")",
+          "step": 13,
+          "actual": "第 1 页 · 共 0 项",
+          "passed": true,
+          "locator": ":text-is(\"第 1 页 · 共 0 项\")",
+          "expected": "共 0 项"
+        },
+        {
+          "name": ":text-is(\"第 1 页 · 共 1 项\")",
+          "step": 15,
+          "actual": "第 1 页 · 共 1 项",
+          "passed": true,
+          "locator": ":text-is(\"第 1 页 · 共 1 项\")",
+          "expected": "共 1 项"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/project/55db3339-8577-424f-827a-783940c51884/bugs?title=casemixed"
+    }
+  ]
+}

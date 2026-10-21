@@ -6,6 +6,7 @@ from typing import Any
 from app.core.exceptions import BusinessRuleError, ResourceNotFoundError
 from app.repositories.interfaces import ResourceRepository
 from app.services.auth_file_service import AuthFileService
+from app.services.project_auth_token_service import ProjectAuthTokenService, TOKEN_KEYS
 from app.utils.auth_token import normalize_auth_token
 
 
@@ -131,36 +132,24 @@ class ProjectAuthService:
         )
         existing_data = self._record_data(existing)
         filename = str(existing_data.get("token_file") or "")
-        if not filename:
-            filename = f"{self._safe_file_stem(name)}-{source_record_id or login_case_id or int(time.time())}.json"
         saved_at = int(time.time())
-        filename = AuthFileService().save_json(
-            filename,
-            {
-                "type": auth_type,
-                "token": token,
-                "project_id": project_id,
-                "auth_name": str(existing.get("name") or name) if existing else name,
-                "header_name": header_name,
-                "source_record_id": source_record_id,
-                "login_case_id": login_case_id,
-                "saved_at": saved_at,
-                "updated_at": saved_at,
-            },
-        )
         data = {
             **existing_data,
             "auth_type": auth_type,
             "login_case_type": login_case_type,
             "login_case_id": login_case_id,
             "source_record_id": source_record_id,
-            "token_file": filename,
+            "token_encrypted": ProjectAuthTokenService().encrypt(token),
+            "token_storage": "database",
+            "token_updated_at": saved_at,
             "header_name": header_name,
             "token_source": "api_response",
             "refresh_strategy": str(
                 payload.get("refresh_strategy") or existing_data.get("refresh_strategy") or "manual"
             ),
         }
+        for key in (*TOKEN_KEYS, "token_file", "token_saved"):
+            data.pop(key, None)
         payload_data = {
             "name": str(existing.get("name") or name) if target_auth_id and existing else name,
             "project_id": project_id,
@@ -172,8 +161,12 @@ class ProjectAuthService:
         }
         if existing:
             updated = self.repository.update("project_auth", int(existing["id"]), payload_data)
-            return self._hide_token(updated or existing)
-        return self._hide_token(self.repository.create("project_auth", payload_data))
+            if not updated:
+                raise ResourceNotFoundError("未找到鉴权信息")
+        else:
+            updated = self.repository.create("project_auth", payload_data)
+        ProjectAuthTokenService.remove_unused_file(self.repository, filename)
+        return self._hide_token(updated)
 
     def auth_headers(self, auth_id: Any) -> dict[str, str]:
         auth = self._auth(auth_id)
@@ -182,7 +175,9 @@ class ProjectAuthService:
         data = self._record_data(auth)
         auth_type = str(data.get("auth_type") or "").lower()
         header_name = str(data.get("header_name") or "Authorization")
-        token = data.get("token") or data.get("access_token") or data.get("value")
+        token = ProjectAuthTokenService().decrypt(data["token_encrypted"]) if data.get("token_encrypted") else (
+            data.get("token") or data.get("access_token") or data.get("accessToken") or data.get("value")
+        )
         if not token and data.get("token_file"):
             token = self._token_from_file(str(data["token_file"]))
 
@@ -401,6 +396,8 @@ class ProjectAuthService:
             "token": "",
             "refresh_strategy": refresh_strategy,
         }
+        for key in ("token_encrypted", "token_storage", "token_saved"):
+            data.pop(key, None)
         payload = {
             "name": auth_name,
             "project_id": project_id,
@@ -492,14 +489,7 @@ class ProjectAuthService:
         return data if isinstance(data, dict) else {}
 
     def _hide_token(self, auth: dict[str, Any]) -> dict[str, Any]:
-        result = dict(auth)
-        data = result.get("data")
-        if isinstance(data, dict):
-            clean_data = dict(data)
-            for key in ("token", "access_token", "accessToken", "value"):
-                clean_data.pop(key, None)
-            result["data"] = clean_data
-        return result
+        return ProjectAuthTokenService.public_auth(auth)
 
     def _to_int(self, value: Any) -> int | None:
         try:

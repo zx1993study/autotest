@@ -1,0 +1,152 @@
+{
+  "flow_id": 21138,
+  "version": 2,
+  "scenarios": [
+    {
+      "id": 21139,
+      "kind": "absent",
+      "name": "ATT-UPLOAD-ABSENT 文稿缺席扣除500贝利"
+    },
+    {
+      "id": 21140,
+      "kind": "repeat",
+      "name": "ATT-UPLOAD-REPEAT 重复上传不重复扣款"
+    },
+    {
+      "id": 21142,
+      "kind": "present",
+      "name": "ATT-UPLOAD-PRESENT 文稿出席不扣款"
+    },
+    {
+      "id": 21143,
+      "kind": "correction",
+      "name": "ATT-UPLOAD-CORRECTION 补传出席文稿退还已扣贝利"
+    },
+    {
+      "id": 21144,
+      "kind": "weekly",
+      "name": "ATT-UPLOAD-WEEKLY 周会上传不产生早会扣款"
+    },
+    {
+      "id": 21145,
+      "kind": "duplicate",
+      "name": "ATT-UPLOAD-DUPLICATE 文稿同名人员未映射不自动认定出席"
+    },
+    {
+      "id": 21146,
+      "kind": "invalid",
+      "name": "ATT-UPLOAD-INVALID 无效文稿拒绝后会议可查且不重复扣款"
+    }
+  ],
+  "resources": {
+    "meetings": {
+      "api_id": 17906,
+      "case_id": 4570
+    },
+    "create": {
+      "api_id": 17983,
+      "case_id": 4571
+    },
+    "upload": {
+      "api_id": 21141,
+      "case_id": 4572
+    },
+    "detail": {
+      "api_id": 17987,
+      "case_id": 4573
+    },
+    "delete": {
+      "api_id": 20530,
+      "case_id": 4574
+    },
+    "attendance": {
+      "api_id": 20476,
+      "case_id": 4575
+    },
+    "accounts": {
+      "api_id": 18204,
+      "case_id": 4576
+    },
+    "ledger": {
+      "api_id": 18200,
+      "case_id": 4577
+    },
+    "attendance_admin": {
+      "api_id": 20476,
+      "case_id": 4578
+    },
+    "duplicate_attendance": {
+      "api_id": 20476,
+      "case_id": 4579
+    },
+    "duplicate_accounts": {
+      "api_id": 18204,
+      "case_id": 4580
+    },
+    "duplicate_ledger": {
+      "api_id": 18200,
+      "case_id": 4581
+    }
+  },
+  "files": {
+    "provided": {
+      "field": "file",
+      "filename": "provided.docx",
+      "sha256": "9b96e93023b30d528ffc6d678e3b84ca3d4bd04f3d5e77f2f73149dbe1f0d739",
+      "size": 10529,
+      "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "present": {
+      "field": "file",
+      "filename": "present.docx",
+      "sha256": "7b7422e80695c6f5cd82e935d4efaa9d1a028ff1d0a75ecb907769fc085c5b1e",
+      "size": 9604,
+      "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "absent": {
+      "field": "file",
+      "filename": "absent.docx",
+      "sha256": "a966039c8b48c67528338cc82ac1d71667dfa9a783840a0fefcd94c2c225d7bf",
+      "size": 9572,
+      "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "invalid": {
+      "field": "file",
+      "filename": "invalid.docx",
+      "sha256": "24a5ed634305f87c117a23d52804fc3086b14b09b5c4ceecfbb8adfeb30632c7",
+      "size": 19,
+      "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+  },
+  "names": {
+    "provided": [
+      "test_user1",
+      "test_user3",
+      "test_user4",
+      "小雪",
+      "殷萄",
+      "杨喆",
+      "66"
+    ],
+    "present": [
+      "test_user2",
+      "test_user1",
+      "test_user3",
+      "test_user4",
+      "小雪",
+      "殷萄",
+      "杨喆",
+      "66"
+    ],
+    "absent": [
+      "test_user1",
+      "test_user3",
+      "test_user4",
+      "小雪",
+      "殷萄",
+      "杨喆",
+      "66"
+    ]
+  },
+  "business_writes": 0
+}

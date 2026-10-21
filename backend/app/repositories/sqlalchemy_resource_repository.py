@@ -35,6 +35,15 @@ TEST_CASE_RECORDS = {
     "miniapp_test_cases": (MiniappTestCaseRecord, "MINIAPP"),
 }
 
+ID_DESC_RESOURCE_TABLES = {
+    "execution_flows",
+    "api_flow_scenarios",
+    "api_flow_runs",
+    "api_interfaces",
+    "api_fields",
+    "case_drafts",
+}
+
 
 class SqlAlchemyResourceRepository(ResourceRepository):
     def __init__(self, db: Session) -> None:
@@ -102,11 +111,12 @@ class SqlAlchemyResourceRepository(ResourceRepository):
             query = query.filter(self._json_value_filter(ResourceRecord.data_json["data"][key], value))
         id_query = query.with_entities(ResourceRecord.id)
         total = id_query.count()
-        order_by = (
-            (ResourceRecord.id.asc(),)
-            if table == "web_elements"
-            else (ResourceRecord.updated_at.desc(), ResourceRecord.id.desc())
-        )
+        if table == "web_elements":
+            order_by = (ResourceRecord.id.asc(),)
+        elif table in ID_DESC_RESOURCE_TABLES:
+            order_by = (ResourceRecord.id.desc(),)
+        else:
+            order_by = (ResourceRecord.updated_at.desc(), ResourceRecord.id.desc())
         # DISTINCT prevents MySQL from merging JSON filters back into the sorted query.
         matching_ids = id_query.distinct().subquery("matching_resources")
         page_query = self.db.query(ResourceRecord.id).join(
@@ -181,6 +191,11 @@ class SqlAlchemyResourceRepository(ResourceRepository):
 
         return execution_flow_summaries(self.db, flow_ids)
 
+    def api_report_rows(self, query):
+        from app.repositories.sqlalchemy_api_report import list_api_reports
+
+        return list_api_reports(self.db, query)
+
     def app_feature_summaries(self, feature_ids):
         from app.repositories.sqlalchemy_feature_summary import app_feature_summaries
 
@@ -190,6 +205,11 @@ class SqlAlchemyResourceRepository(ResourceRepository):
         from app.repositories.sqlalchemy_feature_summary import web_feature_counts
 
         return web_feature_counts(self.db, feature_ids)
+
+    def web_execution_snapshots(self, query):
+        from app.repositories.sqlalchemy_web_execution_summary import web_execution_snapshots
+
+        return web_execution_snapshots(self.db, query)
 
     def report_statistics(self, project_id, start, end):
         from app.repositories.sqlalchemy_report_statistics import report_statistics
@@ -418,11 +438,34 @@ class SqlAlchemyResourceRepository(ResourceRepository):
         return True
 
     def batch_delete(self, table: str, ids: list[int]) -> int:
-        count = 0
-        for item_id in set(ids):
-            if self.delete(table, item_id):
-                count += 1
-        return count
+        from app.repositories.sqlalchemy_batch_deletion import soft_delete_ids
+
+        if table in TEST_CASE_RECORDS:
+            model, _ = TEST_CASE_RECORDS[table]
+            return soft_delete_ids(self.db, model, ids)
+        return soft_delete_ids(self.db, ResourceRecord, ids, (ResourceRecord.table_name == table,))
+
+    def batch_delete_with_children(self, table, ids, child_table, parent_key):
+        from app.repositories.sqlalchemy_batch_deletion import soft_delete_with_children
+
+        return soft_delete_with_children(self.db, table, ids, child_table, parent_key)
+
+    def get_related(self, table, parent_key, parent_ids, statuses=None):
+        from app.repositories.sqlalchemy_batch_deletion import (
+            id_batches,
+            related_id_filter,
+        )
+
+        rows = []
+        for batch in id_batches(parent_ids):
+            query = self.db.query(ResourceRecord).filter(
+                ResourceRecord.table_name == table, ResourceRecord.deleted.is_(False),
+                related_id_filter(parent_key, batch),
+            )
+            if statuses is not None:
+                query = query.filter(ResourceRecord.status.in_(statuses))
+            rows.extend(self._to_dict(row) for row in query.all())
+        return rows
 
     def delete_by_project(self, table: str, project_id: int) -> int:
         if table in TEST_CASE_RECORDS:
@@ -504,7 +547,7 @@ class SqlAlchemyResourceRepository(ResourceRepository):
                 query = query.filter(self._json_value_filter(model.data_json[key], value))
         total = query.count()
         rows = (
-            query.order_by(model.updated_at.desc(), model.id.desc())
+            query.order_by(model.id.desc())
             .offset((page - 1) * page_size)
             .limit(page_size)
             .all()

@@ -1,0 +1,1 @@
+import{I as i}from"./index-DH8OPOfd.js";function a(t){const e={concurrency:5,timeout:15,...t.config},n=[...new Set(t.case_ids)],c=Math.max(1,Math.min(10,e.concurrency)),s=Math.ceil(n.length/c),o=Math.max(6e4,s*e.timeout*1e3+n.length*2e3+3e4);return i({method:"POST",url:"/api-testing/cases/run",data:{...t,case_ids:n,config:e},timeout:o})}export{a as r};

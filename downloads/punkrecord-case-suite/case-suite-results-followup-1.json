@@ -1,0 +1,3472 @@
+{
+  "target": "http://14.103.229.153:15173",
+  "project_id": 17796,
+  "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+  "run_prefix": "CASE_20261019_141210",
+  "started_at": "2026-10-19T14:12:10.336618+08:00",
+  "catalog": [
+    {
+      "id": "TODO-01",
+      "section": "任务与 Bug",
+      "scenario": "普通待办、项目详情、开发任务、Bug、批量生成、同步、MCP 创建",
+      "expected": "截止日期必填；工时省略或0均成功且默认0；拒绝负数、显式null、超过两位小数和非有限值",
+      "source": ".agent/test/cases.md",
+      "line": 7,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_mcp_todo_tools.py",
+      "existing_test_filter": "task_creation; generate_development; sync_feature; mcp_creates",
+      "remote_gap": "跨创建来源的真实 HTTP 参数边界",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-02",
+      "section": "任务与 Bug",
+      "scenario": "修改项目任务后打开待办，反向修改后打开项目",
+      "expected": "ID和计划字段一致，图片与状态不丢失",
+      "source": ".agent/test/cases.md",
+      "line": 8,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_project_workflow.py",
+      "existing_test_filter": "project_todo_plan",
+      "remote_gap": "同一任务双向编辑、真实图片与状态持久化",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-03",
+      "section": "任务与 Bug",
+      "scenario": "重复同步功能清单、重复生成同一功能任务",
+      "expected": "不重建任务、不重置审核与附件、不复制Bug",
+      "source": ".agent/test/cases.md",
+      "line": 9,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "sync_preserves_identity",
+      "remote_gap": "重复生成/同步后身份、审核和附件不丢失",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-04",
+      "section": "任务与 Bug",
+      "scenario": "历史任务缺少日期或工时",
+      "expected": "日期提交前补齐；空工时按未设置显示0，不阻止验收、不参与奖励；不覆盖历史数据",
+      "source": ".agent/test/cases.md",
+      "line": 10,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_completed; mandatory_backfill",
+      "remote_gap": "历史缺失字段需隔离历史夹具，不能修改存量业务记录",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-05",
+      "section": "任务与 Bug",
+      "scenario": "退回重提、审核延迟、时区跨日",
+      "expected": "保留最终通过版本的提交时间；按上海自然日计算延期",
+      "source": ".agent/test/cases.md",
+      "line": 11,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "task_required_fields; timezone",
+      "remote_gap": "退回重提、最终提交时间及上海自然日结算",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-07",
+      "section": "任务与 Bug",
+      "scenario": "历史待验收缺少提交时间",
+      "expected": "明确拒绝直接验收，允许撤回重提后正常验收；不伪造时间",
+      "source": ".agent/test/cases.md",
+      "line": 12,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_pending_review",
+      "remote_gap": "缺少提交时间的历史夹具与撤回重提",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-06",
+      "section": "任务与 Bug",
+      "scenario": "完成任务展开、加载更多",
+      "expected": "按完成时间排序，每次10项；不回归原有行为",
+      "source": ".agent/test/cases.md",
+      "line": 13,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_todo_ordering.py",
+      "existing_test_filter": "done_todos",
+      "remote_gap": "分页大小10、展开/加载更多及跨页排序",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "TODO-08",
+      "section": "任务与 Bug",
+      "scenario": "正数/0/空工时的待办卡片，编辑工时；看板/列表、我的/团队、已完成与暗色",
+      "expected": "正数显示绿色与“贝利任务”标识，其余普通样式；归零后恢复，恢复正数后重新显示；手机文字不溢出，不改变优先级/状态语义",
+      "source": ".agent/test/cases.md",
+      "line": 14,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "scripts/test-planning-ui.cjs",
+      "existing_test_filter": "beli-task",
+      "remote_gap": "远程桌面/手机、明暗色、看板/列表/团队完整组合",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-01",
+      "section": "任务与 Bug",
+      "scenario": "同项目跨端标题搜索、空查询、无结果、分页",
+      "expected": "大小写不敏感的子串查询；百分号和下划线按字面查询",
+      "source": ".agent/test/cases.md",
+      "line": 15,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_mcp_todo_tools.py",
+      "existing_test_filter": "bug_title; search_project_bugs",
+      "remote_gap": "真实字面量百分号/下划线、大小写和分页断言",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-02",
+      "section": "任务与 Bug",
+      "scenario": "筛选后刷新、翻页、浏览器前进后退",
+      "expected": "URL保留搜索与筛选条件，结果和地址一致",
+      "source": ".agent/test/cases.md",
+      "line": 16,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "scripts/test-planning-ui.cjs",
+      "existing_test_filter": "Bug状态",
+      "remote_gap": "远程刷新、翻页、浏览器历史和URL一致",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BUG-03",
+      "section": "任务与 Bug",
+      "scenario": "独立页创建、编辑、补图、预览、验收、重开",
+      "expected": "仍操作同一条待办；桌面/手机无页面级横向溢出",
+      "source": ".agent/test/cases.md",
+      "line": 17,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_project_workflow.py; scripts/test-planning-ui.cjs",
+      "existing_test_filter": "reassign_bug",
+      "remote_gap": "独立页完整生命周期、图片、390视口",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-01",
+      "section": "请假与权限",
+      "scenario": "创建、批准、拒绝请假",
+      "expected": "不创建、不改动Todo；批准时仅扣对应假期并留流水",
+      "source": ".agent/test/cases.md",
+      "line": 25,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "leave_decoupled",
+      "remote_gap": "新员工独立请假批准/驳回与Todo数量不变",
+      "remote_status": "partial",
+      "evidence": [
+        "LEAVE01-03-approve",
+        "LEAVE01-reject"
+      ]
+    },
+    {
+      "id": "LEAVE-02",
+      "section": "请假与权限",
+      "scenario": "查看、开始、提交、验收、退回、取消历史请假待办",
+      "expected": "不进入普通待办和奖励队列；禁止旧状态写操作，历史记录保留",
+      "source": ".agent/test/cases.md",
+      "line": 26,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "legacy_leave",
+      "remote_gap": "只允许隔离历史请假待办，远程存量不造假",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-03",
+      "section": "请假与权限",
+      "scenario": "工作日日历、半天请假、周末调休",
+      "expected": "按日历计算天数，半天0.5；纯休息日不可申请",
+      "source": ".agent/test/cases.md",
+      "line": 27,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "calendar_leave",
+      "remote_gap": "真实半天和休息日；不改全局调休日历",
+      "remote_status": "partial",
+      "evidence": [
+        "LEAVE01-03-approve"
+      ]
+    },
+    {
+      "id": "LEAVE-04",
+      "section": "请假与权限",
+      "scenario": "微信编号、引用、批量审批",
+      "expected": "明确区分请假单和任务，直接调用对应审批，不级联Todo",
+      "source": ".agent/test/cases.md",
+      "line": 28,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_wechat_inbound.py",
+      "existing_test_filter": "typed_leave; pending_reviews",
+      "remote_gap": "真实微信通道、编号和批量消息需专用绑定",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "LEAVE-05",
+      "section": "请假与权限",
+      "scenario": "MCP请假待审批、批准和驳回",
+      "expected": "使用独立请假接口，不调用普通任务审批",
+      "source": ".agent/test/cases.md",
+      "line": 29,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_mcp_todo_tools.py",
+      "existing_test_filter": "independent_leave_review",
+      "remote_gap": "MCP实际RPC调用而非mock转发",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "IAM-01",
+      "section": "请假与权限",
+      "scenario": "管理员维护工资；普通员工和非管理员L0读取工资",
+      "expected": "管理员可维护；其他人403；公开用户、贝利和MCP响应不出现工资与换算参数",
+      "source": ".agent/test/cases.md",
+      "line": 30,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "salary_admin",
+      "remote_gap": "管理员、非管理员L0、普通员工三身份与敏感字段检查",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "IAM-02",
+      "section": "请假与权限",
+      "scenario": "非L0查别人账户、流水或调整余额",
+      "expected": "拒绝越权；前后端均限制",
+      "source": ".agent/test/cases.md",
+      "line": 31,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "unauthorized_read",
+      "remote_gap": "普通员工跨账户/流水/调整拒绝",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "IAM-03",
+      "section": "请假与权限",
+      "scenario": "用户管理旧调整与重置入口",
+      "expected": "不再显示；旧写接口不可绕过独立贝利流水",
+      "source": ".agent/test/cases.md",
+      "line": 32,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "legacy_writes",
+      "remote_gap": "旧写接口拒绝和用户页面入口移除",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-01",
+      "section": "贝利奖励与考勤",
+      "scenario": "工资12000、8小时、按时P2",
+      "expected": "独立审核通过后240贝利；仅任务完成不发放",
+      "source": ".agent/test/cases.md",
+      "line": 38,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "self_created_task; formula",
+      "remote_gap": "真实完成后未发奖、独立审核后240",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-02",
+      "section": "贝利奖励与考勤",
+      "scenario": "P0/P1/P2/P3与延期0/1/2/3/4/5/8天组合",
+      "expected": "系数分别1.2/1/1/0.8，时效1/.95/.9/.8/.6/.5/.5",
+      "source": ".agent/test/cases.md",
+      "line": 39,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "reward_formula",
+      "remote_gap": "4重要级×7延期日的28个真实结算组合",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-03",
+      "section": "贝利奖励与考勤",
+      "scenario": "L0审核改工时、截止日期、重要级",
+      "expected": "同步原任务，保留旧值和结算快照；页面不展示工资换算",
+      "source": ".agent/test/cases.md",
+      "line": 40,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "independent_review_edits",
+      "remote_gap": "审核修改计划同步、敏感字段不公开；内部快照只静态覆盖",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-04",
+      "section": "贝利奖励与考勤",
+      "scenario": "工资缺失、任务未验收、非L0审核",
+      "expected": "不发放；驳回奖励不改变任务完成状态",
+      "source": ".agent/test/cases.md",
+      "line": 41,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "requires_completion; reject_reward",
+      "remote_gap": "工资缺失/未验收/非L0及驳回后任务仍完成",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-05",
+      "section": "贝利奖励与考勤",
+      "scenario": "重复审批、重开、再次验收、再次审批",
+      "expected": "每轮只发一次；重开冲销；历史流水不可删除",
+      "source": ".agent/test/cases.md",
+      "line": 42,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_beli_mysql.py",
+      "existing_test_filter": "independent_review; concurrent_reward",
+      "remote_gap": "重复审批、重开冲销、再次结算和流水唯一性",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-06",
+      "section": "贝利奖励与考勤",
+      "scenario": "手工加减贝利/假期，重复请求",
+      "expected": "原因必填，流水可追溯；重复请求不重复扣加，同键异参拒绝",
+      "source": ".agent/test/cases.md",
+      "line": 43,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "adjustments_are_audited",
+      "remote_gap": "金额/假期防重、同键异参、原因必填",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-07",
+      "section": "贝利奖励与考勤",
+      "scenario": "0工时任务普通/自建任务完成，随后补录正数",
+      "expected": "完成不入队；规则生效后完成且有可靠提交时间的任务补录后自动入队；重复保存只一条奖励、不直接发钱",
+      "source": ".agent/test/cases.md",
+      "line": 44,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "zero_hours_completion",
+      "remote_gap": "0工时完成后补录、重复保存不直接发奖",
+      "remote_status": "partial",
+      "evidence": [
+        "BELI07-backfill"
+      ]
+    },
+    {
+      "id": "BELI-08",
+      "section": "贝利奖励与考勤",
+      "scenario": "待审核/已驳回奖励的工时归零，再恢复正数",
+      "expected": "退出为excluded，保留原审核；不再可审核，伪造带正数工时的审核请求也拒绝；恢复为pending且只保留一条奖励",
+      "source": ".agent/test/cases.md",
+      "line": 45,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "zero_hours_excludes",
+      "remote_gap": "pending/rejected归零退出，伪造审核拒绝，恢复唯一",
+      "remote_status": "partial",
+      "evidence": [
+        "BELI08-pending",
+        "BELI08-rejected"
+      ]
+    },
+    {
+      "id": "BELI-09",
+      "section": "贝利奖励与考勤",
+      "scenario": "生效前完成任务、缺少提交时间、策略未初始化",
+      "expected": "补录工时不自动入队；不因普通编辑追溯旧任务；已有合法审核记录不丢失",
+      "source": ".agent/test/cases.md",
+      "line": 46,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_completed; no_policy",
+      "remote_gap": "需隔离策略和历史时间夹具，禁止改远程策略",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "BELI-10",
+      "section": "贝利奖励与考勤",
+      "scenario": "已发奖改0工时、归零与发奖并发",
+      "expected": "已发奖必须先重开冲销；并发按任务锁串行，只能发奖或归零其一成功，不能零工时发奖",
+      "source": ".agent/test/cases.md",
+      "line": 47,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; test_beli_mysql.py",
+      "existing_test_filter": "zero_hours_and_reward; zero_hours_completion",
+      "remote_gap": "已发奖保护可远程测；真实锁并发需隔离MySQL",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-01",
+      "section": "贝利奖励与考勤",
+      "scenario": "启用日前会议、无记录、非工作日、L0",
+      "expected": "不扣款",
+      "source": ".agent/test/cases.md",
+      "line": 48,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "activation; no_record",
+      "remote_gap": "启用日前/无记录/非工作日/L0四分支",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-02",
+      "section": "贝利奖励与考勤",
+      "scenario": "工作日早会缺席、余额不足、同日多份会议",
+      "expected": "非L0缺席扣500，可为负；同日名单取并集，只扣一次",
+      "source": ".agent/test/cases.md",
+      "line": 49,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "automatic_once; same_day_union",
+      "remote_gap": "不能在共享环境造早会触发全员扣款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-03",
+      "section": "贝利奖励与考勤",
+      "scenario": "姓名未匹配、重名、未发言",
+      "expected": "不做模糊匹配；未匹配者按缺席处理，管理端明确提示",
+      "source": ".agent/test/cases.md",
+      "line": 50,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "duplicate_names",
+      "remote_gap": "同名、未匹配、未发言名单，不影响现有员工",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-04",
+      "section": "贝利奖励与考勤",
+      "scenario": "上午已批请假、仅下午请假、事后补批",
+      "expected": "上午请假豁免；仅下午仍应到；补批自动冲正",
+      "source": ".agent/test/cases.md",
+      "line": 51,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "afternoon_leave; late_approval",
+      "remote_gap": "上午/下午/事后补批引发全局考勤重算",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-05",
+      "section": "贝利奖励与考勤",
+      "scenario": "补录参会人、删除会议、日历调整、L0作废",
+      "expected": "差额更正；L0原因必填；重复重算不恢复已作废扣款",
+      "source": ".agent/test/cases.md",
+      "line": 52,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "correction_and_waiver",
+      "remote_gap": "补参会人/删早会/改日历会影响现有余额",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-06",
+      "section": "贝利奖励与考勤",
+      "scenario": "服务中断、未来日期会议到期",
+      "expected": "定期任务补结算，重复运行不重复扣款",
+      "source": ".agent/test/cases.md",
+      "line": 53,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "automatic_once",
+      "remote_gap": "后台跨日中断恢复缺少独立时钟和服务沙箱",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "ATT-07",
+      "section": "贝利奖励与考勤",
+      "scenario": "历史员工更名、停用或升为L0",
+      "expected": "既有姓名快照和应到身份保持不变，不重扣已出席者、不返还原缺席扣款",
+      "source": ".agent/test/cases.md",
+      "line": 54,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "historical_roster",
+      "remote_gap": "历史员工快照需专属隔离数据集",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-01",
+      "section": "商城",
+      "scenario": "L0创建、编辑、上下架、粘贴/上传商品图",
+      "expected": "员工只见已上架商品，图片可查看",
+      "source": ".agent/test/cases.md",
+      "line": 60,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py; scripts/test-planning-ui.cjs",
+      "existing_test_filter": "product_image",
+      "remote_gap": "商品上下架、认证图片与员工可见性",
+      "remote_status": "partial",
+      "evidence": [
+        "SHOP01-publish"
+      ]
+    },
+    {
+      "id": "SHOP-02",
+      "section": "商城",
+      "scenario": "余额不足、库存不足、并发最后一件商品",
+      "expected": "拒绝超额兑换；数据库行锁防超卖",
+      "source": ".agent/test/cases.md",
+      "line": 61,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_mysql.py; test_beli_workflow.py",
+      "existing_test_filter": "oversell; overspend",
+      "remote_gap": "金额/库存不足可远程；行锁并发只在隔离MySQL",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-03",
+      "section": "商城",
+      "scenario": "申请兑换、重复点击",
+      "expected": "仅冻结贝利和库存，重复请求不重复冻结",
+      "source": ".agent/test/cases.md",
+      "line": 62,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "store_freeze",
+      "remote_gap": "重复申请只冻结一次，余额与库存精确断言",
+      "remote_status": "has_failure",
+      "evidence": [
+        "SHOP03-05-repeat"
+      ]
+    },
+    {
+      "id": "SHOP-04",
+      "section": "商城",
+      "scenario": "L0批准假期兑换",
+      "expected": "扣款、解冻、增加对应假期在同一事务内完成；最小0.5天",
+      "source": ".agent/test/cases.md",
+      "line": 63,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "approval_leave",
+      "remote_gap": "批准扣款解冻并增假期，0.5天边界",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-05",
+      "section": "商城",
+      "scenario": "拒绝、申请人取消、L0取消未发货实物",
+      "expected": "释放冻结/退款、恢复库存；重复操作不重复退款",
+      "source": ".agent/test/cases.md",
+      "line": 64,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "store_release",
+      "remote_gap": "拒绝、本人取消、L0取消及重复退款保护",
+      "remote_status": "has_failure",
+      "evidence": [
+        "SHOP03-05-repeat"
+      ]
+    },
+    {
+      "id": "SHOP-06",
+      "section": "商城",
+      "scenario": "实物批准、发货、已发货再取消",
+      "expected": "批准后待发货，填写发货记录；已发货不可走普通取消退款",
+      "source": ".agent/test/cases.md",
+      "line": 65,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "shipped_cannot_refund",
+      "remote_gap": "实物发货后禁止普通退款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "SHOP-07",
+      "section": "商城",
+      "scenario": "申请后早会扣款导致余额不足",
+      "expected": "不可凭旧冻结额度绕过不足余额完成审批",
+      "source": ".agent/test/cases.md",
+      "line": 66,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_beli_workflow.py",
+      "existing_test_filter": "balance_loss",
+      "remote_gap": "用新员工手工扣款验证余额保护；不伪造真实早会扣款",
+      "remote_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "DOC-01",
+      "section": "通用回归",
+      "scenario": "MCP 实际注册工具与工作流文档清单",
+      "expected": "`backend-api.md` 中工具总数及名称集合与注册结果完全一致，新增/移除工具必须同步文档",
+      "source": ".agent/test/cases.md",
+      "line": 74,
+      "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518",
+      "existing_scripts": "test_mcp_todo_tools.py",
+      "existing_test_filter": "documented_inventory",
+      "remote_gap": "远程mcp-info工具名称和总数与最新文档逐项一致",
+      "remote_status": "verified",
+      "evidence": [
+        "DOC01-tools"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "code": "BELI07-backfill",
+      "title": "0工时完成不入队，补录和重复保存只生成待审核不发钱",
+      "case_points": [
+        "BELI-07"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1716,
+          "record_id": 18773,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1717,
+          "record_id": 18775,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1718,
+          "record_id": 18777,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/submit",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "pending_review",
+              "passed": true,
+              "expected": "pending_review"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1719,
+          "record_id": 18779,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/approve",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "done",
+              "passed": true,
+              "expected": "done"
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1720,
+          "record_id": 18781,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1721,
+          "record_id": 18783,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/review",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1722,
+          "record_id": 18785,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1723,
+          "record_id": 18786,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1724,
+          "record_id": 18787,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1725,
+          "record_id": 18788,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            },
+            {
+              "type": "json_equals",
+              "actual": 0.0,
+              "passed": true,
+              "expected": 0.0
+            }
+          ],
+          "actor": "employee"
+        }
+      ],
+      "coverage_limit": "本轮验证指派任务；自建任务组合需额外执行"
+    },
+    {
+      "code": "BELI08-pending",
+      "title": "pending归零退出且不能伪造工时审核，恢复唯一待审核",
+      "case_points": [
+        "BELI-08"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1726,
+          "record_id": 18789,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1727,
+          "record_id": 18791,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1/submit",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "pending_review",
+              "passed": true,
+              "expected": "pending_review"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1728,
+          "record_id": 18793,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1/approve",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "done",
+              "passed": true,
+              "expected": "done"
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1729,
+          "record_id": 18795,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1730,
+          "record_id": 18796,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1731,
+          "record_id": 18798,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/61757166-b90e-42f9-af50-3ec384b886f1/review",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1732,
+          "record_id": 18799,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/61757166-b90e-42f9-af50-3ec384b886f1/review",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1733,
+          "record_id": 18800,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1734,
+          "record_id": 18801,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        }
+      ]
+    },
+    {
+      "code": "BELI08-rejected",
+      "title": "rejected归零退出且不能伪造工时审核，恢复唯一待审核",
+      "case_points": [
+        "BELI-08"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1735,
+          "record_id": 18802,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1736,
+          "record_id": 18804,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481/submit",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "pending_review",
+              "passed": true,
+              "expected": "pending_review"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1737,
+          "record_id": 18806,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481/approve",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "done",
+              "passed": true,
+              "expected": "done"
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1738,
+          "record_id": 18808,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1739,
+          "record_id": 18810,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1740,
+          "record_id": 18811,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1741,
+          "record_id": 18812,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1742,
+          "record_id": 18813,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1743,
+          "record_id": 18814,
+          "status": "success",
+          "method": "PATCH",
+          "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1744,
+          "record_id": 18815,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/rewards",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        }
+      ]
+    },
+    {
+      "code": "LEAVE01-03-approve",
+      "title": "未来工作日上午半天请假批准只扣0.5天、不创建Todo",
+      "case_points": [
+        "LEAVE-01",
+        "LEAVE-03"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1745,
+          "record_id": 18817,
+          "status": "success",
+          "method": "GET",
+          "path": "/todo/my?page_size=100",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1746,
+          "record_id": 18818,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1747,
+          "record_id": 18820,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/leaves",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "pending",
+              "passed": true,
+              "expected": "pending"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1748,
+          "record_id": 18822,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/leaves/aae0d24a-4cc4-4ebc-aeed-7b28948126cb/approve",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "approved",
+              "passed": true,
+              "expected": "approved"
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1749,
+          "record_id": 18823,
+          "status": "success",
+          "method": "GET",
+          "path": "/todo/my?page_size=100",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": 3,
+              "passed": true,
+              "expected": 3
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1750,
+          "record_id": 18824,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            },
+            {
+              "type": "json_equals",
+              "actual": 4.5,
+              "passed": true,
+              "expected": 4.5
+            }
+          ],
+          "actor": "employee"
+        }
+      ],
+      "coverage_limit": "未修改调休日历，未测周末调休；未来日期避免影响现有考勤"
+    },
+    {
+      "code": "LEAVE01-reject",
+      "title": "独立请假驳回不扣假期、不创建Todo",
+      "case_points": [
+        "LEAVE-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1751,
+          "record_id": 18825,
+          "status": "success",
+          "method": "GET",
+          "path": "/todo/my?page_size=100",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1752,
+          "record_id": 18826,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1753,
+          "record_id": 18827,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/leaves",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "pending",
+              "passed": true,
+              "expected": "pending"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1754,
+          "record_id": 18829,
+          "status": "success",
+          "method": "POST",
+          "path": "/todo/leaves/1e2628c2-31a4-4740-b7ef-7fcbd184214f/reject",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": "rejected",
+              "passed": true,
+              "expected": "rejected"
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1755,
+          "record_id": 18830,
+          "status": "success",
+          "method": "GET",
+          "path": "/todo/my?page_size=100",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": 3,
+              "passed": true,
+              "expected": 3
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1756,
+          "record_id": 18831,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            },
+            {
+              "type": "json_equals",
+              "actual": 4.5,
+              "passed": true,
+              "expected": 4.5
+            }
+          ],
+          "actor": "employee"
+        }
+      ]
+    },
+    {
+      "code": "SHOP01-publish",
+      "title": "L0建商品上下架，员工不能维护或看到下架商品",
+      "case_points": [
+        "SHOP-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1757,
+          "record_id": 18833,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/products",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1758,
+          "record_id": 18834,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/products",
+          "http_status": 403,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 403,
+              "passed": true,
+              "expected": 403
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1759,
+          "record_id": 18836,
+          "status": "success",
+          "method": "PUT",
+          "path": "/beli/products/fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        },
+        {
+          "case_id": 1760,
+          "record_id": 18838,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/products",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1761,
+          "record_id": 18839,
+          "status": "success",
+          "method": "PUT",
+          "path": "/beli/products/fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "coverage_limit": "图片上传/粘贴与认证查看尚未执行"
+    },
+    {
+      "code": "SHOP03-05-repeat",
+      "title": "重复兑换只冻结一次，申请人重复取消不重复解冻",
+      "case_points": [
+        "SHOP-03",
+        "SHOP-05"
+      ],
+      "status": "failed",
+      "evidence": [
+        {
+          "case_id": 1762,
+          "record_id": 18840,
+          "status": "success",
+          "method": "GET",
+          "path": "/beli/accounts",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": false,
+              "passed": true,
+              "expected": false
+            },
+            {
+              "type": "json_equals",
+              "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+              "passed": true,
+              "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+            }
+          ],
+          "actor": "employee"
+        },
+        {
+          "case_id": 1763,
+          "record_id": 18842,
+          "status": "failed",
+          "method": "POST",
+          "path": "/beli/orders",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": false,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 400,
+              "passed": false,
+              "expected": 0
+            },
+            {
+              "type": "json_equals",
+              "actual": {
+                "code": 400,
+                "errors": null,
+                "message": "可用贝利不足"
+              },
+              "passed": false,
+              "expected": "pending"
+            },
+            {
+              "type": "json_equals",
+              "actual": {
+                "code": 400,
+                "errors": null,
+                "message": "可用贝利不足"
+              },
+              "passed": false,
+              "expected": "100.00"
+            }
+          ],
+          "actor": "employee"
+        }
+      ],
+      "error": "record 18842: [{'type': 'status', 'actual': 400, 'passed': False, 'expected': 200}, {'type': 'json_equals', 'actual': 400, 'passed': False, 'expected': 0}, {'type': 'json_equals', 'actual': {'code': 400, 'errors': None, 'message': '可用贝利不足'}, 'passed': False, 'expected': 'pending'}, {'type': 'json_equals', 'actual': {'code': 400, 'errors': None, 'message': '可用贝利不足'}, 'passed': False, 'expected': '100.00'}]; {'code': 400, 'message': '可用贝利不足', 'errors': None}"
+    },
+    {
+      "code": "DOC01-tools",
+      "title": "远程43个MCP工具名称集合和最新工作流文档完全一致",
+      "case_points": [
+        "DOC-01"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 1764,
+          "record_id": 18844,
+          "status": "success",
+          "method": "GET",
+          "path": "/mcp-info",
+          "http_status": 200,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 200,
+              "passed": true,
+              "expected": 200
+            },
+            {
+              "type": "json_equals",
+              "actual": 0,
+              "passed": true,
+              "expected": 0
+            }
+          ],
+          "actor": "admin",
+          "response_reloaded_readonly": "Platform response_body truncated at 8000 characters; no mutation replayed"
+        }
+      ]
+    }
+  ],
+  "api_cases": [
+    {
+      "code": "BELI07-backfill.01",
+      "case_id": 1716,
+      "record_id": 18773,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI07-backfill.02",
+      "case_id": 1717,
+      "record_id": 18775,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI07-backfill.03",
+      "case_id": 1718,
+      "record_id": 18777,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/submit",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "pending_review",
+          "passed": true,
+          "expected": "pending_review"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI07-backfill.04",
+      "case_id": 1719,
+      "record_id": 18779,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/approve",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "done",
+          "passed": true,
+          "expected": "done"
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI07-backfill.05",
+      "case_id": 1720,
+      "record_id": 18781,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI07-backfill.06",
+      "case_id": 1721,
+      "record_id": 18783,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf/review",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI07-backfill.07",
+      "case_id": 1722,
+      "record_id": 18785,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI07-backfill.08",
+      "case_id": 1723,
+      "record_id": 18786,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/441ffab9-4f7c-4b7c-9f9d-b1b904a379cf",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI07-backfill.09",
+      "case_id": 1724,
+      "record_id": 18787,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI07-backfill.10",
+      "case_id": 1725,
+      "record_id": 18788,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        },
+        {
+          "type": "json_equals",
+          "actual": 0.0,
+          "passed": true,
+          "expected": 0.0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-pending.01",
+      "case_id": 1726,
+      "record_id": 18789,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.02",
+      "case_id": 1727,
+      "record_id": 18791,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1/submit",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "pending_review",
+          "passed": true,
+          "expected": "pending_review"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-pending.03",
+      "case_id": 1728,
+      "record_id": 18793,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1/approve",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "done",
+          "passed": true,
+          "expected": "done"
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.04",
+      "case_id": 1729,
+      "record_id": 18795,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.05",
+      "case_id": 1730,
+      "record_id": 18796,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-pending.06",
+      "case_id": 1731,
+      "record_id": 18798,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/61757166-b90e-42f9-af50-3ec384b886f1/review",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.07",
+      "case_id": 1732,
+      "record_id": 18799,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/61757166-b90e-42f9-af50-3ec384b886f1/review",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.08",
+      "case_id": 1733,
+      "record_id": 18800,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/61757166-b90e-42f9-af50-3ec384b886f1",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-pending.09",
+      "case_id": 1734,
+      "record_id": 18801,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-rejected.01",
+      "case_id": 1735,
+      "record_id": 18802,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.02",
+      "case_id": 1736,
+      "record_id": 18804,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481/submit",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "pending_review",
+          "passed": true,
+          "expected": "pending_review"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-rejected.03",
+      "case_id": 1737,
+      "record_id": 18806,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481/approve",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "done",
+          "passed": true,
+          "expected": "done"
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.04",
+      "case_id": 1738,
+      "record_id": 18808,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.05",
+      "case_id": 1739,
+      "record_id": 18810,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.06",
+      "case_id": 1740,
+      "record_id": 18811,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "BELI08-rejected.07",
+      "case_id": 1741,
+      "record_id": 18812,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.08",
+      "case_id": 1742,
+      "record_id": 18813,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/rewards/af59ab35-3407-430b-b6d8-224242efa481/review",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.09",
+      "case_id": 1743,
+      "record_id": 18814,
+      "status": "success",
+      "method": "PATCH",
+      "path": "/todo/af59ab35-3407-430b-b6d8-224242efa481",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "BELI08-rejected.10",
+      "case_id": 1744,
+      "record_id": 18815,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/rewards",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-03-approve.01",
+      "case_id": 1745,
+      "record_id": 18817,
+      "status": "success",
+      "method": "GET",
+      "path": "/todo/my?page_size=100",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-03-approve.02",
+      "case_id": 1746,
+      "record_id": 18818,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-03-approve.03",
+      "case_id": 1747,
+      "record_id": 18820,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/leaves",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "pending",
+          "passed": true,
+          "expected": "pending"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-03-approve.04",
+      "case_id": 1748,
+      "record_id": 18822,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/leaves/aae0d24a-4cc4-4ebc-aeed-7b28948126cb/approve",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "approved",
+          "passed": true,
+          "expected": "approved"
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "LEAVE01-03-approve.05",
+      "case_id": 1749,
+      "record_id": 18823,
+      "status": "success",
+      "method": "GET",
+      "path": "/todo/my?page_size=100",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": 3,
+          "passed": true,
+          "expected": 3
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-03-approve.06",
+      "case_id": 1750,
+      "record_id": 18824,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        },
+        {
+          "type": "json_equals",
+          "actual": 4.5,
+          "passed": true,
+          "expected": 4.5
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-reject.01",
+      "case_id": 1751,
+      "record_id": 18825,
+      "status": "success",
+      "method": "GET",
+      "path": "/todo/my?page_size=100",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-reject.02",
+      "case_id": 1752,
+      "record_id": 18826,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-reject.03",
+      "case_id": 1753,
+      "record_id": 18827,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/leaves",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "pending",
+          "passed": true,
+          "expected": "pending"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-reject.04",
+      "case_id": 1754,
+      "record_id": 18829,
+      "status": "success",
+      "method": "POST",
+      "path": "/todo/leaves/1e2628c2-31a4-4740-b7ef-7fcbd184214f/reject",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": "rejected",
+          "passed": true,
+          "expected": "rejected"
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "LEAVE01-reject.05",
+      "case_id": 1755,
+      "record_id": 18830,
+      "status": "success",
+      "method": "GET",
+      "path": "/todo/my?page_size=100",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": 3,
+          "passed": true,
+          "expected": 3
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "LEAVE01-reject.06",
+      "case_id": 1756,
+      "record_id": 18831,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        },
+        {
+          "type": "json_equals",
+          "actual": 4.5,
+          "passed": true,
+          "expected": 4.5
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "SHOP01-publish.01",
+      "case_id": 1757,
+      "record_id": 18833,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/products",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "SHOP01-publish.02",
+      "case_id": 1758,
+      "record_id": 18834,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/products",
+      "http_status": 403,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 403,
+          "passed": true,
+          "expected": 403
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "SHOP01-publish.03",
+      "case_id": 1759,
+      "record_id": 18836,
+      "status": "success",
+      "method": "PUT",
+      "path": "/beli/products/fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "SHOP01-publish.04",
+      "case_id": 1760,
+      "record_id": 18838,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/products",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "SHOP01-publish.05",
+      "case_id": 1761,
+      "record_id": 18839,
+      "status": "success",
+      "method": "PUT",
+      "path": "/beli/products/fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "SHOP03-05-repeat.01",
+      "case_id": 1762,
+      "record_id": 18840,
+      "status": "success",
+      "method": "GET",
+      "path": "/beli/accounts",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": false,
+          "passed": true,
+          "expected": false
+        },
+        {
+          "type": "json_equals",
+          "actual": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+          "passed": true,
+          "expected": "3231c3fb-05a4-4e11-85aa-f25c8b689430"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "SHOP03-05-repeat.02",
+      "case_id": 1763,
+      "record_id": 18842,
+      "status": "failed",
+      "method": "POST",
+      "path": "/beli/orders",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": false,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 400,
+          "passed": false,
+          "expected": 0
+        },
+        {
+          "type": "json_equals",
+          "actual": {
+            "code": 400,
+            "errors": null,
+            "message": "可用贝利不足"
+          },
+          "passed": false,
+          "expected": "pending"
+        },
+        {
+          "type": "json_equals",
+          "actual": {
+            "code": 400,
+            "errors": null,
+            "message": "可用贝利不足"
+          },
+          "passed": false,
+          "expected": "100.00"
+        }
+      ],
+      "actor": "employee"
+    },
+    {
+      "code": "DOC01-tools.01",
+      "case_id": 1764,
+      "record_id": 18844,
+      "status": "success",
+      "method": "GET",
+      "path": "/mcp-info",
+      "http_status": 200,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 200,
+          "passed": true,
+          "expected": 200
+        },
+        {
+          "type": "json_equals",
+          "actual": 0,
+          "passed": true,
+          "expected": 0
+        }
+      ],
+      "actor": "admin"
+    }
+  ],
+  "web_cases": [],
+  "fixtures": [
+    {
+      "type": "job_title",
+      "id": "be1762f7-ef77-4d4c-9c5b-5c3ab5666b07",
+      "name": "CASE_20261019_141210 TestRole"
+    },
+    {
+      "type": "user",
+      "id": "e91242c9-1804-4c8f-9dae-05681c67db87",
+      "name": "CASE_20261019_141210 manager",
+      "username": "case_20261019_141210_manager"
+    },
+    {
+      "type": "user",
+      "id": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+      "name": "CASE_20261019_141210 employee",
+      "username": "case_20261019_141210_employee"
+    },
+    {
+      "type": "user",
+      "id": "ded3a1fd-a753-43f9-9f08-83a96a0f0bdc",
+      "name": "CASE_20261019_141210 other",
+      "username": "case_20261019_141210_other"
+    },
+    {
+      "type": "project",
+      "id": "3b142e07-7b51-4b85-8aa9-6de7ff679566",
+      "name": "CASE_20261019_141210 Project"
+    },
+    {
+      "type": "leave_audit",
+      "id": "aae0d24a-4cc4-4ebc-aeed-7b28948126cb",
+      "name": "CASE_20261019_141210 half-day"
+    },
+    {
+      "type": "leave_audit",
+      "id": "1e2628c2-31a4-4740-b7ef-7fcbd184214f",
+      "name": "CASE_20261019_141210 half-day"
+    },
+    {
+      "type": "product",
+      "id": "fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+      "name": "CASE_20261019_141210 Physical",
+      "body": {
+        "name": "CASE_20261019_141210 Physical",
+        "kind": "physical",
+        "price": 100,
+        "stock": 20,
+        "active": true
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "type": "product",
+      "id": "fdfb6729-d08c-41c4-b96f-b89f2af8ec69",
+      "status": "success",
+      "action": "unpublished; audit retained"
+    },
+    {
+      "type": "leave_audit",
+      "id": "1e2628c2-31a4-4740-b7ef-7fcbd184214f",
+      "status": "success",
+      "action": "audit retained (no delete endpoint)"
+    },
+    {
+      "type": "leave_audit",
+      "id": "aae0d24a-4cc4-4ebc-aeed-7b28948126cb",
+      "status": "success",
+      "action": "audit retained (no delete endpoint)"
+    },
+    {
+      "type": "project",
+      "id": "3b142e07-7b51-4b85-8aa9-6de7ff679566",
+      "status": "success",
+      "action": "deleted"
+    },
+    {
+      "type": "user",
+      "id": "ded3a1fd-a753-43f9-9f08-83a96a0f0bdc",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "user",
+      "id": "3231c3fb-05a4-4e11-85aa-f25c8b689430",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "user",
+      "id": "e91242c9-1804-4c8f-9dae-05681c67db87",
+      "status": "success",
+      "action": "disabled; audit retained"
+    },
+    {
+      "type": "job_title",
+      "id": "be1762f7-ef77-4d4c-9c5b-5c3ab5666b07",
+      "status": "success",
+      "action": "audit retained (no delete endpoint)"
+    }
+  ],
+  "selected_scenarios": [
+    "BELI07-backfill",
+    "BELI08-pending",
+    "BELI08-rejected",
+    "LEAVE01-03-approve",
+    "LEAVE01-reject",
+    "SHOP01-publish",
+    "SHOP03-05-repeat",
+    "DOC01-tools"
+  ],
+  "finished_at": "2026-10-19T14:12:47.035960+08:00",
+  "knowledge_ids": [
+    18845,
+    18846,
+    18847
+  ]
+}

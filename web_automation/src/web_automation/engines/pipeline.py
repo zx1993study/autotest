@@ -78,6 +78,15 @@ class ActionStrategyPipeline:
     ) -> StepOutcome:
         events = [event("step_started", step_name=self._name(step), action=step.get("action"))]
         self.last_events = events
+        # A failed business assertion must never be healed onto a different element.
+        if step.get("action") == "assert":
+            try:
+                await static_action()
+            except Exception as exc:
+                events.append(event("step_failed", source="playwright", error=str(exc)[:300]))
+                raise
+            events.append(event("step_finished", source="playwright", step_name=self._name(step)))
+            return StepOutcome(source="playwright", events=events)
         cache_error: Exception | None = None
         static_error: Exception | None = None
         selector = cached_selector(step)

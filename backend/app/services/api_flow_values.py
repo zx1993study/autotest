@@ -32,9 +32,28 @@ def response_value(response, spec):
         name = spec.get("path", "")
         return next((v for k, v in response["headers"].items() if k.lower() == name.lower()), None)
     try:
-        return resolve_pointer(json.loads(response.get("body") or "null"), spec.get("path", ""))
+        body = json.loads(response.get("body") or "null")
+        selection = spec.get("selection")
+        if selection:
+            rows = resolve_pointer(body, selection["path"])
+            if not isinstance(rows, list):
+                return None
+            body = next((row for row in rows if _selected_row(row, selection)), None)
+        return resolve_pointer(body, spec.get("path", ""))
     except (ValueError, JsonPointerException, TypeError):
         return None
+
+
+def _selected_row(row, selection):
+    try:
+        for path in selection.get("non_empty", []):
+            value = resolve_pointer(row, path)
+            if value in (None, "", [], {}) or (isinstance(value, str) and not value.strip()):
+                return False
+        return all(compare(resolve_pointer(row, path), "eq", value)
+                   for path, value in selection.get("equals", {}).items())
+    except (JsonPointerException, TypeError):
+        return False
 
 
 def variable_value(variables, reference):

@@ -1,0 +1,234 @@
+/* LoginPage.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #11111b;
+    background-image: linear-gradient(135deg, #1e1e2e 0%, #11111b 100%);
+    padding: 40px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #181825;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    border: 1px solid #313244;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #89b4fa;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #a6adc8;
+    font-size: 14px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #cdd6f4;
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: #7f849c;
+    pointer-events: none;
+}
+
+.login-form .form-group input {
+    flex: 1;
+    width: 100%;
+    padding: 12px;
+    padding-right: 40px;
+    background-color: #1e1e2e;
+    border: 1px solid #45475a;
+    border-radius: 8px;
+    color: #cdd6f4;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #7f849c;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: #cdd6f4;
+}
+
+.login-form .form-group .input-with-icon input {
+    padding-left: 48px;
+}
+
+.login-form .form-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e1e2e;
+    border: 1px solid #45475a;
+    border-radius: 8px;
+    color: #cdd6f4;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+.login-form .form-group select:focus {
+    outline: none;
+    border-color: #89b4fa;
+    box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.1);
+}
+
+.login-form .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+    cursor: pointer;
+}
+
+.login-form .form-group input:focus {
+    outline: none;
+    border-color: #89b4fa;
+    box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.1);
+}
+
+.error-message {
+    color: #f38ba8;
+    font-size: 14px;
+    text-align: center;
+    background-color: rgba(243, 139, 168, 0.1);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.submit-btn {
+    background-color: #89b4fa;
+    color: #1e1e2e;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 8px;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn:hover {
+    background-color: #b4befe;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.login-footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: #585b70;
+}
+
+.profile-image-paste .image-paste-strip.empty .image-paste-add-button {
+    width: 100%;
+    min-height: 42px;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-color: #45475a;
+    background: #1e1e2e;
+    color: #a6adc8;
+    padding: 10px 12px;
+}
+
+.profile-image-paste.compact {
+    width: 100%;
+}
+
+.profile-image-paste.compact .image-paste-strip.empty .image-paste-add-button,
+.profile-image-paste.compact .image-paste-add-button {
+    width: 100%;
+    min-height: 42px;
+    flex-direction: row;
+}
+
+.profile-image-paste .image-paste-add-button:hover:not(:disabled),
+.profile-image-paste .image-paste-add-button:focus-visible,
+.profile-image-paste .image-paste-add-button.active {
+    border-color: #89b4fa;
+    background: #1e1e2e;
+    color: #cdd6f4;
+}
+
+.profile-image-paste .image-paste-panel {
+    border-color: #45475a;
+    background: #181825;
+}
+
+.profile-image-paste .image-paste-dropzone {
+    border-color: #45475a;
+    background: #1e1e2e;
+    color: #a6adc8;
+}
+
+.profile-image-paste .image-paste-local-button {
+    background: #181825;
+    color: #a6adc8;
+}

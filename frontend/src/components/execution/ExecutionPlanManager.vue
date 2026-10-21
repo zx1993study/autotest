@@ -21,11 +21,11 @@
         @ready="handleProjectReady"
       />
       <button type="button" :disabled="loading" @click="search">查询</button>
-      <button type="button" :disabled="!selectedIds.length || loading" @click="removeSelected">批量删除</button>
+      <button type="button" :disabled="!selectedIds.length || loading" @click="removeSelected">{{ deleting ? '删除中...' : '批量删除' }}</button>
     </div>
 
     <p v-if="errorMessage" class="form-error">{{ errorMessage }}</p>
-    <div class="table-wrap">
+    <div class="table-wrap" :aria-busy="loading">
       <table>
         <thead>
           <tr>
@@ -195,22 +195,27 @@ async function savePlan(payload: ExecutionPlanSavePayload) {
 }
 
 async function removeOne(plan: ExecutionPlanInfo) {
+  if (deleting.value) return
   if (!window.confirm(`确认删除执行计划“${plan.name}”吗？`)) return
-  await runDelete(() => deleteExecutionPlan(plan.id), '执行计划已删除')
+  await runDelete(async () => { await deleteExecutionPlan(plan.id); return 1 }, '执行计划已删除')
 }
 
 async function removeSelected() {
+  if (deleting.value || !selectedIds.value.length) return
   if (!window.confirm(`确认删除选中的 ${selectedIds.value.length} 条执行计划吗？`)) return
-  await runDelete(() => batchDeleteExecutionPlans([...selectedIds.value]), '选中的执行计划已删除')
+  const ids = [...selectedIds.value]
+  await runDelete(async () => (await batchDeleteExecutionPlans(ids)).deleted_count, '选中的执行计划已删除')
 }
 
-async function runDelete(action: () => Promise<unknown>, message: string) {
+async function runDelete(action: () => Promise<number>, message: string) {
+  if (deleting.value) return
   const origin = projectId.value
   deleting.value = true
   errorMessage.value = ''
   try {
-    await action()
+    const count = await action()
     if (origin !== projectId.value) return
+    page.value = Math.min(page.value, Math.max(1, Math.ceil(Math.max(0, total.value - count) / pageSize.value)))
     showToast(message)
     await loadPlans()
   } catch (error) {

@@ -1,0 +1,1561 @@
+{
+  "id": 17350,
+  "name": "[业务回归] 拜访计划管理（批量添加） - 10-17 05:48:15",
+  "project_id": 10,
+  "description": null,
+  "status": "success",
+  "data": {
+    "mode": "serial",
+    "flow_id": 15801,
+    "results": [
+      {
+        "name": "增查改删闭环",
+        "path": [
+          "terminal_create",
+          "terminal_locate",
+          "terminal_detail",
+          "template_create",
+          "template_locate",
+          "create",
+          "locate",
+          "detail",
+          "edit",
+          "verify_edit",
+          "delete",
+          "verify_delete"
+        ],
+        "nodes": [
+          {
+            "key": "terminal_create",
+            "mode": "local_headless",
+            "name": "创建独立审批测试数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 1243,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer",
+              "body": {
+                "editCount": 0,
+                "managerIds": [
+                  1
+                ],
+                "customerName": "拜访计划管理（批测试_1792216095742_825194",
+                "customerType": "1",
+                "cooperationStatus": "正在合作"
+              },
+              "path": "/business/customer",
+              "query": {},
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 184,
+            "response_body": "{\"code\": 200, \"msg\": \"新增成功，等待审批\", \"success\": true, \"time\": \"2026-10-17T13:48:16.547612\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.data.params.customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216095756
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:16 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "0a4c9e98f70249a0af319bc284bbbae0",
+              "Content-Type": "application/json",
+              "Content-Length": "99"
+            }
+          },
+          {
+            "key": "terminal_locate",
+            "mode": "local_headless",
+            "name": "按唯一名称定位本次创建的数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 1244,
+            "outputs": {
+              "owned_id": 1124,
+              "owned_ids": [
+                1124
+              ]
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/list?pageNum=1&pageSize=10&customerName=%E6%8B%9C%E8%AE%BF%E8%AE%A1%E5%88%92%E7%AE%A1%E7%90%86%EF%BC%88%E6%89%B9%E6%B5%8B%E8%AF%95_1792216095742_825194&customerType=1",
+              "body": {},
+              "path": "/business/customer/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 10,
+                "customerName": "拜访计划管理（批测试_1792216095742_825194",
+                "customerType": "1"
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 1,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [],
+                  "max_items": 1,
+                  "min_items": 1
+                }
+              },
+              {
+                "type": "json_pointer",
+                "actual": "拜访计划管理（批测试_1792216095742_825194",
+                "passed": true,
+                "expected": "拜访计划管理（批测试_1792216095742_825194"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "1",
+                "passed": true,
+                "expected": "1"
+              }
+            ],
+            "duration_ms": 150,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"customerId\": 1124, \"drinkingFrequency\": null, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:16\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:16\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"0\", \"managerIds\": [1], \"managerNames\": [\"超级管理员\"], \"managerDeptNames\": [\"武昌区启光商贸有限公司\"]}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-17T13:48:16.712673\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.assertions[3].expected": "{{record_marker}}",
+                "$.data.params.customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216095941
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:16 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "40aa6e8e052c411488d9a077822d354e",
+              "Content-Type": "application/json",
+              "Content-Length": "1459"
+            }
+          },
+          {
+            "key": "terminal_detail",
+            "mode": "local_headless",
+            "name": "详情核对新建数据并读取审批实例",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 1245,
+            "outputs": {
+              "instance_id": 2218
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/1124",
+              "body": {},
+              "path": "/business/customer/1124",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1124,
+                "passed": true,
+                "expected": 1124
+              },
+              {
+                "type": "json_pointer",
+                "actual": "拜访计划管理（批测试_1792216095742_825194",
+                "passed": true,
+                "expected": "拜访计划管理（批测试_1792216095742_825194"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "0",
+                "passed": true,
+                "expected": "0"
+              }
+            ],
+            "duration_ms": 130,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"customerId\": 1124, \"customerType\": \"1\", \"directCustomerType\": null, \"directProductType\": null, \"directCustomerLevel\": null, \"directTags\": null, \"kolType\": null, \"ageRange\": null, \"drinkingScene\": null, \"drinkingFrequency\": null, \"occupation\": null, \"birthday\": null, \"gender\": null, \"kolTags\": null, \"companyName\": null, \"kolProductType\": null, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"phone\": null, \"storefrontPhoto\": null, \"terminalType\": null, \"productType\": null, \"customerLevel\": null, \"salesArea\": null, \"terminalTags\": null, \"cooperationStatus\": \"正在合作\", \"remark\": null, \"visitFrequency\": null, \"longitude\": null, \"latitude\": null, \"province\": null, \"city\": null, \"district\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"businessLicenseName\": null, \"businessRegistrationNumber\": null, \"registrationDate\": null, \"operatorName\": null, \"consigneeName\": null, \"consigneePhone\": null, \"shippingProvince\": null, \"shippingCity\": null, \"shippingDistrict\": null, \"shippingAddress\": null, \"contactName\": null, \"contactPhone\": null, \"contactRemark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"1\", \"createByName\": \"超级管理员\", \"createTime\": \"2026-10-17 13:48:16\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:16\", \"editCount\": 0, \"managerIds\": [1], \"managerNames\": [\"超级管理员\"]}, \"approvalProcess\": {\"instanceId\": 2218, \"businessId\": 1124, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:16\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"新增客户审批\", \"processStatus\": \"0\", \"flowId\": 1, \"businessType\": \"terminal_customer\", \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": null, \"createTime\": \"2026-10-17 13:48:16\", \"updateTime\": null}, \"success\": true, \"time\": \"2026-10-17T13:48:16.842857\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 1124,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}",
+                "$.assertions[3].expected": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216096094
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:16 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "0060478cdb3c4698ab844c5300f1f523",
+              "Content-Type": "application/json",
+              "Content-Length": "1708"
+            }
+          },
+          {
+            "key": "template_create",
+            "mode": "local_headless",
+            "name": "新建本场景独立拜访模板",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 1246,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/template",
+              "body": {
+                "userId": 1,
+                "weeklyData": {
+                  "1": [
+                    1124
+                  ]
+                },
+                "templateName": "拜访计划管理（批测试_1792216095742_825194_路线"
+              },
+              "path": "/business/visitPlan/template",
+              "query": {},
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 134,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"success\": true, \"time\": \"2026-10-17T13:48:16.987908\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194",
+                "bound_owned_ids": [
+                  1124
+                ]
+              },
+              "templates": {
+                "$.data.params.templateName": "{{record_marker}}_路线"
+              },
+              "generated_at_ms": 1792216096229
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:16 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "9153650be6114c50b6694a6eb2e3b71d",
+              "Content-Type": "application/json",
+              "Content-Length": "84"
+            }
+          },
+          {
+            "key": "template_locate",
+            "mode": "local_headless",
+            "name": "唯一名称定位本次路线",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 1247,
+            "outputs": {
+              "template_id": 43
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/template/list?pageNum=1&pageSize=10&templateName=%E6%8B%9C%E8%AE%BF%E8%AE%A1%E5%88%92%E7%AE%A1%E7%90%86%EF%BC%88%E6%89%B9%E6%B5%8B%E8%AF%95_1792216095742_825194_%E8%B7%AF%E7%BA%BF",
+              "body": {},
+              "path": "/business/visitPlan/template/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 10,
+                "templateName": "拜访计划管理（批测试_1792216095742_825194_路线"
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 1,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [
+                    {
+                      "paths": [
+                        "/templateName"
+                      ],
+                      "expected": "拜访计划管理（批测试_1792216095742_825194_路线",
+                      "operator": "eq"
+                    }
+                  ],
+                  "max_items": 1,
+                  "min_items": 1
+                }
+              }
+            ],
+            "duration_ms": 167,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"templateId\": 43, \"templateName\": \"拜访计划管理（批测试_1792216095742_825194_路线\", \"userId\": 1, \"distributorId\": null, \"remark\": null, \"delFlag\": \"0\", \"createBy\": \"admin\", \"createTime\": \"2026-10-17 13:48:16\", \"updateBy\": \"admin\", \"updateTime\": \"2026-10-17 13:48:16\", \"userName\": \"超级管理员\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-17T13:48:17.153919\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.data.params.templateName": "{{record_marker}}_路线",
+                "$.assertions[2].rules[0].expected": "{{record_marker}}_路线"
+              },
+              "generated_at_ms": 1792216096368
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "158ac744a19d42ad9155e5cee9bdb5ab",
+              "Content-Type": "application/json",
+              "Content-Length": "451"
+            }
+          },
+          {
+            "key": "create",
+            "mode": "local_headless",
+            "name": "新增独立测试数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 329,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/batch",
+              "body": {
+                "visitPlans": [
+                  {
+                    "visitDate": "2026-10-17T10:00:00",
+                    "customerId": 1124,
+                    "templateId": 43,
+                    "customerName": "拜访计划管理（批测试_1792216095742_825194",
+                    "customerType": "1"
+                  }
+                ],
+                "visitorUserId": 1,
+                "visitorUserName": "超级管理员"
+              },
+              "path": "/business/visitPlan/batch",
+              "query": {},
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 169,
+            "response_body": "{\"code\": 200, \"msg\": \"成功提交1个拜访计划\", \"success\": true, \"time\": \"2026-10-17T13:48:17.319987\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 1124,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194",
+                "bound_template_id": 43
+              },
+              "templates": {
+                "$.data.params.visitPlans[0].customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216096539
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "1b1eb8e80d5b4c09a84bbc8ab75b9ce6",
+              "Content-Type": "application/json",
+              "Content-Length": "100"
+            }
+          },
+          {
+            "key": "locate",
+            "mode": "local_headless",
+            "name": "列表查询并安全定位本次数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 330,
+            "outputs": {
+              "owned_id": 7538
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/list?pageNum=1&pageSize=10&customerName=%E6%8B%9C%E8%AE%BF%E8%AE%A1%E5%88%92%E7%AE%A1%E7%90%86%EF%BC%88%E6%89%B9%E6%B5%8B%E8%AF%95_1792216095742_825194&visitorUserId=1&templateId=43",
+              "body": {},
+              "path": "/business/visitPlan/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 10,
+                "templateId": 43,
+                "customerName": "拜访计划管理（批测试_1792216095742_825194",
+                "visitorUserId": 1
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "path": "/rows",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 1,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [
+                    {
+                      "paths": [
+                        "/customerName"
+                      ],
+                      "expected": "拜访计划管理（批测试_1792216095742_825194",
+                      "operator": "eq"
+                    },
+                    {
+                      "paths": [
+                        "/templateId"
+                      ],
+                      "expected": 43,
+                      "operator": "eq"
+                    }
+                  ],
+                  "max_items": 1,
+                  "min_items": 1
+                }
+              }
+            ],
+            "duration_ms": 149,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"visitPlanId\": 7538, \"visitorUserId\": 1, \"visitorUserName\": \"超级管理员\", \"templateId\": 43, \"reportConfigSnapshot\": \"[{\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_in\\\", \\\"reportName\\\": \\\"抵达签到\\\", \\\"formType\\\": \\\"check_in\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 1, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"inventory\\\", \\\"reportName\\\": \\\"库存上报1\\\", \\\"formType\\\": \\\"inventory\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 21, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"display\\\", \\\"reportName\\\": \\\"陈列上报\\\", \\\"formType\\\": \\\"display\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 30, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"price\\\", \\\"reportName\\\": \\\"价格上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 40, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"atmosphere\\\", \\\"reportName\\\": \\\"氛围上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 50, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"other\\\", \\\"reportName\\\": \\\"其他上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 60, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_out\\\", \\\"reportName\\\": \\\"离开签退\\\", \\\"formType\\\": \\\"check_out\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 99, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}]\", \"customerType\": \"1\", \"customerId\": 1124, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"terminalType\": null, \"visitDate\": \"2026-10-17\", \"status\": \"1\", \"visitStatus\": \"0\", \"isTemporary\": \"0\", \"checkInTime\": null, \"checkOutTime\": null, \"approvalInstanceId\": null, \"remark\": null, \"delFlag\": \"0\", \"createBy\": \"1\", \"createTime\": \"2026-10-17 13:48:17\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:17\", \"customerAddress\": \"\", \"displayVisitStatus\": \"待拜访\", \"deptName\": \"武昌区启光商贸有限公司\", \"templateName\": \"拜访计划管理（批测试_1792216095742_825194_路线\", \"productType\": null, \"terminalTags\": null, \"cooperationStatus\": \"正在合作\"}], \"pageNum\": 1, \"pageSize\": 10, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-17T13:48:17.473380\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194",
+                "bound_template_id": 43
+              },
+              "templates": {
+                "$.data.params.customerName": "{{record_marker}}",
+                "$.assertions[2].rules[0].expected": "{{record_marker}}",
+                "$.assertions[2].rules[1].expected": "{{bound_template_id}}"
+              },
+              "generated_at_ms": 1792216096711
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "16cd2f9ae9de4c6785eed36181bf9763",
+              "Content-Type": "application/json",
+              "Content-Length": "2566"
+            }
+          },
+          {
+            "key": "detail",
+            "mode": "local_headless",
+            "name": "详情查询与数据归属校验",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 331,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/7538",
+              "body": {},
+              "path": "/business/visitPlan/7538",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 7538,
+                "passed": true,
+                "expected": 7538
+              },
+              {
+                "type": "json_pointer",
+                "actual": "拜访计划管理（批测试_1792216095742_825194",
+                "passed": true,
+                "expected": "拜访计划管理（批测试_1792216095742_825194"
+              }
+            ],
+            "duration_ms": 126,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"visitPlan\": {\"visitPlanId\": 7538, \"visitorUserId\": 1, \"visitorUserName\": \"超级管理员\", \"templateId\": 43, \"templateName\": null, \"reportConfigSnapshot\": \"[{\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_in\\\", \\\"reportName\\\": \\\"抵达签到\\\", \\\"formType\\\": \\\"check_in\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 1, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"inventory\\\", \\\"reportName\\\": \\\"库存上报1\\\", \\\"formType\\\": \\\"inventory\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 21, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"display\\\", \\\"reportName\\\": \\\"陈列上报\\\", \\\"formType\\\": \\\"display\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 30, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"price\\\", \\\"reportName\\\": \\\"价格上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 40, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"atmosphere\\\", \\\"reportName\\\": \\\"氛围上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 50, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"other\\\", \\\"reportName\\\": \\\"其他上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 60, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_out\\\", \\\"reportName\\\": \\\"离开签退\\\", \\\"formType\\\": \\\"check_out\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 99, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}]\", \"customerType\": \"1\", \"customerId\": 1124, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"terminalType\": null, \"customerAddress\": null, \"visitDate\": \"2026-10-17 10:00:00\", \"status\": \"1\", \"visitStatus\": \"0\", \"isTemporary\": \"0\", \"checkInTime\": null, \"checkOutTime\": null, \"approvalInstanceId\": null, \"remark\": null, \"delFlag\": \"0\", \"createBy\": \"1\", \"createTime\": \"2026-10-17 13:48:17\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:17\"}, \"customer\": {\"customerId\": 1124, \"drinkingFrequency\": null, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:16\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:16\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"0\"}}, \"success\": true, \"time\": \"2026-10-17T13:48:17.615455\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 7538,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}",
+                "$.assertions[3].expected": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216096866
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "bf846e6638244744a76934e11960a7b2",
+              "Content-Type": "application/json",
+              "Content-Length": "3513"
+            }
+          },
+          {
+            "key": "edit",
+            "mode": "local_headless",
+            "name": "编辑本流程创建的数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 332,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan",
+              "body": {
+                "remark": "拜访计划管理（批维护_1792216095742_825194",
+                "visitDate": "2026-10-17T10:00:00",
+                "customerId": 1124,
+                "visitPlanId": 7538,
+                "customerName": "拜访计划管理（批测试_1792216095742_825194",
+                "customerType": "1",
+                "visitorUserId": 1,
+                "visitorUserName": "超级管理员"
+              },
+              "path": "/business/visitPlan",
+              "query": {},
+              "method": "PUT",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 133,
+            "response_body": "{\"code\": 200, \"msg\": \"更新成功\", \"success\": true, \"time\": \"2026-10-17T13:48:17.742029\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 1124,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.data.params.remark": "{{updated_marker}}",
+                "$.data.params.customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216096998
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "0c652dd82c974536836e636384db9919",
+              "Content-Type": "application/json",
+              "Content-Length": "84"
+            }
+          },
+          {
+            "key": "verify_edit",
+            "mode": "local_headless",
+            "name": "再次查询并验证修改生效",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 333,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/7538",
+              "body": {},
+              "path": "/business/visitPlan/7538",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 7538,
+                "passed": true,
+                "expected": 7538
+              },
+              {
+                "type": "json_pointer",
+                "actual": "拜访计划管理（批测试_1792216095742_825194",
+                "passed": true,
+                "expected": "拜访计划管理（批测试_1792216095742_825194"
+              }
+            ],
+            "duration_ms": 129,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"visitPlan\": {\"visitPlanId\": 7538, \"visitorUserId\": 1, \"visitorUserName\": \"超级管理员\", \"templateId\": 43, \"templateName\": null, \"reportConfigSnapshot\": \"[{\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_in\\\", \\\"reportName\\\": \\\"抵达签到\\\", \\\"formType\\\": \\\"check_in\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 1, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"inventory\\\", \\\"reportName\\\": \\\"库存上报1\\\", \\\"formType\\\": \\\"inventory\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 21, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"display\\\", \\\"reportName\\\": \\\"陈列上报\\\", \\\"formType\\\": \\\"display\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 30, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"price\\\", \\\"reportName\\\": \\\"价格上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 40, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"atmosphere\\\", \\\"reportName\\\": \\\"氛围上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 50, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"other\\\", \\\"reportName\\\": \\\"其他上报\\\", \\\"formType\\\": \\\"simple_image_text\\\", \\\"isEnabled\\\": \\\"0\\\", \\\"isRequired\\\": \\\"0\\\", \\\"isSystem\\\": \\\"0\\\", \\\"sortOrder\\\": 60, \\\"remark\\\": null}, {\\\"customerType\\\": \\\"1\\\", \\\"reportType\\\": \\\"check_out\\\", \\\"reportName\\\": \\\"离开签退\\\", \\\"formType\\\": \\\"check_out\\\", \\\"isEnabled\\\": \\\"1\\\", \\\"isRequired\\\": \\\"1\\\", \\\"isSystem\\\": \\\"1\\\", \\\"sortOrder\\\": 99, \\\"remark\\\": \\\"系统内置项，不建议关闭\\\"}]\", \"customerType\": \"1\", \"customerId\": 1124, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"terminalType\": null, \"customerAddress\": null, \"visitDate\": \"2026-10-17 10:00:00\", \"status\": \"1\", \"visitStatus\": \"0\", \"isTemporary\": \"0\", \"checkInTime\": null, \"checkOutTime\": null, \"approvalInstanceId\": null, \"remark\": \"拜访计划管理（批维护_1792216095742_825194\", \"delFlag\": \"0\", \"createBy\": \"1\", \"createTime\": \"2026-10-17 13:48:17\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:18\"}, \"customer\": {\"customerId\": 1124, \"drinkingFrequency\": null, \"customerName\": \"拜访计划管理（批测试_1792216095742_825194\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:16\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:16\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"0\"}}, \"success\": true, \"time\": \"2026-10-17T13:48:17.894882\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 7538,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}",
+                "$.assertions[3].expected": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216097143
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:17 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "6cad42d0060c4f39abaf772b7e3f8a5b",
+              "Content-Type": "application/json",
+              "Content-Length": "3562"
+            }
+          },
+          {
+            "key": "delete",
+            "mode": "local_headless",
+            "name": "删除本流程创建的数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 334,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/7538",
+              "body": {},
+              "path": "/business/visitPlan/7538",
+              "query": {},
+              "method": "DELETE",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 136,
+            "response_body": "{\"code\": 200, \"msg\": \"删除成功\", \"success\": true, \"time\": \"2026-10-17T13:48:18.028435\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 7538,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {},
+              "generated_at_ms": 1792216097284
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:18 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "8cb618db4f094d21ba3213b2e48d4e88",
+              "Content-Type": "application/json",
+              "Content-Length": "84"
+            }
+          },
+          {
+            "key": "verify_delete",
+            "mode": "local_headless",
+            "name": "查询确认数据已删除",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 335,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/visitPlan/7538",
+              "body": {},
+              "path": "/business/visitPlan/7538",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": null,
+                "passed": true,
+                "expected": null
+              }
+            ],
+            "duration_ms": 124,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"visitPlan\": null, \"customer\": null}, \"success\": true, \"time\": \"2026-10-17T13:48:18.176339\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+                "bound_owned_id": 7538,
+                "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+              },
+              "templates": {},
+              "generated_at_ms": 1792216097430
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:18 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "4448edb97a7f40dc92b4ad316702acde",
+              "Content-Type": "application/json",
+              "Content-Length": "126"
+            }
+          }
+        ],
+        "inputs": {
+          "module_key": "visit_plan_batch",
+          "campaign_key": "waiqin-crud-20261015",
+          "record_marker": "拜访计划管理（批测试_1792216095742_825194",
+          "updated_marker": "拜访计划管理（批维护_1792216095742_825194"
+        },
+        "status": "success",
+        "snapshot": {
+          "flow": {
+            "id": 15801,
+            "data": {
+              "nodes": [
+                {
+                  "key": "terminal_create",
+                  "name": "创建独立审批测试数据",
+                  "next": "auto",
+                  "api_id": 12086,
+                  "params": {
+                    "editCount": 0,
+                    "managerIds": [
+                      1
+                    ],
+                    "customerName": "{{record_marker}}",
+                    "customerType": "1",
+                    "cooperationStatus": "正在合作"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 1243,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "terminal_locate",
+                  "name": "按唯一名称定位本次创建的数据",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {
+                    "pageNum": 1,
+                    "pageSize": 10,
+                    "customerName": "{{record_marker}}",
+                    "customerType": "1"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 1244,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "owned_id",
+                      "path": "/rows/0/customerId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "array",
+                      "name": "owned_ids",
+                      "path": "",
+                      "paths": [
+                        "/rows/0/customerId"
+                      ],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "terminal_detail",
+                  "name": "详情核对新建数据并读取审批实例",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 1245,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "terminal_locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "instance_id",
+                      "path": "/approvalProcess/instanceId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "template_create",
+                  "name": "新建本场景独立拜访模板",
+                  "next": "auto",
+                  "api_id": 12156,
+                  "params": {
+                    "userId": 1,
+                    "weeklyData": {
+                      "1": []
+                    },
+                    "templateName": "{{record_marker}}_路线"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 1246,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_ids",
+                      "path": "/weeklyData/1",
+                      "prefix": "",
+                      "source": "terminal_locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "template_locate",
+                  "name": "唯一名称定位本次路线",
+                  "next": "auto",
+                  "api_id": 12149,
+                  "params": {
+                    "pageNum": 1,
+                    "pageSize": 10,
+                    "templateName": "{{record_marker}}_路线"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 1247,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "template_id",
+                      "path": "/rows/0/templateId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "create",
+                  "name": "新增独立测试数据",
+                  "next": "auto",
+                  "api_id": 12144,
+                  "params": {
+                    "visitPlans": [
+                      {
+                        "visitDate": "2026-10-17T10:00:00",
+                        "customerId": 0,
+                        "templateId": 0,
+                        "customerName": "{{record_marker}}",
+                        "customerType": "1"
+                      }
+                    ],
+                    "visitorUserId": 1,
+                    "visitorUserName": "超级管理员"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 329,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visitPlans/0/customerId",
+                      "prefix": "",
+                      "source": "terminal_locate",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "template_id",
+                      "path": "/visitPlans/0/templateId",
+                      "prefix": "",
+                      "source": "template_locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "locate",
+                  "name": "列表查询并安全定位本次数据",
+                  "next": "auto",
+                  "api_id": 12141,
+                  "params": {
+                    "pageNum": 1,
+                    "pageSize": 10,
+                    "customerName": "{{record_marker}}",
+                    "visitorUserId": 1
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 330,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "template_id",
+                      "path": "/templateId",
+                      "prefix": "",
+                      "source": "template_locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "owned_id",
+                      "path": "/rows/0/visitPlanId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "detail",
+                  "name": "详情查询与数据归属校验",
+                  "next": "auto",
+                  "api_id": 12147,
+                  "params": {
+                    "visit_plan_id": "{{owned_id}}"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 331,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visit_plan_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "edit",
+                  "name": "编辑本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12142,
+                  "params": {
+                    "remark": "{{updated_marker}}",
+                    "visitDate": "2026-10-17T10:00:00",
+                    "customerId": 0,
+                    "visitPlanId": "{{owned_id}}",
+                    "customerName": "{{record_marker}}",
+                    "customerType": "1",
+                    "visitorUserId": 1,
+                    "visitorUserName": "超级管理员"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 332,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visitPlanId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "owned_id",
+                      "path": "/customerId",
+                      "prefix": "",
+                      "source": "terminal_locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_edit",
+                  "name": "再次查询并验证修改生效",
+                  "next": "auto",
+                  "api_id": 12147,
+                  "params": {
+                    "visit_plan_id": "{{owned_id}}"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 333,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visit_plan_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "delete",
+                  "name": "删除本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12145,
+                  "params": {
+                    "visit_plan_ids": "{{owned_id}}"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 334,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visit_plan_ids",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_delete",
+                  "name": "查询确认数据已删除",
+                  "next": "auto",
+                  "api_id": 12147,
+                  "params": {
+                    "visit_plan_id": "{{owned_id}}"
+                  },
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 335,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/visit_plan_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                }
+              ],
+              "inputs": {
+                "module_key": "visit_plan_batch",
+                "campaign_key": "waiqin-crud-20261015",
+                "record_marker": "拜访计划管理（批测试_{{timestamp_ms}}_{{random_digits:6}}",
+                "updated_marker": "拜访计划管理（批维护_{{timestamp_ms}}_{{random_digits:6}}"
+              },
+              "version": 2
+            },
+            "name": "[业务回归] 拜访计划管理（批量添加）",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T10:44:33",
+            "project_id": 10,
+            "updated_at": "2026-10-16T17:20:25",
+            "description": "仅添加一条带独立备注的计划；列表首条不属于本次创建时停止，不猜测 ID。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。"
+          },
+          "scenario": {
+            "id": 15802,
+            "data": {
+              "nodes": {
+                "edit": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "create": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "delete": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "detail": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "locate": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_edit": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_delete": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "template_create": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "template_locate": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "terminal_create": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "terminal_detail": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "terminal_locate": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                }
+              },
+              "inputs": {},
+              "flow_id": 15801,
+              "expected_end": "verify_delete",
+              "latest_run_id": 16997,
+              "latest_status": "success",
+              "failure_policy": "stop",
+              "template_version": 2
+            },
+            "name": "增查改删闭环",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T10:44:34",
+            "project_id": 10,
+            "updated_at": "2026-10-16T18:00:00",
+            "description": "仅添加一条带独立备注的计划；列表首条不属于本次创建时停止，不猜测 ID。"
+          }
+        },
+        "end_passed": true,
+        "duration_ms": 1808,
+        "scenario_id": 15802,
+        "expected_end": "verify_delete",
+        "template_version": 2
+      }
+    ],
+    "concurrency": 1,
+    "template_version": 2
+  },
+  "created_at": "2026-10-17T13:48:16",
+  "updated_at": "2026-10-17T13:48:20",
+  "deleted": false
+}

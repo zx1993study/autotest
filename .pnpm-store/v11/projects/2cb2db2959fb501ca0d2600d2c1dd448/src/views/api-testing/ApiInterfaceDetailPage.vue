@@ -383,33 +383,17 @@
       </section>
     </div>
 
-    <div v-if="selectedCase" class="modal-backdrop" @click.self="selectedCase = null">
-      <section class="modal-panel case-detail-dialog" role="dialog" aria-modal="true">
-        <header class="modal-header">
-          <h3>{{ selectedCase.name }}</h3>
-          <button class="modal-close" type="button" aria-label="关闭" @click="selectedCase = null">×</button>
-        </header>
-        <div class="case-detail-body">
-          <ApiCaseDetailContent :item="selectedCase" />
-        </div>
-        <footer class="modal-actions">
+    <ResultDetailDialog v-if="selectedCase" :title="selectedCase.name" @close="selectedCase = null">
+      <ApiCaseDetailContent :item="selectedCase" />
+      <template #footer>
           <button type="button" class="danger case-delete-action" :disabled="caseRunning || caseDeleting || caseLoading" @click="removeCases([selectedCase])"><Trash2 :size="15" />{{ caseDeleting ? '删除中...' : '删除用例' }}</button>
           <button type="button" @click="selectedCase = null">关闭</button>
-        </footer>
-      </section>
-    </div>
+      </template>
+    </ResultDetailDialog>
 
-    <div v-if="selectedDraft" class="modal-backdrop" @click.self="selectedDraft = null">
-      <section class="modal-panel case-detail-dialog" role="dialog" aria-modal="true">
-        <header class="modal-header">
-          <h3>草稿详情：{{ selectedDraft.name }}</h3>
-          <button class="modal-close" type="button" aria-label="关闭" @click="selectedDraft = null">×</button>
-        </header>
-        <div class="case-detail-body">
-          <ApiCaseDetailContent :item="selectedDraft" :show-execution="false" />
-        </div>
-      </section>
-    </div>
+    <ResultDetailDialog v-if="selectedDraft" :title="`草稿详情：${selectedDraft.name}`" @close="selectedDraft = null">
+      <ApiCaseDetailContent :item="selectedDraft" :show-execution="false" />
+    </ResultDetailDialog>
 
     <ApiCaseFormDialog
       v-if="interfaceItem"
@@ -444,6 +428,7 @@ import ApiCaseFormDialog from '../../components/api-case-drafts/ApiCaseFormDialo
 import DynamicValueInput from '../../components/common/DynamicValueInput.vue'
 import CommonPagination from '../../components/common/CommonPagination.vue'
 import ApiCaseDetailContent from '../../components/resource/ApiCaseDetailContent.vue'
+import ResultDetailDialog from '../../components/common/ResultDetailDialog.vue'
 import { ExecutionMode } from '../../constants/enums'
 import { runApiCases } from '../../services/api-case.service'
 import { pageTabKey, usePageTabsStore } from '../../store/page-tabs'
@@ -1083,7 +1068,7 @@ function goBack() {
   const query: Record<string, string> = {}
   if (projectId.value) query.project_id = String(projectId.value)
   if (moduleId.value) query.module_id = String(moduleId.value)
-  void router.push({ path: '/api/interfaces', query })
+  void router.replace({ path: '/api/interfaces', query })
 }
 
 function fieldLocation(item: ResourceItem): Exclude<FieldLocation, ''> {
@@ -1541,16 +1526,6 @@ function errorMessage(error: unknown, fallback: string) {
 .checkbox-form-field input {
   width: 16px;
   height: 16px;
-}
-
-.case-detail-dialog {
-  width: min(940px, calc(100vw - 32px));
-  max-height: calc(100vh - 48px);
-}
-
-.case-detail-body {
-  overflow: auto;
-  padding: 18px 20px 24px;
 }
 
 .modal-backdrop { z-index: 60; }

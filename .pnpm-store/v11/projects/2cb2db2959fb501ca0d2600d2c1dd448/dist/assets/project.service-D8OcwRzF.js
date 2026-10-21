@@ -1,0 +1,1 @@
+import{I as r}from"./index-DH8OPOfd.js";function u(){return r({method:"GET",url:"/projects/options"})}function o(t){return t.find(e=>e.is_default)||t[0]||null}function i(t){var e;return((e=o(t))==null?void 0:e.id)||0}export{u as l,i as r};

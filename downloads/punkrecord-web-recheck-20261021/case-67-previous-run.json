@@ -1,0 +1,44 @@
+{
+  "case_id": 67,
+  "feature_id": 17837,
+  "name": "IAM-001 员工列表正常加载",
+  "task_id": 21375,
+  "status": "success",
+  "records": [
+    {
+      "id": 21376,
+      "status": "success",
+      "error": null,
+      "step_count": 7,
+      "business_result": "passed",
+      "assertion_count": 3,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":is(h1,h2):text-is(\"员工管理\")",
+          "step": 6,
+          "actual": "员工管理",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"员工管理\")",
+          "expected": "员工管理"
+        },
+        {
+          "name": "tbody tr:has-text(\"Administrator\")",
+          "step": 7,
+          "actual": "Administrator\n\tadmin\t-\t-\t-\tL0\t在职\t\n 编辑\n基本工资\n 重置密码",
+          "passed": true,
+          "locator": "tbody tr:has-text(\"Administrator\")",
+          "expected": "Administrator"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/iam/users"
+    }
+  ]
+}

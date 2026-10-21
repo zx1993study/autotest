@@ -1,0 +1,52 @@
+{
+  "case_id": 69,
+  "feature_id": 17845,
+  "name": "FINANCE-001 账户和交易明细切换",
+  "task_id": 21379,
+  "status": "success",
+  "records": [
+    {
+      "id": 21380,
+      "status": "success",
+      "error": null,
+      "step_count": 10,
+      "business_result": "passed",
+      "assertion_count": 4,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":is(h1,h2):text-is(\"财务管理\")",
+          "step": 6,
+          "actual": "财务管理",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"财务管理\")",
+          "expected": "财务管理"
+        },
+        {
+          "name": "a.active[href$=\"/finance/transactions\"]",
+          "step": 8,
+          "actual": "交易明细",
+          "passed": true,
+          "locator": "a.active[href$=\"/finance/transactions\"]",
+          "expected": "交易明细"
+        },
+        {
+          "name": "a.active[href$=\"/finance/accounts\"]",
+          "step": 10,
+          "actual": "账户列表",
+          "passed": true,
+          "locator": "a.active[href$=\"/finance/accounts\"]",
+          "expected": "账户列表"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/finance/accounts"
+    }
+  ]
+}

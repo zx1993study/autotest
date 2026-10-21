@@ -60,12 +60,13 @@ class AppFeatureTestingService:
 
     def delete_feature(self, feature_id: int) -> bool:
         self._required(FEATURE_TABLE, feature_id, "App 功能不存在")
-        scenarios, _ = self.repository.list(SCENARIO_TABLE, page=1, page_size=10000, data_filters={"feature_id": feature_id})
-        for scenario in scenarios:
-            self.repository.delete(SCENARIO_TABLE, int(scenario["id"]))
-        if not self.repository.delete(FEATURE_TABLE, feature_id):
+        if not self.batch_delete_features([feature_id])["deleted_count"]:
             raise ResourceNotFoundError("App 功能不存在")
         return True
+
+    def batch_delete_features(self, feature_ids: list[int]) -> dict[str, int]:
+        count = self.repository.batch_delete_with_children(FEATURE_TABLE, feature_ids, SCENARIO_TABLE, "feature_id")
+        return {"deleted_count": count}
 
     def list_scenarios(
         self,

@@ -2,8 +2,8 @@ import type { ResourceItem } from './resource'
 
 export type ValueOperator = 'eq' | 'ne' | 'gt' | 'ge' | 'lt' | 'le' | 'contains' | 'exists'
 export interface FlowCondition { source: string; name: string; operator: ValueOperator; value: unknown }
-export interface FlowBinding { source: string; name: string; target: 'auto' | 'params' | 'headers' | 'query' | 'body'; path: string; target_name?: string; prefix: string }
-export interface FlowExtract { name: string; source: 'body' | 'header' | 'status'; path: string; mode?: 'single' | 'array'; paths?: string[]; required: boolean; sensitive: boolean }
+export interface FlowBinding { source: string; name: string; target: 'auto' | 'params' | 'headers' | 'query' | 'body' | 'variables'; path: string; target_name?: string; prefix: string }
+export interface FlowExtract { name: string; source: 'body' | 'header' | 'status'; path: string; mode?: 'single' | 'array'; paths?: string[]; required: boolean; sensitive: boolean; selection?: { path: string; non_empty?: string[]; equals?: Record<string, unknown> } | null }
 export interface FlowRoute { source: 'body' | 'header' | 'status'; path: string; operator: ValueOperator; value: unknown; target: string }
 export interface FlowRequestOverride {
   params: Record<string, unknown>; request: Record<string, unknown>; request_removals?: string[]
@@ -19,6 +19,7 @@ export interface FlowDefinition extends Record<string, unknown> {
 }
 export interface ApiFlow extends ResourceItem { data: FlowDefinition }
 export interface ScenarioNode {
+  name?: string | null
   case_id: number | null; mode: 'always' | 'skip' | 'condition'; condition: FlowCondition | null
   params: Record<string, unknown>; request: Record<string, unknown>
   request_removals?: string[]
@@ -31,7 +32,7 @@ export interface ScenarioDefinition extends Record<string, unknown> {
 export interface ApiFlowScenario extends ResourceItem { data: ScenarioDefinition }
 export interface FlowNodeEvidence extends Record<string, unknown> {
   key: string; name: string; status: string; reason?: string; error?: string
-  duration_ms?: number; response_status?: number; request?: Record<string, unknown>
+  duration_ms?: number; response_status?: number; response_code?: number | string | null; request?: Record<string, unknown>
   response_headers?: Record<string, string>; response_body?: string; assertions?: Record<string, unknown>[]
   outputs?: Record<string, unknown>; next?: string
 }

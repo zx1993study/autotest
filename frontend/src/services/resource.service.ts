@@ -6,8 +6,8 @@ export function listResources(path: string, params: Record<string, unknown> = {}
   return request<PageResult<ResourceItem>>({ method: 'GET', url: path, params, signal })
 }
 
-export function getResource(path: string, id: number) {
-  return request<ResourceItem>({ method: 'GET', url: `${path}/${id}` })
+export function getResource(path: string, id: number, signal?: AbortSignal) {
+  return request<ResourceItem>({ method: 'GET', url: `${path}/${id}`, signal })
 }
 
 export function createResource(path: string, payload: ResourcePayload) {

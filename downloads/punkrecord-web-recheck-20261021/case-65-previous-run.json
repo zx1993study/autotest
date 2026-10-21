@@ -1,0 +1,52 @@
+{
+  "case_id": 65,
+  "feature_id": 17831,
+  "name": "MCP-001 生成一次性 MCP 密钥",
+  "task_id": 21371,
+  "status": "success",
+  "records": [
+    {
+      "id": 21372,
+      "status": "success",
+      "error": null,
+      "step_count": 12,
+      "business_result": "passed",
+      "assertion_count": 4,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":is(h1,h2):text-is(\"MCP 集成\")",
+          "step": 6,
+          "actual": "MCP 集成",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"MCP 集成\")",
+          "expected": "MCP 集成"
+        },
+        {
+          "name": ".mcp-token",
+          "step": 10,
+          "actual": "pat_d1ea2abfa279fbce2bdf4462dd2d194e89983423eff1333f683fe061844d1109",
+          "passed": true,
+          "locator": ".mcp-token",
+          "expected": "pat_"
+        },
+        {
+          "name": ".mcp-token-name:has-text(\"AUTOTEST_REMOTE_20261019_132932 MCP 1792562258233\")",
+          "step": 12,
+          "actual": "AUTOTEST_REMOTE_20261019_132932 MCP 1792562258233 pat_d1ea****1109",
+          "passed": true,
+          "locator": ".mcp-token-name:has-text(\"AUTOTEST_REMOTE_20261019_132932 MCP 1792562258233\")",
+          "expected": "AUTOTEST_REMOTE_20261019_132932 MCP"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/mcp"
+    }
+  ]
+}

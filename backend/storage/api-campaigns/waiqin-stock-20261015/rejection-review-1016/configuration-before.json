@@ -1,0 +1,1706 @@
+{
+  "checked_at": "2026-10-16T12:26:02.802191",
+  "nodes": [
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16311,
+      "updated_at": "2026-10-16T11:13:31",
+      "run_id": 16424,
+      "node_key": "sales_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "quantity": 11,
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品"
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "salesType": "2",
+            "customerId": 1083,
+            "salesUserId": 1,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "warehouseName": "测试添加"
+          }
+        },
+        "case_id": 964,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "sales_over_stock",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16312,
+      "updated_at": "2026-10-16T11:13:30",
+      "run_id": 16425,
+      "node_key": "sales_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "quantity": 1,
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品"
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "salesType": "2",
+            "customerId": 1083,
+            "salesUserId": 1,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "warehouseName": "测试添加"
+          }
+        },
+        "case_id": 966,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "sales_absent",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16315,
+      "updated_at": "2026-10-16T11:13:25",
+      "run_id": 16486,
+      "node_key": "sales2_zero_available",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "quantity": 1,
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_追加销售_主商品"
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}_追加销售",
+            "salesType": "2",
+            "customerId": 756,
+            "salesUserId": 1,
+            "warehouseId": 230,
+            "customerName": "洪山a1直营端2",
+            "warehouseName": "测试添加"
+          }
+        },
+        "case_id": 988,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "sales_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16316,
+      "updated_at": "2026-10-16T11:13:24",
+      "run_id": 16487,
+      "node_key": "sales2_conflict_approve",
+      "node": {
+        "mode": "always",
+        "params": {
+          "approveRemark": "{{record_marker}}_追加销售_审批核对",
+          "approveResult": "1"
+        },
+        "case_id": 1002,
+        "request": {},
+        "bindings": [
+          {
+            "name": "node_instance_id",
+            "path": "/nodeInstanceId",
+            "prefix": "",
+            "source": "sales2_process",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "pending_conflict",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16308,
+      "flow_version": 8,
+      "scene_id": 16318,
+      "updated_at": "2026-10-16T11:13:24",
+      "run_id": 16488,
+      "node_key": "receipt_confirm_again",
+      "node": {
+        "mode": "condition",
+        "params": {
+          "remark": "{{record_marker}}_确认入出库"
+        },
+        "case_id": 1011,
+        "request": {},
+        "bindings": [
+          {
+            "name": "inbound_id",
+            "path": "/inboundId",
+            "prefix": "",
+            "source": "receipt_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": {
+          "name": "inbound_id",
+          "value": null,
+          "source": "receipt_locate",
+          "operator": "exists"
+        },
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "confirm_repeat",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16327,
+      "updated_at": "2026-10-16T10:38:45",
+      "run_id": 16426,
+      "node_key": "return_receipt_repeat",
+      "node": {
+        "mode": "condition",
+        "params": {
+          "remark": "{{record_marker}}_确认入出库"
+        },
+        "case_id": 1066,
+        "request": {},
+        "bindings": [
+          {
+            "name": "inbound_id",
+            "path": "/inboundId",
+            "prefix": "",
+            "source": "return_receipt_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": {
+          "name": "inbound_id",
+          "value": null,
+          "source": "return_receipt_locate",
+          "operator": "exists"
+        },
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "return_repeat",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16329,
+      "updated_at": "2026-10-16T10:54:48",
+      "run_id": 16491,
+      "node_key": "return2_over_remaining",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_第二次退货_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 2
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}_第二次退货",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 7.0,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_第二次退货_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 2,
+            "warehouseName": "测试添加",
+            "returnOrderType": "1"
+          }
+        },
+        "case_id": 1075,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "owned_id",
+            "path": "/order/salesOrderId",
+            "prefix": "",
+            "source": "sales_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "order_no",
+            "path": "/order/salesOrderNo",
+            "prefix": "",
+            "source": "sales_detail",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "item_id",
+            "path": "/items/0/salesItemId",
+            "prefix": "",
+            "source": "sales_detail",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "cumulative_over",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16330,
+      "updated_at": "2026-10-16T10:38:45",
+      "run_id": 16427,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1077,
+        "request": {},
+        "bindings": [],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "empty_items",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16331,
+      "updated_at": "2026-10-16T10:38:46",
+      "run_id": 16428,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 0
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1079,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "quantity_zero",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16332,
+      "updated_at": "2026-10-16T10:38:46",
+      "run_id": 16429,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": -1
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1080,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "quantity_negative",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16333,
+      "updated_at": "2026-10-16T10:38:47",
+      "run_id": 16430,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 1
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "1"
+          }
+        },
+        "case_id": 1081,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "missing_sales_order",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16334,
+      "updated_at": "2026-10-16T10:38:47",
+      "run_id": 16431,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 1
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1082,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "missing_customer",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16335,
+      "updated_at": "2026-10-16T10:38:48",
+      "run_id": 16432,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 1
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1083,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "missing_warehouse",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16336,
+      "updated_at": "2026-10-16T10:54:54",
+      "run_id": 16492,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 4
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 14.0,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 4,
+            "warehouseName": "测试添加",
+            "returnOrderType": "1"
+          }
+        },
+        "case_id": 1084,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "owned_id",
+            "path": "/order/salesOrderId",
+            "prefix": "",
+            "source": "sales_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "order_no",
+            "path": "/order/salesOrderNo",
+            "prefix": "",
+            "source": "sales_detail",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "item_id",
+            "path": "/items/0/salesItemId",
+            "prefix": "",
+            "source": "sales_detail",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "over_return",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16337,
+      "updated_at": "2026-10-16T10:55:01",
+      "run_id": 16493,
+      "node_key": "return_invalid_create",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "salesItemId": 0,
+              "qualityStatus": "1",
+              "returnQuantity": 1
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 3.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 1,
+            "warehouseName": "测试添加",
+            "returnOrderType": "1"
+          }
+        },
+        "case_id": 1086,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "owned_id",
+            "path": "/order/salesOrderId",
+            "prefix": "",
+            "source": "sales_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "order_no",
+            "path": "/order/salesOrderNo",
+            "prefix": "",
+            "source": "sales_detail",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "wrong_sales_item",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16338,
+      "updated_at": "2026-10-16T10:38:48",
+      "run_id": 16433,
+      "node_key": "return_edit_pending",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 3
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}_违规修改",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 10.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 3,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1087,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "owned_id",
+            "path": "/order/returnId",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "edit_pending",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16339,
+      "updated_at": "2026-10-16T10:38:49",
+      "run_id": 16434,
+      "node_key": "return_delete_pending",
+      "node": {
+        "mode": "always",
+        "params": {},
+        "case_id": 1089,
+        "request": {},
+        "bindings": [
+          {
+            "name": "owned_id",
+            "path": "/return_ids",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "delete_pending",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16340,
+      "updated_at": "2026-10-16T10:38:49",
+      "run_id": 16435,
+      "node_key": "return_submit_pending",
+      "node": {
+        "mode": "always",
+        "params": {},
+        "case_id": 1090,
+        "request": {},
+        "bindings": [
+          {
+            "name": "owned_id",
+            "path": "/returnId",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "submit_pending",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16341,
+      "updated_at": "2026-10-16T10:38:48",
+      "run_id": 16436,
+      "node_key": "return_edit_approved",
+      "node": {
+        "mode": "always",
+        "params": {
+          "items": [
+            {
+              "productId": 0,
+              "unitPrice": 3.5,
+              "productName": "{{record_marker}}_主商品",
+              "qualityStatus": "1",
+              "returnQuantity": 3
+            }
+          ],
+          "order": {
+            "remark": "{{record_marker}}_违规修改",
+            "customerId": 1083,
+            "returnType": "4",
+            "totalAmount": 10.5,
+            "warehouseId": 230,
+            "customerName": "测试_1791948624707",
+            "customerType": "1",
+            "returnReason": "{{record_marker}}_门店完好商品退回",
+            "handlerUserId": 1,
+            "totalQuantity": 3,
+            "warehouseName": "测试添加",
+            "returnOrderType": "2"
+          }
+        },
+        "case_id": 1091,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/items/0/productId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "owned_id",
+            "path": "/order/returnId",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "edit_approved",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16342,
+      "updated_at": "2026-10-16T10:38:50",
+      "run_id": 16437,
+      "node_key": "return_delete_approved",
+      "node": {
+        "mode": "always",
+        "params": {},
+        "case_id": 1093,
+        "request": {},
+        "bindings": [
+          {
+            "name": "owned_id",
+            "path": "/return_ids",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "delete_approved",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16322,
+      "flow_version": 6,
+      "scene_id": 16343,
+      "updated_at": "2026-10-16T10:38:50",
+      "run_id": 16438,
+      "node_key": "return_submit_approved",
+      "node": {
+        "mode": "always",
+        "params": {},
+        "case_id": 1094,
+        "request": {},
+        "bindings": [
+          {
+            "name": "owned_id",
+            "path": "/returnId",
+            "prefix": "",
+            "source": "return_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "submit_approved",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16348,
+      "updated_at": "2026-10-16T10:33:01",
+      "run_id": 16439,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 0,
+          "targetQuantity": 24
+        },
+        "case_id": 1121,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "source_zero",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16349,
+      "updated_at": "2026-10-16T10:33:00",
+      "run_id": 16440,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": -1,
+          "targetQuantity": 24
+        },
+        "case_id": 1124,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "source_negative",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16350,
+      "updated_at": "2026-10-16T10:33:00",
+      "run_id": 16441,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": 0
+        },
+        "case_id": 1125,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "target_zero",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16351,
+      "updated_at": "2026-10-16T10:32:59",
+      "run_id": 16442,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": -1
+        },
+        "case_id": 1126,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "target_negative",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16352,
+      "updated_at": "2026-10-16T10:32:59",
+      "run_id": 16443,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 11,
+          "targetQuantity": 264
+        },
+        "case_id": 1127,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "over_actual",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16353,
+      "updated_at": "2026-10-16T10:32:59",
+      "run_id": 16444,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": 24
+        },
+        "case_id": 1128,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "same_product",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16358,
+      "updated_at": "2026-10-16T10:55:11",
+      "run_id": 16494,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 3,
+          "targetQuantity": 72
+        },
+        "case_id": 1141,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "locked_8",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16359,
+      "updated_at": "2026-10-16T10:55:18",
+      "run_id": 16495,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": 24
+        },
+        "case_id": 1147,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "locked_10",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    },
+    {
+      "flow_id": 16344,
+      "flow_version": 4,
+      "scene_id": 16361,
+      "updated_at": "2026-10-16T10:32:56",
+      "run_id": 16449,
+      "node_key": "convert",
+      "node": {
+        "mode": "always",
+        "params": {
+          "remark": "{{record_marker}}_拆箱补件",
+          "warehouseId": 230,
+          "warehouse_id": 230,
+          "sourceQuantity": 1,
+          "targetQuantity": 24
+        },
+        "case_id": 1147,
+        "request": {},
+        "bindings": [
+          {
+            "name": "product_id",
+            "path": "/sourceProductId",
+            "prefix": "",
+            "source": "product_locate",
+            "target": "params",
+            "target_name": ""
+          },
+          {
+            "name": "product_id",
+            "path": "/targetProductId",
+            "prefix": "",
+            "source": "target_locate",
+            "target": "params",
+            "target_name": ""
+          }
+        ],
+        "extracts": [],
+        "condition": null,
+        "assertions": [
+          {
+            "type": "api_rejection",
+            "expected": "validation",
+            "allowed_business_errors": []
+          }
+        ],
+        "request_removals": []
+      },
+      "inputs": {
+        "record_marker": "库存回归_{{timestamp_ms}}_{{random_digits:6}}",
+        "stock_scene_key": "source_absent",
+        "stock_rules_revision": "20261016-postapproval-lock"
+      }
+    }
+  ]
+}

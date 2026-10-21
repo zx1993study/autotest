@@ -2,12 +2,16 @@
 from copy import deepcopy
 
 
-def redact_record(record, case):
+def redact_record(record, case, auth_context=None):
     data = case.get('data') or {}
     keys = set(data.get('secret_inputs') or {})
-    if not keys:
+    if not keys and not auth_context:
         return record
     values = [str(data.get('variables', {}).get(k) or '') for k in keys]
+    if auth_context:
+        values.extend(str(c.get('value') or '') for c in auth_context.get('cookies') or [])
+        for value in (auth_context.get('headers') or {}).values():
+            values.extend([str(value), str(value).removeprefix('Bearer ')])
 
     def redact(value):
         if isinstance(value, dict):

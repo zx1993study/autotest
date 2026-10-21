@@ -1,0 +1,886 @@
+{
+  "target": "http://14.103.229.153:15173",
+  "management": "http://127.0.0.1:8000/api/v1",
+  "project_id": 17796,
+  "run_prefix": "CASE_20261019_154805",
+  "scenarios": [
+    {
+      "code": "ADJUST-BOUNDARY-zero",
+      "title": "调整余额 amount=0：明确拒绝且余额流水不变",
+      "case_points": [
+        "BELI-06"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 2278,
+          "record_id": 19759,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+          "http_status": 400,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 400,
+              "passed": true,
+              "expected": 400
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "no_side_effects": {
+        "balance_before": 5142.76,
+        "balance_after": 5142.76,
+        "ledger_count_before": 44,
+        "ledger_count_after": 44,
+        "passed": true
+      }
+    },
+    {
+      "code": "ADJUST-BOUNDARY-huge-positive",
+      "title": "调整余额 amount=99999999999999999999999999：明确拒绝且余额流水不变",
+      "case_points": [
+        "BELI-06"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 2279,
+          "record_id": 19760,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "no_side_effects": {
+        "balance_before": 5142.76,
+        "balance_after": 5142.76,
+        "ledger_count_before": 44,
+        "ledger_count_after": 44,
+        "passed": true
+      }
+    },
+    {
+      "code": "ADJUST-BOUNDARY-huge-negative",
+      "title": "调整余额 amount=-9999999999999999999999：明确拒绝且余额流水不变",
+      "case_points": [
+        "BELI-06"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 2280,
+          "record_id": 19761,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "no_side_effects": {
+        "balance_before": 5142.76,
+        "balance_after": 5142.76,
+        "ledger_count_before": 44,
+        "ledger_count_after": 44,
+        "passed": true
+      }
+    },
+    {
+      "code": "ADJUST-BOUNDARY-four-decimals",
+      "title": "调整余额 amount=0.0005：明确拒绝且余额流水不变",
+      "case_points": [
+        "BELI-06"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "case_id": 2281,
+          "record_id": 19762,
+          "status": "success",
+          "method": "POST",
+          "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+          "http_status": 422,
+          "assertions": [
+            {
+              "type": "status",
+              "actual": 422,
+              "passed": true,
+              "expected": 422
+            }
+          ],
+          "actor": "manager"
+        }
+      ],
+      "no_side_effects": {
+        "balance_before": 5142.76,
+        "balance_after": 5142.76,
+        "ledger_count_before": 44,
+        "ledger_count_after": 44,
+        "passed": true
+      }
+    }
+  ],
+  "api_cases": [
+    {
+      "code": "ADJUST-BOUNDARY-zero.01",
+      "case_id": 2278,
+      "record_id": 19759,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+      "http_status": 400,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 400,
+          "passed": true,
+          "expected": 400
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "ADJUST-BOUNDARY-huge-positive.01",
+      "case_id": 2279,
+      "record_id": 19760,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "ADJUST-BOUNDARY-huge-negative.01",
+      "case_id": 2280,
+      "record_id": 19761,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    },
+    {
+      "code": "ADJUST-BOUNDARY-four-decimals.01",
+      "case_id": 2281,
+      "record_id": 19762,
+      "status": "success",
+      "method": "POST",
+      "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+      "http_status": 422,
+      "assertions": [
+        {
+          "type": "status",
+          "actual": 422,
+          "passed": true,
+          "expected": 422
+        }
+      ],
+      "actor": "manager"
+    }
+  ],
+  "web_cases": [],
+  "fixtures": [
+    {
+      "type": "user",
+      "id": "8cf5d346-2a85-4ffc-ae03-a07e07e26e7c",
+      "name": "CASE_20261019_144610 manager",
+      "username": "case_20261019_144610_manager",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "23aec9cd-977d-448a-a716-22546cec2e9c",
+      "name": "CASE_20261019_144610 employee",
+      "username": "case_20261019_144610_employee",
+      "reused": true,
+      "original_status": "inactive"
+    },
+    {
+      "type": "user",
+      "id": "a6be1d21-7582-46d5-97c9-e6ecacb4b3ad",
+      "name": "CASE_20261019_144610 other",
+      "username": "case_20261019_144610_other",
+      "reused": true,
+      "original_status": "inactive"
+    }
+  ],
+  "cleanup": [
+    {
+      "type": "user",
+      "id": "a6be1d21-7582-46d5-97c9-e6ecacb4b3ad",
+      "status": "success",
+      "action": "reused account retained; restored status=inactive"
+    },
+    {
+      "type": "user",
+      "id": "23aec9cd-977d-448a-a716-22546cec2e9c",
+      "status": "success",
+      "action": "reused account retained; restored status=inactive"
+    },
+    {
+      "type": "user",
+      "id": "8cf5d346-2a85-4ffc-ae03-a07e07e26e7c",
+      "status": "success",
+      "action": "reused account retained; restored status=inactive"
+    }
+  ],
+  "interface": {
+    "id": 19562,
+    "name": "cases.md POST /beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+    "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust"
+  },
+  "baseline": {
+    "account": {
+      "user_id": "23aec9cd-977d-448a-a716-22546cec2e9c",
+      "name": "CASE_20261019_144610 employee",
+      "status": "active",
+      "balance": 5142.76,
+      "frozen": 0.0,
+      "available": 5142.76,
+      "leave": {
+        "annual": 4.5,
+        "maternity": 15.0,
+        "marriage": 3.0,
+        "personal": 3.0,
+        "sick": 3.0
+      }
+    },
+    "ledger_ids": [
+      "00a3a539-644e-45b0-8984-914da08ab8eb",
+      "01e0b089-de95-4146-bce8-1fa7c672bfdc",
+      "0ec13b82-9d75-4d23-aa60-ab67854f58bf",
+      "1671ebf1-8f94-4c9e-a7c8-f42705676b2a",
+      "1ff5086a-a8a1-417e-8151-b4417b711c10",
+      "24c72c49-50db-4693-91e8-7a17a9abbc8d",
+      "33354f5a-7d0d-480d-a6a0-506d853782fa",
+      "362a03de-f4f5-441c-8d74-57c9ab9beefc",
+      "398b6680-fc55-405a-a682-fb1c7ff41e74",
+      "3a8dc61e-4ea7-422e-826a-3d9c32e47da3",
+      "400d04a7-5200-48af-9793-64d686865579",
+      "44e9f7ca-67ef-43d8-a713-601d2e2c2289",
+      "46c689fa-4bbd-474b-b7aa-05dd4292344f",
+      "4a71dddf-630c-4b3e-9952-3a8bf4f1ac2a",
+      "4e44cf4b-d5cf-4bfc-b8b7-cfb365cb30f8",
+      "5385fa07-203e-4187-a5cf-285b8738202b",
+      "5650097e-469e-40e7-a092-02b9450cccaf",
+      "5742be73-5327-4965-bbe7-55e934ed6a0f",
+      "5a2b9643-87f2-44a2-9146-e970eb009204",
+      "5b385e91-b31b-456d-8415-6b217947dd58",
+      "5c3c0412-6629-458a-a4a4-8e88fdfb41cb",
+      "63709a86-4cc4-4394-891f-76bd0830faca",
+      "6430b441-fd90-4ff1-9827-48b38cd3885a",
+      "79bd6f19-eb91-4410-ad77-7fef7252ad4a",
+      "8d29dd91-5eca-43a4-b76f-905fd87e2038",
+      "8de42bdc-e311-44ca-b04f-97e582f6ea42",
+      "8ff1d514-356d-4b0c-a468-8ea5eaa23f42",
+      "9af8038f-9e9a-4a88-9c21-c286e2c8b7ae",
+      "a494a84d-5cad-4a0c-86b0-0ef13ee50070",
+      "a50a7976-bf38-4430-a1fd-b3c6e1cda3eb",
+      "ac7a73d0-4507-4e34-b002-f82056592b21",
+      "b0da13de-82ee-4255-b9e6-a722043b1769",
+      "b2d06047-528c-47b4-a0e1-83284f2cb770",
+      "b5ed6cc3-05e1-4cd8-b5a0-f8495f0bdc12",
+      "ba2efe1f-6cae-44cd-9e93-feadf3adebb6",
+      "c366564a-fd07-4eec-a73f-bd5311080aea",
+      "cd7ee781-8cf8-47de-ac49-7d94186bb911",
+      "d599819a-b8e7-429b-944c-9cc6ec7ea188",
+      "dd74d3d2-ecf4-46a7-b1ab-64a00db14b5d",
+      "deec5526-b826-4b3f-b565-09b31a7ff3b3",
+      "e431adac-1520-48e4-9921-ea46ce41e786",
+      "f7054fed-8726-4df1-911f-1c7bb34126f8",
+      "f8f158fa-6b1b-412c-9308-013fc63c1875",
+      "f93926a4-6548-410d-9174-9de4e68f03b6"
+    ]
+  },
+  "native_flow": {
+    "flow_id": 19763,
+    "scenario_ids": [
+      19764,
+      19765,
+      19766,
+      19767
+    ],
+    "run_id": 19768,
+    "result": {
+      "id": 19768,
+      "name": "调整余额金额边界（用户补充） - 10-19 07:48:20",
+      "project_id": 17796,
+      "description": null,
+      "status": "success",
+      "data": {
+        "mode": "serial",
+        "flow_id": 19763,
+        "results": [
+          {
+            "name": "金额0拒绝（HTTP 400）",
+            "path": [
+              "adjust"
+            ],
+            "nodes": [
+              {
+                "key": "adjust",
+                "mode": "local_headless",
+                "name": "调整余额非法金额",
+                "next": "end",
+                "error": null,
+                "status": "success",
+                "case_id": 2278,
+                "outputs": {},
+                "request": {
+                  "url": "http://14.103.229.153:15173/api/v1/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "body": {
+                    "amount": 0,
+                    "reason": "CASE_20261019_154805 用户补充金额边界",
+                    "request_key": "1c89e48a-84ba-432d-9aee-d76215132690"
+                  },
+                  "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "query": {},
+                  "method": "POST",
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "***"
+                  },
+                  "timeout": 15,
+                  "base_url": "http://14.103.229.153:15173/",
+                  "api_base_path": "/api/v1"
+                },
+                "case_type": "API",
+                "assertions": [
+                  {
+                    "type": "status",
+                    "actual": 400,
+                    "passed": true,
+                    "expected": 400
+                  }
+                ],
+                "duration_ms": 95,
+                "response_body": "{\"code\": 400, \"message\": \"请选择非 L0 员工，填写调整金额及原因\", \"errors\": null}",
+                "response_code": 400,
+                "dynamic_values": {
+                  "values": {},
+                  "templates": {},
+                  "generated_at_ms": 1792396100743
+                },
+                "response_status": 400,
+                "response_headers": {
+                  "Vary": "Origin",
+                  "date": "Mon, 19 Oct 2026 07:48:21 GMT",
+                  "server": "uvicorn",
+                  "connection": "close",
+                  "content-type": "application/json",
+                  "content-length": "91"
+                }
+              }
+            ],
+            "inputs": {},
+            "status": "success",
+            "snapshot": {
+              "flow": {
+                "id": 19763,
+                "data": {
+                  "nodes": [
+                    {
+                      "key": "adjust",
+                      "name": "调整余额非法金额",
+                      "next": "end",
+                      "api_id": 19562,
+                      "params": {},
+                      "routes": [],
+                      "auth_id": 19756,
+                      "case_id": 2278,
+                      "request": {},
+                      "bindings": [],
+                      "extracts": [],
+                      "request_removals": []
+                    }
+                  ],
+                  "inputs": {},
+                  "version": 1
+                },
+                "name": "调整余额金额边界（用户补充）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:18",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:18",
+                "description": "0、超大正数、超大负数、0.0005；只应拒绝且不改余额流水"
+              },
+              "scenario": {
+                "id": 19764,
+                "data": {
+                  "nodes": {
+                    "adjust": {
+                      "mode": "always",
+                      "params": {},
+                      "case_id": 2278,
+                      "request": {},
+                      "bindings": null,
+                      "extracts": null,
+                      "condition": null,
+                      "assertions": null,
+                      "request_removals": []
+                    }
+                  },
+                  "inputs": {},
+                  "flow_id": 19763,
+                  "expected_end": "auto",
+                  "failure_policy": "stop",
+                  "template_version": 1
+                },
+                "name": "金额0拒绝（HTTP 400）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:19",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:19",
+                "description": "用户反馈的调整余额边界；账户和流水不变已在原生接口执行后核对"
+              }
+            },
+            "end_passed": true,
+            "duration_ms": 96,
+            "scenario_id": 19764,
+            "expected_end": "auto",
+            "template_version": 1
+          },
+          {
+            "name": "金额99999999999999999999999999拒绝（HTTP 422）",
+            "path": [
+              "adjust"
+            ],
+            "nodes": [
+              {
+                "key": "adjust",
+                "mode": "local_headless",
+                "name": "调整余额非法金额",
+                "next": "end",
+                "error": null,
+                "status": "success",
+                "case_id": 2279,
+                "outputs": {},
+                "request": {
+                  "url": "http://14.103.229.153:15173/api/v1/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "body": {
+                    "amount": 1e+26,
+                    "reason": "CASE_20261019_154805 用户补充金额边界",
+                    "request_key": "68341431-d2c0-4e11-8bdd-571aabb9cb5f"
+                  },
+                  "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "query": {},
+                  "method": "POST",
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "***"
+                  },
+                  "timeout": 15,
+                  "base_url": "http://14.103.229.153:15173/",
+                  "api_base_path": "/api/v1"
+                },
+                "case_type": "API",
+                "assertions": [
+                  {
+                    "type": "status",
+                    "actual": 422,
+                    "passed": true,
+                    "expected": 422
+                  }
+                ],
+                "duration_ms": 125,
+                "response_body": "{\"detail\": [{\"type\": \"decimal_max_digits\", \"loc\": [\"body\", \"amount\"], \"msg\": \"Decimal input should have no more than 12 digits in total\", \"input\": 9.999999999999999e+25, \"ctx\": {\"max_digits\": 12}}]}",
+                "response_code": null,
+                "dynamic_values": {
+                  "values": {},
+                  "templates": {},
+                  "generated_at_ms": 1792396100841
+                },
+                "response_status": 422,
+                "response_headers": {
+                  "Vary": "Origin",
+                  "date": "Mon, 19 Oct 2026 07:48:21 GMT",
+                  "server": "uvicorn",
+                  "connection": "close",
+                  "content-type": "application/json",
+                  "content-length": "186"
+                }
+              }
+            ],
+            "inputs": {},
+            "status": "success",
+            "snapshot": {
+              "flow": {
+                "id": 19763,
+                "data": {
+                  "nodes": [
+                    {
+                      "key": "adjust",
+                      "name": "调整余额非法金额",
+                      "next": "end",
+                      "api_id": 19562,
+                      "params": {},
+                      "routes": [],
+                      "auth_id": 19756,
+                      "case_id": 2278,
+                      "request": {},
+                      "bindings": [],
+                      "extracts": [],
+                      "request_removals": []
+                    }
+                  ],
+                  "inputs": {},
+                  "version": 1
+                },
+                "name": "调整余额金额边界（用户补充）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:18",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:18",
+                "description": "0、超大正数、超大负数、0.0005；只应拒绝且不改余额流水"
+              },
+              "scenario": {
+                "id": 19765,
+                "data": {
+                  "nodes": {
+                    "adjust": {
+                      "mode": "always",
+                      "params": {},
+                      "case_id": 2279,
+                      "request": {},
+                      "bindings": null,
+                      "extracts": null,
+                      "condition": null,
+                      "assertions": null,
+                      "request_removals": []
+                    }
+                  },
+                  "inputs": {},
+                  "flow_id": 19763,
+                  "expected_end": "auto",
+                  "failure_policy": "stop",
+                  "template_version": 1
+                },
+                "name": "金额99999999999999999999999999拒绝（HTTP 422）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:19",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:19",
+                "description": "用户反馈的调整余额边界；账户和流水不变已在原生接口执行后核对"
+              }
+            },
+            "end_passed": true,
+            "duration_ms": 126,
+            "scenario_id": 19765,
+            "expected_end": "auto",
+            "template_version": 1
+          },
+          {
+            "name": "金额-9999999999999999999999拒绝（HTTP 422）",
+            "path": [
+              "adjust"
+            ],
+            "nodes": [
+              {
+                "key": "adjust",
+                "mode": "local_headless",
+                "name": "调整余额非法金额",
+                "next": "end",
+                "error": null,
+                "status": "success",
+                "case_id": 2280,
+                "outputs": {},
+                "request": {
+                  "url": "http://14.103.229.153:15173/api/v1/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "body": {
+                    "amount": -1e+22,
+                    "reason": "CASE_20261019_154805 用户补充金额边界",
+                    "request_key": "f53366f4-c6f0-4562-9794-438a7566676c"
+                  },
+                  "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "query": {},
+                  "method": "POST",
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "***"
+                  },
+                  "timeout": 15,
+                  "base_url": "http://14.103.229.153:15173/",
+                  "api_base_path": "/api/v1"
+                },
+                "case_type": "API",
+                "assertions": [
+                  {
+                    "type": "status",
+                    "actual": 422,
+                    "passed": true,
+                    "expected": 422
+                  }
+                ],
+                "duration_ms": 84,
+                "response_body": "{\"detail\": [{\"type\": \"decimal_max_digits\", \"loc\": [\"body\", \"amount\"], \"msg\": \"Decimal input should have no more than 12 digits in total\", \"input\": -1e+22, \"ctx\": {\"max_digits\": 12}}]}",
+                "response_code": null,
+                "dynamic_values": {
+                  "values": {},
+                  "templates": {},
+                  "generated_at_ms": 1792396100969
+                },
+                "response_status": 422,
+                "response_headers": {
+                  "Vary": "Origin",
+                  "date": "Mon, 19 Oct 2026 07:48:21 GMT",
+                  "server": "uvicorn",
+                  "connection": "close",
+                  "content-type": "application/json",
+                  "content-length": "171"
+                }
+              }
+            ],
+            "inputs": {},
+            "status": "success",
+            "snapshot": {
+              "flow": {
+                "id": 19763,
+                "data": {
+                  "nodes": [
+                    {
+                      "key": "adjust",
+                      "name": "调整余额非法金额",
+                      "next": "end",
+                      "api_id": 19562,
+                      "params": {},
+                      "routes": [],
+                      "auth_id": 19756,
+                      "case_id": 2278,
+                      "request": {},
+                      "bindings": [],
+                      "extracts": [],
+                      "request_removals": []
+                    }
+                  ],
+                  "inputs": {},
+                  "version": 1
+                },
+                "name": "调整余额金额边界（用户补充）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:18",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:18",
+                "description": "0、超大正数、超大负数、0.0005；只应拒绝且不改余额流水"
+              },
+              "scenario": {
+                "id": 19766,
+                "data": {
+                  "nodes": {
+                    "adjust": {
+                      "mode": "always",
+                      "params": {},
+                      "case_id": 2280,
+                      "request": {},
+                      "bindings": null,
+                      "extracts": null,
+                      "condition": null,
+                      "assertions": null,
+                      "request_removals": []
+                    }
+                  },
+                  "inputs": {},
+                  "flow_id": 19763,
+                  "expected_end": "auto",
+                  "failure_policy": "stop",
+                  "template_version": 1
+                },
+                "name": "金额-9999999999999999999999拒绝（HTTP 422）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:19",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:19",
+                "description": "用户反馈的调整余额边界；账户和流水不变已在原生接口执行后核对"
+              }
+            },
+            "end_passed": true,
+            "duration_ms": 85,
+            "scenario_id": 19766,
+            "expected_end": "auto",
+            "template_version": 1
+          },
+          {
+            "name": "金额0.0005拒绝（HTTP 422）",
+            "path": [
+              "adjust"
+            ],
+            "nodes": [
+              {
+                "key": "adjust",
+                "mode": "local_headless",
+                "name": "调整余额非法金额",
+                "next": "end",
+                "error": null,
+                "status": "success",
+                "case_id": 2281,
+                "outputs": {},
+                "request": {
+                  "url": "http://14.103.229.153:15173/api/v1/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "body": {
+                    "amount": 0.0005,
+                    "reason": "CASE_20261019_154805 用户补充金额边界",
+                    "request_key": "102bcb92-a2ed-4714-bdd0-4f04d5fcf3d4"
+                  },
+                  "path": "/beli/accounts/23aec9cd-977d-448a-a716-22546cec2e9c/adjust",
+                  "query": {},
+                  "method": "POST",
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "***"
+                  },
+                  "timeout": 15,
+                  "base_url": "http://14.103.229.153:15173/",
+                  "api_base_path": "/api/v1"
+                },
+                "case_type": "API",
+                "assertions": [
+                  {
+                    "type": "status",
+                    "actual": 422,
+                    "passed": true,
+                    "expected": 422
+                  }
+                ],
+                "duration_ms": 72,
+                "response_body": "{\"detail\": [{\"type\": \"decimal_max_places\", \"loc\": [\"body\", \"amount\"], \"msg\": \"Decimal input should have no more than 2 decimal places\", \"input\": 0.0005, \"ctx\": {\"decimal_places\": 2}}]}",
+                "response_code": null,
+                "dynamic_values": {
+                  "values": {},
+                  "templates": {},
+                  "generated_at_ms": 1792396101057
+                },
+                "response_status": 422,
+                "response_headers": {
+                  "Vary": "Origin",
+                  "date": "Mon, 19 Oct 2026 07:48:21 GMT",
+                  "server": "uvicorn",
+                  "connection": "close",
+                  "content-type": "application/json",
+                  "content-length": "172"
+                }
+              }
+            ],
+            "inputs": {},
+            "status": "success",
+            "snapshot": {
+              "flow": {
+                "id": 19763,
+                "data": {
+                  "nodes": [
+                    {
+                      "key": "adjust",
+                      "name": "调整余额非法金额",
+                      "next": "end",
+                      "api_id": 19562,
+                      "params": {},
+                      "routes": [],
+                      "auth_id": 19756,
+                      "case_id": 2278,
+                      "request": {},
+                      "bindings": [],
+                      "extracts": [],
+                      "request_removals": []
+                    }
+                  ],
+                  "inputs": {},
+                  "version": 1
+                },
+                "name": "调整余额金额边界（用户补充）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:18",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:18",
+                "description": "0、超大正数、超大负数、0.0005；只应拒绝且不改余额流水"
+              },
+              "scenario": {
+                "id": 19767,
+                "data": {
+                  "nodes": {
+                    "adjust": {
+                      "mode": "always",
+                      "params": {},
+                      "case_id": 2281,
+                      "request": {},
+                      "bindings": null,
+                      "extracts": null,
+                      "condition": null,
+                      "assertions": null,
+                      "request_removals": []
+                    }
+                  },
+                  "inputs": {},
+                  "flow_id": 19763,
+                  "expected_end": "auto",
+                  "failure_policy": "stop",
+                  "template_version": 1
+                },
+                "name": "金额0.0005拒绝（HTTP 422）",
+                "status": "active",
+                "deleted": false,
+                "created_at": "2026-10-19T15:48:20",
+                "project_id": 17796,
+                "updated_at": "2026-10-19T15:48:20",
+                "description": "用户反馈的调整余额边界；账户和流水不变已在原生接口执行后核对"
+              }
+            },
+            "end_passed": true,
+            "duration_ms": 73,
+            "scenario_id": 19767,
+            "expected_end": "auto",
+            "template_version": 1
+          }
+        ],
+        "concurrency": 1,
+        "template_version": 1
+      },
+      "created_at": "2026-10-19T15:48:21",
+      "updated_at": "2026-10-19T15:48:25",
+      "deleted": false
+    }
+  },
+  "finished_at": "2026-10-19T15:48:25.867420+08:00"
+}

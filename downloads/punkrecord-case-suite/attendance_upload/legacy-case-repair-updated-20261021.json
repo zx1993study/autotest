@@ -1,0 +1,121 @@
+{
+  "updated": [
+    {
+      "id": 2277,
+      "name": "CASE SUP-LEDGER-RECONCILE.03 普通员工仅查看本人贝利账户",
+      "project_id": 17796,
+      "source_id": 19753,
+      "description": "来源 .agent/test/cases.md BELI-05, BELI-06；可重复执行的只读子用例。使用固定测试员工 test_user3（认证20375）查询本人账户，验证非L0且仅返回本人；不依赖已清理的临时账号，不代表全量流水对账。",
+      "status": "active",
+      "case_type": "API",
+      "data": {
+        "body": {},
+        "path": "/beli/accounts",
+        "method": "GET",
+        "auth_id": 20375,
+        "case_type": "API",
+        "case_points": [
+          "BELI-05",
+          "BELI-06"
+        ],
+        "content_type": "application/json",
+        "api_base_path": "/api/v1",
+        "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518"
+      },
+      "steps": [],
+      "assertions": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "code",
+          "type": "json_equals",
+          "expected": 0
+        },
+        {
+          "path": "data.is_l0",
+          "type": "json_equals",
+          "expected": false
+        },
+        {
+          "path": "data.items.0.user_id",
+          "type": "json_equals",
+          "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+        },
+        {
+          "path": "/data/items",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/user_id"
+              ],
+              "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1
+        }
+      ],
+      "strategy_ids": [],
+      "created_at": "2026-10-19T15:32:58",
+      "updated_at": "2026-10-21T15:22:17",
+      "deleted": false
+    },
+    {
+      "id": 1316,
+      "name": "CASE IAM01-salary.05 管理员查询员工详情不暴露工资及密码散列",
+      "project_id": 17796,
+      "source_id": 18198,
+      "description": "来源 .agent/test/cases.md IAM-01；可重复执行的只读子用例。使用管理员认证17863查询固定测试员工 test_user3；通用员工详情不得返回 basic_salary、hashed_password。此子用例不修改工资，也不代表完整工资读写权限矩阵。",
+      "status": "active",
+      "case_type": "API",
+      "data": {
+        "body": {},
+        "path": "/iam/users/640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+        "method": "GET",
+        "auth_id": 17863,
+        "case_type": "API",
+        "case_points": [
+          "IAM-01"
+        ],
+        "content_type": "application/json",
+        "api_base_path": "/api/v1",
+        "source_commit": "5b44cbe96766ff0f56f7789271b245b5ce003518"
+      },
+      "steps": [],
+      "assertions": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "code",
+          "type": "json_equals",
+          "expected": 0
+        },
+        {
+          "path": "/data/basic_salary",
+          "type": "json_pointer_exists",
+          "expected": false
+        },
+        {
+          "path": "/data/hashed_password",
+          "type": "json_pointer_exists",
+          "expected": false
+        },
+        {
+          "path": "data.id",
+          "type": "json_equals",
+          "expected": "640d1a5c-bff5-4df0-9e02-cb42f8b46413"
+        }
+      ],
+      "strategy_ids": [],
+      "created_at": "2026-10-19T14:03:34",
+      "updated_at": "2026-10-21T15:22:17",
+      "deleted": false
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "case_id": 91,
+  "feature_id": 19028,
+  "name": "CASE TODO06-pagination 完成任务默认10条，加载更多到12条",
+  "task_id": 21403,
+  "status": "success",
+  "records": [
+    {
+      "id": 21404,
+      "status": "success",
+      "error": null,
+      "step_count": 11,
+      "business_result": "passed",
+      "assertion_count": 5,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ".column-header:has(h3:text-is(\"已完成\")) .count-badge:text-is(\"10/12\")",
+          "step": 7,
+          "actual": "10/39",
+          "passed": true,
+          "locator": ".column-header:has(h3:text-is(\"已完成\")) .count-badge",
+          "expected": "10/39"
+        },
+        {
+          "name": ".todo-card.done:has-text(\"WEB_RECHECK_20261021 Done 11\")",
+          "step": 8,
+          "actual": "P2\n贝利任务\n10/21\n回归-1792557285454 FOUR employee supervisor acceptance\ntest_user3",
+          "passed": true,
+          "locator": ".todo-card.done:has-text(\"回归-1792557285454 FOUR employee supervisor acceptance\")",
+          "expected": "回归-1792557285454 FOUR employee supervisor acceptance"
+        },
+        {
+          "name": ".column-header:has(h3:text-is(\"已完成\")) .count-badge:text-is(\"12/12\")",
+          "step": 10,
+          "actual": "20/39",
+          "passed": true,
+          "locator": ".column-header:has(h3:text-is(\"已完成\")) .count-badge",
+          "expected": "20/39"
+        },
+        {
+          "name": ".todo-card.done:has-text(\"WEB_RECHECK_20261021 Done 00\")",
+          "step": 11,
+          "actual": "P3\n贝利任务\n10/14\nCASE_20261019_165921 reward p3 5\n项目: 项目任务\ntest_user3",
+          "passed": true,
+          "locator": ".todo-card.done:has-text(\"CASE_20261019_165921 reward p3 5\")",
+          "expected": "CASE_20261019_165921 reward p3 5"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/todo"
+    }
+  ]
+}

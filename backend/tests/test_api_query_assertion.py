@@ -16,6 +16,18 @@ class QueryAssertionTest(unittest.TestCase):
         self.assertFalse(result["passed"])
         self.assertEqual(result["actual"]["mismatched_indices"], [1])
 
+    def test_kol_multiselect_requires_whole_options_and_preserves_customer_type(self):
+        rules = [{"paths": ["/kolType"], "operator": "tokens", "expected": "个人用户"},
+                 {"paths": ["/customerType"], "operator": "eq", "expected": "3"}]
+        rows = [{"kolType": value, "customerType": "3"} for value in
+                ("个人用户", "个人用户,意见领袖", "个人用户,家庭用户", "个人用户,家庭用户,意见领袖")]
+        self.assertTrue(self.check(rows, rules=rules)["passed"])
+        for value in ("家庭用户", "非个人用户", "个人用户组", None):
+            with self.subTest(value=value):
+                self.assertFalse(self.check([{"kolType": value, "customerType": "3"}], rules=rules)["passed"])
+        self.assertFalse(self.check([], rules=rules)["passed"])
+        self.assertFalse(self.check([{"kolType": "个人用户", "customerType": "1"}], rules=rules)["passed"])
+
     def test_empty_matches_are_explicit_and_missing_paths_fail(self):
         self.assertFalse(self.check([])["passed"])
         self.assertTrue(self.check([], min_items=0, max_items=0)["passed"])
@@ -48,3 +60,17 @@ class QueryAssertionTest(unittest.TestCase):
         rule = {"paths": ["/time"], "operator": "date_le", "expected": "2026-10-15"}
         self.assertTrue(self.check([{"time": "2026-10-15 23:59:59"}], rules=[rule])["passed"])
         self.assertFalse(self.check([{"time": "2026-10-16 00:00:00"}], rules=[rule])["passed"])
+
+    def test_cooperation_status_tokens_include_selected_status_without_relaxing_other_rules(self):
+        rules = [{"paths": ["/cooperationStatus"], "operator": "tokens", "expected": "正在合作"},
+                 {"paths": ["/customerType"], "operator": "eq", "expected": "1"}]
+        rows = [{"cooperationStatus": "正在合作", "customerType": "1"},
+                {"cooperationStatus": "正在合作,终止合作,空白网点", "customerType": "1"}]
+        self.assertTrue(self.check(rows, rules=rules)["passed"])
+        for value in ("终止合作", "非正在合作", None):
+            with self.subTest(value=value):
+                self.assertFalse(self.check([{"cooperationStatus": value, "customerType": "1"}], rules=rules)["passed"])
+        rows[1]["customerType"] = "2"
+        result = self.check(rows, rules=rules)
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["actual"]["mismatched_indices"], [1])

@@ -1,0 +1,36 @@
+{
+  "case_id": 55,
+  "feature_id": 17799,
+  "name": "AUTH-001 未登录访问待办重定向登录页",
+  "task_id": 21351,
+  "status": "success",
+  "records": [
+    {
+      "id": 21352,
+      "status": "success",
+      "error": null,
+      "step_count": 2,
+      "business_result": "passed",
+      "assertion_count": 2,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"PunkRecord\")",
+          "step": 1,
+          "actual": "PunkRecord",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"PunkRecord\")",
+          "expected": "PunkRecord"
+        },
+        {
+          "name": "button[type=submit]",
+          "step": 2,
+          "actual": "登录",
+          "passed": true,
+          "locator": "button[type=submit]",
+          "expected": "登录"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/login"
+    }
+  ]
+}

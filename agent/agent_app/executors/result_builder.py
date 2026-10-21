@@ -41,6 +41,7 @@ def build_execution_record(
             "manifest_version": "1.0",
             "result_version": "1.0",
             "assertions": case.get("assertions") or [],
+            "assertion_results": result.get("assertion_results", []),
             "dynamic_values": case.get("_dynamic_values", {}),
             "error": error,
             "agent_result": True,

@@ -1,0 +1,81 @@
+import client from './client';
+import axios from 'axios';
+
+export const contractApi = {
+    // Contracts
+    listContracts: async (params = {}) => {
+        const { page = 1, page_size = 20, status, contract_type } = params;
+        let url = `/contract/contracts?page=${page}&page_size=${page_size}`;
+        if (status) url += `&status=${status}`;
+        if (contract_type) url += `&contract_type=${contract_type}`;
+        return client.get(url);
+    },
+
+    getContract: async (contractId) => {
+        return client.get(`/contract/contracts/${contractId}`);
+    },
+
+    createContract: async (contractData) => {
+        return client.post('/contract/contracts', contractData);
+    },
+
+    updateContract: async (contractId, contractData) => {
+        return client.patch(`/contract/contracts/${contractId}`, contractData);
+    },
+
+    submitForApproval: async (contractId) => {
+        return client.post(`/contract/contracts/${contractId}/submit`);
+    },
+
+    getPaymentPlans: async (contractId) => {
+        return client.get(`/contract/contracts/${contractId}/payment-plans`);
+    },
+
+    listAttachments: async (contractId) => {
+        return client.get(`/contract/contracts/${contractId}/attachments`);
+    },
+
+    uploadAttachment: async (contractId, file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return client.post(`/contract/contracts/${contractId}/attachments`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    deleteAttachment: async (contractId, attachmentId) => {
+        return client.delete(`/contract/contracts/${contractId}/attachments/${attachmentId}`);
+    },
+
+    viewAttachmentUrl: (contractId, attachmentId) => {
+        return `/api/v1/contract/contracts/${contractId}/attachments/${attachmentId}/view`;
+    },
+
+    downloadAttachment: async (contractId, attachmentId) => {
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        return axios.get(`/api/v1/contract/contracts/${contractId}/attachments/${attachmentId}/download`, {
+            responseType: 'blob',
+            withCredentials: true,
+            headers,
+        });
+    },
+
+    // Counterparties
+    listCounterparties: async (params = {}) => {
+        const { type } = params;
+        let url = '/contract/counterparties';
+        if (type) url += `?type=${type}`;
+        return client.get(url);
+    },
+
+    createCounterparty: async (counterpartyData) => {
+        return client.post('/contract/counterparties', counterpartyData);
+    },
+
+    updateCounterparty: async (id, counterpartyData) => {
+        return client.patch(`/contract/counterparties/${id}`, counterpartyData);
+    },
+};
+
+export default contractApi;

@@ -2,9 +2,8 @@ from copy import deepcopy
 from datetime import UTC, datetime
 
 from app.core.exceptions import BusinessRuleError, ResourceNotFoundError
+from app.services.api_flow_preparation_service import ApiFlowPreparationService
 from app.services.api_flow_scenario_service import ApiFlowScenarioService
-from app.services.api_flow_snapshot_service import ApiFlowSnapshotService
-from app.services.api_flow_validation import validate_references
 from app.services.execution_flow_service import ExecutionFlowService
 from app.services.resource_service import ResourceService
 
@@ -20,21 +19,22 @@ class ApiFlowRunService(ResourceService):
         if flow["status"] != "active":
             raise BusinessRuleError("流程未启用")
         scenarios = ApiFlowScenarioService(self.repository)
-        snapshots = []
+        selected = []
         for scene_id in dict.fromkeys(payload["scenario_ids"]):
             scene = scenarios.get_for_flow(flow_id, scene_id)
             if scene["status"] != "active":
                 raise BusinessRuleError(f"{scene['name']}已停用")
             if scene["data"]["template_version"] != flow["data"]["version"]:
                 raise BusinessRuleError(f"{scene['name']}需要先同步模板")
-            validate_references(self.repository, flow["project_id"], flow["data"], scene["data"], running=True)
-            snapshots.append(ApiFlowSnapshotService(self.repository).build(flow, scene, payload.get("inputs", {})))
+            selected.append(scene)
+        snapshots = ApiFlowPreparationService(self.repository).build(flow, selected, payload.get("inputs", {}))
         concurrency = payload["concurrency"] if payload["mode"] == "parallel" else 1
         batch = super().create({"name": f"{flow['name']} - {datetime.now(UTC).strftime('%m-%d %H:%M:%S')}",
                                 "project_id": flow["project_id"], "status": "queued", "data": {
-                                    "flow_id": flow_id, "template_version": flow["data"]["version"],
+                                    "flow_id": flow_id, "flow_name": flow["name"], "template_version": flow["data"]["version"],
                                     "mode": payload["mode"], "concurrency": concurrency,
                                     "results": [{"scenario_id": row["scenario"]["id"], "name": row["scenario"]["name"],
+                                                 "test_point": row["scenario"].get("description") or row["scenario"]["name"],
                                                  "status": "queued", "nodes": []} for row in snapshots]}})
         from app.scheduler.jobs.api_flow_jobs import submit_api_flow_batch
         submit_api_flow_batch(batch["id"], snapshots, concurrency)
@@ -78,11 +78,22 @@ class ApiFlowRunService(ResourceService):
 
     def interrupt(self, batch_id):
         row = super().get(batch_id)
+        return super().update(batch_id, self._interruption_payload(row))
+
+    def interrupt_many(self, rows):
+        if not rows:
+            return []
+        return self.repository.update_many(self.table, [
+            (row["id"], self._interruption_payload(row)) for row in rows
+        ])
+
+    @staticmethod
+    def _interruption_payload(row):
         data = deepcopy(row["data"])
         for result in data["results"]:
             if result["status"] in {"queued", "running"}:
                 result.update(status="interrupted", error="服务重启或执行异常，批次已中断")
-        return super().update(batch_id, {"status": "interrupted", "data": data})
+        return {"status": "interrupted", "data": data}
 
     def _reconcile(self, row, summary=False):
         from app.scheduler.jobs.api_flow_jobs import is_batch_active

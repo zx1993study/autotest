@@ -172,9 +172,24 @@ class WebFeatureTestingTest(unittest.TestCase):
 
     def test_success_verifies_exact_script_snapshot_only(self):
         case = self.service.save_case(self.feature["id"], {"name": "Case"})
-        task = {"id": 9, "status": "success", "data": {"task_type": "case_execution", "payload": {"case_type": "WEB", "cases": [case]}, "result": {"records": [{"status": "success", "data": {"case_id": case["id"]}}]}}}
+        task = {"id": 9, "status": "success", "data": {"task_type": "case_execution", "payload": {"case_type": "WEB", "cases": [case]}, "result": {"records": [{"status": "success", "data": {"case_id": case["id"], "business_result": "passed", "assertion_count": 1}}]}}}
         self.service.finish(task)
         self.assertEqual("verified", self.repo.get(VERSIONS, self.version["id"])["status"])
+
+    def test_operation_only_success_does_not_verify_script(self):
+        case = self.service.save_case(self.feature['id'], {'name': 'Case'})
+        task = {'data': {'task_type': 'case_execution', 'payload': {'case_type': 'WEB', 'cases': [case]},
+                         'result': {'records': [{'status': 'success', 'data': {'case_id': case['id']}}]}}}
+        self.service.finish(task)
+        self.assertEqual('draft', self.repo.get(VERSIONS, self.version['id'])['status'])
+
+    def test_operation_after_last_assertion_is_rejected_before_queueing(self):
+        candidate = copy.deepcopy(self.candidate)
+        candidate['steps'].append({'action': 'click', 'locator_type': 'text', 'locator': 'Save'})
+        version = self.service.save_version(self.feature['id'], candidate)
+        case = self.service.save_case(self.feature['id'], {'name': 'Unverified save', 'script_version': version['id']})
+        with self.assertRaisesRegex(BusinessRuleError, '业务操作后没有结果断言'):
+            self.service.run(self.feature['id'], {'case_ids': [case['id']], 'headless': False, 'node_key': 'local'})
 
     def test_old_web_pages_are_physically_removed(self):
         root = Path(__file__).resolve().parents[2]

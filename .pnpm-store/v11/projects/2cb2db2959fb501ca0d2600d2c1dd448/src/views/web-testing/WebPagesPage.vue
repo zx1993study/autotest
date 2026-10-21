@@ -49,6 +49,7 @@
             <th>页面地址</th>
             <th class="number-column">功能</th>
             <th class="number-column">API</th>
+            <th class="execution-column">执行结果</th>
             <th class="status-column">状态</th>
             <th class="action-column">操作</th>
           </tr>
@@ -75,6 +76,7 @@
             </td>
             <td class="number-cell"><span class="metric-value feature-metric">{{ pageItem.feature_count }}</span></td>
             <td class="number-cell"><span class="metric-value api-metric">{{ pageItem.interface_count }}</span></td>
+            <td><WebExecutionResultCell :summary="executionResults[pageItem.id]" :loading="executionLoading" :error="executionError" aggregate @open="selectedRecordId = $event" @retry="refreshExecution" /></td>
             <td><span :class="['status-badge', pageItem.status]">{{ statusText(pageItem.status) }}</span></td>
             <td class="actions-cell">
               <div class="row-actions">
@@ -96,7 +98,7 @@
             </td>
           </tr>
           <tr v-if="!pages.length">
-            <td colspan="7" class="empty-cell">
+            <td colspan="8" class="empty-cell">
               {{ loading ? '页面加载中...' : keyword || statusFilter ? '没有匹配的页面' : '当前项目暂无页面' }}
             </td>
           </tr>
@@ -111,6 +113,7 @@
       :loading="loading"
       @change="handlePagination"
     />
+    <ExecutionRecordDetailDialog v-if="selectedRecordId !== null" :record-id="selectedRecordId" @close="selectedRecordId = null" />
   </section>
 
   <div v-if="dialogVisible" class="modal-backdrop" @click.self="closeDialog">
@@ -173,6 +176,9 @@ import { pageTabKey, usePageTabsStore } from '../../store/page-tabs'
 import type { ProjectOption } from '../../types/resource'
 import type { WebPageGroup } from '../../types/web-page'
 import { useLatestRequest } from '../../composables/useLatestRequest'
+import { useWebExecutionSummaries } from '../../composables/useWebExecutionSummaries'
+import WebExecutionResultCell from '../../components/web-testing/WebExecutionResultCell.vue'
+import ExecutionRecordDetailDialog from '../../components/reports/ExecutionRecordDetailDialog.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -183,6 +189,7 @@ const projectsLoading = ref(true)
 const keyword = ref('')
 const statusFilter = ref('')
 const pages = ref<WebPageGroup[]>([])
+const { results: executionResults, loading: executionLoading, error: executionError, refresh: refreshExecution, selectedRecordId } = useWebExecutionSummaries({ projectId: () => selectedProjectId.value, ids: () => pages.value.map(item => item.id), scope: 'page' })
 const currentPage = ref(1)
 const pageSize = ref(20)
 const total = ref(0)
@@ -406,7 +413,7 @@ function getErrorMessage(error: unknown) {
 }
 
 .page-directory-table {
-  min-width: 1120px;
+  min-width: 1280px;
   table-layout: fixed;
 }
 
@@ -477,8 +484,10 @@ function getErrorMessage(error: unknown) {
   width: 82px;
 }
 
+.execution-column { width: 176px; }
+
 .action-column {
-  width: 248px;
+  width: 268px;
 }
 
 .address-cell {
@@ -582,7 +591,7 @@ function getErrorMessage(error: unknown) {
   font-size: 13px;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .page-management-toolbar {
     flex-wrap: nowrap;
     gap: 8px;
@@ -602,7 +611,7 @@ function getErrorMessage(error: unknown) {
   }
 
   .page-directory-table {
-    min-width: 860px;
+    min-width: 1040px;
   }
 
   .page-directory-table th:nth-child(1) {
@@ -623,7 +632,7 @@ function getErrorMessage(error: unknown) {
   }
 
   .action-column {
-    width: 132px;
+    width: 168px;
   }
 
   .page-directory-table .row-actions {

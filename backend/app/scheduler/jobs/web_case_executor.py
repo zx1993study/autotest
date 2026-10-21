@@ -15,6 +15,7 @@ from web_automation.engines.stagehand import (
 )
 from web_automation.models import CompiledCase, RunConfig
 from web_automation.pages.dynamic_page import DynamicPage
+from web_automation.outcomes import outcome_metadata, verification_error
 
 from app.core.exceptions import BusinessRuleError
 from app.enums.business import WebEngineEnum
@@ -73,9 +74,13 @@ class WebCaseExecutor(CaseExecutionBase):
                     "未读取到执行步骤，请检查正式用例步骤或页面元素是否已保存",
                     {"url": compiled.target_url, "step_count": 0, "screenshots": []},
                 )
+            if message := verification_error(steps):
+                raise ValueError(message)
             result = self._run_async_web_steps(case, runtime_payload, steps)
+            if outcome_metadata(steps, result.get('step_count', 0), 'success')['business_result'] != 'passed':
+                raise WebExecutionError('脚本未完整执行，业务结果未验证', result)
             status_text = "success"
-            description = "Web 用例执行通过"
+            description = "操作及业务验证通过"
             error = None
         except WebExecutionError as exc:
             result = exc.result
@@ -123,8 +128,10 @@ class WebCaseExecutor(CaseExecutionBase):
                     "storage_state": result.get("storage_state", {}),
                     "auth_saved": auth_result,
                     "assertions": self.case_assertions(case),
+                    "assertion_results": result.get("assertion_results", []),
                     "dynamic_values": case.get("_dynamic_values", {}),
                     "error": error,
+                    **outcome_metadata(steps, result.get('step_count', 0), status_text),
                 },
             },
         )
@@ -220,12 +227,13 @@ class WebCaseExecutor(CaseExecutionBase):
             "screenshots": [],
             "healing": [],
             "events": [],
+            "assertion_results": [],
         }
         cache_hits = 0
         healed_steps = 0
         current_step: dict[str, Any] | None = None
         try:
-            for step in steps:
+            for index, step in enumerate(steps, 1):
                 current_step = step
                 if self.is_truthy(step.get("skip")):
                     continue
@@ -244,7 +252,11 @@ class WebCaseExecutor(CaseExecutionBase):
                     )
                 except Exception:
                     result["events"].extend(pipeline.last_events)
+                    if dynamic_page.engine.last_assertion:
+                        result['assertion_results'].append({"step": index, "name": step.get('name'), **dynamic_page.engine.last_assertion})
                     raise
+                if dynamic_page.engine.last_assertion:
+                    result['assertion_results'].append({"step": index, "name": step.get('name'), **dynamic_page.engine.last_assertion})
                 if outcome.cache_update:
                     step["ai_cache"] = outcome.cache_update
                 if outcome.source == "ai_cache":
@@ -390,7 +402,9 @@ class WebCaseExecutor(CaseExecutionBase):
         try:
             SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
             filename = self._screenshot_filename(case)
-            await page.screenshot(path=str(SCREENSHOT_DIR / filename), full_page=config.screenshot != "viewport")
+            from web_automation.engines.playwright import PlaywrightEngine
+            await page.screenshot(path=str(SCREENSHOT_DIR / filename), full_page=config.screenshot != "viewport",
+                                  mask=PlaywrightEngine(page).screenshot_masks(list(case.steps)))
             return {
                 "step_order": (step or {}).get("sort_order"),
                 "step_name": (step or {}).get("name") or "",

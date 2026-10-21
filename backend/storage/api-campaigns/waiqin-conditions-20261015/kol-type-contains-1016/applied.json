@@ -1,0 +1,38 @@
+{
+  "case_id": 822,
+  "changed_rules": 1,
+  "assertions": [
+    {
+      "type": "status",
+      "expected": 200
+    },
+    {
+      "path": "/code",
+      "type": "json_pointer",
+      "expected": 200
+    },
+    {
+      "path": "/rows",
+      "type": "json_query_result",
+      "rules": [
+        {
+          "paths": [
+            "/kolType"
+          ],
+          "expected": "{{bound_q_kolType}}",
+          "operator": "tokens"
+        },
+        {
+          "paths": [
+            "/customerType"
+          ],
+          "expected": "3",
+          "operator": "eq"
+        }
+      ],
+      "min_items": 1
+    }
+  ],
+  "flow_version_unchanged": true,
+  "scene_configuration_unchanged": true
+}

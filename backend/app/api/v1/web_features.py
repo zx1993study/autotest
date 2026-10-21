@@ -17,9 +17,16 @@ from app.services.web_feature_testing_service import WebFeatureTestingService
 from app.services.web_recording_service import WebRecordingService
 from app.schemas.web_operation import WebRecordingStart, WebRecordingAccept
 from app.services.web_script_export_service import WebScriptExportService
+from app.schemas.web_execution_summary import WebExecutionSummaryQuery
+from app.services.web_execution_summary_service import WebExecutionSummaryService
 
 Repository = Annotated[ResourceRepository, Depends(get_resource_repository)]
 router = APIRouter(prefix="/web-testing", tags=["web-functions"])
+
+
+@router.post('/execution-summaries')
+def execution_summaries(payload: WebExecutionSummaryQuery, repository: Repository):
+    return success(WebExecutionSummaryService(repository).summarize(payload).model_dump(mode="json"))
 
 
 @router.post("/page-groups/{group_id:int}/features")

@@ -72,11 +72,7 @@ def batch_delete_app_features(
     payload: BatchDeleteRequest,
     service: AppFeatureTestingService = Depends(get_app_feature_testing_service),
 ) -> dict[str, object]:
-    deleted = 0
-    for item_id in payload.ids:
-        if service.delete_feature(item_id):
-            deleted += 1
-    return success({"deleted_count": deleted})
+    return success(service.batch_delete_features(payload.ids))
 
 
 @router.get("/{feature_id:int}")

@@ -1,8 +1,11 @@
 import { readonly, ref } from 'vue'
-import type { LocationQuery, RouteLocationNormalizedLoaded } from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import { DEFAULT_AUTHENTICATED_PATH } from '../constants/routes'
 import { readSessionValue, writeSessionValue } from '../utils/browserSession'
+import { isParentPage, pageTabKey, pageTabTitle, storedPageRoute } from '../utils/pageTabIdentity'
+
+export { pageTabKey } from '../utils/pageTabIdentity'
 
 export interface OpenedPageTab {
   key: string
@@ -23,38 +26,32 @@ const DEFAULT_TAB: OpenedPageTab = {
 
 const tabs = ref<OpenedPageTab[]>(readStoredTabs())
 
-export function pageTabKey(route: { path: string; query: LocationQuery }) {
-  if (route.path === '/api/interfaces') {
-    const moduleId = singleQueryValue(route.query.module_id)
-    if (moduleId) {
-      const projectId = singleQueryValue(route.query.project_id)
-      return `${route.path}?project_id=${projectId}&module_id=${moduleId}`
-    }
-  }
-  return route.path
-}
-
-function openRoute(route: RouteLocationNormalizedLoaded, fallbackTitle: string) {
+function openRoute(route: Pick<RouteLocationNormalizedLoaded, 'path' | 'query' | 'fullPath'>,
+  fallbackTitle: string, previousPath?: string) {
   const key = pageTabKey(route)
-  const existingIndex = tabs.value.findIndex(tab => tab.key === key)
+  const next = [...tabs.value]
+  const previousRoute = previousPath ? storedPageRoute(previousPath) : null
+  const returning = previousRoute && isParentPage(previousRoute.path, route)
+  const detailIndex = returning ? next.findIndex(tab => tab.key === pageTabKey(previousRoute)) : -1
+  const existingIndex = next.findIndex(tab => tab.key === key)
+  const tab = { key, path: route.fullPath, title: pageTabTitle(route, fallbackTitle), closable: true }
   if (existingIndex >= 0) {
-    const next = [...tabs.value]
-    next[existingIndex] = { ...next[existingIndex], path: route.fullPath }
+    next[existingIndex] = tab
+    if (detailIndex >= 0) next.splice(detailIndex, 1)
     setTabs(next)
     return
   }
 
-  const next = [...tabs.value]
+  if (detailIndex >= 0) {
+    next[detailIndex] = tab
+    setTabs(next)
+    return
+  }
   if (next.length >= MAX_TABS) {
     const removableIndex = next.findIndex(tab => tab.closable)
     if (removableIndex >= 0) next.splice(removableIndex, 1)
   }
-  next.push({
-    key,
-    path: route.fullPath,
-    title: fallbackTitle || '未命名页面',
-    closable: true
-  })
+  next.push(tab)
   setTabs(next)
 }
 
@@ -112,10 +109,19 @@ function normalizeTabs(value: unknown): OpenedPageTab[] {
   const result: OpenedPageTab[] = []
   const keys = new Set<string>()
   for (const item of source) {
-    if (!isStoredTab(item) || keys.has(item.key) || result.length >= MAX_TABS) continue
+    if (!isStoredTab(item)) continue
     if ([item.key, item.path].some(path => REMOVED_PAGE_PATHS.has(path.split(/[?#]/)[0].replace(/\/$/, '')))) continue
-    keys.add(item.key)
-    result.push({ ...item, closable: true })
+    const route = storedPageRoute(item.path)
+    if (!route) continue
+    const key = pageTabKey(route)
+    const tab = { ...item, key, title: pageTabTitle(route, item.title), closable: true }
+    if (keys.has(key)) {
+      result[result.findIndex(tab => tab.key === key)] = tab
+      continue
+    }
+    if (result.length >= MAX_TABS) continue
+    keys.add(key)
+    result.push(tab)
   }
   return result.length ? result : [DEFAULT_TAB]
 }
@@ -129,11 +135,6 @@ function isStoredTab(value: unknown): value is OpenedPageTab {
     && item.path.startsWith('/')
     && typeof item.title === 'string'
     && item.title.trim().length > 0
-}
-
-function singleQueryValue(value: LocationQuery[string]) {
-  const current = Array.isArray(value) ? value[0] : value
-  return current == null ? '' : String(current)
 }
 
 export function usePageTabsStore() {

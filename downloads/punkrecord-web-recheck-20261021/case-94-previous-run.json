@@ -1,0 +1,68 @@
+{
+  "case_id": 94,
+  "feature_id": 19665,
+  "name": "CASE SUP-WEB-EARNINGS 有头查看固定员工余额、奖励金额及流水分页",
+  "task_id": 21439,
+  "status": "failed",
+  "records": [
+    {
+      "id": 21440,
+      "status": "failed",
+      "error": "Locator.wait_for: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".beli-pager span\").first to be visible\n",
+      "step_count": 11,
+      "business_result": "failed",
+      "assertion_count": 7,
+      "assertion_results": [
+        {
+          "name": "h1:text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": "h1:text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ".beli-heading h1:text-is(\"贝利\")",
+          "step": 6,
+          "actual": "贝利",
+          "passed": true,
+          "locator": ".beli-heading h1:text-is(\"贝利\")",
+          "expected": "贝利"
+        },
+        {
+          "name": ".beli-summary > div:first-child strong",
+          "step": 8,
+          "actual": "4969.54",
+          "passed": true,
+          "locator": ".beli-summary > div:first-child strong",
+          "expected": "4969.54"
+        },
+        {
+          "name": "h2:text-is(\"账户流水\")",
+          "step": 9,
+          "actual": "账户流水",
+          "passed": true,
+          "locator": "h2:text-is(\"账户流水\")",
+          "expected": "账户流水"
+        },
+        {
+          "name": ".beli-table-wrap tbody tr:has-text(\"任务奖励\") >> nth=0",
+          "step": 10,
+          "actual": "2026-10-21 12:35:11\t任务奖励\t30.00\t4999.54\t-\t任务贝利审核通过",
+          "passed": true,
+          "locator": ".beli-table-wrap tbody tr:has-text(\"任务奖励\") >> nth=0",
+          "expected": "任务奖励"
+        },
+        {
+          "name": ".beli-pager span",
+          "step": 12,
+          "actual": null,
+          "passed": false,
+          "locator": ".beli-pager span",
+          "expected": "第 2 页"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/beli"
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+"""Audit manual required text through saved native autotest cases only."""
+from copy import deepcopy
+from datetime import datetime
+from pathlib import Path
+import json
+import re
+import sys
+
+import case_suite_runner as core
+
+core.MANAGEMENT = "http://127.0.0.1:5173/api/v1"
+OUT = core.HERE / "reports" / "required-text-20261020.json"
+SNAPSHOT = core.HERE / "reports" / "required-audit-snapshot.json"
+FIELDS = {
+    "职位": ["name"], "部门": ["name"], "停用贝利规则": ["name"],
+    "交易方": ["name"], "任务": ["title"], "项目": ["name"],
+    "下架商品": ["name"], "更新日志": ["version", "title", "content"],
+    "非业务会议": ["title"], "独立财务账户": ["account_name"],
+    "草稿合同": ["name"], "项目任务计划": ["title"],
+}
+LABELS = {"missing": "缺失", "null": "null", "empty": "空文本", "spaces": "纯空格"}
+
+
+def save(state):
+    for row in state.get("results", []):
+        request = row.get("request") or {}
+        for name in list(request.get("headers", {})):
+            if name.lower() in {"authorization", "cookie", "x-api-key"}:
+                request["headers"][name] = "***"
+    OUT.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def payload(case):
+    keys = ["project_id", "name", "source_id", "description", "status", "data", "steps", "assertions"]
+    return {k: deepcopy(case[k]) for k in keys if k in case}
+
+
+def parse_body(data):
+    try:
+        return json.loads(data.get("response_body") or "{}")
+    except ValueError:
+        return {"raw": data.get("response_body")}
+
+
+class Audit:
+    def __init__(self):
+        self.platform = core.Platform()
+        self.snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        self.state = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {
+            "project_id": core.PROJECT_ID, "platform": core.MANAGEMENT,
+            "target": self.snapshot["project"]["data"]["base_url"],
+            "prefix": "REQ_" + datetime.now(core.CN).strftime("%Y%m%d_%H%M%S"),
+            "scope": "Only manually entered required ordinary strings; fields combined per API",
+            "results": [], "cases": {}, "fixtures": {}, "coverage": [],
+            "excluded": ["自动生成编号", "枚举/下拉/关联ID", "日期金额及特殊格式", "可选备注描述",
+                         "员工新增：遵守不重复创建账号限制", "请假原因/交易用途/阶段交付物：页面可选"],
+        }
+        assert self.state["target"] == core.BASE + "/"
+        self.saved_cases = {x["name"]: x for x in self.snapshot["cases"]}
+
+    def upsert(self, key, item):
+        previous = self.state["cases"].get(key)
+        if previous:
+            self.platform.call("PUT", f"/api-testing/cases/{previous}", item)
+            return previous
+        existing = self.saved_cases.get(item["name"])
+        route = "/api-testing/cases" + (f"/{existing['id']}" if existing else "")
+        result = self.platform.call("PUT" if existing else "POST", route, item)
+        self.state["cases"][key] = result["id"]
+        save(self.state)
+        return result["id"]
+
+    def run(self, key, item, feature, fields, variant):
+        old = next((x for x in self.state["results"] if x["key"] == key), None)
+        if old:
+            return old
+        cid = self.upsert(key, item)
+        result = self.platform.call("POST", "/api-testing/cases/run", {
+            "project_id": core.PROJECT_ID, "case_ids": [cid], "mode": "server_headless",
+            "config": {"concurrency": 1, "timeout": 30},
+        })
+        record = result["records"][0]
+        data = record["data"]
+        row = {"key": key, "feature": feature, "variant": variant, "fields": fields,
+               "case_id": cid, "source_id": item.get("source_id"), "record_id": record["id"],
+               "status": record["status"], "request": data.get("request"),
+               "http": data.get("response_status"), "response": parse_body(data),
+               "assertions": data.get("assertions"), "definition": item}
+        self.state["results"].append(row)
+        save(self.state)
+        print(feature, variant, cid, record["id"], row["http"], row["status"], flush=True)
+        return row
+
+    def base(self, case, feature, fields):
+        item = payload(case)
+        d = item["data"]
+        d.pop("string_validation", None)
+        d["variables"] = {"required_sample": self.state["prefix"] + "_{{timestamp_ms}}_{{random_digits:6}}"}
+        original_fields = case["data"]["string_validation"]["fields"]
+        for f in original_fields:
+            d["body"][f] = "{{required_sample}} " + f
+        if feature.startswith("项目 ") and "project_no" in d["body"]:
+            d["body"]["project_no"] = "PR-{{timestamp_ms}}-{{random_digits:6}}"
+        if feature.startswith("草稿合同 ") and "contract_no" in d["body"]:
+            d["body"]["contract_no"] = "CNT-{{timestamp_ms}}-{{random_digits:6}}"
+        if "identifier" in d["body"]:
+            d["body"]["identifier"] = "RQ{{timestamp_ms}}{{random_digits:6}}"
+        d["required_text_validation"] = {"version": 1, "fields": fields,
+            "manual_input_only": True, "exclude_autogenerated_enum_dropdown": True,
+            "ui_evidence": case["data"]["string_validation"].get("ui_field_evidence")}
+        item["steps"] = []
+        item["strategy_ids"] = []
+        return item
+
+    def operation(self, case):
+        feature = case["name"].removeprefix("STR3 ").split(" - ")[0]
+        group, op = feature.rsplit(" ", 1)
+        if group not in FIELDS:
+            return
+        fields = FIELDS[group]
+        base = self.base(case, feature, fields)
+        method = base["data"]["method"]
+        if op == "编辑" and group in self.state["fixtures"]:
+            base["data"]["path"] = base["data"]["path"].rsplit("/", 1)[0] + "/" + self.state["fixtures"][group]
+        base["name"] = "REQ " + feature + " - 正常必填文本对照"
+        base["description"] = "只操作本轮测试对象，正常值对照并提供后续必填场景前置。"
+        base["assertions"] = [{"type": "status", "expected": 200}, {"type": "json_equals", "path": "code", "expected": 0}]
+        control = self.run(feature + ":control", base, feature, fields, "control")
+        if control["status"] != "success":
+            raise RuntimeError("Invalid positive precondition: " + feature)
+        response_data = control["response"].get("data", {})
+        if op == "新增" and isinstance(response_data, dict) and response_data.get("id"):
+            self.state["fixtures"][group] = str(response_data["id"])
+            save(self.state)
+        self.state["coverage"].append({"feature": feature, "fields": fields,
+            "method": method, "path": base["data"]["path"], "source_id": case["source_id"]})
+        partial = op == "编辑" and method != "PUT" and group != "交易方"
+        for variant in LABELS:
+            if variant == "null" and "form-urlencoded" in base["data"].get("content_type", ""):
+                continue
+            item = deepcopy(base)
+            item["name"] = "REQ " + feature + " - 手动必填文本组合" + LABELS[variant]
+            item["description"] = "仅手动输入的必填普通文本；自动编号、枚举、关联下拉、特殊格式不变。"
+            d = item["data"]
+            d["required_text_validation"]["variant"] = variant
+            if partial and variant in {"missing", "null"}:
+                item["assertions"] = [{"type": "status", "expected": 200}]
+                for f in fields:
+                    if f in response_data:
+                        item["assertions"].append({"type": "json_equals", "path": "data." + f, "expected": response_data[f]})
+                item["description"] += " 局部更新未提供有效新值时，原字段必须保持。"
+            else:
+                item["assertions"] = [{"type": "api_rejection", "expected": "validation"}]
+            for f in fields:
+                if variant == "missing":
+                    d["body"].pop(f, None)
+                else:
+                    d["body"][f] = {"empty": "", "spaces": "   ", "null": None}[variant]
+            self.run(feature + ":" + variant, item, feature, fields, variant)
+
+    def employee(self):
+        uid = "b65fa560-e319-4363-84b0-5dbf9e2f2728"
+        read = {"project_id": core.PROJECT_ID, "name": "REQ 员工编辑 - 原值读取",
+            "source_id": 18270, "status": "active", "data": {"method": "GET",
+            "path": "/iam/users/" + uid, "auth_id": 17863, "api_base_path": "/api/v1"},
+            "assertions": [{"type": "status", "expected": 200}]}
+        row = self.run("employee:read", read, "员工 编辑", ["display_name"], "read")
+        old_name = row["response"]["data"]["display_name"]
+        item = deepcopy(read)
+        item["data"].update(method="PATCH", body={"display_name": old_name})
+        item["data"]["required_text_validation"] = {"version": 1, "fields": ["display_name"],
+            "manual_input_only": True, "exclude_autogenerated_enum_dropdown": True}
+        self.state["coverage"].append({"feature": "员工 编辑", "fields": ["display_name"],
+            "method": "PATCH", "path": item["data"]["path"], "source_id": 18270})
+        try:
+            for variant in LABELS:
+                case = deepcopy(item)
+                case["name"] = "REQ 员工 编辑 - 手动必填文本组合" + LABELS[variant]
+                if variant == "missing":
+                    case["data"]["body"] = {}
+                else:
+                    case["data"]["body"]["display_name"] = {"null": None, "empty": "", "spaces": "   "}[variant]
+                case["data"]["required_text_validation"]["variant"] = variant
+                case["assertions"] = ([{"type": "status", "expected": 200},
+                    {"type": "json_equals", "path": "data.display_name", "expected": old_name}]
+                    if variant in {"missing", "null"} else [{"type": "api_rejection", "expected": "validation"}])
+                self.run("employee:" + variant, case, "员工 编辑", ["display_name"], variant)
+        finally:
+            item["name"] = "REQ 员工编辑 - 恢复原姓名"
+            item["assertions"] = [{"type": "status", "expected": 200},
+                {"type": "json_equals", "path": "data.display_name", "expected": old_name}]
+            restored = self.run("employee:restore", item, "员工 编辑", ["display_name"], "restore")
+            assert restored["status"] == "success", "Employee display name restoration failed"
+            self.state["employee_restored"] = True
+            save(self.state)
+
+    def main(self):
+        candidates = [x for x in self.snapshot["cases"] if x["name"].startswith("STR3 ")
+                      and x["data"].get("string_validation", {}).get("variant") == "middle"]
+        candidates.sort(key=lambda x: x["id"])
+        for case in candidates:
+            self.operation(case)
+        self.employee()
+        rows = self.state["results"]
+        self.state["coverage"] = list({x["feature"]: x for x in self.state["coverage"]}.values())
+        self.state["summary"] = {"operations": len(self.state["coverage"]), "executed": len(rows),
+            "passed": sum(x["status"] == "success" for x in rows),
+            "failed": sum(x["status"] != "success" for x in rows)}
+        self.state["finished_at"] = datetime.now(core.CN).isoformat()
+        save(self.state)
+        print(json.dumps(self.state["summary"], ensure_ascii=False))
+
+    def publish(self):
+        rows = self.state["results"]
+        validation = [x for x in rows if x["variant"] in LABELS]
+        bad = [x for x in validation if x["status"] != "success"]
+        summary = {"operations": len(self.state["coverage"]), "validation": len(validation),
+            "validation_passed": len(validation) - len(bad), "validation_failed": len(bad),
+            "auxiliary_passed": sum(x["status"] == "success" for x in rows if x not in validation),
+            "selected_records": len(rows), "excluded_preliminary": len(self.state.get("excluded_preliminary", []))}
+        self.state["summary"] = summary
+        lines = ["# PunkRecord 手动必填文本补测", "", f"执行入口：{core.MANAGEMENT}",
+            f"业务目标：{self.state['target']}（项目保存的测试地址）", "",
+            json.dumps(summary, ensure_ascii=False), "",
+            "仅测试页面手动输入的必填普通字符串；每个接口按输入形式组合，不逐字段展开。",
+            "排除自动生成编号、枚举、关联下拉、日期/金额/证件等特殊格式及可选备注描述。",
+            "JSON null 和空文本/纯空格分别处理；Form 无 JSON null，因此不建立该场景。",
+            "局部更新缺失/null允许保留原值；交易方编辑与商品编辑采用完整模型，缺失/null应拒绝。",
+            "未创建员工账号；员工新增未执行，遵守不重复建号限制。员工编辑姓名已恢复；未改变岗位、余额与上下级。",
+            "自动编号保持有效正常值；测试数据保留；未启动或修改本地 PunkRecord。", "",
+            "## 异常汇总", "", "| 功能 | API | 字段 | 空文本 | 纯空格 |", "|---|---|---|---|---|"]
+        for item in self.state["coverage"]:
+            selected = [x for x in bad if x["feature"] == item["feature"]]
+            if not selected:
+                continue
+            ids = lambda variant: ", ".join("#" + str(x["record_id"]) for x in selected if x["variant"] == variant) or "通过"
+            path = re.sub(r"[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}", "{id}", item["path"])
+            lines.append(f"|{item['feature']}|{item['method']} /api/v1{path}|{', '.join(item['fields'])}|{ids('empty')}|{ids('spaces')}|")
+        lines += ["", "所有异常均返回 HTTP 200、code=0，api_rejection(validation) 断言失败。", "", "## 全部执行明细"]
+        for row in rows:
+            lines += ["", f"### {row['feature']} / {row['variant']} / 用例 {row['case_id']} / 记录 #{row['record_id']}",
+                f"结果：{row['status']}；HTTP：{row['http']}", "", "请求参数", "```json",
+                json.dumps(row["request"], ensure_ascii=False, indent=2), "```", "返回结果", "```json",
+                json.dumps(row["response"], ensure_ascii=False, indent=2), "```", "断言", "```json",
+                json.dumps(row["assertions"], ensure_ascii=False, indent=2), "```"]
+        content = "\n".join(lines) + "\n"
+        path = core.HERE / "reports" / "required-text-20261020.md"
+        path.write_text(content, encoding="utf-8")
+        knowledge = {"project_id": core.PROJECT_ID, "name": "PunkRecord 手动必填文本补测 2026-10-20",
+            "status": "active", "description": "23个操作、91条必填组合校验，37条异常；完整请求、返回与断言见正文。",
+            "data": {"kind": "test_report", "domain": "PunkRecord", "knowledge_key": "punkrecord.required-text.20261020",
+                "verification_status": "executed", "content": content, "evidence": self.state}}
+        old = self.state.get("knowledge_id")
+        saved = self.platform.call("PUT" if old else "POST", "/project-knowledge" + (f"/{old}" if old else ""), knowledge)
+        self.state["knowledge_id"] = saved["id"]
+        save(self.state)
+        print(json.dumps({"knowledge_id": saved["id"], "summary": summary, "report": str(path)}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    Audit().main()

@@ -50,6 +50,10 @@
 .flow-inputs-band summary { cursor: pointer; }
 .flow-template-layout, .flow-scenario-layout, .flow-results-layout { display: grid; grid-template-columns: 235px minmax(0, 1fr); gap: 20px; }
 .flow-node-rail { border-right: 1px solid #d7deea; padding-right: 14px; }
+.flow-template-layout { align-items: start; }
+.flow-template-rail { position: sticky; top: 16px; width: 100%; }
+.flow-template-rail .flow-node-label strong, .flow-template-rail .flow-node-label small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.api-flow .flow-node-label:focus-visible { outline: 2px solid #9dbbf5; outline-offset: -2px; }
 .flow-rail-item { border-bottom: 1px solid #e5eaf2; padding: 8px 0; }
 .flow-rail-item.active { background: #edf3ff; border-radius: 6px; }
 .api-flow .flow-node-label { border: 0; background: transparent; width: 100%; text-align: left; justify-content: flex-start; gap: 10px; }
@@ -98,7 +102,15 @@
 .api-flow .flow-scene-node { display: block; width: 100%; border: 0; border-radius: 6px; padding: 12px; text-align: left; margin-bottom: 5px; }
 .api-flow .flow-scene-node.active { background: #edf3ff; color: #245cc9; }
 .flow-inherit-controls { display: flex; gap: 20px; flex-wrap: wrap; }
-.flow-run-detail { margin-top: 22px; border-top: 1px solid #d7deea; }
+.flow-run-result-dialog { padding: 0; width: min(1280px, calc(100% - 48px)); max-width: none; max-height: calc(100dvh - 48px); border: 0; }
+.flow-run-result-dialog:not([open]) { display: none; }
+.flow-run-result-dialog::backdrop { background: #17203366; }
+.flow-run-result-dialog .flow-dialog-header > div:first-child { flex: 1; }
+.flow-run-result-dialog .flow-dialog-header .flow-muted { margin-top: 6px; overflow-wrap: anywhere; }
+.flow-run-result-dialog .flow-dialog-header > .flow-actions { flex-shrink: 0; }
+.flow-run-result-dialog .flow-segments { width: fit-content; max-width: 100%; }
+.flow-result-path { font-size: 12px; color: #526079; margin: 12px 0; }
+.flow-result-path summary { cursor: pointer; }
 .flow-path { padding: 9px 0 15px; color: #526079; font-size: 12px; overflow-wrap: anywhere; }
 .flow-node-evidence { border: 1px solid #d7deea; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
 .flow-node-evidence summary { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -108,3 +120,5 @@
 @media (max-width: 1100px) { .flow-binding-row, .flow-route-row, .flow-extract-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } .flow-rule-row > button { justify-self: end; } .flow-condition-row, .flow-assertion-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 700px) { .api-flow { padding: 12px; } .flow-template-layout, .flow-scenario-layout, .flow-results-layout { grid-template-columns: 1fr; gap: 12px; } .flow-node-rail { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid #d7deea; padding-right: 0; padding-bottom: 8px; gap: 8px; } .flow-rail-item { flex: 0 0 210px; } .api-flow .flow-scene-node { flex: 0 0 180px; } .flow-backdrop { padding: 8px; } .flow-dialog { max-height: calc(100dvh - 16px); } .flow-dialog-body { padding: 12px; } .flow-dialog-header, .flow-dialog-footer { padding: 12px; } .flow-form-grid { grid-template-columns: 1fr; } .flow-inherit-controls { gap: 6px; } .flow-toolbar .flow-actions > input { width: 180px; } .flow-toolbar .flow-actions > select { width: 130px; } }
 @media (max-width: 400px) { .flow-parameter-row { grid-template-columns: minmax(0, 1fr) 32px; } .flow-parameter-row > .flow-value-input { grid-column: 1; grid-row: 2; } .flow-parameter-row > button { grid-column: 2; grid-row: 1 / 3; } .flow-toolbar .flow-actions > input, .flow-toolbar .flow-actions > select { width: 100%; } .flow-binding-row, .flow-route-row, .flow-extract-row, .flow-condition-row, .flow-assertion-row { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .flow-run-result-dialog { width: calc(100% - 16px); padding: 0; max-height: calc(100dvh - 16px); } }
+@media (max-width: 700px) { .flow-template-rail { position: static; } }

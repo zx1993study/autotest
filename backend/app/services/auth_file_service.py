@@ -61,6 +61,10 @@ class AuthFileService:
         safe_name = self.safe_filename(filename)
         return (AUTH_DIR / safe_name).exists()
 
+    def delete_json(self, filename: str) -> None:
+        with _WRITE_LOCK:
+            (AUTH_DIR / self.safe_filename(filename)).unlink(missing_ok=True)
+
     def load_json(self, filename: str) -> dict[str, Any]:
         safe_name = self.safe_filename(filename)
         path = AUTH_DIR / safe_name

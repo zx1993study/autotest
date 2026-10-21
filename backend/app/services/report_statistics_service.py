@@ -19,6 +19,8 @@ STATUS_LABELS: dict[str, str] = {
     "error": "异常",
     "queued": "排队中",
     "running": "执行中",
+    "blocked": "阻塞",
+    "interrupted": "中断",
 }
 
 
@@ -109,7 +111,7 @@ class ReportStatisticsService:
         return result
 
     def _status_distribution(self, counts: Counter[str], total: int) -> list[dict[str, Any]]:
-        statuses = ("success", "failed", "error", "running", "queued")
+        statuses = ("success", "failed", "error", "running", "queued", "blocked", "interrupted", "skipped", "cancelled")
         return [
             {
                 "status": status,

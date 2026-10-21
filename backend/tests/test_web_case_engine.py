@@ -60,7 +60,7 @@ class ExecuteRecordTest(unittest.TestCase):
             def _run_async_web_steps(self, case: dict, payload: dict, steps: list) -> dict:
                 return {
                     "url": "https://example.test",
-                    "step_count": 1,
+                    "step_count": 2,
                     "screenshots": [],
                     "events": [{"event": "step_healed"}],
                     "healing": [{"step_name": "保存", "source": "stagehand"}],
@@ -72,7 +72,7 @@ class ExecuteRecordTest(unittest.TestCase):
             "id": 1,
             "name": "新增客户",
             "project_id": 1,
-            "steps": [{"name": "保存", "action": "click"}],
+            "steps": [{"name": "保存", "action": "click"}, {"action": "assert", "expected": "Saved", "locator": ".result"}],
         }
         record = executor.execute(case, {"config": {"engine": "hybrid"}})
         self.assertEqual("success", record["status"])

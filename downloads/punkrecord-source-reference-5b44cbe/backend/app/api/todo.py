@@ -1,0 +1,1555 @@
+"""
+Todo API endpoints
+"""
+import logging
+from typing import Optional, Any
+from app.models.base import now_cn
+from uuid import UUID, uuid4
+from datetime import datetime, time, timedelta
+from pathlib import Path
+from fastapi import APIRouter, Depends, Query, UploadFile, File
+from fastapi.responses import FileResponse
+from sqlmodel import Session, select
+from app.core.database import get_session
+from app.core.auth import require_permission
+from app.core.exceptions import NotFoundException, ValidationException
+from app.core.response import success_response
+from app.models.iam import User, OurEntity
+from app.models.todo import (
+    TodoItem, TodoStatus, TodoSourceType, TodoActionType,
+    NotificationLog, NotificationChannel, NotificationStatus,
+    LeaveRequest, LeaveType, LeaveStatus
+)
+from app.schemas.todo import (
+    TodoCreate, TodoUpdate, TodoReviewAction, TodoResponse,
+    LeaveRequestCreate, LeaveRequestResponse,
+    TodoBlockRequest, TodoDismissRequest
+)
+from app.api.project import sync_project_progress, VALID_DEV_TYPES
+from app.models.project import Project
+from app.core.storage import save_file, get_file, delete_file, get_download_url
+from app.services.wechat_notify_queue import (
+    send_wechat_text, enqueue_wechat_notification, SendOutcome,
+)
+from app.services.beli import (queue_reward, validate_plan, protect_reward_plan,
+                               reverse_reward, is_workday, change_leave, reconcile_attendance,
+                               lock_todo as lock_task_row)
+
+router = APIRouter(prefix="/todo", tags=["Todo"])
+logger = logging.getLogger(__name__)
+TODO_IMAGE_DIR = Path(__file__).resolve().parents[2] / "uploads" / "todo-images"
+MAX_TODO_IMAGE_SIZE = 10 * 1024 * 1024  # 10 MB per image
+
+
+# ─── Helpers ─────────────────────────────────────────────────────────────────
+
+def lock_todo(session, todo_id):
+    todo = lock_task_row(session, todo_id)
+    if todo and (todo.link or {}).get("leave_id"):
+        raise ValidationException("历史请假待办仅供留存，请在独立请假页面操作")
+    return todo
+
+
+def _enrich_todo(todo: TodoItem, session: Session) -> TodoResponse:
+    """Build TodoResponse with resolved assignee/creator names."""
+    assignee = session.get(User, todo.assignee_user_id)
+    creator = session.get(User, todo.creator_user_id)
+    data = TodoResponse.model_validate(todo)
+    link = dict(data.link or {})
+    if "todo_images" in link:
+        link["todo_images"] = _serialize_todo_images(todo)
+        data.link = link
+    data.assignee_name = assignee.display_name if assignee else None
+    data.creator_name = creator.display_name if creator else None
+    if todo.reviewed_by_user_id:
+        reviewer = session.get(User, todo.reviewed_by_user_id)
+        data.reviewer_name = reviewer.display_name if reviewer else None
+    return data
+
+
+def _can_access_todo(todo: TodoItem, current_user: User, session: Session) -> bool:
+    if todo.assignee_user_id == current_user.id or todo.creator_user_id == current_user.id:
+        return True
+    if todo.reviewed_by_user_id == current_user.id:
+        return True
+    assignee = session.get(User, todo.assignee_user_id)
+    return bool(assignee and assignee.manager_user_id == current_user.id)
+
+
+def _serialize_todo_images(todo: TodoItem) -> list[dict]:
+    """Public-facing image list for a todo (omits internal stored_name, adds download path)."""
+    link = dict(todo.link or {})
+    images = list(link.get("todo_images") or [])
+    result = []
+    for img in images:
+        img_id = img.get("id")
+        if not img_id:
+            continue
+        result.append({
+            "id": img_id,
+            "file_name": img.get("file_name"),
+            "content_type": img.get("content_type"),
+            "size": img.get("size"),
+            "uploaded_at": img.get("uploaded_at"),
+            # Relative to API base (e.g. http://host/api/v1)
+            "download_path": f"/todo/{todo.id}/images/{img_id}/download",
+        })
+    return result
+
+
+EVENT_LABELS = {
+    "todo_assigned": "新任务分配",
+    "todo_created_notify_manager": "下属收到新任务",
+    "todo_submitted": "任务提交审核",
+    "todo_pending_review": "任务待审核",
+    "leave_approval_pending": "请假审批待处理",
+    "todo_approved": "任务审核通过",
+    "todo_rejected": "任务被退回",
+    "todo_reassigned": "任务转派",
+    "todo_reopened": "任务被重新打开",
+    "todo_blocked": "任务被阻塞",
+    "todo_done_direct": "任务已完成",
+}
+
+
+def _send_wechat_for_todo(recipient_user_id: UUID, todo: TodoItem, session: Session, event_type: str):
+    """Send WeChat notification for a todo event if user has active binding and preference enabled."""
+    from app.models.shared import WeChatNotifyBinding
+    from app.core.config import settings
+
+    if not settings.WECHAT_MSG_SERVICE_URL:
+        return
+
+    binding = session.exec(
+        select(WeChatNotifyBinding).where(
+            WeChatNotifyBinding.user_id == recipient_user_id,
+            WeChatNotifyBinding.is_active == True,
+        )
+    ).first()
+    if not binding:
+        return
+
+    # Check preference: None means all enabled (backward compatible)
+    if binding.preferences is not None:
+        if not binding.preferences.get(event_type, True):
+            return
+
+    label = EVENT_LABELS.get(event_type, "待办通知")
+    assignee = session.get(User, todo.assignee_user_id)
+    # 单号放第一行:微信"引用"通常只携带消息开头的预览,单号在末行会随截断丢失
+    text = f"📋 {label}(单号:{todo.id})\n标题: {todo.title}\n优先级: {todo.priority.value.upper()}\n状态: {todo.status.value}"
+    if assignee:
+        text += f"\n负责人: {assignee.display_name}"
+
+    outcome, error_msg = send_wechat_text(binding.msg_service_key, text)
+    status = NotificationStatus.SENT if outcome is SendOutcome.SENT else NotificationStatus.FAILED
+    if outcome is SendOutcome.CHANNEL_INACTIVE:
+        # 通道未激活(24h 未交互/服务不可达):入离线队列,激活后由 retry worker FIFO 补发。
+        enqueue_wechat_notification(session, recipient_user_id, todo.id, event_type, text, error_msg)
+    elif outcome is SendOutcome.PERMANENT:
+        logger.warning("WeChat push permanent failure (todo=%s, user=%s): %s", todo.id, recipient_user_id, error_msg)
+
+    wechat_log = NotificationLog(
+        todo_id=todo.id,
+        recipient_user_id=recipient_user_id,
+        channel=NotificationChannel.WECHAT,
+        status=status,
+        sent_at=now_cn(),
+        error_message=error_msg,
+    )
+    session.add(wechat_log)
+
+
+def _notify_manager(user_id: UUID, todo: TodoItem, session: Session, event_type: str = "todo_created_notify_manager"):
+    """Create an in-app notification for the user's manager (if they have one)."""
+    user = session.get(User, user_id)
+    if not user or not user.manager_user_id:
+        return
+    log = NotificationLog(
+        todo_id=todo.id,
+        recipient_user_id=user.manager_user_id,
+        channel=NotificationChannel.IN_APP,
+        status=NotificationStatus.SENT,
+        sent_at=now_cn(),
+    )
+    session.add(log)
+    _send_wechat_for_todo(user.manager_user_id, todo, session, event_type)
+
+
+def _notify_leave(user_id, leave, session, label):
+    """Leave notifications have their own identity, not a synthetic TodoItem."""
+    session.add(NotificationLog(leave_id=leave.id, recipient_user_id=user_id,
+        channel=NotificationChannel.IN_APP, status=NotificationStatus.SENT, sent_at=now_cn()))
+    from app.models.shared import WeChatNotifyBinding
+    binding = session.exec(select(WeChatNotifyBinding).where(WeChatNotifyBinding.user_id == user_id,
+                           WeChatNotifyBinding.is_active == True)).first()
+    if binding:
+        applicant = session.get(User, leave.applicant_user_id)
+        text = f"{label}（请假单号:{leave.id}）\n申请人:{applicant.display_name}\n{leave.start_at} 至 {leave.end_at}"
+        try:
+            outcome, error = send_wechat_text(binding.msg_service_key, text)
+            if outcome is SendOutcome.CHANNEL_INACTIVE:
+                enqueue_wechat_notification(session, user_id, None, "leave_notification", text, error)
+        except Exception:
+            logger.exception("Leave notification unavailable")
+
+
+def _without_leave_todos(query):
+    from sqlalchemy import or_
+    return query.where(or_(TodoItem.link.is_(None), TodoItem.link["leave_id"].as_string().is_(None)))
+
+
+def _notify_user(user_id: UUID, todo: TodoItem, session: Session, event_type: str = "todo_submitted"):
+    """Create an in-app notification for a specific user."""
+    log = NotificationLog(
+        todo_id=todo.id,
+        recipient_user_id=user_id,
+        channel=NotificationChannel.IN_APP,
+        status=NotificationStatus.SENT,
+        sent_at=now_cn(),
+    )
+    session.add(log)
+    _send_wechat_for_todo(user_id, todo, session, event_type)
+
+
+def _notify_reviewer_on_submit(todo: TodoItem, session: Session):
+    """Notify the reviewer that a todo awaits their approval.
+
+    Reviewer = explicit reviewed_by_user_id, else the creator (self-review).
+    Skipped when reviewer == creator to avoid duplicating the creator's own
+    `todo_submitted` notification.
+    """
+    reviewer_id = todo.reviewed_by_user_id or todo.creator_user_id
+    if reviewer_id and reviewer_id != todo.creator_user_id:
+        _notify_user(reviewer_id, todo, session, "todo_pending_review")
+
+
+def _is_direct_manager(manager: User, subordinate: User) -> bool:
+    """Check if manager is the direct manager of subordinate."""
+    return subordinate.manager_user_id == manager.id
+
+
+def _enrich_leave(leave: LeaveRequest, session: Session) -> LeaveRequestResponse:
+    """Build LeaveRequestResponse with resolved applicant name."""
+    applicant = session.get(User, leave.applicant_user_id)
+    data = LeaveRequestResponse.model_validate(leave)
+    data.applicant_name = applicant.display_name if applicant else None
+    return data
+
+
+def _compute_level(user: User, user_map: dict, max_depth: int = 20) -> int:
+    """Walk manager chain to compute org level. L0 = no manager."""
+    level = 0
+    current = user
+    visited = set()
+    while current.manager_user_id and level < max_depth:
+        if current.manager_user_id in visited:
+            break
+        visited.add(current.id)
+        parent = user_map.get(current.manager_user_id)
+        if not parent:
+            break
+        current = parent
+        level += 1
+    return level
+
+
+def _resolve_leave_balance_field(leave_type: LeaveType) -> str:
+    mapping = {
+        LeaveType.ANNUAL: "leave_annual_remaining",
+        LeaveType.MATERNITY: "leave_maternity_remaining",
+        LeaveType.MARRIAGE: "leave_marriage_remaining",
+        LeaveType.PERSONAL: "leave_personal_remaining",
+        LeaveType.SICK: "leave_sick_remaining",
+    }
+    return mapping[leave_type]
+
+
+def _calc_leave_days(start_at: datetime, end_at: datetime, session=None) -> float:
+    """基于工作时间计算请假天数，精度 0.5 天。
+    工作时间：周一至周五，上午 10:00-12:00，下午 14:00-19:00。
+    每个半天算 0.5 天，全天算 1.0 天。
+    """
+    total = 0.0
+    current_date = start_at.date()
+    end_date = end_at.date()
+    while current_date <= end_date:
+        if is_workday(session, current_date) if session is not None else current_date.weekday() < 5:
+            day_start_bound = datetime.combine(current_date, time(0, 0))
+            day_end_bound = datetime.combine(current_date, time(23, 59, 59))
+            actual_start = max(start_at, day_start_bound)
+            actual_end = min(end_at, day_end_bound)
+            # 上午 10:00-12:00
+            morning_s = datetime.combine(current_date, time(10, 0))
+            morning_e = datetime.combine(current_date, time(12, 0))
+            if actual_start < morning_e and actual_end > morning_s:
+                total += 0.5
+            # 下午 14:00-19:00
+            afternoon_s = datetime.combine(current_date, time(14, 0))
+            afternoon_e = datetime.combine(current_date, time(19, 0))
+            if actual_start < afternoon_e and actual_end > afternoon_s:
+                total += 0.5
+        current_date += timedelta(days=1)
+    return total
+
+
+def _apply_todo_list_order(query, status: Optional[str]):
+    """Sort completed todos by finish time; active lists keep deadline order."""
+    if status == TodoStatus.DONE.value:
+        return query.order_by(
+            TodoItem.done_at.desc(),
+            TodoItem.updated_at.desc(),
+            TodoItem.due_at.desc(),
+        )
+    return query.order_by(TodoItem.due_at)
+
+
+def _apply_beli_rules_on_done(todo: TodoItem, session: Session):
+    """Completion only queues independent review; legacy rules are disabled."""
+    queue_reward(session, todo)
+    return
+
+
+
+# ─── Create ──────────────────────────────────────────────────────────────────
+
+@router.post("", response_model=dict)
+async def create_todo(
+    todo_data: TodoCreate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Create new todo item. Notifies the assignee's manager.
+
+    Optional project linking via ``link``:
+      - ``link.project_id`` or ``link.project_name``: associate the task with a
+        project (becomes a PROJECT_TASK shown in that project's task list).
+      - ``link.dev_type``: task type (dev_backend/dev_frontend/dev_ui/dev_product/other),
+        stored in both ``tags`` and ``link.dev_type`` to match project-page tasks.
+    """
+    import uuid as _uuid
+
+    link = dict(todo_data.link or {})
+    if link.get("leave_id"):
+        raise ValidationException("请在独立请假页面提交申请")
+    tags = list(todo_data.tags or [])
+    source_type_str = todo_data.source_type
+    source_id = todo_data.source_id
+
+    our_entity_id = todo_data.our_entity_id
+    if not our_entity_id:
+        default_entity = session.exec(select(OurEntity)).first()
+        if default_entity:
+            our_entity_id = default_entity.id
+    if not our_entity_id:
+        raise ValidationException("未找到可用主体，无法创建任务")
+
+    # ── Optional project linkage (by id or name) ──────────────────────────────
+    linked_project_id: Optional[UUID] = None
+    raw_project_id = link.get("project_id")
+    raw_project_name = link.get("project_name")
+    if raw_project_id:
+        try:
+            pid = _uuid.UUID(str(raw_project_id))
+        except (ValueError, TypeError):
+            raise ValidationException("link.project_id 不是合法的项目ID")
+        project = session.get(Project, pid)
+        if not project:
+            raise ValidationException("未找到对应项目（link.project_id）")
+        linked_project_id = project.id
+    elif raw_project_name:
+        name = str(raw_project_name).strip()
+        matches = session.exec(select(Project).where(Project.name == name)).all()
+        if not matches:
+            raise ValidationException(f"未找到名称为「{name}」的项目，请改用 link.project_id")
+        if len(matches) > 1:
+            raise ValidationException(
+                f"存在多个名称为「{name}」的项目，请改用 link.project_id 精确指定"
+            )
+        linked_project_id = matches[0].id
+
+    if linked_project_id:
+        source_type_str = TodoSourceType.PROJECT_TASK.value
+        source_id = str(linked_project_id)
+        link["project_id"] = str(linked_project_id)
+
+    # ── Optional dev_type (task type) ─────────────────────────────────────────
+    dev_type = link.get("dev_type")
+    if dev_type is not None:
+        dev_type = str(dev_type).strip()
+        if dev_type and dev_type not in VALID_DEV_TYPES:
+            raise ValidationException(
+                f"无效的 dev_type，可选值：{', '.join(sorted(VALID_DEV_TYPES))}"
+            )
+        link["dev_type"] = dev_type
+        if dev_type:
+            tags = [dev_type]
+
+    if not source_id:
+        source_id = str(_uuid.uuid4())
+
+    # Extract reviewed_by_user_id from link if provided
+    reviewed_by = None
+    if link.get("reviewer_user_id"):
+        try:
+            reviewed_by = _uuid.UUID(str(link["reviewer_user_id"]))
+        except (ValueError, TypeError):
+            pass
+
+    new_todo = TodoItem(
+        our_entity_id=our_entity_id,
+        assignee_user_id=todo_data.assignee_user_id,
+        creator_user_id=current_user.id,
+        title=todo_data.title,
+        description=todo_data.description,
+        notes=todo_data.notes,
+        source_type=TodoSourceType(source_type_str),
+        source_id=source_id,
+        action_type=TodoActionType(todo_data.action_type),
+        priority=todo_data.priority,
+        status=TodoStatus.OPEN,
+        due_at=todo_data.due_at,
+        estimated_hours=todo_data.estimated_hours,
+        start_at=todo_data.start_at,
+        tags=tags,
+        link=link,
+        reviewed_by_user_id=reviewed_by,
+    )
+
+    session.add(new_todo)
+    session.commit()
+    session.refresh(new_todo)
+
+    # Keep project progress in sync when the task is linked to a project
+    if linked_project_id:
+        try:
+            sync_project_progress(session, linked_project_id)
+        except ValueError:
+            pass
+
+    # Notify the assignee and their manager (non-critical, don't fail the request)
+    try:
+        _notify_user(todo_data.assignee_user_id, new_todo, session, "todo_assigned")
+        _notify_manager(todo_data.assignee_user_id, new_todo, session, "todo_created_notify_manager")
+        session.commit()
+    except Exception:
+        session.rollback()
+
+    return success_response(_enrich_todo(new_todo, session))
+
+
+# ─── My todos ────────────────────────────────────────────────────────────────
+
+@router.get("/my", response_model=dict)
+async def get_my_todos(
+    status: Optional[str] = Query(None),
+    source_type: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """Get current user's todos (assigned to me)."""
+    query = select(TodoItem).where(TodoItem.assignee_user_id == current_user.id)
+
+    if status:
+        if status == "open":
+            # "open" filter includes open, in_progress, blocked
+            from sqlmodel import or_
+            query = query.where(or_(
+                TodoItem.status == TodoStatus.OPEN,
+                TodoItem.status == TodoStatus.IN_PROGRESS,
+                TodoItem.status == TodoStatus.BLOCKED,
+            ))
+        else:
+            query = query.where(TodoItem.status == status)
+    if source_type:
+        query = query.where(TodoItem.source_type == source_type)
+
+    query = _apply_todo_list_order(_without_leave_todos(query), status)
+
+    count_query = query
+    total = len(session.exec(count_query).all())
+
+    offset = (page - 1) * page_size
+    todos = session.exec(query.offset(offset).limit(page_size)).all()
+
+    return success_response({
+        "items": [_enrich_todo(t, session) for t in todos],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "pages": (total + page_size - 1) // page_size
+    })
+
+
+# ─── Team todos (manager view) ───────────────────────────────────────────────
+
+@router.get("/team", response_model=dict)
+async def get_team_todos(
+    status: Optional[str] = Query(None),
+    reviewed_by_user_id: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """Get todos where assignee is not current user, with optional reviewer filter."""
+    query = select(TodoItem).where(
+        TodoItem.assignee_user_id != current_user.id
+    )
+
+    if reviewed_by_user_id:
+        from sqlalchemy import or_, and_
+        try:
+            rid = UUID(reviewed_by_user_id)
+            query = query.where(
+                or_(
+                    TodoItem.reviewed_by_user_id == rid,
+                    # 当 reviewed_by 未显式设置时，创建人是隐含审核人
+                    and_(
+                        TodoItem.reviewed_by_user_id == None,
+                        TodoItem.creator_user_id == rid,
+                    ),
+                )
+            )
+        except ValueError:
+            pass
+
+    if status:
+        query = query.where(TodoItem.status == status)
+
+    query = _apply_todo_list_order(_without_leave_todos(query), status)
+
+    total = len(session.exec(query).all())
+    offset = (page - 1) * page_size
+    todos = session.exec(query.offset(offset).limit(page_size)).all()
+
+    return success_response({
+        "items": [_enrich_todo(t, session) for t in todos],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "pages": (total + page_size - 1) // page_size,
+    })
+
+
+# ─── Badge counts (sidebar) ───────────────────────────────────────────────────
+
+@router.get("/badge-counts", response_model=dict)
+async def get_todo_badge_counts(
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """Counts for sidebar badges:
+    - my_active: my tasks that are not started (open) or in progress
+    - team_pending_review: team tasks awaiting my review (pending_review where I am
+      the reviewer, including the implicit case where reviewer is unset and I created it)
+    """
+    from sqlalchemy import func, or_, and_
+
+    my_active = session.exec(
+        select(func.count())
+        .select_from(TodoItem)
+        .where(TodoItem.assignee_user_id == current_user.id)
+        .where(TodoItem.status.in_([TodoStatus.OPEN, TodoStatus.IN_PROGRESS]))
+        .where(TodoItem.link["leave_id"].as_string().is_(None))
+    ).one()
+
+    team_pending_review = session.exec(
+        select(func.count())
+        .select_from(TodoItem)
+        .where(TodoItem.assignee_user_id != current_user.id)
+        .where(TodoItem.status == TodoStatus.PENDING_REVIEW)
+        .where(TodoItem.link["leave_id"].as_string().is_(None))
+        .where(
+            or_(
+                TodoItem.reviewed_by_user_id == current_user.id,
+                and_(
+                    TodoItem.reviewed_by_user_id == None,  # noqa: E711
+                    TodoItem.creator_user_id == current_user.id,
+                ),
+            )
+        )
+    ).one()
+
+    return success_response({
+        "my_active": int(my_active),
+        "team_pending_review": int(team_pending_review),
+    })
+
+
+# ─── Leave requests ───────────────────────────────────────────────────────────
+
+@router.post("/leaves", response_model=dict)
+async def create_leave_request(
+    data: LeaveRequestCreate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Create a leave request for current user."""
+    if data.end_at <= data.start_at:
+        raise ValidationException("请假结束时间必须晚于开始时间")
+
+    all_users = session.exec(select(User)).all()
+    user_map = {u.id: u for u in all_users}
+    current_level = _compute_level(current_user, user_map)
+    if current_level == 0:
+        raise ValidationException("L0 级别员工无需请假")
+    if not current_user.manager_user_id:
+        raise ValidationException("未配置直属主管，无法提交请假")
+
+    leave_type = LeaveType(data.leave_type)
+    leave_days = _calc_leave_days(data.start_at, data.end_at, session)
+    if leave_days <= 0:
+        raise ValidationException("请假时间不包含工作日")
+    balance_field = _resolve_leave_balance_field(leave_type)
+    current_balance = float(getattr(current_user, balance_field, 0.0) or 0.0)
+    if leave_days > current_balance:
+        raise ValidationException(f"可用假期不足，当前剩余 {current_balance:.1f} 天")
+
+    our_entity_id = data.our_entity_id
+    if not our_entity_id:
+        default_entity = session.exec(select(OurEntity)).first()
+        if default_entity:
+            our_entity_id = default_entity.id
+    if not our_entity_id:
+        raise ValidationException("未找到可用主体，无法创建请假申请")
+
+    leave = LeaveRequest(
+        our_entity_id=our_entity_id,
+        applicant_user_id=current_user.id,
+        leave_type=leave_type,
+        status=LeaveStatus.PENDING,
+        start_at=data.start_at,
+        end_at=data.end_at,
+        reason=data.reason
+    )
+    session.add(leave)
+    session.commit()
+    session.refresh(leave)
+
+    manager = session.get(User, current_user.manager_user_id)
+    if manager:
+        _notify_leave(manager.id, leave, session, "请假申请待审批")
+        session.commit()
+
+    return success_response(_enrich_leave(leave, session))
+
+
+@router.get("/leaves/my", response_model=dict)
+async def list_my_leave_requests(
+    status: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """List current user's leave requests."""
+    query = select(LeaveRequest).where(LeaveRequest.applicant_user_id == current_user.id)
+    if status:
+        query = query.where(LeaveRequest.status == status)
+    query = query.order_by(LeaveRequest.created_at.desc())
+
+    total = len(session.exec(query).all())
+    offset = (page - 1) * page_size
+    leaves = session.exec(query.offset(offset).limit(page_size)).all()
+    return success_response({
+        "items": [_enrich_leave(item, session) for item in leaves],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "pages": (total + page_size - 1) // page_size
+    })
+
+
+@router.get("/leaves/team/pending", response_model=dict)
+async def list_team_pending_leave_requests(
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """List pending leave requests where current user is the applicant's direct manager."""
+    # Only find direct subordinates (users whose manager_user_id == current_user.id)
+    all_users = session.exec(select(User)).all()
+    managed_user_ids = [u.id for u in all_users if u.manager_user_id == current_user.id]
+
+    if not managed_user_ids:
+        return success_response([])
+
+    from sqlmodel import col
+    requests = session.exec(
+        select(LeaveRequest)
+        .where(col(LeaveRequest.applicant_user_id).in_(managed_user_ids))
+        .where(LeaveRequest.status == LeaveStatus.PENDING)
+        .order_by(LeaveRequest.created_at.desc())
+    ).all()
+    return success_response([_enrich_leave(item, session) for item in requests])
+
+
+@router.post("/leaves/{leave_id}/approve", response_model=dict)
+async def approve_leave_request(
+    leave_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Approve leave request by manager in the applicant's manager chain and deduct leave balance."""
+    from app.models.beli import BeliPolicy
+    session.exec(select(BeliPolicy).with_for_update()).first()
+    leave = session.exec(select(LeaveRequest).where(LeaveRequest.id == leave_id).with_for_update()).first()
+    if not leave:
+        raise NotFoundException("未找到请假申请")
+    if leave.status != LeaveStatus.PENDING:
+        raise ValidationException("仅待审批的请假可通过")
+
+    applicant = session.get(User, leave.applicant_user_id)
+    if not applicant:
+        raise NotFoundException("未找到请假申请人")
+
+    # Check if current_user is in the applicant's manager chain
+    all_users = session.exec(select(User)).all()
+    user_map = {u.id: u for u in all_users}
+    is_manager = False
+    current = applicant
+    visited = set()
+    while current.manager_user_id and current.manager_user_id not in visited:
+        if current.manager_user_id == current_user.id:
+            is_manager = True
+            break
+        visited.add(current.id)
+        current = user_map.get(current.manager_user_id)
+        if not current:
+            break
+    if not is_manager:
+        raise ValidationException("仅上级主管可审批此请假申请")
+
+    leave_days = _calc_leave_days(leave.start_at, leave.end_at, session)
+    balance_field = _resolve_leave_balance_field(leave.leave_type)
+    current_balance = float(getattr(applicant, balance_field, 0.0) or 0.0)
+    if leave_days > current_balance:
+        raise ValidationException(f"请假申请人剩余假期不足（剩余 {current_balance:.1f} 天）")
+
+    leave.status = LeaveStatus.APPROVED
+    leave.approved_by_user_id = current_user.id
+    leave.approved_at = now_cn()
+    leave.review_comment = None
+    leave.updated_at = now_cn()
+    session.add(applicant)
+    session.add(leave)
+
+    session.flush()
+    day = leave.start_at.date()
+    while day <= leave.end_at.date():
+        reconcile_attendance(session, day)
+        day += timedelta(days=1)
+    # Reconciliation locks employee accounts in ID order before this single-user debit.
+    change_leave(session, applicant.id, leave.leave_type, -leave_days,
+                 f"leave-approval:{leave.id}", "请假审批扣减", current_user.id)
+    _notify_leave(leave.applicant_user_id, leave, session, "请假已批准")
+
+    session.commit()
+    session.refresh(leave)
+    return success_response(_enrich_leave(leave, session))
+
+
+@router.post("/leaves/{leave_id}/reject", response_model=dict)
+async def reject_leave_request(
+    leave_id: UUID,
+    data: TodoReviewAction,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Reject leave request by manager in the applicant's manager chain."""
+    leave = session.exec(select(LeaveRequest).where(LeaveRequest.id == leave_id)
+                         .with_for_update().execution_options(populate_existing=True)).first()
+    if not leave:
+        raise NotFoundException("未找到请假申请")
+    if leave.status != LeaveStatus.PENDING:
+        raise ValidationException("仅待审批的请假可拒绝")
+
+    applicant = session.get(User, leave.applicant_user_id)
+    if not applicant:
+        raise NotFoundException("未找到请假申请人")
+
+    # Check if current_user is in the applicant's manager chain
+    all_users = session.exec(select(User)).all()
+    user_map = {u.id: u for u in all_users}
+    is_manager = False
+    current = applicant
+    visited = set()
+    while current.manager_user_id and current.manager_user_id not in visited:
+        if current.manager_user_id == current_user.id:
+            is_manager = True
+            break
+        visited.add(current.id)
+        current = user_map.get(current.manager_user_id)
+        if not current:
+            break
+    if not is_manager:
+        raise ValidationException("仅上级主管可审批此请假申请")
+
+    leave.status = LeaveStatus.REJECTED
+    leave.approved_by_user_id = current_user.id
+    leave.approved_at = now_cn()
+    leave.review_comment = data.comment or "请假申请未通过"
+    leave.updated_at = now_cn()
+    session.add(leave)
+
+    _notify_leave(leave.applicant_user_id, leave, session, "请假未通过")
+
+    session.commit()
+    session.refresh(leave)
+    return success_response(_enrich_leave(leave, session))
+
+
+# ─── Single todo ─────────────────────────────────────────────────────────────
+
+# ─── Task images lookup (by task id or title) ────────────────────────────────
+# NOTE: this literal "/images" route MUST be declared before "/{todo_id}" so it
+# is not captured by the UUID path param.
+
+@router.get("/images", response_model=dict)
+async def find_todo_images(
+    todo_id: Optional[UUID] = Query(None),
+    title: Optional[str] = Query(None),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """List images of a task located by id or by exact title.
+
+    Provide either ``todo_id`` or ``title`` (required, choose one). When the
+    title matches multiple accessible tasks, returns the candidate list so the
+    caller can disambiguate with ``todo_id``.
+    """
+    if not todo_id and not (title and title.strip()):
+        raise ValidationException("必须提供 todo_id 或 title 之一")
+
+    if todo_id:
+        todo = session.get(TodoItem, todo_id)
+        if not todo or not _can_access_todo(todo, current_user, session):
+            raise NotFoundException("未找到待办事项")
+        return success_response({
+            "todo_id": str(todo.id),
+            "title": todo.title,
+            "images": _serialize_todo_images(todo),
+        })
+
+    # Locate by exact title among tasks the user can access
+    name = title.strip()
+    candidates = session.exec(select(TodoItem).where(TodoItem.title == name)).all()
+    accessible = [t for t in candidates if _can_access_todo(t, current_user, session)]
+    if not accessible:
+        raise NotFoundException(f"未找到名称为「{name}」的任务")
+    if len(accessible) > 1:
+        return success_response({
+            "ambiguous": True,
+            "message": f"存在多个名称为「{name}」的任务，请改用 todo_id 指定",
+            "candidates": [
+                {"todo_id": str(t.id), "title": t.title, "status": t.status,
+                 "image_count": len(_serialize_todo_images(t))}
+                for t in accessible
+            ],
+        })
+    todo = accessible[0]
+    return success_response({
+        "todo_id": str(todo.id),
+        "title": todo.title,
+        "images": _serialize_todo_images(todo),
+    })
+
+
+@router.get("/{todo_id}/images", response_model=dict)
+async def list_todo_images(
+    todo_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """List all images attached to a task."""
+    todo = session.get(TodoItem, todo_id)
+    if not todo or not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+    return success_response({
+        "todo_id": str(todo.id),
+        "title": todo.title,
+        "images": _serialize_todo_images(todo),
+    })
+
+
+@router.get("/{todo_id}", response_model=dict)
+async def get_todo(
+    todo_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """Get todo by ID."""
+    todo = session.get(TodoItem, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    # Access: assignee, creator, or direct manager of assignee
+    if not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Update ──────────────────────────────────────────────────────────────────
+
+@router.patch("/{todo_id}", response_model=dict)
+async def update_todo(
+    todo_id: UUID,
+    todo_data: TodoUpdate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Update todo (assignee, creator, or direct manager of assignee)."""
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    if not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+
+    protect_reward_plan(session, todo, todo_data.model_dump(exclude_unset=True))
+    if todo_data.link and todo_data.link.get("leave_id"):
+        raise ValidationException("请假与待办独立，请勿关联请假单")
+    for field in ("due_at", "estimated_hours"):
+        if field in todo_data.model_fields_set and getattr(todo_data, field) is None:
+            raise ValidationException("截止日期和预计工时不可清空")
+    if todo_data.estimated_hours is not None:
+        todo.estimated_hours = todo_data.estimated_hours
+    if todo_data.title is not None:
+        todo.title = todo_data.title
+    if todo_data.description is not None:
+        todo.description = todo_data.description
+    if todo_data.notes is not None:
+        todo.notes = todo_data.notes
+    if todo_data.priority is not None:
+        todo.priority = todo_data.priority
+    if todo_data.due_at is not None:
+        todo.due_at = todo_data.due_at
+    if todo_data.start_at is not None:
+        todo.start_at = todo_data.start_at
+    if todo_data.tags is not None:
+        todo.tags = todo_data.tags
+    if todo_data.link is not None:
+        # Merge with existing link to preserve fields not sent
+        existing_link = dict(todo.link or {})
+        existing_link.update(todo_data.link)
+        todo.link = existing_link
+        from sqlalchemy.orm.attributes import flag_modified
+        flag_modified(todo, 'link')
+    reassigned_to = None
+    if todo_data.assignee_user_id is not None and todo_data.assignee_user_id != todo.assignee_user_id:
+        reassigned_to = todo_data.assignee_user_id
+        todo.assignee_user_id = todo_data.assignee_user_id
+
+    todo.updated_at = now_cn()
+    session.add(todo)
+    queue_reward(session, todo, backfill=True)
+    session.commit()
+    session.refresh(todo)
+
+    if reassigned_to:
+        try:
+            _notify_user(reassigned_to, todo, session, "todo_reassigned")
+            session.commit()
+        except Exception:
+            session.rollback()
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+@router.post("/{todo_id}/images", response_model=dict)
+async def upload_todo_image(
+    todo_id: UUID,
+    file: UploadFile = File(...),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Upload one image for a todo item (supports multiple images by repeated upload)."""
+    todo = session.get(TodoItem, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+    if not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+    if not file.filename:
+        raise ValidationException("图片文件名不能为空")
+
+    content_type = file.content_type or ""
+    if not content_type.startswith("image/"):
+        raise ValidationException("仅支持图片文件")
+
+    file_bytes = await file.read()
+    if not file_bytes:
+        raise ValidationException("图片内容不能为空")
+    if len(file_bytes) > MAX_TODO_IMAGE_SIZE:
+        raise ValidationException("单张图片大小不能超过 10MB")
+
+    image_id = uuid4().hex
+    safe_suffix = Path(file.filename).suffix[:20]
+    stored_name = f"{todo.id}_{image_id}{safe_suffix}"
+    save_file("todo-images", stored_name, file_bytes, content_type)
+
+    image_meta: dict[str, Any] = {
+        "id": image_id,
+        "file_name": file.filename,
+        "stored_name": stored_name,
+        "content_type": content_type,
+        "size": len(file_bytes),
+        "uploaded_at": now_cn().isoformat(),
+        "uploaded_by_user_id": str(current_user.id),
+    }
+
+    link = dict(todo.link or {})
+    images = list(link.get("todo_images") or [])
+    images.append(image_meta)
+    link["todo_images"] = images
+    todo.link = link
+    todo.updated_at = now_cn()
+    session.add(todo)
+    session.commit()
+
+    return success_response(image_meta)
+
+
+@router.get("/{todo_id}/images/{image_id}/download")
+async def download_todo_image(
+    todo_id: UUID,
+    image_id: str,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.read"))
+):
+    """Download one uploaded todo image by image_id."""
+    todo = session.get(TodoItem, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+    if not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+
+    link = dict(todo.link or {})
+    image = next((item for item in list(link.get("todo_images") or []) if item.get("id") == image_id), None)
+    if not image:
+        raise NotFoundException("未找到任务图片")
+
+    stored_name = image.get("stored_name")
+    file_name = image.get("file_name") or "todo-image"
+    if not stored_name:
+        raise NotFoundException("图片元数据异常")
+
+    url = get_download_url("todo-images", stored_name)
+    if url:
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url)
+
+    try:
+        _, local_path = get_file("todo-images", stored_name)
+    except FileNotFoundError:
+        raise NotFoundException("图片文件不存在")
+
+    return FileResponse(
+        path=local_path,
+        media_type=image.get("content_type") or "application/octet-stream",
+        filename=file_name,
+    )
+
+
+@router.delete("/{todo_id}/images/{image_id}", response_model=dict)
+async def delete_todo_image(
+    todo_id: UUID,
+    image_id: str,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Delete one uploaded todo image."""
+    todo = session.get(TodoItem, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+    if not _can_access_todo(todo, current_user, session):
+        raise NotFoundException("未找到待办事项")
+
+    link = dict(todo.link or {})
+    images = list(link.get("todo_images") or [])
+    target = next((item for item in images if item.get("id") == image_id), None)
+    if not target:
+        raise NotFoundException("未找到任务图片")
+
+    stored_name = target.get("stored_name")
+    if stored_name:
+        try:
+            delete_file("todo-images", stored_name)
+        except Exception:
+            pass
+
+    remain = [item for item in images if item.get("id") != image_id]
+    link["todo_images"] = remain
+    todo.link = link
+    todo.updated_at = now_cn()
+    session.add(todo)
+    session.commit()
+    return success_response({"message": "图片已删除"})
+
+
+# ─── Start ───────────────────────────────────────────────────────────────────
+
+@router.post("/{todo_id}/start", response_model=dict)
+async def start_todo(
+    todo_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Start task: Open -> In Progress, record start_at."""
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    # Allow assignee or creator (for bugs, tester is creator) to start
+    if todo.assignee_user_id != current_user.id and todo.creator_user_id != current_user.id:
+        raise NotFoundException("只有被分配人或创建人才能开始任务")
+    # Idempotent start: duplicate drag/drop or click should not fail.
+    if todo.status == TodoStatus.IN_PROGRESS:
+        return success_response(_enrich_todo(todo, session))
+
+
+    if todo.status != TodoStatus.OPEN:
+        raise ValidationException(f"当前状态 {todo.status} 不能开始任务")
+
+    todo.status = TodoStatus.IN_PROGRESS
+    todo.start_at = now_cn()
+    todo.updated_at = now_cn()
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Submit for review ───────────────────────────────────────────────────────
+
+@router.post("/{todo_id}/submit", response_model=dict)
+async def submit_todo(
+    todo_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Employee submits task as complete → pending_review. Notifies manager."""
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    # Allow assignee or creator (for bugs, tester is creator) to submit
+    if todo.assignee_user_id != current_user.id and todo.creator_user_id != current_user.id:
+        raise NotFoundException("只有被分配人或创建人才能提交完成")
+
+    # Idempotent submit: duplicate drag/drop or click should not fail.
+    if todo.status in (TodoStatus.PENDING_REVIEW, TodoStatus.DONE):
+        return success_response(_enrich_todo(todo, session))
+
+    if todo.status not in (TodoStatus.OPEN, TodoStatus.IN_PROGRESS, TodoStatus.BLOCKED):
+        raise ValidationException(f"当前状态 {todo.status} 不能提交完成")
+
+    validate_plan(todo)
+    todo.submitted_at = now_cn()
+
+    # Check if creator is assignee (Self-assigned) AND no separate reviewer
+    is_self_assigned = (
+        todo.creator_user_id == current_user.id
+        and todo.assignee_user_id == current_user.id
+        and not todo.reviewed_by_user_id
+    )
+    if is_self_assigned:
+        todo.status = TodoStatus.DONE
+        todo.done_at = now_cn()
+        todo.done_by_user_id = current_user.id
+        todo.reviewed_by_user_id = current_user.id  # Auto-approved
+        todo.updated_at = now_cn()
+        _apply_beli_rules_on_done(todo, session)
+
+        session.add(todo)
+        session.commit()
+        session.refresh(todo)
+    else:
+        # Assigned by someone else: Needs review by CREATOR
+        todo.status = TodoStatus.PENDING_REVIEW
+        todo.review_comment = None  # Clear previous rejection comment
+        todo.updated_at = now_cn()
+
+        session.add(todo)
+        session.commit()
+        session.refresh(todo)
+
+        # Notify creator (non-critical)
+        try:
+            _notify_user(todo.creator_user_id, todo, session, "todo_submitted")
+            session.commit()
+        except Exception:
+            session.rollback()
+
+        # Notify reviewer that approval is pending (non-critical)
+        try:
+            _notify_reviewer_on_submit(todo, session)
+            session.commit()
+        except Exception:
+            session.rollback()
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Approve ─────────────────────────────────────────────────────────────────
+
+@router.post("/{todo_id}/approve", response_model=dict)
+async def approve_todo(
+    todo_id: UUID,
+    data: TodoReviewAction = TodoReviewAction(),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Manager approves task completion → done."""
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    if (todo.link or {}).get("leave_id"):
+        raise ValidationException("请在独立请假页面审批")
+    if todo.status != TodoStatus.PENDING_REVIEW:
+        raise ValidationException("只有上报完成的任务才能审核")
+
+    # Reviewer has priority; fall back to creator
+    reviewer_id = todo.reviewed_by_user_id or todo.creator_user_id
+    if reviewer_id != current_user.id:
+        raise NotFoundException("只有审核员才能审核此任务")
+
+    validate_plan(todo)
+    if not todo.submitted_at:
+        raise ValidationException("历史任务缺少提交完成时间，请执行人撤回后重新提交验收")
+    todo.status = TodoStatus.DONE
+    todo.done_at = now_cn()
+    todo.done_by_user_id = todo.assignee_user_id # The doer is the assignee
+    todo.reviewed_by_user_id = current_user.id
+    todo.review_comment = data.comment
+    todo.updated_at = now_cn()
+    _apply_beli_rules_on_done(todo, session)
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    # Notify assignee that task was approved (non-critical)
+    try:
+        _notify_user(todo.assignee_user_id, todo, session, "todo_approved")
+        session.commit()
+    except Exception:
+        session.rollback()
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Reject ──────────────────────────────────────────────────────────────────
+
+@router.post("/{todo_id}/reject", response_model=dict)
+async def reject_todo(
+    todo_id: UUID,
+    data: TodoReviewAction,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Manager rejects task, sends it back with a comment."""
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    if todo.status != TodoStatus.PENDING_REVIEW:
+        raise ValidationException("只有上报完成的任务才能退回")
+
+    reviewer_id = todo.reviewed_by_user_id or todo.creator_user_id
+    if reviewer_id != current_user.id:
+        raise NotFoundException("只有审核员才能退回此任务")
+
+    todo.status = TodoStatus.OPEN
+    todo.reviewed_by_user_id = current_user.id
+    todo.review_comment = data.comment or "请修改后重新提交"
+    todo.updated_at = now_cn()
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    # Notify assignee that task was rejected (non-critical)
+    try:
+        _notify_user(todo.assignee_user_id, todo, session, "todo_rejected")
+        session.commit()
+    except Exception:
+        session.rollback()
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Legacy actions ──────────────────────────────────────────────────────────
+
+@router.post("/{todo_id}/done", response_model=dict)
+async def mark_todo_done(
+    todo_id: UUID,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Direct done (kept for backward compatibility, now redirects to submit flow)."""
+    return await submit_todo(todo_id, session=session, current_user=current_user)
+
+
+
+@router.post("/{todo_id}/block", response_model=dict)
+async def block_todo(
+    todo_id: UUID,
+    payload: Optional[TodoBlockRequest] = None,
+    blocked_reason: Optional[str] = Query(None),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Block todo with reason. Reason accepted in request body or query."""
+    reason = (payload.blocked_reason if payload else None) or blocked_reason
+    if not reason or not reason.strip():
+        raise ValidationException("缺少阻塞原因 blocked_reason")
+
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    if todo.assignee_user_id != current_user.id:
+        raise NotFoundException("未找到待办事项")
+
+    todo.status = TodoStatus.BLOCKED
+    reverse_reward(session, todo, current_user.id, "任务变更为阻塞，冲销奖励")
+    todo.blocked_reason = reason
+    todo.updated_at = now_cn()
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    # Notify creator that task is blocked (non-critical)
+    try:
+        _notify_user(todo.creator_user_id, todo, session, "todo_blocked")
+        session.commit()
+    except Exception:
+        session.rollback()
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+@router.post("/{todo_id}/dismiss", response_model=dict)
+async def dismiss_todo(
+    todo_id: UUID,
+    payload: Optional[TodoDismissRequest] = None,
+    dismiss_reason: Optional[str] = Query(None),
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """Dismiss todo. Reason accepted in request body or query."""
+    reason = (payload.dismiss_reason if payload else None) or dismiss_reason
+
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    if todo.assignee_user_id != current_user.id:
+        raise NotFoundException("未找到待办事项")
+
+    todo.status = TodoStatus.DISMISSED
+    reverse_reward(session, todo, current_user.id, "任务取消，冲销奖励")
+    todo.dismiss_reason = reason
+    todo.updated_at = now_cn()
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))
+
+
+# ─── Status Change (Generic/Backward) ────────────────────────────────────────
+
+class TodoStatusChange(TodoReviewAction):
+    status: TodoStatus
+
+@router.post("/{todo_id}/status", response_model=dict)
+async def update_todo_status(
+    todo_id: UUID,
+    data: TodoStatusChange,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(require_permission("todo.write"))
+):
+    """
+    Manually update status. Handles backward transitions (Undo/Redo/Recall).
+    - Open <-> In Progress
+    - Pending Review -> In Progress (Recall/Request Changes)
+    - Done -> In Progress (Reopen)
+    - Done -> Open (Reset)
+    """
+    todo = lock_todo(session, todo_id)
+    if not todo:
+        raise NotFoundException("未找到待办事项")
+
+    target_status = data.status
+    current_status = todo.status
+    is_reopen = False
+
+    # Permission Checks & Logic
+
+    # 1. In Progress -> Open (Stop/Reset)
+    if current_status == TodoStatus.IN_PROGRESS and target_status == TodoStatus.OPEN:
+        if todo.assignee_user_id != current_user.id:
+            raise NotFoundException("只有被分配人才能重置任务")
+        todo.status = TodoStatus.OPEN
+        todo.start_at = None # Optional: Clear start time or keep history? Using None for "Reset"
+    
+    # 2. Pending Review -> In Progress (Recall or Request Changes)
+    elif current_status == TodoStatus.PENDING_REVIEW and target_status == TodoStatus.IN_PROGRESS:
+        # Assignee recalling
+        if todo.assignee_user_id == current_user.id:
+             todo.status = TodoStatus.IN_PROGRESS
+        # Manager/Creator requesting changes (soft reject)
+        elif todo.creator_user_id == current_user.id or _is_direct_manager(current_user, session.get(User, todo.assignee_user_id)):
+             todo.status = TodoStatus.IN_PROGRESS
+             todo.review_comment = data.comment
+             todo.reviewed_by_user_id = current_user.id
+        else:
+             raise NotFoundException("无权更改此任务状态")
+             
+    # 3. Done -> In Progress (Reopen)
+    elif current_status == TodoStatus.DONE and target_status == TodoStatus.IN_PROGRESS:
+        is_reopen = True
+        # Creator or Manager can reopen
+        if todo.creator_user_id == current_user.id or (todo.assignee_user_id == current_user.id and todo.creator_user_id == current_user.id):
+            todo.status = TodoStatus.IN_PROGRESS
+            todo.done_at = None
+        else:
+             # Check if manager
+             assignee = session.get(User, todo.assignee_user_id)
+             if _is_direct_manager(current_user, assignee):
+                 todo.status = TodoStatus.IN_PROGRESS
+                 todo.done_at = None
+             else:
+                 raise NotFoundException("无权重新打开任务")
+
+    # 4. Open -> In Progress (Start) - Reuse logic or allow here
+    elif current_status == TodoStatus.OPEN and target_status == TodoStatus.IN_PROGRESS:
+        if todo.assignee_user_id != current_user.id:
+             raise NotFoundException("只有被分配人才能开始任务")
+        todo.status = TodoStatus.IN_PROGRESS
+        if not todo.start_at:
+            todo.start_at = now_cn()
+
+    # 5. Done -> Open (Reset fully)
+    elif current_status == TodoStatus.DONE and target_status == TodoStatus.OPEN:
+        is_reopen = True
+         # Creator or Manager can reset
+        if todo.creator_user_id == current_user.id or (todo.assignee_user_id == current_user.id and todo.creator_user_id == current_user.id):
+            todo.status = TodoStatus.OPEN
+            todo.done_at = None
+            todo.start_at = None # Optional: full reset
+        else:
+             assignee = session.get(User, todo.assignee_user_id)
+             if _is_direct_manager(current_user, assignee):
+                 todo.status = TodoStatus.OPEN
+                 todo.done_at = None
+                 todo.start_at = None
+             else:
+                 raise NotFoundException("无权重置任务")
+
+    # 6. AI workflow transitions — agent_status stored in link, todo.status follows normal flow
+    elif target_status == TodoStatus.AI_FIXING and current_status in (TodoStatus.OPEN, TodoStatus.IN_PROGRESS, TodoStatus.BLOCKED):
+        # Set todo to in_progress, record agent_status in link
+        todo.status = TodoStatus.IN_PROGRESS
+        if not todo.start_at:
+            todo.start_at = now_cn()
+        link = dict(todo.link or {})
+        link['agent_status'] = 'ai_fixing'
+        todo.link = link
+        from sqlalchemy.orm.attributes import flag_modified
+        flag_modified(todo, 'link')
+
+    elif target_status == TodoStatus.AI_FIXED:
+        # AI finished — todo stays in_progress, only agent_status changes
+        link = dict(todo.link or {})
+        link['agent_status'] = 'ai_fixed'
+        todo.link = link
+        from sqlalchemy.orm.attributes import flag_modified
+        flag_modified(todo, 'link')
+        # Do NOT change todo.status — employee must submit for review manually
+
+    # 7. Fallback/Other transitions
+    else:
+        if current_status == TodoStatus.PENDING_REVIEW and target_status == TodoStatus.OPEN:
+             # Treat as Reject
+             if todo.creator_user_id != current_user.id and not _is_direct_manager(current_user, session.get(User, todo.assignee_user_id)):
+                  raise NotFoundException("无权退回任务")
+             todo.status = TodoStatus.OPEN
+             todo.review_comment = data.comment or "退回"
+             todo.reviewed_by_user_id = current_user.id
+        else:
+             raise ValidationException(f"不支持从 {current_status} 到 {target_status} 的直接变更")
+
+    if is_reopen:
+        reverse_reward(session, todo, current_user.id, "任务重开，冲销原奖励")
+        todo.submitted_at = None
+    todo.updated_at = now_cn()
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    if is_reopen:
+        try:
+            _notify_user(todo.assignee_user_id, todo, session, "todo_reopened")
+            session.commit()
+        except Exception:
+            session.rollback()
+
+    if todo.source_type == TodoSourceType.PROJECT_TASK and todo.source_id:
+        try:
+            sync_project_progress(session, UUID(todo.source_id))
+        except ValueError:
+            pass
+
+    return success_response(_enrich_todo(todo, session))

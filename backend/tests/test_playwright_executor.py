@@ -37,6 +37,9 @@ class FakeLocator:
     async def click(self) -> None:
         self.clicked += 1
 
+    async def count(self) -> int:
+        return 1
+
     async def select_option(self, **kwargs: Any) -> None:
         raise RuntimeError("custom select")
 
@@ -81,6 +84,14 @@ class FakePage:
 
 
 class PlaywrightEngineTest(unittest.IsolatedAsyncioTestCase):
+    async def test_editable_combobox_preserves_free_text_input(self) -> None:
+        page = FakePage()
+        page.opener.meta = {'tag': 'input', 'role': 'combobox', 'readonly': False}
+        await PlaywrightEngine(page).execute({'action': 'fill', 'locator_type': 'placeholder',
+                                             'locator': 'Speaker', 'value': 'External attendee'})
+        self.assertEqual(['External attendee'], page.opener.filled_values)
+        self.assertEqual(0, page.option.clicked)
+
     async def test_fill_on_readonly_select_input_clicks_option(self) -> None:
         page = FakePage()
         engine = PlaywrightEngine(page)
@@ -97,7 +108,7 @@ class PlaywrightEngineTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual("请选择仓库业务员", page.placeholder_value)
         self.assertEqual(1, page.opener.clicked)
         self.assertEqual(1, page.option.clicked)
-        self.assertEqual("超级管理员", page.option.filtered_text)
+        self.assertTrue(page.option.filtered_text.fullmatch("超级管理员"))
         self.assertEqual([], page.opener.filled_values)
 
     async def test_role_locator_uses_first_match(self) -> None:

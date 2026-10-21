@@ -13,7 +13,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class ResourceRepositorySortingTest(unittest.TestCase):
-    """Verify management lists show recently updated rows first."""
+    """Verify resource-specific ordering and list filters."""
 
     def setUp(self) -> None:
         self.engine = create_engine("sqlite:///:memory:")
@@ -60,7 +60,7 @@ class ResourceRepositorySortingTest(unittest.TestCase):
         self.assertEqual(total, 3)
         self.assertEqual([row["name"] for row in rows], ["new-b", "new-a", "old"])
 
-    def test_test_cases_sort_by_updated_at_then_id_desc(self) -> None:
+    def test_test_cases_sort_by_id_desc(self) -> None:
         older = datetime(2026, 7, 10, 9, 0, 0)
         newer = datetime(2026, 7, 11, 9, 0, 0)
         self.session.add_all(

@@ -1,0 +1,119 @@
+# 数据模型
+
+## 2026-10-16 开发环境升级
+
+- `TodoItem` 增加 `estimated_hours: DECIMAL(10,2)`、`submitted_at`。存量允许空，新任务工时默认 0，截止日期必填；最终提交时间与验收通过时间分开。
+- `User.basic_salary: DECIMAL(12,2)` 仅通过管理员专用接口维护，不加入公开用户响应。原 `beili_balance` 保持兼容镜像，新的权威余额为 `BeliAccount.balance`，同时记录冻结额。
+- `models/beli.py` 新增账户、不可删除业务流水、任务奖励审核、工作日覆盖、考勤启用策略、每日员工考勤、商品、兑换订单模型。
+- 流水事件键、任务奖励的 `todo_id`、员工每日考勤、兑换请求键有唯一约束。奖励快照包含内部工资参数，任何公开响应不得直接序列化快照。
+- `NotificationLog.todo_id` 改为可空，增加 `leave_id`，请假通知不再依赖合成待办。
+- 迁移 `20261016_0001` 保留历史余额并生成期初流水，不补造工时、不回算历史奖励。MySQL新表排序规则与已有 `users.id` 保持一致，避免外键不兼容。
+- 迁移 `20261016_0003` 为新任务设置数据库工时默认值 0，保留已有空值和正数；`BeliPolicy.hours_rule_starts_at` 首次记录规则生效时间，重复执行不重置。奖励 `excluded` 表示未发奖但退出资格，保留历史审核；恢复正数工时后回到 `pending`，不新建重复奖励记录。
+- 迁移 `20261016_0002` 添加考勤姓名快照；已生成的日考勤固定当天应到员工，不随员工后续更名、停用或晋升改写历史。
+
+> 本文档描述后端数据库的模型定义和分组。属于 `project-index.md` 的子文档。
+> 详细的数据库设计（字段、类型、关系图）请参阅 `project-overview.md` 第 5 章。
+>
+> **数据库**：MySQL 8.0（`pymysql` 驱动），User 表名为 `users`（避免 MySQL 保留字冲突）。
+
+---
+
+## 1. 模型文件
+
+模型文件位于 `backend/app/models/` 目录：
+
+| 文件 | 内容 |
+|------|------|
+| `base.py` | 共享基础模型字段（`id`, `created_at`, `updated_at`） |
+| `iam.py` | 用户（含个人档案）、部门/组织单元、职位、职位权限、实体、成员关系、学历枚举 |
+| `todo.py` | 任务项、请假申请 |
+| `beli.py` | 贝利账户/流水、奖励审核、工作日历、考勤、商城商品和订单 |
+| `project.py` | 项目、阶段、成员、项目相关结构 |
+| `contract.py` | 合同、对手方、付款计划 |
+| `finance.py` | 财务账户、交易记录、发票、报销 |
+| `approval.py` | 审批相关模型 |
+| `shared.py` | 共享/通用模型（审计日志、文件元数据、版本更新日志、Agent Token、微信通知绑定与离线队列） |
+| `kb.py` | 企业大脑（知识库文档、文档切片、对话、消息） |
+| `meeting.py` | 会议记录（会议主表、转写分段） |
+
+## 2. 模型分组
+
+### 组织管理（IAM）
+
+| 模型 | 说明 |
+|------|------|
+| `User` | 用户（含个人档案、请假额度、Beli 积分、首次登录状态） |
+| `OrgUnit` | 部门（树形自引用） |
+| `JobTitle` | 职位 |
+| `JobTitlePermission` | 职位-权限关联表 |
+| `OurEntity` | 我方实体（公司/分支/工作室） |
+| `OrgMembership` | 组织成员关系 |
+| `Role` | 角色 |
+| `Permission` | 权限 |
+| `UserRole` | 用户-角色关联 |
+| `RolePermission` | 角色-权限关联 |
+
+### 任务管理（Todo）
+
+| 模型 | 说明 |
+|------|------|
+| `TodoItem` | 任务项（含状态机、图片附件）。`link` JSON 字段包含 `todo_images` 任务图片元数据、`bug_images` Bug 配图引用（项目附件 `attachment_id`）和 `agent_status`（`ai_fixing`/`ai_fixed`）；`agent_status` 独立于 `status` 字段，用于 AI Agent Bug 修复状态追踪。v2.0.5 起 API 返回前会规范化 `link.todo_images` 并补齐下载路径；v2.0.6 起 MCP 返回会额外补图片下载 URL 或提供 base64 图片读取工具 |
+| `LeaveRequest` | 请假申请 |
+
+### 项目管理
+
+| 模型 | 说明 |
+|------|------|
+| `Project` | 项目（our_entity_id 可选） |
+| `ProjectStage` | 项目阶段 |
+| `ProjectMember` | 项目成员 |
+
+### 合同管理
+
+| 模型 | 说明 |
+|------|------|
+| `Contract` | 合同（含 `attachments` JSON 附件元数据，文件存储在 `contract-attachments`） |
+| `Counterparty` | 对手方 |
+| `ContractPaymentPlan` | 付款计划 |
+
+### 财务管理
+
+| 模型 | 说明 |
+|------|------|
+| `FinanceAccount` | 财务账户 |
+| `FinanceTransaction` | 交易记录 |
+| `FinanceInvoice` | 发票 |
+| `Reimbursement` | 报销 |
+
+### 企业大脑（Knowledge Base）
+
+| 模型 | 说明 |
+|------|------|
+| `KBDocument` | 知识库文档（标题、文件、状态、标签、AI摘要、切片数） |
+| `KBDocumentChunk` | 文档切片（文本内容、token数、ChromaDB ID） |
+| `KBConversation` | RAG 对话会话 |
+| `KBMessage` | 对话消息（用户/助手、引用信息） |
+
+### 会议记录（Meeting）
+
+| 模型 | 说明 |
+|------|------|
+| `MeetingRecord` | 会议主表（音频文件、ASR状态、说话人映射、AI纪要、归档文档ID、会议日期、参会人员）。v2.0.7 起 `attendees` 由当前转写分段实际使用的 `speaker_id` 结合 `speaker_mapping` 自动派生，Web 前端不再手动维护 |
+| `MeetingTranscriptSegment` | 转写分段（说话人、时间范围、文本内容）。分段可来自豆包 ASR，也可由 Word `.docx` / PDF 文稿导入解析生成；无时间码文稿导入时 `start_time`/`end_time` 可为空。v2.0.7 起支持通过完整分段列表保存来新增、插入、删除和重排分段，不新增数据库字段 |
+
+### 共享模块（Shared）
+
+| 模型 | 说明 |
+|------|------|
+| `AuditLog` | 操作审计日志 |
+| `FileMetadata` | 文件元数据 |
+| `ChangeLog` | 版本更新日志（version, title, content(Markdown), published_by_user_id, published_at） |
+| `AgentToken` | Agent 个人访问令牌（`pat_` 前缀 token、有效期、启用状态、最后使用时间） |
+| `WeChatUserBinding` | 微信小程序用户绑定（openid/unionid、订阅状态等） |
+| `WeChatMessageTemplate` | 微信模板消息配置 |
+| `WeChatNotifyBinding` | weixin-msg-service 通知绑定（user_id、msg_service_key、account_id、偏好）。v2.0.8 起新增 `last_inbound_at` 与 `keepalive_notified_at`，用于记录最近微信来信和通道保活提醒状态 |
+| `WeChatPendingNotification` | 微信离线通知队列（recipient_user_id、todo_id、event_type、payload、status、retry_count、next_retry_at、last_error），用于通道失效后暂存并按 FIFO 补发 |
+
+---
+
+*最后更新：2026-10-16*

@@ -2,6 +2,7 @@
 import os
 from copy import deepcopy
 from datetime import UTC, datetime
+from hashlib import sha256
 
 from cryptography.fernet import Fernet, InvalidToken
 
@@ -13,6 +14,16 @@ from app.services.agent_task_lease_service import AgentTaskLeaseService
 class WebCaseSecretService:
     def __init__(self, repository=None):
         self.repository = repository
+
+    @staticmethod
+    def key_id():
+        """Identify a shared encryption domain without disclosing its key."""
+        try:
+            key = storage_path('web-input-secrets', 'key').read_bytes()
+            Fernet(key)
+        except (OSError, ValueError):
+            return ''
+        return sha256(key).hexdigest()
 
     def _cipher(self, create=False):
         path = storage_path('web-input-secrets', 'key')

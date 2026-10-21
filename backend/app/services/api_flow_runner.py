@@ -24,7 +24,11 @@ class ApiFlowRunner:
         self.progress = progress
         self.executor = ApiCaseExecutor(ApiFlowSnapshotRepository(snapshot["references"]))
         self.scene = snapshot["scenario"]
-        self.definition = snapshot["flow"]["data"]
+        self.definition = deepcopy(snapshot["flow"]["data"])
+        for node in self.definition["nodes"]:
+            name = self.scene["data"]["nodes"].get(node["key"], {}).get("name")
+            if name:
+                node["name"] = name
         inputs = {**self.definition["inputs"], **self.scene["data"]["inputs"], **snapshot.get("inputs", {})}
         self.variables = {"global": DynamicValueContext(inputs).resolve(inputs)}
         self.mask = EvidenceMask(snapshot)
@@ -52,7 +56,8 @@ class ApiFlowRunner:
                     break
             target = self._next(node, response) if response else "auto"
             row["next"] = target
-            self._report(evidence, path, started)
+            if row["status"] != "skipped":
+                self._report(evidence, path, started)
             if target == "end":
                 break
             next_index = index + 1 if target == "auto" else positions[target]
@@ -67,6 +72,7 @@ class ApiFlowRunner:
         end_passed = expected == "auto" or (bool(path) and path[-1] == expected)
         status = "cancelled" if cancelled else "failed" if failed or not end_passed else "success"
         result = {"scenario_id": self.scene["id"], "name": self.scene["name"], "status": status,
+                  "test_point": self.scene.get("description") or self.scene["name"],
                   "path": path, "nodes": evidence, "template_version": self.definition["version"],
                   "duration_ms": int((time.perf_counter() - started) * 1000),
                   "expected_end": expected, "end_passed": end_passed,
@@ -76,6 +82,7 @@ class ApiFlowRunner:
     def _report(self, evidence, path, started):
         if self.progress:
             self.progress(self.mask.clean({"scenario_id": self.scene["id"], "name": self.scene["name"],
+                                          "test_point": self.scene.get("description") or self.scene["name"],
                                           "status": "running", "nodes": evidence, "path": path,
                                           "duration_ms": int((time.perf_counter() - started) * 1000)}))
 
@@ -101,7 +108,7 @@ class ApiFlowRunner:
             inputs = {key: value for key, value in self.variables["global"].items() if VARIABLE_NAME.fullmatch(key)}
             case["data"]["variables"] = {**(case["data"].get("variables") or {}), **inputs}
             response = {}
-            record = self.executor.execute(case, {}, response_capture=response, persist_record=False)
+            record = self.executor.execute(case, {}, response_capture=response, persist_record=False, flow_context=True)
             self.mask.collect(record["data"].get("request", {}))
             row = {"key": node["key"], "name": node["name"], "case_id": case["id"],
                    "status": record["status"], **record["data"]}

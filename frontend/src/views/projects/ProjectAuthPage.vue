@@ -24,7 +24,7 @@
       />
     </template>
     <template #form-field-data.token="{ values, item }">
-      <ProjectAuthTokenInput :model-value="values['data.token']" :has-file="Boolean(item?.data.token_file)" @update:model-value="values['data.token'] = $event" />
+      <ProjectAuthTokenInput :model-value="values['data.token']" :has-file="Boolean(item?.data.token_saved || item?.data.token_file)" @update:model-value="values['data.token'] = $event" />
     </template>
   </ResourcePage>
 </template>

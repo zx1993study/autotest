@@ -1,4 +1,4 @@
-﻿import type { ResourceColumn, ResourceField } from '../types/resource-schema'
+﻿import type { ResourceColumn, ResourceField, ResourceOption } from '../types/resource-schema'
 import { caseTypeOptions, descriptionField, projectIdField, statusField } from './shared'
 
 export const executionFlowFields: ResourceField[] = [
@@ -14,6 +14,15 @@ export const executionFlowColumns: ResourceColumn[] = [
   { key: 'updated_at', label: '更新时间', width: '180px' }
 ]
 
+export const reportRecordStatusOptions: ResourceOption[] = [
+  { label: '排队中', value: 'queued' },
+  { label: '执行中', value: 'running' },
+  { label: '成功', value: 'success' },
+  { label: '失败', value: 'failed' },
+  { label: '阻塞', value: 'blocked' },
+  { label: '中断', value: 'interrupted' }
+]
+
 export const reportRecordFields: ResourceField[] = [
   { key: 'name', label: '记录名称', required: true },
   projectIdField,
@@ -25,12 +34,7 @@ export const reportRecordFields: ResourceField[] = [
     label: '执行状态',
     type: 'select',
     defaultValue: 'queued',
-    options: [
-      { label: '排队中', value: 'queued' },
-      { label: '执行中', value: 'running' },
-      { label: '成功', value: 'success' },
-      { label: '失败', value: 'failed' }
-    ]
+    options: reportRecordStatusOptions
   },
   { key: 'data.duration_ms', label: '耗时(ms)', type: 'number' },
   { key: 'data.screenshot_path', label: '截图路径' },

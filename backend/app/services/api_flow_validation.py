@@ -43,7 +43,7 @@ def validate_references(repository, project_id, definition, scenario=None, runni
         if len(set(names)) != len(names):
             raise BusinessRuleError(f"{node['name']}的提取变量名重复")
         for spec in [*bindings, *extracts, *node["routes"]]:
-            if spec.get("target") in {"params", "headers", "query", "body"} or spec.get("source") == "body":
+            if spec.get("target") in {"params", "headers", "query", "body", "variables"} or spec.get("source") == "body":
                 try:
                     paths = spec["paths"] if spec.get("mode") == "array" else [spec.get("path", "")]
                     for path in paths:

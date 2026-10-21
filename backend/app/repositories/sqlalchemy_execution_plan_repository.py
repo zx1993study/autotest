@@ -12,9 +12,12 @@ from app.models.execution_plan import (
     ExecutionPlanRunItem,
 )
 from app.models.resource_record import ResourceRecord
-from app.models.test_case_record import ApiTestCaseRecord, AppTestCaseRecord, WebTestCaseRecord
+from app.models.test_case_record import (
+    ApiTestCaseRecord,
+    AppTestCaseRecord,
+    WebTestCaseRecord,
+)
 from app.repositories.interfaces import ExecutionPlanRepository
-
 
 CASE_MODELS = {
     "API": ApiTestCaseRecord,
@@ -133,11 +136,9 @@ class SqlAlchemyExecutionPlanRepository(ExecutionPlanRepository):
         return True
 
     def batch_delete(self, plan_ids: list[int]) -> int:
-        count = 0
-        for plan_id in set(plan_ids):
-            if self.delete(plan_id):
-                count += 1
-        return count
+        from app.repositories.sqlalchemy_batch_deletion import soft_delete_ids
+
+        return soft_delete_ids(self.db, ExecutionPlan, plan_ids)
 
     def list_test_cases(self, case_type: str, project_id: int | None) -> list[object]:
         model = CASE_MODELS[case_type]

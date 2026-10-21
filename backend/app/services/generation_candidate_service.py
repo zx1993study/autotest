@@ -79,6 +79,8 @@ def validate_candidate(domain: str, candidate: dict, source: dict) -> dict:
             if not step.get('locator') and not any(step.get(key) is not None for key in ('x','y','x_pct','y_pct')):
                 raise BusinessRuleError(f'第 {index} 步需要定位或坐标')
         if domain == "WEB":
+            if "optional" in step and (step["action"] != "manual" or not isinstance(step["optional"], bool)):
+                raise BusinessRuleError(f"第 {index} 步 optional 仅支持人工输入的布尔开关")
             if step["action"] == "wait":
                 step["value"] = min(5000, max(0, int(step.get("value") or 500)))
                 continue

@@ -1,0 +1,516 @@
+{
+  "target": "http://14.103.229.153:15173",
+  "project_id": 17796,
+  "run_prefix": "CASE_20261019_165921",
+  "scenarios": [
+    {
+      "code": "BELI-PERM-SUPERVISOR-PAGE",
+      "title": "test_user2非L0仅看本人奖励，无审核和工作日历入口",
+      "case_points": [
+        "IAM-02",
+        "BELI-04"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "record_id": 20169,
+          "case_id": 97,
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-EMPLOYEE-PAGE",
+      "title": "test_user3非L0仅看本人奖励，无审核和工作日历入口",
+      "case_points": [
+        "IAM-02",
+        "BELI-04"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "record_id": 20177,
+          "case_id": 98,
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-OTHER-PAGE",
+      "title": "test_requset_leave非L0仅看本人奖励，无审核和工作日历入口",
+      "case_points": [
+        "IAM-02",
+        "BELI-04"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "record_id": 20185,
+          "case_id": 99,
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-L0-PAGE",
+      "title": "固定L0账号能看到待审核奖励入口但不提交",
+      "case_points": [
+        "BELI-04"
+      ],
+      "status": "success",
+      "evidence": [
+        {
+          "record_id": 20193,
+          "case_id": 100,
+          "status": "success"
+        }
+      ]
+    }
+  ],
+  "web_cases": [
+    {
+      "code": "BELI-PERM-SUPERVISOR-PAGE",
+      "case_id": 97,
+      "feature_id": 20162,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "name": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "require_unique": true,
+          "expected": "任务奖励"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "name": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_user2\")))))",
+          "name": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_user2\")))))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        }
+      ],
+      "task_id": 20164,
+      "status": "success",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20169,
+          "status": "success",
+          "error": null
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-EMPLOYEE-PAGE",
+      "case_id": 98,
+      "feature_id": 20170,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "name": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "require_unique": true,
+          "expected": "任务奖励"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "name": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_user3\")))))",
+          "name": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_user3\")))))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        }
+      ],
+      "task_id": 20172,
+      "status": "success",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20177,
+          "status": "success",
+          "error": null
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-OTHER-PAGE",
+      "case_id": 99,
+      "feature_id": 20178,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "name": ".beli-tabs:not(:has(button:text-is(\"工作日历\")))",
+          "require_unique": true,
+          "expected": "任务奖励"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "name": ".beli-table-wrap:not(:has(button:text-is(\"审核\")))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_requset_leave\")))))",
+          "name": ".beli-table-wrap:not(:has(tbody tr:not(:has(td:first-child:has-text(\"test_requset_leave\")))))",
+          "require_unique": true,
+          "expected": "员工 / 任务"
+        }
+      ],
+      "task_id": 20180,
+      "status": "success",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20185,
+          "status": "success",
+          "error": null
+        }
+      ]
+    },
+    {
+      "code": "BELI-PERM-L0-PAGE",
+      "case_id": 100,
+      "feature_id": 20186,
+      "page_id": 19650,
+      "steps": [
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "用户名",
+          "name": "用户名",
+          "require_unique": true,
+          "value": "{{username}}"
+        },
+        {
+          "action": "fill",
+          "locator_type": "label",
+          "locator": "密码",
+          "name": "密码",
+          "require_unique": true,
+          "value": "{{password}}"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button[type=\"submit\"]",
+          "name": "button[type=\"submit\"]",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"工作台\")",
+          "name": "h1:text-is(\"工作台\")",
+          "require_unique": true,
+          "expected": "工作台"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"贝利\")",
+          "name": "button:has-text(\"贝利\")",
+          "require_unique": true
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": "h1:text-is(\"贝利\")",
+          "name": "h1:text-is(\"贝利\")",
+          "require_unique": true,
+          "expected": "贝利"
+        },
+        {
+          "action": "click",
+          "locator_type": "css",
+          "locator": "button:has-text(\"任务奖励\")",
+          "name": "button:has-text(\"任务奖励\")",
+          "require_unique": true
+        },
+        {
+          "action": "wait",
+          "locator_type": "css",
+          "locator": "",
+          "name": "",
+          "require_unique": true,
+          "value": 1500
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-tabs button:text-is(\"工作日历\")",
+          "name": ".beli-tabs button:text-is(\"工作日历\")",
+          "require_unique": true,
+          "expected": "工作日历"
+        },
+        {
+          "action": "assert",
+          "locator_type": "css",
+          "locator": ".beli-table-wrap tr:has(button:text-is(\"审核\")) >> nth=0",
+          "name": ".beli-table-wrap tr:has(button:text-is(\"审核\")) >> nth=0",
+          "require_unique": true,
+          "expected": "审核"
+        }
+      ],
+      "task_id": 20188,
+      "status": "success",
+      "mode": "local_headed",
+      "headless": false,
+      "records": [
+        {
+          "id": 20193,
+          "status": "success",
+          "error": null
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "type": "user",
+      "id": "5b0b6d34-6b1e-434a-b553-e8f4ca919eb9",
+      "name": "test_user1",
+      "username": "test_user1",
+      "reused": true,
+      "original_status": "active"
+    },
+    {
+      "type": "user",
+      "id": "0830f805-3a2f-4ce2-a6d4-b0055a3b88f5",
+      "name": "test_user2",
+      "username": "test_user2",
+      "reused": true,
+      "original_status": "active"
+    },
+    {
+      "type": "user",
+      "id": "640d1a5c-bff5-4df0-9e02-cb42f8b46413",
+      "name": "test_user3",
+      "username": "test_user3",
+      "reused": true,
+      "original_status": "active"
+    },
+    {
+      "type": "user",
+      "id": "b65fa560-e319-4363-84b0-5dbf9e2f2728",
+      "name": "test_requset_leave",
+      "username": "test_user4",
+      "reused": true,
+      "original_status": "active"
+    }
+  ],
+  "cleanup": [],
+  "finished_at": "2026-10-19T17:07:32.788063+08:00"
+}

@@ -9,9 +9,11 @@ from typing import Any
 
 from web_automation.compiler import ExecutionPlanCompiler
 from web_automation.engines.pipeline import ActionStrategyPipeline, AiBudget
+from web_automation.engines.playwright import PlaywrightEngine
 from web_automation.engines.stagehand import StagehandModelConfig, StagehandSession
 from web_automation.models import CompiledCase, ExecutionPlan, RunConfig
 from web_automation.pages.dynamic_page import DynamicPage
+from web_automation.outcomes import verification_error
 
 from agent_app.executors.result_builder import build_execution_record, summarize_records
 from agent_app.utils.playwright_runtime import chromium_launch_options, prepare_recording_runtime
@@ -70,6 +72,7 @@ class LocalWebCaseExecutor:
             "step_count": 0,
             "url": "",
             "engine": plan.config.engine,
+            "assertion_results": [],
         }
         status = "success"
         description = "Web 用例本地执行通过"
@@ -79,12 +82,16 @@ class LocalWebCaseExecutor:
                 raise ValueError(str(case.raw["_dynamic_error"]))
             if not steps:
                 raise RuntimeError("未读取到执行步骤，请检查正式用例步骤或页面元素是否已保存")
+            if error := verification_error(steps):
+                raise ValueError(error)
             if any(s.get('sensitive') for s in steps) and plan.config.engine != 'playwright':
                 raise ValueError('密码用例只允许使用确定性 Playwright 执行，不能发送给 AI 执行器')
             if plan.config.engine == "playwright":
                 await self._run_playwright(case, plan.config, steps, result)
             else:
                 await self._run_stagehand(case, plan, steps, result)
+            if outcome_metadata(steps, result['step_count'], 'success')['business_result'] != 'passed':
+                raise RuntimeError('脚本未完整执行，业务结果未验证')
         except TaskCancelled:
             raise
         except Exception as exc:  # noqa: BLE001 - failures are reported to the platform.
@@ -95,7 +102,7 @@ class LocalWebCaseExecutor:
         result.update(outcome_metadata(steps, result['step_count'], status))
         if status == 'success':
             description = result['result_label']
-        return redact_record(build_execution_record(case.raw, execution, status, description, result, error_message), case.raw)
+        return redact_record(build_execution_record(case.raw, execution, status, description, result, error_message), case.raw, case.auth_context)
 
     async def _run_playwright(
         self,
@@ -110,9 +117,10 @@ class LocalWebCaseExecutor:
             raise RuntimeError("本地 Agent 未安装 playwright，请安装后再执行 Web 任务") from exc
 
         window = self._window(case, config)
-        record_video = config.record_video and not any(s.get('action') == 'manual' or s.get('sensitive') for s in steps)
-        if config.record_video and not record_video:
-            result['privacy_notice'] = '包含密码或人工敏感输入，已关闭截图和录屏'
+        private = any(s.get('action') == 'manual' or s.get('sensitive') for s in steps)
+        record_video = config.record_video and not private
+        if private:
+            result['privacy_notice'] = '包含敏感输入，已关闭录屏；结果截图自动遮蔽敏感字段'
         try:
             async with async_playwright() as playwright:
                 browser = await playwright.chromium.launch(
@@ -193,6 +201,7 @@ class LocalWebCaseExecutor:
         cache_hits = 0
         healed_steps = 0
         current_step: dict[str, Any] | None = None
+        last_assertion = max((i for i, s in enumerate(steps, 1) if s.get('action') == 'assert' and not s.get('skip')), default=0)
         try:
             for index, step in enumerate(steps, 1):
                 current_step = step
@@ -223,7 +232,11 @@ class LocalWebCaseExecutor:
                     )
                 except Exception:
                     events.extend(pipeline.last_events)
+                    if dynamic_page.engine.last_assertion:
+                        result['assertion_results'].append({"step": index, "name": step.get('name'), **dynamic_page.engine.last_assertion})
                     raise
+                if dynamic_page.engine.last_assertion:
+                    result['assertion_results'].append({"step": index, "name": step.get('name'), **dynamic_page.engine.last_assertion})
                 if outcome.cache_update:
                     step["ai_cache"] = outcome.cache_update
                 if outcome.source == "ai_cache":
@@ -235,15 +248,16 @@ class LocalWebCaseExecutor:
                 result["step_count"] += 1
                 if config.step_wait_ms > 0:
                     await page.wait_for_timeout(config.step_wait_ms)
-                if self._truthy(step.get("take_screenshot")) and not any(s.get('action') == 'manual' or s.get('sensitive') for s in steps):
+                private = any(s.get('action') == 'manual' or s.get('sensitive') for s in steps)
+                result_step = step.get('capture_result') or (step.get('action') == 'assert' and index == last_assertion)
+                if (result_step or self._truthy(step.get("take_screenshot"))) and (not private or result_step):
                     result["screenshots"].append(await self._capture_screenshot(page, case, step))
             result["url"] = str(getattr(page, "url", "") or "")
             result["cookies"] = await page.context.cookies()
             result["storage_state"] = await page.context.storage_state()
         except Exception as exc:  # noqa: BLE001 - always retain a failure screenshot for diagnostics.
             result["url"] = str(getattr(page, "url", "") or "")
-            if not any(s.get('action') == 'manual' or s.get('sensitive') for s in steps):
-                result["screenshots"].append(await self._capture_screenshot(page, case, current_step or {}, str(exc)))
+            result["screenshots"].append(await self._capture_screenshot(page, case, current_step or {}, str(exc)))
             raise
         finally:
             result["healing"] = healing
@@ -282,7 +296,8 @@ class LocalWebCaseExecutor:
         filename = f"case_{case.id or 'unknown'}_{now_millis()}.png"
         path = self.screenshot_dir / filename
         try:
-            await page.screenshot(path=str(path), full_page=True)
+            await page.screenshot(path=str(path), full_page=False,
+                                  mask=PlaywrightEngine(page).screenshot_masks(list(case.steps)))
             return {
                 "step_order": step.get("sort_order"),
                 "step_name": step.get("name") or step.get("元素名称") or "",

@@ -1,0 +1,71 @@
+{
+  "url": "https://test.waiqin.yios.cn/login",
+  "name": "登录页 - 账号与密码均为空",
+  "steps": [
+    {
+      "name": "填写账号",
+      "value": "{{username}}",
+      "action": "fill",
+      "locator": "请输入您的账号",
+      "input_key": "username",
+      "sort_order": 1,
+      "locator_type": "placeholder",
+      "frame_selector": "",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "填写密码",
+      "value": "{{password}}",
+      "action": "fill",
+      "locator": "请输入您的密码",
+      "input_key": "password",
+      "sensitive": true,
+      "sort_order": 2,
+      "locator_type": "placeholder",
+      "frame_selector": "",
+      "require_unique": true,
+      "take_screenshot": false
+    },
+    {
+      "name": "提交登录表单",
+      "action": "click",
+      "locator": ".login-form .login-btn",
+      "sort_order": 3,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "验证请输入您的账号提示",
+      "action": "assert",
+      "locator": ".login-form .el-form-item:has(input[placeholder=\"请输入您的账号\"]) .el-form-item__error",
+      "expected": "请输入您的账号",
+      "sort_order": 4,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    },
+    {
+      "name": "验证请输入您的密码提示",
+      "action": "assert",
+      "locator": ".login-form .el-form-item:has(input[placeholder=\"请输入您的密码\"]) .el-form-item__error",
+      "expected": "请输入您的密码",
+      "sort_order": 5,
+      "locator_type": "css",
+      "require_unique": true,
+      "take_screenshot": true
+    }
+  ],
+  "case_type": "WEB",
+  "source_id": 10013,
+  "variables": {},
+  "source_evidence": {
+    "commit": "250b6bc4d4e56f1e5136f701e1344590fd24e849",
+    "sha256": "5fa0aea39a228401b85c9086b9fd9e74e92fca594eb1fad387a3b8d7f6647b20",
+    "outcome": "both",
+    "revision": "fieldwork-login-v1",
+    "source_file": "src/views/login.vue",
+    "navbar_sha256": "a2b9f980370d41b8ead5557660568ddfa259fc38fe8427da3888f8b95b6e9ad2"
+  }
+}

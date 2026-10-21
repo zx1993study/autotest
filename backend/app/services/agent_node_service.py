@@ -7,7 +7,12 @@ from typing import Any
 from app.core.exceptions import BusinessRuleError, ResourceNotFoundError
 from app.enums.business import AgentNodeStatusEnum
 from app.repositories.interfaces import ResourceRepository
-from app.schemas.agent import AgentHeartbeatRequest, AgentRegisterRequest, AgentTokenProvisionRequest
+from app.schemas.agent import (
+    AgentHeartbeatRequest,
+    AgentRegisterRequest,
+    AgentTokenProvisionRequest,
+)
+from app.services.web_case_secret_service import WebCaseSecretService
 from app.utils.security_utils import hash_password, verify_password
 
 
@@ -33,6 +38,7 @@ class AgentNodeService:
             "capabilities": payload.capabilities,
             "system": payload.system,
             "last_seen_at": now,
+            "web_input_key_id": WebCaseSecretService.key_id(),
         }
         existing = self.get_by_key(payload.node_key)
         if existing:
@@ -145,6 +151,7 @@ class AgentNodeService:
             "agent_status": payload.status.code,
             "last_seen_at": self._now(),
             "current_task_id": payload.current_task_id,
+            "web_input_key_id": WebCaseSecretService.key_id(),
         }
         if payload.version is not None:
             data["version"] = payload.version
@@ -200,6 +207,8 @@ class AgentNodeService:
         data = {**self._data(node)}
         data.pop(AGENT_TOKEN_HASH_KEY, None)
         data["has_agent_token"] = bool(self._data(node).get(AGENT_TOKEN_HASH_KEY))
+        key_id = WebCaseSecretService.key_id()
+        data["web_secret_inputs_ready"] = bool(key_id and data.get("web_input_key_id") == key_id)
         sanitized["data"] = data
         return sanitized
 

@@ -1,0 +1,4179 @@
+{
+  "id": 17349,
+  "name": "[业务回归] 终端客户管理 - 10-17 05:48:08",
+  "project_id": 10,
+  "description": null,
+  "status": "success",
+  "data": {
+    "mode": "serial",
+    "flow_id": 15832,
+    "results": [
+      {
+        "name": "客户重新提审（待拒绝前置）",
+        "path": [
+          "create",
+          "locate",
+          "status_approval_detail",
+          "status_approval_process",
+          "status_approval_approve",
+          "status_approval_verify_process",
+          "status_approval_verify_detail",
+          "resubmit",
+          "verify_resubmit"
+        ],
+        "nodes": [
+          {
+            "key": "create",
+            "mode": "local_headless",
+            "name": "新增独立测试数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 408,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer",
+              "body": {
+                "editCount": 0,
+                "managerIds": [
+                  1
+                ],
+                "customerName": "江城邻里便利店_1792216088820_289785",
+                "customerType": "1",
+                "cooperationStatus": "正在合作"
+              },
+              "path": "/business/customer",
+              "query": {},
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 151,
+            "response_body": "{\"code\": 200, \"msg\": \"新增成功，等待审批\", \"success\": true, \"time\": \"2026-10-17T13:48:09.595443\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2"
+              },
+              "templates": {
+                "$.data.params.customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216088832
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:09 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "55f6d12496394c24a6b10c4b2905e206",
+              "Content-Type": "application/json",
+              "Content-Length": "99"
+            }
+          },
+          {
+            "key": "locate",
+            "mode": "local_headless",
+            "name": "列表查询并安全定位本次数据",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 409,
+            "outputs": {
+              "owned_id": 1123,
+              "owned_ids": [
+                1123
+              ]
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/list?pageNum=1&pageSize=100&customerName=%E6%B1%9F%E5%9F%8E%E9%82%BB%E9%87%8C%E4%BE%BF%E5%88%A9%E5%BA%97_1792216088820_289785",
+              "body": {},
+              "path": "/business/customer/list",
+              "query": {
+                "pageNum": 1,
+                "pageSize": 100,
+                "customerName": "江城邻里便利店_1792216088820_289785"
+              },
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": "江城邻里便利店_1792216088820_289785",
+                "passed": true,
+                "expected": "江城邻里便利店_1792216088820_289785"
+              }
+            ],
+            "duration_ms": 146,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"rows\": [{\"customerId\": 1123, \"drinkingFrequency\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:09\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:09\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"0\", \"managerIds\": [1], \"managerNames\": [\"超级管理员\"], \"managerDeptNames\": [\"武昌区启光商贸有限公司\"]}], \"pageNum\": 1, \"pageSize\": 100, \"total\": 1, \"hasNext\": false, \"summary\": null, \"success\": true, \"time\": \"2026-10-17T13:48:09.753924\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{record_marker}}",
+                "$.data.params.customerName": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216088985
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:09 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "817551d6791d4892a89e21aaa5630d13",
+              "Content-Type": "application/json",
+              "Content-Length": "1451"
+            }
+          },
+          {
+            "key": "detail",
+            "name": "详情查询与数据归属校验",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "edit",
+            "name": "编辑本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_edit",
+            "name": "再次查询并验证修改生效",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "batch_edit",
+            "name": "批量编辑本次测试客户地址",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_batch",
+            "name": "查询确认批量编辑生效",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "delete",
+            "name": "删除本流程创建的数据",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_delete",
+            "name": "按本次客户ID查询确认删除",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "status_approval_detail",
+            "mode": "local_headless",
+            "name": "详情核对新建数据并读取审批实例",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 871,
+            "outputs": {
+              "instance_id": 2216
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/1123",
+              "body": {},
+              "path": "/business/customer/1123",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1123,
+                "passed": true,
+                "expected": 1123
+              },
+              {
+                "type": "json_pointer",
+                "actual": "江城邻里便利店_1792216088820_289785",
+                "passed": true,
+                "expected": "江城邻里便利店_1792216088820_289785"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "0",
+                "passed": true,
+                "expected": "0"
+              }
+            ],
+            "duration_ms": 111,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"customerId\": 1123, \"customerType\": \"1\", \"directCustomerType\": null, \"directProductType\": null, \"directCustomerLevel\": null, \"directTags\": null, \"kolType\": null, \"ageRange\": null, \"drinkingScene\": null, \"drinkingFrequency\": null, \"occupation\": null, \"birthday\": null, \"gender\": null, \"kolTags\": null, \"companyName\": null, \"kolProductType\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"phone\": null, \"storefrontPhoto\": null, \"terminalType\": null, \"productType\": null, \"customerLevel\": null, \"salesArea\": null, \"terminalTags\": null, \"cooperationStatus\": \"正在合作\", \"remark\": null, \"visitFrequency\": null, \"longitude\": null, \"latitude\": null, \"province\": null, \"city\": null, \"district\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"businessLicenseName\": null, \"businessRegistrationNumber\": null, \"registrationDate\": null, \"operatorName\": null, \"consigneeName\": null, \"consigneePhone\": null, \"shippingProvince\": null, \"shippingCity\": null, \"shippingDistrict\": null, \"shippingAddress\": null, \"contactName\": null, \"contactPhone\": null, \"contactRemark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"1\", \"createByName\": \"超级管理员\", \"createTime\": \"2026-10-17 13:48:09\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:09\", \"editCount\": 0, \"managerIds\": [1], \"managerNames\": [\"超级管理员\"]}, \"approvalProcess\": {\"businessId\": 1123, \"instanceId\": 2216, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"新增客户审批\", \"processStatus\": \"0\", \"flowId\": 1, \"businessType\": \"terminal_customer\", \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": null, \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": null}, \"success\": true, \"time\": \"2026-10-17T13:48:09.868223\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}",
+                "$.assertions[3].expected": "{{record_marker}}"
+              },
+              "generated_at_ms": 1792216089133
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:09 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "07e65e7e848d43f7b3c5cbadde6ef353",
+              "Content-Type": "application/json",
+              "Content-Length": "1699"
+            }
+          },
+          {
+            "key": "status_approval_process",
+            "mode": "local_headless",
+            "name": "读取本次实例并核对当前节点与审批人",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 872,
+            "outputs": {
+              "node_instance_id": 2505
+            },
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/2216",
+              "body": {},
+              "path": "/approval/task/process/2216",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***",
+                "X-Test-owned-id": "1123"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2216,
+                "passed": true,
+                "expected": 2216
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1123,
+                "passed": true,
+                "expected": 1123
+              },
+              {
+                "type": "json_pointer",
+                "actual": "terminal_customer",
+                "passed": true,
+                "expected": "terminal_customer"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "0",
+                "passed": true,
+                "expected": "0"
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1,
+                "passed": true,
+                "expected": 1
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 1,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [],
+                  "max_items": 1,
+                  "min_items": 1
+                }
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2216,
+                "passed": true,
+                "expected": 2216
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1,
+                "passed": true,
+                "expected": 1
+              },
+              {
+                "type": "json_pointer",
+                "actual": "1",
+                "passed": true,
+                "expected": "1"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "0",
+                "passed": true,
+                "expected": "0"
+              }
+            ],
+            "duration_ms": 139,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"businessId\": 1123, \"instanceId\": 2216, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"新增客户审批\", \"processStatus\": \"0\", \"flowId\": 1, \"businessType\": \"terminal_customer\", \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": null, \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": null, \"flowName\": \"前端客户审批\", \"applicantPhone\": \"15888888888\"}, \"nodeInstances\": [{\"nodeName\": \"默认上级审批\", \"nodeInstanceId\": 2505, \"nodeStatus\": \"0\", \"approverName\": \"超级管理员\", \"approveResult\": null, \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": null, \"nodeOrder\": 1, \"instanceId\": 2216, \"nodeId\": 4, \"approverId\": 1, \"approveTime\": null, \"approveRemark\": null, \"arriveTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\"}], \"businessData\": {\"customerId\": 1123, \"drinkingFrequency\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:09\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:09\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"0\"}}, \"success\": true, \"time\": \"2026-10-17T13:48:10.007953\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2",
+                "bound_instance_id": 2216
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_instance_id}}",
+                "$.assertions[3].expected": "{{bound_owned_id}}",
+                "$.assertions[8].expected": "{{bound_instance_id}}"
+              },
+              "generated_at_ms": 1792216089249
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "bfc19289209440219365625c1eca25f7",
+              "Content-Type": "application/json",
+              "Content-Length": "2116"
+            }
+          },
+          {
+            "key": "status_approval_approve",
+            "mode": "local_headless",
+            "name": "使用当前节点指定审批人审批",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 873,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/approval/task/approve",
+              "body": {
+                "approveRemark": "江城邻里便利店_1792216088820_289785_审批核对",
+                "approveResult": "2",
+                "nodeInstanceId": 2505
+              },
+              "path": "/approval/task/approve",
+              "query": {},
+              "method": "PUT",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 150,
+            "response_body": "{\"code\": 200, \"msg\": \"审批操作成功\", \"success\": true, \"time\": \"2026-10-17T13:48:10.157283\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2",
+                "bound_node_instance_id": 2505
+              },
+              "templates": {
+                "$.data.params.approveRemark": "{{record_marker}}_审批核对",
+                "$.data.params.approveResult": "{{decision}}"
+              },
+              "generated_at_ms": 1792216089394
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "85f1837657df438c981c57bbf62b43f3",
+              "Content-Type": "application/json",
+              "Content-Length": "90"
+            }
+          },
+          {
+            "key": "status_approval_verify_process",
+            "mode": "local_headless",
+            "name": "核对审批结果、节点和审批人",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 874,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/approval/task/process/2216",
+              "body": {},
+              "path": "/approval/task/process/2216",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***",
+                "X-Test-owned-id": "1123",
+                "X-Test-node-instance-id": "2505"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2216,
+                "passed": true,
+                "expected": 2216
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1123,
+                "passed": true,
+                "expected": 1123
+              },
+              {
+                "type": "json_pointer",
+                "actual": "terminal_customer",
+                "passed": true,
+                "expected": "terminal_customer"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "2",
+                "passed": true,
+                "expected": "2"
+              },
+              {
+                "path": "/data/nodeInstances",
+                "type": "json_query_result",
+                "actual": {
+                  "count": 1,
+                  "mismatched_indices": []
+                },
+                "passed": true,
+                "expected": {
+                  "rules": [],
+                  "max_items": 1,
+                  "min_items": 1
+                }
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2505,
+                "passed": true,
+                "expected": 2505
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2216,
+                "passed": true,
+                "expected": 2216
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1,
+                "passed": true,
+                "expected": 1
+              },
+              {
+                "type": "json_pointer",
+                "actual": "2",
+                "passed": true,
+                "expected": "2"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "2",
+                "passed": true,
+                "expected": "2"
+              }
+            ],
+            "duration_ms": 141,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"instance\": {\"instanceId\": 2216, \"businessId\": 1123, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"新增客户审批\", \"businessType\": \"terminal_customer\", \"processStatus\": \"2\", \"flowId\": 1, \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": \"2026-10-17 13:48:10\", \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": \"2026-10-17 13:48:10\", \"flowName\": \"前端客户审批\", \"applicantPhone\": \"15888888888\"}, \"nodeInstances\": [{\"nodeInstanceId\": 2505, \"nodeName\": \"默认上级审批\", \"nodeStatus\": \"2\", \"approverName\": \"超级管理员\", \"approveResult\": \"2\", \"isCurrent\": \"1\", \"deadlineTime\": null, \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": \"2026-10-17 13:48:10\", \"nodeId\": 4, \"nodeOrder\": 1, \"instanceId\": 2216, \"approverId\": 1, \"approveTime\": \"2026-10-17 13:48:10\", \"approveRemark\": \"江城邻里便利店_1792216088820_289785_审批核对\", \"arriveTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\"}], \"businessData\": {\"customerId\": 1123, \"drinkingFrequency\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"cooperationStatus\": \"正在合作\", \"district\": null, \"shippingProvince\": null, \"delFlag\": \"0\", \"directCustomerType\": null, \"occupation\": null, \"phone\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"shippingCity\": null, \"createBy\": \"1\", \"directProductType\": null, \"birthday\": null, \"storefrontPhoto\": null, \"remark\": null, \"businessLicenseName\": null, \"shippingDistrict\": null, \"createByName\": \"超级管理员\", \"directCustomerLevel\": null, \"gender\": null, \"terminalType\": null, \"visitFrequency\": null, \"businessRegistrationNumber\": null, \"shippingAddress\": null, \"createTime\": \"2026-10-17 13:48:09\", \"directTags\": null, \"kolTags\": null, \"productType\": null, \"longitude\": null, \"registrationDate\": null, \"contactName\": null, \"updateBy\": \"1\", \"kolType\": null, \"companyName\": null, \"customerLevel\": null, \"latitude\": null, \"operatorName\": null, \"contactPhone\": null, \"updateTime\": \"2026-10-17 13:48:10\", \"ageRange\": null, \"kolProductType\": null, \"salesArea\": null, \"province\": null, \"consigneeName\": null, \"contactRemark\": null, \"editCount\": 0, \"customerType\": \"1\", \"drinkingScene\": null, \"terminalTags\": null, \"city\": null, \"consigneePhone\": null, \"status\": \"2\"}}, \"success\": true, \"time\": \"2026-10-17T13:48:10.310634\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2",
+                "bound_instance_id": 2216,
+                "bound_node_instance_id": 2505
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_instance_id}}",
+                "$.assertions[3].expected": "{{bound_owned_id}}",
+                "$.assertions[5].expected": "{{decision}}",
+                "$.assertions[7].expected": "{{bound_node_instance_id}}",
+                "$.assertions[8].expected": "{{bound_instance_id}}",
+                "$.assertions[10].expected": "{{decision}}",
+                "$.assertions[11].expected": "{{decision}}"
+              },
+              "generated_at_ms": 1792216089550
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "d869dd973696445d95d2a9f518ba615c",
+              "Content-Type": "application/json",
+              "Content-Length": "2236"
+            }
+          },
+          {
+            "key": "status_approval_verify_detail",
+            "mode": "local_headless",
+            "name": "审批后核对业务状态",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 875,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/1123",
+              "body": {},
+              "path": "/business/customer/1123",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***",
+                "X-Test-instance-id": "2216"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1123,
+                "passed": true,
+                "expected": 1123
+              },
+              {
+                "type": "json_pointer",
+                "actual": "江城邻里便利店_1792216088820_289785",
+                "passed": true,
+                "expected": "江城邻里便利店_1792216088820_289785"
+              },
+              {
+                "type": "json_pointer",
+                "actual": "2",
+                "passed": true,
+                "expected": "2"
+              },
+              {
+                "type": "json_pointer",
+                "actual": 2216,
+                "passed": true,
+                "expected": 2216
+              }
+            ],
+            "duration_ms": 128,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"customerId\": 1123, \"customerType\": \"1\", \"directCustomerType\": null, \"directProductType\": null, \"directCustomerLevel\": null, \"directTags\": null, \"kolType\": null, \"ageRange\": null, \"drinkingScene\": null, \"drinkingFrequency\": null, \"occupation\": null, \"birthday\": null, \"gender\": null, \"kolTags\": null, \"companyName\": null, \"kolProductType\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"phone\": null, \"storefrontPhoto\": null, \"terminalType\": null, \"productType\": null, \"customerLevel\": null, \"salesArea\": null, \"terminalTags\": null, \"cooperationStatus\": \"正在合作\", \"remark\": null, \"visitFrequency\": null, \"longitude\": null, \"latitude\": null, \"province\": null, \"city\": null, \"district\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"businessLicenseName\": null, \"businessRegistrationNumber\": null, \"registrationDate\": null, \"operatorName\": null, \"consigneeName\": null, \"consigneePhone\": null, \"shippingProvince\": null, \"shippingCity\": null, \"shippingDistrict\": null, \"shippingAddress\": null, \"contactName\": null, \"contactPhone\": null, \"contactRemark\": null, \"status\": \"2\", \"delFlag\": \"0\", \"createBy\": \"1\", \"createByName\": \"超级管理员\", \"createTime\": \"2026-10-17 13:48:09\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:10\", \"editCount\": 0, \"managerIds\": [1], \"managerNames\": [\"超级管理员\"]}, \"approvalProcess\": {\"businessId\": 1123, \"instanceId\": 2216, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:09\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"新增客户审批\", \"processStatus\": \"2\", \"flowId\": 1, \"businessType\": \"terminal_customer\", \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": \"2026-10-17 13:48:10\", \"createTime\": \"2026-10-17 13:48:09\", \"updateTime\": \"2026-10-17 13:48:10\"}, \"success\": true, \"time\": \"2026-10-17T13:48:10.447876\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2",
+                "bound_instance_id": 2216
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}",
+                "$.assertions[3].expected": "{{record_marker}}",
+                "$.assertions[4].expected": "{{business_status}}",
+                "$.assertions[5].expected": "{{bound_instance_id}}"
+              },
+              "generated_at_ms": 1792216089698
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "dc51ffe2525b40de99209c2879e39776",
+              "Content-Type": "application/json",
+              "Content-Length": "1733"
+            }
+          },
+          {
+            "key": "change_status",
+            "name": "停用本次正常客户",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "verify_status",
+            "name": "查询确认客户停用",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "resubmit",
+            "mode": "local_headless",
+            "name": "重新提交本次被拒绝客户",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 419,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/resubmit/1123?customerType=1",
+              "body": {},
+              "path": "/business/customer/resubmit/1123",
+              "query": {
+                "customerType": "1"
+              },
+              "method": "PUT",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              }
+            ],
+            "duration_ms": 137,
+            "response_body": "{\"code\": 200, \"msg\": \"重新提交成功，等待审批\", \"success\": true, \"time\": \"2026-10-17T13:48:10.580266\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2"
+              },
+              "templates": {},
+              "generated_at_ms": 1792216089831
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "5a4f34a077774193a4e6aaecbe9b4b39",
+              "Content-Type": "application/json",
+              "Content-Length": "105"
+            }
+          },
+          {
+            "key": "verify_resubmit",
+            "mode": "local_headless",
+            "name": "查询确认重新进入待审批",
+            "next": "auto",
+            "error": null,
+            "status": "success",
+            "case_id": 420,
+            "outputs": {},
+            "request": {
+              "url": "https://test.waiqin.yios.cn/dev-api/business/customer/1123",
+              "body": {},
+              "path": "/business/customer/1123",
+              "query": {},
+              "method": "GET",
+              "headers": {
+                "Authorization": "***"
+              },
+              "timeout": 15,
+              "base_url": "https://test.waiqin.yios.cn/",
+              "api_base_path": "/dev-api"
+            },
+            "case_type": "API",
+            "assertions": [
+              {
+                "type": "status",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 200,
+                "passed": true,
+                "expected": 200
+              },
+              {
+                "type": "json_pointer",
+                "actual": 1123,
+                "passed": true,
+                "expected": 1123
+              },
+              {
+                "type": "json_pointer",
+                "actual": "0",
+                "passed": true,
+                "expected": "0"
+              }
+            ],
+            "duration_ms": 158,
+            "response_body": "{\"code\": 200, \"msg\": \"操作成功\", \"data\": {\"customerId\": 1123, \"customerType\": \"1\", \"directCustomerType\": null, \"directProductType\": null, \"directCustomerLevel\": null, \"directTags\": null, \"kolType\": null, \"ageRange\": null, \"drinkingScene\": null, \"drinkingFrequency\": null, \"occupation\": null, \"birthday\": null, \"gender\": null, \"kolTags\": null, \"companyName\": null, \"kolProductType\": null, \"customerName\": \"江城邻里便利店_1792216088820_289785\", \"phone\": null, \"storefrontPhoto\": null, \"terminalType\": null, \"productType\": null, \"customerLevel\": null, \"salesArea\": null, \"terminalTags\": null, \"cooperationStatus\": \"正在合作\", \"remark\": null, \"visitFrequency\": null, \"longitude\": null, \"latitude\": null, \"province\": null, \"city\": null, \"district\": null, \"detailedAddress\": null, \"businessLicensePhoto\": null, \"businessLicenseName\": null, \"businessRegistrationNumber\": null, \"registrationDate\": null, \"operatorName\": null, \"consigneeName\": null, \"consigneePhone\": null, \"shippingProvince\": null, \"shippingCity\": null, \"shippingDistrict\": null, \"shippingAddress\": null, \"contactName\": null, \"contactPhone\": null, \"contactRemark\": null, \"status\": \"0\", \"delFlag\": \"0\", \"createBy\": \"1\", \"createByName\": \"超级管理员\", \"createTime\": \"2026-10-17 13:48:09\", \"updateBy\": \"1\", \"updateTime\": \"2026-10-17 13:48:11\", \"editCount\": 0, \"managerIds\": [1], \"managerNames\": [\"超级管理员\"]}, \"approvalProcess\": {\"businessId\": 1123, \"instanceId\": 2217, \"currentNodeId\": 4, \"applicantId\": 1, \"applyTime\": \"2026-10-17 13:48:10\", \"createBy\": \"1\", \"updateBy\": \"\", \"remark\": \"重新提交客户审批\", \"processStatus\": \"0\", \"flowId\": 1, \"businessType\": \"terminal_customer\", \"currentNodeOrder\": 1, \"applicantName\": \"超级管理员\", \"finishTime\": null, \"createTime\": \"2026-10-17 13:48:10\", \"updateTime\": null}, \"success\": true, \"time\": \"2026-10-17T13:48:10.756512\"}",
+            "response_code": 200,
+            "dynamic_values": {
+              "values": {
+                "decision": "2",
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_1792216088820_289785",
+                "bound_owned_id": 1123,
+                "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+                "business_status": "2"
+              },
+              "templates": {
+                "$.assertions[2].expected": "{{bound_owned_id}}"
+              },
+              "generated_at_ms": 1792216089976
+            },
+            "response_status": 200,
+            "response_headers": {
+              "Date": "Sat, 17 Oct 2026 05:48:10 GMT",
+              "vary": "Accept-Encoding",
+              "Server": "nginx/1.21.4",
+              "Connection": "close",
+              "request-id": "e2fd54d98a5a4f249d5084f95ad231c3",
+              "Content-Type": "application/json",
+              "Content-Length": "1705"
+            }
+          },
+          {
+            "key": "cond_16199_qq_12083",
+            "name": "条件查询 12083 - latitude / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16200_qq_12083",
+            "name": "条件查询 12083 - longitude / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16201_qq_12083",
+            "name": "条件查询 12083 - endTime / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16202_qq_12083",
+            "name": "条件查询 12083 - beginTime / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16203_qs_12083",
+            "name": "条件查询 12083 - managerId / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16203_qq_12083",
+            "name": "条件查询 12083 - managerId / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16204_qs_12083",
+            "name": "条件查询 12083 - createBy / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16204_qq_12083",
+            "name": "条件查询 12083 - createBy / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16205_qs_12083",
+            "name": "条件查询 12083 - visitFrequency / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16205_qq_12083",
+            "name": "条件查询 12083 - visitFrequency / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16206_qs_12083",
+            "name": "条件查询 12083 - cooperationStatus / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16206_qq_12083",
+            "name": "条件查询 12083 - cooperationStatus / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16207_qs_12083",
+            "name": "条件查询 12083 - salesArea / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16207_qq_12083",
+            "name": "条件查询 12083 - salesArea / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16208_qs_12083",
+            "name": "条件查询 12083 - kolProductType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16208_qq_12083",
+            "name": "条件查询 12083 - kolProductType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16209_qs_12083",
+            "name": "条件查询 12083 - kolType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16209_qq_12083",
+            "name": "条件查询 12083 - kolType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16210_qq_12083",
+            "name": "条件查询 12083 - directProductType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16211_qs_12083",
+            "name": "条件查询 12083 - customerLevel / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16211_qq_12083",
+            "name": "条件查询 12083 - customerLevel / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16212_qq_12083",
+            "name": "条件查询 12083 - productType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16213_qq_12083",
+            "name": "条件查询 12083 - terminalTags / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16214_qq_12083",
+            "name": "条件查询 12083 - terminalType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16215_qs_12083",
+            "name": "条件查询 12083 - status / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16215_qq_12083",
+            "name": "条件查询 12083 - status / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16216_qs_12083",
+            "name": "条件查询 12083 - customerType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16216_qq_12083",
+            "name": "条件查询 12083 - customerType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16217_qs_12083",
+            "name": "条件查询 12083 - detailedAddress / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16217_qq_12083",
+            "name": "条件查询 12083 - detailedAddress / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16218_qs_12083",
+            "name": "条件查询 12083 - consigneePhone / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16218_qq_12083",
+            "name": "条件查询 12083 - consigneePhone / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16219_qs_12083",
+            "name": "条件查询 12083 - contactPhone / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16219_qq_12083",
+            "name": "条件查询 12083 - contactPhone / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16220_qs_12083",
+            "name": "条件查询 12083 - contactName / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16220_qq_12083",
+            "name": "条件查询 12083 - contactName / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16221_qs_12083",
+            "name": "条件查询 12083 - phone / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16221_qq_12083",
+            "name": "条件查询 12083 - phone / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16222_qs_12083",
+            "name": "条件查询 12083 - companyName / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16222_qq_12083",
+            "name": "条件查询 12083 - companyName / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16223_qs_12083",
+            "name": "条件查询 12083 - customerName / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16223_qq_12083",
+            "name": "条件查询 12083 - customerName / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16224_qs_12083",
+            "name": "条件查询 12083 - customerId / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16224_qq_12083",
+            "name": "条件查询 12083 - customerId / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16225_qs_12083",
+            "name": "条件查询 12083 - keyword / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16225_qq_12083",
+            "name": "条件查询 12083 - keyword / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16226_qq_12083",
+            "name": "条件查询 12083 - pagination / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16227_qs_12083",
+            "name": "条件查询 12083 - combined / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16227_qq_12083",
+            "name": "条件查询 12083 - combined / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16228_qq_12083",
+            "name": "条件查询 12083 - no_match / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16229_qq_12083",
+            "name": "条件查询 12083 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16230_qq_12084",
+            "name": "条件查询 12084 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16231_qs_12093",
+            "name": "条件查询 12093 - customerType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16231_qq_12093",
+            "name": "条件查询 12093 - customerType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16232_qq_12093",
+            "name": "条件查询 12093 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16233_qq_12095",
+            "name": "条件查询 12095 - endDate / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16234_qq_12095",
+            "name": "条件查询 12095 - beginDate / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16235_qs_12095",
+            "name": "条件查询 12095 - visitMethod / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16235_qq_12095",
+            "name": "条件查询 12095 - visitMethod / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16236_qs_12095",
+            "name": "条件查询 12095 - customerType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16236_qq_12095",
+            "name": "条件查询 12095 - customerType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16237_qq_12095",
+            "name": "条件查询 12095 - pagination / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16238_qs_12095",
+            "name": "条件查询 12095 - combined / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16238_qq_12095",
+            "name": "条件查询 12095 - combined / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16239_qq_12095",
+            "name": "条件查询 12095 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16240_qq_12096",
+            "name": "条件查询 12096 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16241_qq_12096",
+            "name": "条件查询 12096 - positive_fixture / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16242_qq_12097",
+            "name": "条件查询 12097 - endTime / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16243_qq_12097",
+            "name": "条件查询 12097 - beginTime / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16244_qs_12097",
+            "name": "条件查询 12097 - orderType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16244_qq_12097",
+            "name": "条件查询 12097 - orderType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16245_qs_12097",
+            "name": "条件查询 12097 - customerType / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16245_qq_12097",
+            "name": "条件查询 12097 - customerType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16246_qq_12097",
+            "name": "条件查询 12097 - pagination / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16247_qs_12097",
+            "name": "条件查询 12097 - combined / 取值",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16247_qq_12097",
+            "name": "条件查询 12097 - combined / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16248_qq_12097",
+            "name": "条件查询 12097 - reset / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          },
+          {
+            "key": "cond_16249_qq_12098",
+            "name": "条件查询 12098 - customerType / 验证",
+            "next": "auto",
+            "reason": "场景配置为跳过",
+            "status": "skipped"
+          }
+        ],
+        "inputs": {
+          "decision": "2",
+          "module_key": "customer",
+          "campaign_key": "waiqin-conditions-20261015",
+          "record_marker": "江城邻里便利店_1792216088820_289785",
+          "updated_marker": "江城邻里便利店更名_1792216088820_289785",
+          "business_status": "2"
+        },
+        "status": "success",
+        "snapshot": {
+          "flow": {
+            "id": 15832,
+            "data": {
+              "nodes": [
+                {
+                  "key": "create",
+                  "name": "新增独立测试数据",
+                  "next": "auto",
+                  "api_id": 12086,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 408,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "locate",
+                  "name": "列表查询并安全定位本次数据",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 409,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "owned_id",
+                      "path": "/rows/0/customerId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    },
+                    {
+                      "mode": "array",
+                      "name": "owned_ids",
+                      "path": "",
+                      "paths": [
+                        "/rows/0/customerId"
+                      ],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "detail",
+                  "name": "详情查询与数据归属校验",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 410,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "edit_count",
+                      "path": "/data/editCount",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "edit",
+                  "name": "编辑本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12085,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 411,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customerId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "edit_count",
+                      "path": "/editCount",
+                      "prefix": "",
+                      "source": "detail",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_edit",
+                  "name": "再次查询并验证修改生效",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 412,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "batch_edit",
+                  "name": "批量编辑本次测试客户地址",
+                  "next": "auto",
+                  "api_id": 12087,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 413,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_ids",
+                      "path": "/customerIds",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_batch",
+                  "name": "查询确认批量编辑生效",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 414,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "delete",
+                  "name": "删除本流程创建的数据",
+                  "next": "auto",
+                  "api_id": 12088,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 415,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_ids",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_delete",
+                  "name": "按本次客户ID查询确认删除",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 416,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customerId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "status_approval_detail",
+                  "name": "详情核对新建数据并读取审批实例",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 871,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "instance_id",
+                      "path": "/approvalProcess/instanceId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "status_approval_process",
+                  "name": "读取本次实例并核对当前节点与审批人",
+                  "next": "auto",
+                  "api_id": 12181,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 872,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "instance_id",
+                      "path": "/instance_id",
+                      "prefix": "",
+                      "source": "status_approval_detail",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "owned_id",
+                      "path": "/X-Test-owned-id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "headers",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [
+                    {
+                      "mode": "single",
+                      "name": "node_instance_id",
+                      "path": "/data/nodeInstances/0/nodeInstanceId",
+                      "paths": [],
+                      "source": "body",
+                      "required": true,
+                      "selection": null,
+                      "sensitive": false
+                    }
+                  ],
+                  "request_removals": []
+                },
+                {
+                  "key": "status_approval_approve",
+                  "name": "使用当前节点指定审批人审批",
+                  "next": "auto",
+                  "api_id": 12182,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 873,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "node_instance_id",
+                      "path": "/nodeInstanceId",
+                      "prefix": "",
+                      "source": "status_approval_process",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "status_approval_verify_process",
+                  "name": "核对审批结果、节点和审批人",
+                  "next": "auto",
+                  "api_id": 12181,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 874,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "instance_id",
+                      "path": "/instance_id",
+                      "prefix": "",
+                      "source": "status_approval_detail",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "owned_id",
+                      "path": "/X-Test-owned-id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "headers",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "node_instance_id",
+                      "path": "/X-Test-node-instance-id",
+                      "prefix": "",
+                      "source": "status_approval_process",
+                      "target": "headers",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "status_approval_verify_detail",
+                  "name": "审批后核对业务状态",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 875,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    },
+                    {
+                      "name": "instance_id",
+                      "path": "/X-Test-instance-id",
+                      "prefix": "",
+                      "source": "status_approval_detail",
+                      "target": "headers",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "change_status",
+                  "name": "停用本次正常客户",
+                  "next": "auto",
+                  "api_id": 12099,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 417,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customerId",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_status",
+                  "name": "查询确认客户停用",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 418,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "resubmit",
+                  "name": "重新提交本次被拒绝客户",
+                  "next": "auto",
+                  "api_id": 12089,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 419,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "verify_resubmit",
+                  "name": "查询确认重新进入待审批",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 420,
+                  "request": {},
+                  "bindings": [
+                    {
+                      "name": "owned_id",
+                      "path": "/customer_id",
+                      "prefix": "",
+                      "source": "locate",
+                      "target": "params",
+                      "target_name": ""
+                    }
+                  ],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16199_qq_12083",
+                  "name": "条件查询 12083 - latitude / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 812,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16200_qq_12083",
+                  "name": "条件查询 12083 - longitude / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 813,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16201_qq_12083",
+                  "name": "条件查询 12083 - endTime / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 814,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16202_qq_12083",
+                  "name": "条件查询 12083 - beginTime / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 815,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16203_qs_12083",
+                  "name": "条件查询 12083 - managerId / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16203_qq_12083",
+                  "name": "条件查询 12083 - managerId / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 816,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16204_qs_12083",
+                  "name": "条件查询 12083 - createBy / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16204_qq_12083",
+                  "name": "条件查询 12083 - createBy / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 817,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16205_qs_12083",
+                  "name": "条件查询 12083 - visitFrequency / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16205_qq_12083",
+                  "name": "条件查询 12083 - visitFrequency / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 818,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16206_qs_12083",
+                  "name": "条件查询 12083 - cooperationStatus / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16206_qq_12083",
+                  "name": "条件查询 12083 - cooperationStatus / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 819,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16207_qs_12083",
+                  "name": "条件查询 12083 - salesArea / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16207_qq_12083",
+                  "name": "条件查询 12083 - salesArea / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 820,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16208_qs_12083",
+                  "name": "条件查询 12083 - kolProductType / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16208_qq_12083",
+                  "name": "条件查询 12083 - kolProductType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 821,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16209_qs_12083",
+                  "name": "条件查询 12083 - kolType / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16209_qq_12083",
+                  "name": "条件查询 12083 - kolType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 822,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16210_qq_12083",
+                  "name": "条件查询 12083 - directProductType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 823,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16211_qs_12083",
+                  "name": "条件查询 12083 - customerLevel / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16211_qq_12083",
+                  "name": "条件查询 12083 - customerLevel / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 824,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16212_qq_12083",
+                  "name": "条件查询 12083 - productType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 825,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16213_qq_12083",
+                  "name": "条件查询 12083 - terminalTags / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 826,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16214_qq_12083",
+                  "name": "条件查询 12083 - terminalType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 827,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16215_qs_12083",
+                  "name": "条件查询 12083 - status / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16215_qq_12083",
+                  "name": "条件查询 12083 - status / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 828,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16216_qs_12083",
+                  "name": "条件查询 12083 - customerType / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16216_qq_12083",
+                  "name": "条件查询 12083 - customerType / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 829,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16217_qs_12083",
+                  "name": "条件查询 12083 - detailedAddress / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16217_qq_12083",
+                  "name": "条件查询 12083 - detailedAddress / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 830,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16218_qs_12083",
+                  "name": "条件查询 12083 - consigneePhone / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16218_qq_12083",
+                  "name": "条件查询 12083 - consigneePhone / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 831,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16219_qs_12083",
+                  "name": "条件查询 12083 - contactPhone / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16219_qq_12083",
+                  "name": "条件查询 12083 - contactPhone / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 832,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16220_qs_12083",
+                  "name": "条件查询 12083 - contactName / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16220_qq_12083",
+                  "name": "条件查询 12083 - contactName / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 833,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16221_qs_12083",
+                  "name": "条件查询 12083 - phone / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16221_qq_12083",
+                  "name": "条件查询 12083 - phone / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 834,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16222_qs_12083",
+                  "name": "条件查询 12083 - companyName / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16222_qq_12083",
+                  "name": "条件查询 12083 - companyName / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 835,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16223_qs_12083",
+                  "name": "条件查询 12083 - customerName / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16223_qq_12083",
+                  "name": "条件查询 12083 - customerName / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 836,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16224_qs_12083",
+                  "name": "条件查询 12083 - customerId / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16224_qq_12083",
+                  "name": "条件查询 12083 - customerId / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 837,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16225_qs_12083",
+                  "name": "条件查询 12083 - keyword / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16225_qq_12083",
+                  "name": "条件查询 12083 - keyword / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 838,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16226_qq_12083",
+                  "name": "条件查询 12083 - pagination / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 839,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16227_qs_12083",
+                  "name": "条件查询 12083 - combined / 取值",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 811,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16227_qq_12083",
+                  "name": "条件查询 12083 - combined / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 840,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16228_qq_12083",
+                  "name": "条件查询 12083 - no_match / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 841,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16229_qq_12083",
+                  "name": "条件查询 12083 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12083,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 842,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16230_qq_12084",
+                  "name": "条件查询 12084 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12084,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 844,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16231_qs_12093",
+                  "name": "条件查询 12093 - customerType / 取值",
+                  "next": "auto",
+                  "api_id": 12093,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 845,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16231_qq_12093",
+                  "name": "条件查询 12093 - customerType / 验证",
+                  "next": "auto",
+                  "api_id": 12093,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 846,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16232_qq_12093",
+                  "name": "条件查询 12093 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12093,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 847,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16233_qq_12095",
+                  "name": "条件查询 12095 - endDate / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 849,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16234_qq_12095",
+                  "name": "条件查询 12095 - beginDate / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 850,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16235_qs_12095",
+                  "name": "条件查询 12095 - visitMethod / 取值",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 848,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16235_qq_12095",
+                  "name": "条件查询 12095 - visitMethod / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 851,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16236_qs_12095",
+                  "name": "条件查询 12095 - customerType / 取值",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 848,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16236_qq_12095",
+                  "name": "条件查询 12095 - customerType / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 852,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16237_qq_12095",
+                  "name": "条件查询 12095 - pagination / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 853,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16238_qs_12095",
+                  "name": "条件查询 12095 - combined / 取值",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 848,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16238_qq_12095",
+                  "name": "条件查询 12095 - combined / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 854,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16239_qq_12095",
+                  "name": "条件查询 12095 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12095,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 855,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16240_qq_12096",
+                  "name": "条件查询 12096 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12096,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 857,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16241_qq_12096",
+                  "name": "条件查询 12096 - positive_fixture / 验证",
+                  "next": "auto",
+                  "api_id": 12096,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 858,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16242_qq_12097",
+                  "name": "条件查询 12097 - endTime / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 860,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16243_qq_12097",
+                  "name": "条件查询 12097 - beginTime / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 861,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16244_qs_12097",
+                  "name": "条件查询 12097 - orderType / 取值",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 859,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16244_qq_12097",
+                  "name": "条件查询 12097 - orderType / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 862,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16245_qs_12097",
+                  "name": "条件查询 12097 - customerType / 取值",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 859,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16245_qq_12097",
+                  "name": "条件查询 12097 - customerType / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 863,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16246_qq_12097",
+                  "name": "条件查询 12097 - pagination / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 864,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16247_qs_12097",
+                  "name": "条件查询 12097 - combined / 取值",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 859,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16247_qq_12097",
+                  "name": "条件查询 12097 - combined / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 865,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16248_qq_12097",
+                  "name": "条件查询 12097 - reset / 验证",
+                  "next": "auto",
+                  "api_id": 12097,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 866,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                },
+                {
+                  "key": "cond_16249_qq_12098",
+                  "name": "条件查询 12098 - customerType / 验证",
+                  "next": "auto",
+                  "api_id": 12098,
+                  "params": {},
+                  "routes": [],
+                  "auth_id": 10015,
+                  "case_id": 868,
+                  "request": {},
+                  "bindings": [],
+                  "extracts": [],
+                  "request_removals": []
+                }
+              ],
+              "inputs": {
+                "module_key": "customer",
+                "campaign_key": "waiqin-conditions-20261015",
+                "record_marker": "江城邻里便利店_{{timestamp_ms}}_{{random_digits:6}}",
+                "updated_marker": "江城邻里便利店更名_{{timestamp_ms}}_{{random_digits:6}}"
+              },
+              "version": 5
+            },
+            "name": "[业务回归] 终端客户管理",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T11:43:41",
+            "project_id": 10,
+            "updated_at": "2026-10-16T14:57:12",
+            "description": "增删改仅操作流程新建客户；批量编辑也只含本次客户；审批及停用仅针对本流程新建客户，不修改历史客户。 仅配置，未执行真实业务写操作；失败即停，只操作本流程新建数据。 状态变更场景先核对审批归属和审批人，通过并确认正常状态后才停用。"
+          },
+          "scenario": {
+            "id": 15835,
+            "data": {
+              "nodes": {
+                "edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "create": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "detail": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "locate": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "resubmit": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "batch_edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_edit": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_batch": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "change_status": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_delete": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_status": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "verify_resubmit": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16199_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16200_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16201_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16202_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16203_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16203_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16204_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16204_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16205_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16205_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16206_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16206_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16207_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16207_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16208_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16208_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16209_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16209_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16210_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16211_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16211_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16212_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16213_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16214_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16215_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16215_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16216_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16216_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16217_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16217_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16218_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16218_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16219_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16219_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16220_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16220_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16221_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16221_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16222_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16222_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16223_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16223_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16224_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16224_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16225_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16225_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16226_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16227_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16227_qs_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16228_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16229_qq_12083": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16230_qq_12084": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16231_qq_12093": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16231_qs_12093": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16232_qq_12093": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16233_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16234_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16235_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16235_qs_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16236_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16236_qs_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16237_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16238_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16238_qs_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16239_qq_12095": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16240_qq_12096": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16241_qq_12096": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16242_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16243_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16244_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16244_qs_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16245_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16245_qs_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16246_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16247_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16247_qs_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16248_qq_12097": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "cond_16249_qq_12098": {
+                  "mode": "skip",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "status_approval_detail": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "status_approval_approve": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "status_approval_process": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "status_approval_verify_detail": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                },
+                "status_approval_verify_process": {
+                  "mode": "always",
+                  "params": {},
+                  "case_id": null,
+                  "request": {},
+                  "bindings": null,
+                  "extracts": null,
+                  "condition": null,
+                  "assertions": null,
+                  "request_removals": []
+                }
+              },
+              "inputs": {
+                "decision": "2",
+                "business_status": "2"
+              },
+              "flow_id": 15832,
+              "expected_end": "verify_resubmit",
+              "latest_run_id": 16996,
+              "latest_status": "success",
+              "failure_policy": "stop",
+              "template_version": 5
+            },
+            "name": "客户重新提审（待拒绝前置）",
+            "status": "active",
+            "deleted": false,
+            "created_at": "2026-10-15T11:43:46",
+            "project_id": 10,
+            "updated_at": "2026-10-16T17:59:24",
+            "description": "新建本场景客户→核对当前审批节点→拒绝→确认已拒绝(2)→重新提交→确认待审(0)。"
+          }
+        },
+        "end_passed": true,
+        "duration_ms": 1312,
+        "scenario_id": 15835,
+        "expected_end": "verify_resubmit",
+        "template_version": 5
+      }
+    ],
+    "concurrency": 1,
+    "template_version": 5
+  },
+  "created_at": "2026-10-17T13:48:09",
+  "updated_at": "2026-10-17T13:48:13",
+  "deleted": false
+}

@@ -14,7 +14,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { FlowNode } from '../../types/api-flow'
 import type { SelectOptionRecord } from '../../types/resource'
 import ApiSelect from '../common/ApiSelect.vue'
@@ -22,9 +22,15 @@ import FlowCaseSelect from './FlowCaseSelect.vue'
 import FlowRequestOverridesEditor from './FlowRequestOverridesEditor.vue'
 import FlowMappingsEditor from './FlowMappingsEditor.vue'
 import FlowRoutesEditor from './FlowRoutesEditor.vue'
-defineProps<{projectId: number; apis: SelectOptionRecord[]; auths: SelectOptionRecord[]; previousNodes: FlowNode[]; nextNodes: FlowNode[]; jsonDraft?: string}>()
+const props = defineProps<{projectId: number; apis: SelectOptionRecord[]; auths: SelectOptionRecord[]; previousNodes: FlowNode[]; nextNodes: FlowNode[]; jsonDraft?: string}>()
 const emit = defineEmits<{(event: 'draft', key: string, value: string | undefined): void; (event: 'validity', key: string, valid: boolean): void}>()
 const node = defineModel<FlowNode>({required: true})
+watch(() => node.value.api_id, (id, previous) => {
+  const previousName = props.apis.find(api => api.id === previous)?.name
+  if (!node.value.name || node.value.name === previousName || /^节点 \d+$/.test(node.value.name)) {
+    node.value.name = props.apis.find(api => api.id === id)?.name || ''
+  }
+})
 const tab = ref('params')
 const tabs = [{key: 'params', label: '节点参数'}, {key: 'mappings', label: '参数关联与提取'}, {key: 'routes', label: '结果分支'}]
 function forwardDraft(key: string, value: string | undefined) { emit('draft', key, value) }

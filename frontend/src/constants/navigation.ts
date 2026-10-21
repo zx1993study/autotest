@@ -37,7 +37,8 @@ export const navigationGroups: NavigationGroup[] = [
     title: 'API 测试',
     items: [
       { label: 'API 管理', path: '/api/interfaces' },
-      { label: 'API 功能管理', path: '/api/flows' }
+      { label: 'API 功能管理', path: '/api/flows' },
+      { label: 'API 报告', path: '/api/reports' }
     ]
   },
   {
@@ -58,9 +59,7 @@ export const navigationGroups: NavigationGroup[] = [
     title: '小程序测试',
     items: [
       { label: '页面功能', path: '/miniapp/pages' },
-      { label: '元素信息', path: '/miniapp/elements' },
-      { label: '用例草稿', path: '/miniapp/case-drafts' },
-      { label: '正式用例', path: '/miniapp/cases' }
+      { label: '用例与业务流程', path: '/miniapp/cases' }
     ]
   },
   {
@@ -82,4 +81,4 @@ export const navigationGroups: NavigationGroup[] = [
   }
 ]
 
-export const hiddenFeaturePrefixes = ['/miniapp/'] as const
+export const hiddenFeaturePrefixes: readonly string[] = []

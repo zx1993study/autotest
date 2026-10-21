@@ -30,6 +30,12 @@
           <button type="button" title="新增精确路径" aria-label="新增提取路径" @click="extraction.paths!.push('')"><Plus :size="15" /></button>
         </template>
         <label v-else>提取路径<input v-model.trim="extraction.path" placeholder="/data/id" /></label>
+        <details v-if="extraction.selection">
+          <summary>样本筛选</summary>
+          <label>集合路径<input v-model.trim="extraction.selection.path" /></label>
+          <label v-for="(_, ruleIndex) in extraction.selection.non_empty" :key="ruleIndex">非空字段<input v-model.trim="extraction.selection.non_empty![ruleIndex]" /></label>
+          <label v-for="(_, path) in extraction.selection.equals" :key="path">{{ path }}<FlowValueInput v-model="extraction.selection.equals![path]" /></label>
+        </details>
       </div>
     </div>
     <p v-if="!extracts.length" class="flow-empty-small">暂无响应提取</p>
@@ -39,6 +45,7 @@
 <script setup lang="ts">
 import { Plus, Trash2 } from 'lucide-vue-next'
 import type { FlowBinding, FlowExtract, FlowNode } from '../../types/api-flow'
+import FlowValueInput from './FlowValueInput.vue'
 defineProps<{previousNodes: FlowNode[]; readonlyBindings?: boolean; readonlyExtracts?: boolean}>()
 const bindings = defineModel<FlowBinding[]>('bindings', {required: true})
 const extracts = defineModel<FlowExtract[]>('extracts', {required: true})
@@ -46,6 +53,10 @@ function targetName(binding: FlowBinding) {
   return binding.target === 'auto' ? binding.target_name || '' : (binding.path.split('/').at(-1) || '').replace(/~1/g, '/').replace(/~0/g, '~')
 }
 function setTargetName(binding: FlowBinding, name: string) {
+  if (binding.target === 'variables') {
+    binding.path = '/' + name.trim().replace(/~/g, '~0').replace(/\//g, '~1')
+    return
+  }
   binding.target_name = name.trim(); binding.target = 'auto'; binding.path = ''
 }
 function setExtractMode(extraction: FlowExtract, mode: string) {
@@ -53,5 +64,8 @@ function setExtractMode(extraction: FlowExtract, mode: string) {
   if (extraction.mode === 'array' && !extraction.paths?.length) extraction.paths = [extraction.path || '/data/id']
   if (extraction.mode === 'single' && extraction.paths?.length) extraction.path = extraction.paths[0]!
 }
-function setExtractSource(extraction: FlowExtract) { if (extraction.source === 'status') extraction.mode = 'single' }
+function setExtractSource(extraction: FlowExtract) {
+  if (extraction.source === 'status') extraction.mode = 'single'
+  if (extraction.source !== 'body') extraction.selection = null
+}
 </script>

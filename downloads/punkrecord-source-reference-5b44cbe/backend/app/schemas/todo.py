@@ -1,0 +1,132 @@
+"""
+Todo module Pydantic schemas
+"""
+from datetime import datetime
+from typing import Optional, List, Literal
+from uuid import UUID
+from pydantic import BaseModel, Field, field_validator
+from app.models.base import as_cn_naive
+from decimal import Decimal
+
+
+class TodoCreate(BaseModel):
+    """Todo creation schema"""
+    our_entity_id: Optional[UUID] = None
+    assignee_user_id: UUID
+    title: str
+    description: Optional[str] = Field(default=None, max_length=10000)
+    notes: Optional[str] = Field(default=None, max_length=2000)
+    source_type: str = "custom"
+    source_id: str = ""
+    action_type: str = "do"
+    priority: Literal["p0", "p1", "p2", "p3"] = "p2"
+    due_at: datetime
+    estimated_hours: Decimal = Field(default=Decimal("0"), ge=0, max_digits=10, decimal_places=2)
+    start_at: Optional[datetime] = None
+    tags: List[str] = []
+    link: Optional[dict] = None
+    _normalize_due = field_validator("due_at")(as_cn_naive)
+
+
+class TodoUpdate(BaseModel):
+    """Todo update schema"""
+    title: Optional[str] = None
+    description: Optional[str] = Field(default=None, max_length=10000)
+    notes: Optional[str] = Field(default=None, max_length=2000)
+    priority: Optional[Literal["p0", "p1", "p2", "p3"]] = None
+    due_at: Optional[datetime] = None
+    estimated_hours: Optional[Decimal] = Field(default=None, ge=0, max_digits=10, decimal_places=2)
+    start_at: Optional[datetime] = None
+    tags: Optional[List[str]] = None
+    link: Optional[dict] = None
+    assignee_user_id: Optional[UUID] = None
+    _normalize_due = field_validator("due_at")(as_cn_naive)
+
+
+class TodoStatusUpdate(BaseModel):
+    """Todo status update schema"""
+    status: str
+    blocked_reason: Optional[str] = None
+    dismiss_reason: Optional[str] = None
+
+
+class TodoReviewAction(BaseModel):
+    """Schema for manager review actions (approve/reject)"""
+    comment: Optional[str] = None  # Required for reject, optional for approve
+
+
+class TodoBlockRequest(BaseModel):
+    """Schema for blocking a todo (reason in request body)"""
+    blocked_reason: Optional[str] = None
+
+
+class TodoDismissRequest(BaseModel):
+    """Schema for dismissing a todo (reason in request body)"""
+    dismiss_reason: Optional[str] = None
+
+
+class TodoResponse(BaseModel):
+    """Todo response schema"""
+    id: UUID
+    our_entity_id: UUID
+    assignee_user_id: UUID
+    assignee_name: Optional[str] = None
+    creator_user_id: UUID
+    creator_name: Optional[str] = None
+    title: str
+    description: Optional[str] = None
+    notes: Optional[str] = None
+    source_type: str
+    source_id: str
+    action_type: str
+    priority: str
+    status: str
+    due_at: Optional[datetime] = None
+    estimated_hours: Optional[Decimal] = None
+    submitted_at: Optional[datetime] = None
+    start_at: Optional[datetime] = None
+    tags: list
+    link: Optional[dict] = None
+    blocked_reason: Optional[str] = None
+    done_at: Optional[datetime] = None
+    done_by_user_id: Optional[UUID] = None
+    dismiss_reason: Optional[str] = None
+    review_comment: Optional[str] = None
+    reviewed_by_user_id: Optional[UUID] = None
+    reviewer_name: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class LeaveRequestCreate(BaseModel):
+    """Leave request creation schema"""
+    our_entity_id: Optional[UUID] = None
+    leave_type: Literal["annual", "maternity", "marriage", "personal", "sick"]
+    start_at: datetime
+    end_at: datetime
+    reason: Optional[str] = None
+    _normalize_times = field_validator("start_at", "end_at")(as_cn_naive)
+
+
+class LeaveRequestResponse(BaseModel):
+    """Leave request response schema"""
+    id: UUID
+    our_entity_id: Optional[UUID] = None
+    applicant_user_id: UUID
+    applicant_name: Optional[str] = None
+    leave_type: str
+    status: str
+    start_at: datetime
+    end_at: datetime
+    reason: Optional[str] = None
+    approved_by_user_id: Optional[UUID] = None
+    approved_at: Optional[datetime] = None
+    review_comment: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True

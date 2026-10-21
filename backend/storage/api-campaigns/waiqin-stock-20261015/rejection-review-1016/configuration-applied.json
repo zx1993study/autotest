@@ -1,0 +1,1211 @@
+{
+  "started_at": "2026-10-16T12:28:53.749241",
+  "only_scene_assertions": true,
+  "business_mutations": false,
+  "applied": [
+    {
+      "scene_id": 16311,
+      "flow_id": 16308,
+      "node_key": "sales_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】总数量（普通商品+赠品）为 11，超过可用库存 10.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:29:11"
+    },
+    {
+      "scene_id": 16312,
+      "flow_id": 16308,
+      "node_key": "sales_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】在仓库中无库存"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】在仓库中无库存",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:29:24"
+    },
+    {
+      "scene_id": 16315,
+      "flow_id": 16308,
+      "node_key": "sales2_zero_available",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】总数量（普通商品+赠品）为 1，超过可用库存 0.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:29:37"
+    },
+    {
+      "scene_id": 16316,
+      "flow_id": 16308,
+      "node_key": "sales2_conflict_approve",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】库存不足，可用库存：3.00，需要：7.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】库存不足，可用库存：3.00，需要：7.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:29:48"
+    },
+    {
+      "scene_id": 16318,
+      "flow_id": 16308,
+      "node_key": "receipt_confirm_again",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】锁定库存不足，当前锁定：0.00，需要：3.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】锁定库存不足，当前锁定：0.00，需要：3.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:00"
+    },
+    {
+      "scene_id": 16327,
+      "flow_id": 16322,
+      "node_key": "return_receipt_repeat",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "入库单状态不允许确认入库"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "入库单状态不允许确认入库",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:08"
+    },
+    {
+      "scene_id": 16329,
+      "flow_id": 16322,
+      "node_key": "return2_over_remaining",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_第二次退货_主商品】退货数量超过可退数量，可退：1.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_第二次退货_主商品】退货数量超过可退数量，可退：1.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:17"
+    },
+    {
+      "scene_id": 16330,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "退货商品明细不能为空"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "退货商品明细不能为空",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:25"
+    },
+    {
+      "scene_id": 16331,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】退货数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】退货数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:33"
+    },
+    {
+      "scene_id": 16332,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】退货数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】退货数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:40"
+    },
+    {
+      "scene_id": 16333,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "订单退货必须关联原销售订单"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "订单退货必须关联原销售订单",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:48"
+    },
+    {
+      "scene_id": 16334,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "客户不存在"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "客户不存在",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:30:56"
+    },
+    {
+      "scene_id": 16335,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "退货仓库不存在"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "退货仓库不存在",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:05"
+    },
+    {
+      "scene_id": 16336,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "商品【{{record_marker}}_主商品】退货数量超过可退数量，可退：3.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "商品【{{record_marker}}_主商品】退货数量超过可退数量，可退：3.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:13"
+    },
+    {
+      "scene_id": 16337,
+      "flow_id": 16322,
+      "node_key": "return_invalid_create",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "订单退货必须关联原订单明细"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "订单退货必须关联原订单明细",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:22"
+    },
+    {
+      "scene_id": 16338,
+      "flow_id": 16322,
+      "node_key": "return_edit_pending",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "只能编辑待审核或已驳回的退货单"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "只能编辑待审核或已驳回的退货单",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:29"
+    },
+    {
+      "scene_id": 16339,
+      "flow_id": 16322,
+      "node_key": "return_delete_pending",
+      "assertions": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/code"
+              ],
+              "expected": 500,
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "退货单【TH",
+              "operator": "contains"
+            },
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "】状态不允许删除",
+              "operator": "contains"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:38"
+    },
+    {
+      "scene_id": 16340,
+      "flow_id": 16322,
+      "node_key": "return_submit_pending",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "只能提交待审核或已驳回的退货单"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "只能提交待审核或已驳回的退货单",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:45"
+    },
+    {
+      "scene_id": 16341,
+      "flow_id": 16322,
+      "node_key": "return_edit_approved",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "只能编辑待审核或已驳回的退货单"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "只能编辑待审核或已驳回的退货单",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:31:59"
+    },
+    {
+      "scene_id": 16342,
+      "flow_id": 16322,
+      "node_key": "return_delete_approved",
+      "assertions": [
+        {
+          "type": "status",
+          "expected": 200
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/code"
+              ],
+              "expected": 500,
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "退货单【TH",
+              "operator": "contains"
+            },
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "】状态不允许删除",
+              "operator": "contains"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:09"
+    },
+    {
+      "scene_id": 16343,
+      "flow_id": 16322,
+      "node_key": "return_submit_approved",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "只能提交待审核或已驳回的退货单"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "只能提交待审核或已驳回的退货单",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:23"
+    },
+    {
+      "scene_id": 16348,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:32"
+    },
+    {
+      "scene_id": 16349,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:37"
+    },
+    {
+      "scene_id": 16350,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转入数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转入数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:41"
+    },
+    {
+      "scene_id": 16351,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转入数量必须大于0"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转入数量必须大于0",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:44"
+    },
+    {
+      "scene_id": 16352,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出商品可用库存不足，当前可用：10.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出商品可用库存不足，当前可用：10.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:48"
+    },
+    {
+      "scene_id": 16353,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出商品和转入商品不能相同"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出商品和转入商品不能相同",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:52"
+    },
+    {
+      "scene_id": 16358,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出商品可用库存不足，当前可用：2.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出商品可用库存不足，当前可用：2.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:55"
+    },
+    {
+      "scene_id": 16359,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出商品可用库存不足，当前可用：0.00"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出商品可用库存不足，当前可用：0.00",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:32:58"
+    },
+    {
+      "scene_id": 16361,
+      "flow_id": 16344,
+      "node_key": "convert",
+      "assertions": [
+        {
+          "type": "api_rejection",
+          "expected": "validation",
+          "allowed_business_errors": [
+            "转出商品库存不存在"
+          ]
+        },
+        {
+          "path": "",
+          "type": "json_query_result",
+          "rules": [
+            {
+              "paths": [
+                "/msg"
+              ],
+              "expected": "转出商品库存不存在",
+              "operator": "eq"
+            },
+            {
+              "paths": [
+                "/success"
+              ],
+              "expected": false,
+              "operator": "eq"
+            }
+          ],
+          "max_items": 1,
+          "min_items": 1,
+          "collection": false
+        }
+      ],
+      "updated_at": "2026-10-16T12:33:02"
+    }
+  ],
+  "original_run_hashes": {
+    "16424": "041c394f1771f20dba84022fe131848020b311724125eb4ce0473860f2d0c6b7",
+    "16425": "b99f141c273b7fb13ddfae77697006b3c6958084c8e9d6497e6f2e6a4c80f187",
+    "16486": "b1bfee2f747f9d24f8c13fe9a1b9cb528e6b8d8de73615a91ac2b53f2829f764",
+    "16487": "e9fe3002785c7acd3c09e1acef9fba186605ae711dd3e20431cf9cd343706494",
+    "16488": "cb3278aaab5ee0d02be09c83e1b95edadbdaaeb91f9151ba23ce73194b922e9c",
+    "16426": "c24e3233c95ac85a9d2bf86cae1bbfe7cc48a4d733e20ba9454fbf429f925cf0",
+    "16491": "1521b79bda9874a99def0c01cbf7016c02025e5ad879dc5068d36b585c150620",
+    "16427": "45038c3c5d47c7e6d625bea9d89d7b75ff5f887f206f835ac8ba212f7d16fca2",
+    "16428": "495d124006c18a0cff80c377f630584a3edc7c39e72ea489de40babb2f69c415",
+    "16429": "aff76a48b5e0e79f9f21247b6e7203d537b75809b6b58acd2d4f6adb118fa181",
+    "16430": "24f8a9c8d8a435e68f97aed638f53ba03743674aa6d13f8feb031f2c0bf2984e",
+    "16431": "95e1d91a8a13455a3fa2be420350cb8a26f4a9975f180f4cfb30d4daa46b356d",
+    "16432": "9a2bb8e01361c28a0abdc57473b5e3ecd4ad630d29695bd6935c826bd6a45140",
+    "16492": "7e79747d5097b712bda00c09dccc5cecc0efd971f2d7cd3ba255a1ae939536e0",
+    "16493": "e1538aaee2694144173c58bfdd40fef8114c9b3eddecba5b0e4ae2a57cb583cb",
+    "16433": "54af979e6baeec471b62f47c7e79375b379eb54e2fc881e05f928f865a655788",
+    "16434": "f769f04dd117822f30c70c73b196e1c11911525414ed7bcbf073ae0691102642",
+    "16435": "2715ddc33142e11f4713be5aff294eeaede2b466eb599f951ee82e8ca9012031",
+    "16436": "886c7b775d01ea8d0f09bc6a486a661f9a11508d0004e7c18f2f5f271f0c544a",
+    "16437": "272c92d833f91cc6c7468191c7b732d412f817a49138208f52760b261a34f99d",
+    "16438": "f5126d8f44a35b147c2f85665ec1e31f839ae1f47151450b2d8b7e3e4643ef74",
+    "16439": "9d3eecb1d2e1bd6f8d4642f5e42df5c77b34985a5733aaeba24482f761230172",
+    "16440": "68dbc99e272a140e2f7371f67f5b32febd94e03afe88c5fb2fbbf63aeed76f58",
+    "16441": "ac3fc0ef87ad34d145b22cb48ecce4ec3208083cd477f2844aed3d985ec7690c",
+    "16442": "bf84ad56a7f5ad447325d9fc01b642115e1e8206317f72926e8f1d1497183af0",
+    "16443": "1d590505953d070c5889a30bb8895da7e394930ebf5c6e5edc59ade1b01ce731",
+    "16444": "4a9efca40ef42ad3d54855398b1ef34d45622eb6bed1a22cb01249d6dc053173",
+    "16494": "bfa094c35c7359f24c57ec42ef38d672f676563fb5130812fd6e12b1ff114c58",
+    "16495": "299b302c085d1bb8b20246ad05ed480eaa278b9bed276bce0e1acda151cd64a2",
+    "16449": "70d856b08424b84e9b069e90cd5a7ce33c46692bd225d812bb966b2a82d32c2c"
+  },
+  "retained_defect_hashes": {
+    "16320": "f140195a94bf812b7ace00eca718781357b670c264f551ef6efc2086ccfa3a86",
+    "16321": "7074f0f0c5dfc5a77ef11d123642b65a5fdfb92733c215fe123fecee3f04efae",
+    "16415": "c10d401b4eb1b8f5a3899a55d42c2f900a68f90abd0dc9fdf0be9a6af9b5d357"
+  },
+  "finished_at": "2026-10-16T12:33:04.060106",
+  "count": 30,
+  "historical_runs_unchanged": true,
+  "retained_defects_unchanged": true,
+  "template_versions_unchanged": true
+}

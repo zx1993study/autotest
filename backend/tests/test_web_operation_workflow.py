@@ -106,6 +106,7 @@ class WebOperationWorkflowTest(unittest.TestCase):
             self.assertEqual({'name':'Synthetic'},json.loads(archive.read('inputs.json')))
             self.assertNotIn('input_info',json.loads(archive.read('steps.json')))
             self.assertIn('web_automation/engines/playwright.py',archive.namelist())
+            self.assertIn('web_automation/manual.py',archive.namelist())
             compile(archive.read('run.py'),'<export>','exec')
 
     def test_dom_allowlist_excludes_values_and_secrets(self):

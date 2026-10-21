@@ -1,0 +1,92 @@
+{
+  "started_at": "2026-10-16T04:51:03.000195+00:00",
+  "pid": 25324,
+  "status": "complete",
+  "selected": 5,
+  "executed_business_mutations": true,
+  "results": [
+    {
+      "batch_id": 16499,
+      "flow_id": 16308,
+      "scenario_id": 16311,
+      "name": "场景2-销售数量大于实际库存，创建应拒绝",
+      "status": "success",
+      "duration_ms": 4046,
+      "inputs": {
+        "record_marker": "库存回归_1792126265935_507361",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_over_stock"
+      }
+    },
+    {
+      "batch_id": 16500,
+      "flow_id": 16308,
+      "scenario_id": 16312,
+      "name": "场景3-仓库没有该商品库存，创建应拒绝",
+      "status": "success",
+      "duration_ms": 2054,
+      "inputs": {
+        "record_marker": "库存回归_1792126271510_995901",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_absent"
+      }
+    },
+    {
+      "batch_id": 16501,
+      "flow_id": 16308,
+      "scenario_id": 16315,
+      "name": "场景5-审批后售罄锁库、可用0时追加销售应拒绝",
+      "status": "success",
+      "duration_ms": 10038,
+      "inputs": {
+        "record_marker": "库存回归_1792126274812_731751",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "sales_exact",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      }
+    },
+    {
+      "batch_id": 16502,
+      "flow_id": 16308,
+      "scenario_id": 16316,
+      "name": "补充-多个待审订单不锁库、审批时不得超卖",
+      "status": "success",
+      "duration_ms": 6636,
+      "inputs": {
+        "record_marker": "库存回归_1792126288207_600540",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "pending_conflict",
+        "stock_customer_id": 756,
+        "stock_customer_type": "2"
+      }
+    },
+    {
+      "batch_id": 16503,
+      "flow_id": 16308,
+      "scenario_id": 16318,
+      "name": "补充-销售重复确认不得重复扣库存",
+      "status": "success",
+      "duration_ms": 6079,
+      "inputs": {
+        "record_marker": "库存回归_1792126295979_224561",
+        "stock_flow_key": "inventory",
+        "stock_campaign_key": "waiqin-stock-20261015",
+        "stock_rules_revision": "20261016-postapproval-lock",
+        "stock_scene_key": "confirm_repeat"
+      }
+    }
+  ],
+  "blocked": [],
+  "finished_at": "2026-10-16T04:51:42.861653+00:00",
+  "passed": 5,
+  "failed": 0
+}

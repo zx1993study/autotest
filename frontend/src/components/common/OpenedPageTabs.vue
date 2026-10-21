@@ -74,7 +74,7 @@ const activeTab = computed(() => tabs.value.find(tabItem => tabItem.key === acti
 
 watch(
   () => route.fullPath,
-  () => pageTabsStore.openRoute(route, routeTitle()),
+  (_, previousPath) => pageTabsStore.openRoute(route, routeTitle(), previousPath),
   { immediate: true }
 )
 
@@ -297,7 +297,12 @@ function routeTitle() {
 
 @media (max-width: 720px) {
   .page-tabs {
+    position: relative;
     padding-left: var(--content-gutter, 12px);
+  }
+
+  .page-tabs-menu {
+    position: static;
   }
 
   .page-tab {
@@ -313,8 +318,10 @@ function routeTitle() {
   }
 
   .page-tabs-menu-panel {
+    box-sizing: border-box;
     right: 4px;
     width: min(280px, calc(100vw - 24px));
+    max-width: calc(100% - 8px);
   }
 
   .mobile-page-list {

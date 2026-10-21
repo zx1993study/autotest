@@ -6,6 +6,7 @@ export const projectInfoFields: ResourceField[] = [
   { key: 'data.code', label: '项目编码', placeholder: '例如：waiqin' },
   { key: 'data.owner', label: '负责人', placeholder: '项目负责人/测试负责人' },
   { key: 'data.base_url', label: '项目地址', required: true, placeholder: '例如：https://test.waiqin.yios.cn' },
+  { key: 'data.miniapp_h5_url', label: '小程序 H5 地址', placeholder: '可选；小程序同源 H5 测试部署地址' },
   { key: 'data.default_env', label: '默认环境', placeholder: '例如：测试环境' },
   statusField,
   descriptionField
@@ -37,7 +38,7 @@ export const projectAuthFields: ResourceField[] = [
     options: caseTypeOptions.filter(option => ['API', 'WEB'].includes(String(option.value)))
   },
   { key: 'data.login_case_id', label: '登录用例', type: 'number', full: true },
-  { key: 'data.token_file', label: '鉴权文件名', placeholder: '只保存文件名，例如 auth/admin-web.json' },
+  { key: 'data.token_file', label: '鉴权文件名', placeholder: '例如 admin-web.json', visibleWhen: { key: 'data.auth_type', value: ['cookie', 'basic'] } },
   { key: 'data.token', label: 'Token 信息', full: true, visibleWhen: { key: 'data.auth_type', value: ['bearer', 'api_key'] } },
   { key: 'data.header_name', label: '请求头名称', placeholder: '例如：Authorization' },
   {
@@ -60,7 +61,7 @@ export const projectAuthColumns: ResourceColumn[] = [
   { key: 'project_id', label: '项目 ID', width: '90px' },
   { key: 'data.auth_type', label: '类型' },
   { key: 'data.login_case_type', label: '用例类型' },
-  { key: 'data.token_file', label: '鉴权文件' },
+  { key: 'data.token_storage_label', label: '凭据存储' },
   { key: 'status', label: '状态', width: '90px' }
 ]
 

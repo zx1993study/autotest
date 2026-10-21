@@ -80,9 +80,12 @@ class ApiFlowPersistenceTest(unittest.TestCase):
             response = client.get(prefix)
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.json()["data"]["data"]["nodes"][0]["key"], "echo")
-            response = client.post(f"{prefix}/scenarios", json={"name": "New"})
+            response = client.post(f"{prefix}/scenarios", json={"name": "New", "data": {"nodes": {"echo": {"name": "Supervisor approves order"}}}})
             self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json()["data"]["data"]["nodes"]["echo"]["name"], "Supervisor approves order")
             scene_id = response.json()["data"]["id"]
+            for name in ("", "   ", "x" * 201):
+                self.assertEqual(client.put(f"{prefix}/scenarios/{scene_id}", json={"data": {"nodes": {"echo": {"name": name}}}}).status_code, 422)
             response = client.put(f"{prefix}/scenarios/{scene_id}", json={"data": {"nodes": {"missing": {"mode": "skip"}}}})
             self.assertEqual(response.status_code, 400)
             self.assertEqual(client.delete(f"{prefix}/scenarios/{scene_id}").status_code, 200)
@@ -92,12 +95,40 @@ class ApiFlowPersistenceTest(unittest.TestCase):
             copied_id = response.json()["data"]["id"]
             self.assertEqual(client.get(f"/api/v1/execution/flows/{copied_id}/scenarios").json()["data"][0]["name"], "Scenario")
 
+    def test_skipped_nodes_do_not_queue_progress_writes_but_keep_final_evidence(self):
+        definition = self.flow["data"]
+        skipped = [{**definition["nodes"][0], "key": f"skip_{index}"} for index in range(90)]
+        definition["nodes"].extend(skipped)
+        flow = ExecutionFlowService(self.repo).update(self.flow["id"], {"data": definition})
+        scenes = ApiFlowScenarioService(self.repo)
+        scenes.sync(flow["id"], self.scene["id"])
+        scene = scenes.update_for_flow(flow["id"], self.scene["id"], {
+            "data": {"nodes": {node["key"]: {"mode": "skip"} for node in skipped}}})
+        updates = []
+        save_result = ApiFlowRunService.save_result
+
+        def save(service, batch_id, result):
+            updates.append(result["status"])
+            return save_result(service, batch_id, result)
+
+        with patch("app.db.session.SessionLocal", self.sessions), patch.object(ApiFlowRunService, "save_result", save):
+            batch = ApiFlowRunService(self.repo).create_batch(flow["id"], {
+                "scenario_ids": [scene["id"]], "mode": "serial", "concurrency": 1, "inputs": {}})
+            result = self.wait_batch(batch["id"])
+        self.assertEqual(result["status"], "success")
+        self.assertEqual(updates, ["running", "running", "success"])
+        evidence = result["data"]["results"][0]
+        self.assertEqual(evidence["path"], ["echo"])
+        self.assertEqual(len(evidence["nodes"]), 91)
+        self.assertTrue(all(node["status"] == "skipped" for node in evidence["nodes"][1:]))
+
     def test_list_and_run_history_with_large_execution_evidence(self):
+        batches = []
         for status in ("failed", "success"):
-            self.repo.create("api_flow_runs", {
+            batches.append(self.repo.create("api_flow_runs", {
                 "name": status, "project_id": self.flow["project_id"], "status": status,
                 "data": {"flow_id": self.flow["id"], "results": [{"nodes": [{"response": "x" * 100_000}]}]},
-            })
+            }))
         app = FastAPI()
         register_exception_handlers(app)
         for router in (execution_flows.router, api_flow_runs.router):
@@ -114,6 +145,11 @@ class ApiFlowPersistenceTest(unittest.TestCase):
             response = client.get(f"/api/v1/execution/flows/{self.flow['id']}/runs")
             self.assertEqual(response.status_code, 200)
             self.assertEqual([row["status"] for row in response.json()["data"]], ["success", "failed"])
+            self.assertNotIn("nodes", response.json()["data"][0]["data"]["results"][0])
+            detail = client.get(f"/api/v1/execution/flows/{self.flow['id']}/runs/{batches[0]['id']}")
+            self.assertEqual(detail.status_code, 200)
+            self.assertEqual(detail.json()["data"]["id"], batches[0]["id"])
+            self.assertEqual(detail.json()["data"]["data"]["results"][0]["nodes"], [{"response": "x" * 100_000}])
 
     def wait_batch(self, batch_id):
         for _ in range(100):

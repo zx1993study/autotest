@@ -1,0 +1,52 @@
+{
+  "case_id": 68,
+  "feature_id": 17841,
+  "name": "CONTRACT-001 合同列表和交易方切换",
+  "task_id": 21377,
+  "status": "success",
+  "records": [
+    {
+      "id": 21378,
+      "status": "success",
+      "error": null,
+      "step_count": 10,
+      "business_result": "passed",
+      "assertion_count": 4,
+      "assertion_results": [
+        {
+          "name": ":is(h1,h2):text-is(\"工作台\")",
+          "step": 4,
+          "actual": "工作台",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"工作台\")",
+          "expected": "工作台"
+        },
+        {
+          "name": ":is(h1,h2):text-is(\"合同管理\")",
+          "step": 6,
+          "actual": "合同管理",
+          "passed": true,
+          "locator": ":is(h1,h2):text-is(\"合同管理\")",
+          "expected": "合同管理"
+        },
+        {
+          "name": "a.active[href$=\"/contract/counterparties\"]",
+          "step": 8,
+          "actual": "交易方管理",
+          "passed": true,
+          "locator": "a.active[href$=\"/contract/counterparties\"]",
+          "expected": "交易方管理"
+        },
+        {
+          "name": "a.active[href$=\"/contract/list\"]",
+          "step": 10,
+          "actual": "合同列表",
+          "passed": true,
+          "locator": "a.active[href$=\"/contract/list\"]",
+          "expected": "合同列表"
+        }
+      ],
+      "url": "http://14.103.229.153:15173/contract/list"
+    }
+  ]
+}

@@ -7,14 +7,15 @@
           <label>场景名称<input v-model.trim="draft.name" required /></label>
           <label>状态<select v-model="draft.status"><option value="active">启用</option><option value="disabled">停用</option></select></label>
           <label>节点失败后<select v-model="draft.data.failure_policy"><option value="stop">停止当前场景</option><option value="continue">继续后续独立节点</option></select></label>
-          <label>预期结束节点<select v-model="draft.data.expected_end"><option value="auto">自动</option><option v-for="node in definition.nodes" :key="node.key" :value="node.key">{{ node.name }}</option></select></label>
+          <label>预期结束节点<select v-model="draft.data.expected_end"><option value="auto">自动</option><option v-for="node in definition.nodes" :key="node.key" :value="node.key">{{ draft.data.nodes[node.key]?.name || node.name }}</option></select></label>
           <label class="flow-wide">备注<input v-model="draft.description" /></label>
         </div>
         <FlowParametersEditor v-model="draft.data.inputs" title="场景输入覆盖" />
         <div class="flow-scenario-layout">
-          <aside class="flow-node-rail"><button v-for="node in definition.nodes" :key="node.key" class="flow-scene-node" :class="{active: selected === node.key}" @click="selected = node.key"><strong>{{ node.name }}</strong><small>{{ modeLabel(draft.data.nodes[node.key]?.mode || 'always') }}</small></button></aside>
+          <aside class="flow-node-rail"><button v-for="node in definition.nodes" :key="node.key" class="flow-scene-node" :class="{active: selected === node.key}" @click="selected = node.key"><strong>{{ draft.data.nodes[node.key]?.name || node.name }}</strong><small>{{ modeLabel(draft.data.nodes[node.key]?.mode || 'always') }}</small></button></aside>
           <section v-if="node && override" class="flow-node-editor">
             <div class="flow-form-grid">
+              <label class="flow-wide">节点名称<input :value="override.name || ''" :placeholder="node.name" maxlength="200" @input="override.name = ($event.target as HTMLInputElement).value.trim() || null" /></label>
               <label>节点用例<FlowCaseSelect v-model="override.case_id" :api-id="node.api_id" :project-id="projectId" inherit-label="继承模板用例" /></label>
               <label>执行方式<select v-model="override.mode" @change="ensureCondition"><option value="always">始终执行</option><option value="skip">跳过</option><option value="condition">满足条件执行</option></select></label>
             </div>
